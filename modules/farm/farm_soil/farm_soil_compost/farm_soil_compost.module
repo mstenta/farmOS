@@ -7,9 +7,9 @@
 include_once 'farm_soil_compost.features.inc';
 
 /**
- * Implements hook_farm_ui_entities().
+ * Implements hook_farm_record_types().
  */
-function farm_soil_compost_farm_ui_entities() {
+function farm_soil_compost_farm_record_types() {
   return array(
     'farm_asset' => array(
       'compost' => array(

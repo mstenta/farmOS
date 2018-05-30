@@ -7,9 +7,9 @@
 include_once 'farm_sensor.features.inc';
 
 /**
- * Implements hook_farm_ui_entities().
+ * Implements hook_farm_record_types().
  */
-function farm_sensor_farm_ui_entities() {
+function farm_sensor_farm_record_types() {
   return array(
     'farm_asset' => array(
       'sensor' => array(

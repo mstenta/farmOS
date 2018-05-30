@@ -8,8 +8,8 @@
  */
 function _farm_ui_views_post_render(&$view, &$output, &$cache) {
 
-  // Load entity UI info.
-  $ui_info = farm_ui_entities();
+  // Load record type info.
+  $ui_info = farm_record_types();
 
   // Search for a matching asset list View.
   $found = FALSE;
@@ -84,7 +84,7 @@ function _farm_ui_entityreference_view_widget_views_arguments_alter(&$arguments,
   //
   // The Entity Reference View Widget module provides this hook to allow the
   // View arguments to be altered. We implement this hook, and use information
-  // provided by hook_farm_ui_entities() to see if we should filter the View
+  // provided by hook_farm_record_types() to see if we should filter the View
   // results to a specific asset type, given the current log type.
   //
   // The View that we use is farm_asset_entityreference_view, which has two
@@ -117,8 +117,8 @@ function _farm_ui_entityreference_view_widget_views_arguments_alter(&$arguments,
     return;
   }
 
-  // Load entity UI info for this log type.
-  $ui_info = farm_ui_entities('log', $log_type);
+  // Load record type info for this log type.
+  $ui_info = farm_record_types('log', $log_type);
 
   // If the asset type is empty, or 'all', or 'none', then we will stop here
   // because we don't want to apply any filtering.

@@ -7,9 +7,9 @@
 include_once 'farm_soil_test.features.inc';
 
 /**
- * Implements hook_farm_ui_entities().
+ * Implements hook_farm_record_types().
  */
-function farm_soil_test_farm_ui_entities() {
+function farm_soil_test_farm_record_types() {
   return array(
     'log' => array(
       'farm_soil_test' => array(

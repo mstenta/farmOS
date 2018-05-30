@@ -154,9 +154,9 @@ function farm_crop_farm_area_type_info() {
 }
 
 /**
- * Implements hook_farm_ui_entities().
+ * Implements hook_farm_record_types().
  */
-function farm_crop_farm_ui_entities() {
+function farm_crop_farm_record_types() {
   return array(
     'farm_asset' => array(
       'planting' => array(

@@ -58,8 +58,8 @@ function farm_import_farm_access_perms($role) {
 function farm_import_farm_ui_actions() {
   $actions = array();
 
-  // Load entity UI information.
-  $ui_info = farm_ui_entities();
+  // Load record type information.
+  $ui_info = farm_record_types();
 
   // Add action links to asset and log importers on listing pages.
   $types = array(

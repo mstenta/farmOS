@@ -9,9 +9,6 @@
  * Implements hook_hook_info().
  */
 function farm_ui_hook_info() {
-  $hooks['farm_ui_entities'] = array(
-    'group' => 'farm_ui',
-  );
   $hooks['farm_ui_entity_view_groups'] = array(
     'group' => 'farm_ui',
   );
@@ -160,38 +157,6 @@ function farm_ui_entityreference_view_widget_views_arguments_alter(&$arguments, 
 }
 
 /**
- * Load farmOS entity UI information.
- *
- * @param string $type
- *   Optionally specify the entity type.
- * @param string $bundle
- *   Optionally specify the entity bundle.
- *
- * @return array
- *   Returns an array of entity UI information.
- */
-function farm_ui_entities($type = '', $bundle = '') {
-
-  // Ask modules for entity UI information and static cache the results.
-  $entity_info = &drupal_static(__FUNCTION__);
-  if (!isset($entity_info)) {
-    $entity_info = module_invoke_all('farm_ui_entities');
-  }
-
-  // If a type and bundle are specified, return specific info.
-  if (!empty($type) && !empty($bundle)) {
-    $bundle_info = array();
-    if (!empty($entity_info[$type][$bundle])) {
-      $bundle_info = $entity_info[$type][$bundle];
-    }
-    return $bundle_info;
-  }
-
-  // Return the entity UI information.
-  return $entity_info;
-}
-
-/**
  * Helper function for getting the path to a View's page display.
  *
  * @param string $view_name
@@ -227,7 +192,7 @@ function farm_ui_view_page_path($view_name, $display = 'page') {
  * second. However, some logs do not apply to assets, so the first contextual
  * filter is the area ID.
  *
- * This function will use information provided by hook_farm_ui_entities() to
+ * This function will use information provided by hook_farm_record_types() to
  * determine the position of the area ID argument. In general, it will return
  * 1 (the first argument position). If the entity type is 'log', and the log
  * type does not apply to assets, then it will return 2 (second argument).
@@ -243,7 +208,7 @@ function farm_ui_view_page_path($view_name, $display = 'page') {
 function farm_ui_views_area_argument_position($type, $bundle) {
 
   // Load entity UI information.
-  $ui_info = farm_ui_entities($type, $bundle);
+  $ui_info = farm_record_types($type, $bundle);
 
   // Default the area ID argument position to 1.
   $arg = 1;

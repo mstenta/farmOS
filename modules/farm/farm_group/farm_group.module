@@ -16,9 +16,9 @@ function farm_group_help($path, $arg) {
 }
 
 /**
- * Implements hook_farm_ui_entities().
+ * Implements hook_farm_record_types().
  */
-function farm_group_farm_ui_entities() {
+function farm_group_farm_record_types() {
   return array(
     'farm_asset' => array(
       'group' => array(
