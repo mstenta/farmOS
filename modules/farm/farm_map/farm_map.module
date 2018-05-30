@@ -226,6 +226,63 @@ function farm_map_module_implements_alter(&$implementations, $hook) {
 }
 
 /**
+ * Find all records with geometries that intersect another given geometry.
+ *
+ * @param Geometry $geometry
+ *   The geometry to search for an intersection with.
+ * @param $entity_type
+ *   Optionally filter by a specific entity type.
+ * @param $bundle
+ *   Optionally filter by a specific entity bundle.
+ *
+ * @return array
+ *   Returns an associative array of arrays, organized by entity type.
+ */
+function farm_map_intersect_records($geometry, $entity_type = NULL, $bundle = NULL) {
+  $records = array();
+
+  // Load GeoPHP.
+  geophp_load();
+
+  // Convert the geometry to WKT.
+  $wkt = $geometry->out('wkt');
+
+  // Build a database query.
+  $query = db_select('field_data_field_farm_geofield', 'g');
+  $query->fields('g', array('entity_type', 'bundle', 'entity_id'));
+
+  // Filter by geometry intersection.
+  $query->where("ST_INTERSECTS(
+    ST_GEOMFROMWKB(g.field_farm_geofield_geom),
+    ST_GEOMFROMTEXT(:wkt)
+  )", array(':wkt' => $wkt));
+
+  // If $entity_type or $bundle are defined, add filters for them.
+  if (!empty($entity_type)) {
+    $query->condition('g.entity_type', $entity_type);
+  }
+  if (!empty($bundle)) {
+    $query->condition('g.bundle', $bundle);
+  }
+
+  // Execute the query.
+  $result = $query->execute();
+
+  // Organize entity IDs by type.
+  $record_ids = array();
+  foreach ($result as $row) {
+    $record_ids[$row->entity_type][] = $row->entity_id;
+  }
+
+  // Load all records.
+  foreach ($record_ids as $entity_type => $entity_ids) {
+    $records[$entity_type] = entity_load($entity_type, $entity_ids);
+  }
+
+  return $records;
+}
+
+/**
  * Helper function for populating the geometry field of an entity.
  *
  * @param Entity $entity
