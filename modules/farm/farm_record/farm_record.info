@@ -1,0 +1,4 @@
+name = Farm Record
+description = Provides an underlying framework for record types in farmOS.
+core = 7.x
+package = farmOS
