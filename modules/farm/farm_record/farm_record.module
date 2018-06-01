@@ -6,6 +6,7 @@
  */
 
 include_once('farm_record.entity.inc');
+include_once('farm_record.features.inc');
 
 /**
  * Implements hook_hook_info().
