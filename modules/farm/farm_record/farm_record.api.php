@@ -46,6 +46,17 @@ function hook_farm_record_types() {
 
         // View of plantings (optional).
         'view' => 'farm_plantings',
+
+        // Inventory settings (optional).
+        'inventory' => array(
+
+          // Whether or not inventory is enabled for this asset type.
+          'enabled' => TRUE,
+
+          // Whether or not assets of this type should be treated as
+          // individuals by default when dealing with inventory.
+          'individual' => TRUE,
+        ),
       ),
     ),
 
@@ -77,6 +88,13 @@ function hook_farm_record_types() {
 
         // Label (plural).
         'label_plural' => t('Seedings'),
+
+        // Log type settings (required - see log module for more info).
+        'log_settings' => array(
+          'name_pattern' => 'Transplant [log:field-farm-asset]',
+          'name_edit' => FALSE,
+          'done' => TRUE,
+        ),
 
         // View of seedings (optional).
         'view' => 'farm_log_seeding',

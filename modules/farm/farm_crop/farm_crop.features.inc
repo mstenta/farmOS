@@ -27,38 +27,12 @@ function farm_crop_views_api($module = NULL, $api = NULL) {
  * Implements hook_default_farm_asset_type().
  */
 function farm_crop_default_farm_asset_type() {
-  $items = array();
-  $items['planting'] = entity_import('farm_asset_type', '{
-    "type" : "planting",
-    "label" : "Planting",
-    "weight" : 0,
-    "rdf_mapping" : []
-  }');
-  return $items;
+  return farm_record_entity_type_definitions('farm_crop', 'farm_asset');
 }
 
 /**
  * Implements hook_default_log_type().
  */
 function farm_crop_default_log_type() {
-  $items = array();
-  $items['farm_seeding'] = entity_import('log_type', '{
-    "type" : "farm_seeding",
-    "label" : "Seeding",
-    "weight" : 0,
-    "name_pattern" : "Seed [log:field-farm-asset]",
-    "name_edit" : "0",
-    "done" : "1",
-    "rdf_mapping" : []
-  }');
-  $items['farm_transplanting'] = entity_import('log_type', '{
-    "type" : "farm_transplanting",
-    "label" : "Transplanting",
-    "weight" : 0,
-    "name_pattern" : "Transplant [log:field-farm-asset]",
-    "name_edit" : "0",
-    "done" : "1",
-    "rdf_mapping" : []
-  }');
-  return $items;
+  return farm_record_entity_type_definitions('farm_crop', 'log');
 }

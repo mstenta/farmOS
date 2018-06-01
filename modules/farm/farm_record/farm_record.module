@@ -5,6 +5,8 @@
  * Code for the Farm Record module.
  */
 
+include_once('farm_record.entity.inc');
+
 /**
  * Implements hook_hook_info().
  */
@@ -58,4 +60,27 @@ function farm_record_types($entity_type = '', $bundle = '') {
 
   // Otherwise return all information.
   return $record_types;
+}
+
+/**
+ * Load farmOS record type information provided by a specific module.
+ *
+ * @param string $module
+ *   The name of the module providing the record type information.
+ *
+ * @return array
+ *   Returns an array of record type information. See farm_record.api.php.
+ */
+function farm_record_types_from_module($module) {
+
+  // Define the hook.
+  $hook = 'farm_record_types';
+
+  // If the module does not implement the hook, return an empty array.
+  if (!module_hook($module, $hook)) {
+    return array();
+  }
+
+  // Invoke the hook and return the results.
+  return module_invoke($module, $hook);
 }

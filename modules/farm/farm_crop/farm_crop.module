@@ -169,6 +169,11 @@ function farm_crop_farm_record_types() {
       'farm_seeding' => array(
         'label' => t('Seeding'),
         'label_plural' => t('Seedings'),
+        'log_settings' => array(
+          'name_pattern' => 'Seed [log:field-farm-asset]',
+          'name_edit' => FALSE,
+          'done' => TRUE,
+        ),
         'view' => 'farm_log_seeding',
         'farm_asset' => 'planting',
         'weight' => -90,
@@ -176,6 +181,11 @@ function farm_crop_farm_record_types() {
       'farm_transplanting' => array(
         'label' => t('Transplanting'),
         'label_plural' => t('Transplantings'),
+        'log_settings' => array(
+          'name_pattern' => 'Transplant [log:field-farm-asset]',
+          'name_edit' => FALSE,
+          'done' => TRUE,
+        ),
         'view' => 'farm_log_transplanting',
         'farm_asset' => 'planting',
         'weight' => -80,

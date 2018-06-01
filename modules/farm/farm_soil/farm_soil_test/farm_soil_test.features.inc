@@ -24,15 +24,5 @@ function farm_soil_test_views_api($module = NULL, $api = NULL) {
  * Implements hook_default_log_type().
  */
 function farm_soil_test_default_log_type() {
-  $items = array();
-  $items['farm_soil_test'] = entity_import('log_type', '{
-    "type" : "farm_soil_test",
-    "label" : "Soil Test",
-    "weight" : 0,
-    "name_pattern" : "Soil test: [log:field-farm-area]",
-    "name_edit" : "1",
-    "done" : "1",
-    "rdf_mapping" : []
-  }');
-  return $items;
+  return farm_record_entity_type_definitions('farm_soil_test', 'log');
 }

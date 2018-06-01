@@ -16,6 +16,11 @@ function farm_log_observation_farm_record_types() {
       'farm_observation' => array(
         'label' => t('Observation'),
         'label_plural' => t('Observations'),
+        'log_settings' => array(
+          'name_pattern' => 'Observation: [log:field-farm-asset] [log:field-farm-area] [log:timestamp:short]',
+          'name_edit' => TRUE,
+          'done' => TRUE,
+        ),
         'view' => 'farm_log_observation',
         'areas' => TRUE,
         'weight' => -10,

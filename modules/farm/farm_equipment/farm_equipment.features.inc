@@ -27,29 +27,12 @@ function farm_equipment_views_api($module = NULL, $api = NULL) {
  * Implements hook_default_farm_asset_type().
  */
 function farm_equipment_default_farm_asset_type() {
-  $items = array();
-  $items['equipment'] = entity_import('farm_asset_type', '{
-    "type" : "equipment",
-    "label" : "Equipment",
-    "weight" : 0,
-    "rdf_mapping" : []
-  }');
-  return $items;
+  return farm_record_entity_type_definitions('farm_equipment', 'farm_asset');
 }
 
 /**
  * Implements hook_default_log_type().
  */
 function farm_equipment_default_log_type() {
-  $items = array();
-  $items['farm_maintenance'] = entity_import('log_type', '{
-    "type" : "farm_maintenance",
-    "label" : "Maintenance",
-    "weight" : 0,
-    "name_pattern" : "Maintenance: [log:field-farm-asset]",
-    "name_edit" : "1",
-    "done" : "1",
-    "rdf_mapping" : []
-  }');
-  return $items;
+  return farm_record_entity_type_definitions('farm_equipment', 'log');
 }

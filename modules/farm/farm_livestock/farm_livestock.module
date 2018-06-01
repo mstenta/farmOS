@@ -16,12 +16,21 @@ function farm_livestock_farm_record_types() {
         'label' => t('Animal'),
         'label_plural' => t('Animals'),
         'view' => 'farm_animals',
+        'inventory' => array(
+          'enabled' => TRUE,
+          'individual' => TRUE,
+        ),
       ),
     ),
     'log' => array(
       'farm_birth' => array(
         'label' => t('Birth record'),
         'label_plural' => t('Birth records'),
+        'log_settings' => array(
+          'name_pattern' => 'Birth: [log:field-farm-asset]',
+          'name_edit' => FALSE,
+          'done' => TRUE,
+        ),
         'view' => 'farm_log_birth',
         'farm_asset' => 'animal',
         'log_view_asset_arg' => 3,
@@ -30,6 +39,11 @@ function farm_livestock_farm_record_types() {
       'farm_medical' => array(
         'label' => t('Medical record'),
         'label_plural' => t('Medical records'),
+        'log_settings' => array(
+          'name_pattern' => 'Medical: [log:field-farm-asset] [log:timestamp:short]',
+          'name_edit' => TRUE,
+          'done' => TRUE,
+        ),
         'view' => 'farm_log_medical',
         'farm_asset' => 'animal',
         'weight' => 20,

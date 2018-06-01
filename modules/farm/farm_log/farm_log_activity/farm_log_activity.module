@@ -16,6 +16,11 @@ function farm_log_activity_farm_record_types() {
       'farm_activity' => array(
         'label' => t('Activity'),
         'label_plural' => t('Activities'),
+        'log_settings' => array(
+          'name_pattern' => 'Activity: [log:field-farm-asset] [log:field-farm-area]',
+          'name_edit' => TRUE,
+          'done' => TRUE,
+        ),
         'view' => 'farm_log_activity',
         'areas' => TRUE,
         'weight' => -10,

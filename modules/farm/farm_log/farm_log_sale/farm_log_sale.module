@@ -15,6 +15,11 @@ function farm_log_sale_farm_record_types() {
       'farm_sale' => array(
         'label' => t('Sale'),
         'label_plural' => t('Sales'),
+        'log_settings' => array(
+          'name_pattern' => '[log:field-farm-customer] [log:field-farm-invoice-number] [log:field-farm-asset]',
+          'name_edit' => FALSE,
+          'done' => TRUE,
+        ),
         'view' => 'farm_log_sale',
         'weight' => 90,
       ),

@@ -24,15 +24,5 @@ function farm_log_observation_views_api($module = NULL, $api = NULL) {
  * Implements hook_default_log_type().
  */
 function farm_log_observation_default_log_type() {
-  $items = array();
-  $items['farm_observation'] = entity_import('log_type', '{
-    "type" : "farm_observation",
-    "label" : "Observation",
-    "weight" : 0,
-    "name_pattern" : "Observation: [log:field-farm-asset] [log:field-farm-area] [log:timestamp:short]",
-    "name_edit" : "1",
-    "done" : "1",
-    "rdf_mapping" : []
-  }');
-  return $items;
+  return farm_record_entity_type_definitions('farm_log_observation', 'log');
 }

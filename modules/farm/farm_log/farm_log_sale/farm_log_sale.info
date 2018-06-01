@@ -13,6 +13,7 @@ dependencies[] = farm_fields
 dependencies[] = farm_flags
 dependencies[] = farm_inventory
 dependencies[] = farm_quantity
+dependencies[] = farm_record
 dependencies[] = features
 dependencies[] = field_collection
 dependencies[] = field_group

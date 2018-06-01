@@ -27,15 +27,5 @@ function farm_log_input_views_api($module = NULL, $api = NULL) {
  * Implements hook_default_log_type().
  */
 function farm_log_input_default_log_type() {
-  $items = array();
-  $items['farm_input'] = entity_import('log_type', '{
-    "type" : "farm_input",
-    "label" : "Input",
-    "weight" : 0,
-    "name_pattern" : "Input: [log:field-farm-material] [log:field-farm-area] [log:field-farm-asset]",
-    "name_edit" : "1",
-    "done" : "1",
-    "rdf_mapping" : []
-  }');
-  return $items;
+  return farm_record_entity_type_definitions('farm_log_input', 'log');
 }

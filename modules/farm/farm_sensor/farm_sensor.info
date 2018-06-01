@@ -10,6 +10,7 @@ dependencies[] = farm_fields
 dependencies[] = farm_flags
 dependencies[] = farm_group
 dependencies[] = farm_movement
+dependencies[] = farm_record
 dependencies[] = features
 dependencies[] = field_group
 dependencies[] = field_group_easy_responsive_tabs

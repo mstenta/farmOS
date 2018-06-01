@@ -24,12 +24,5 @@ function farm_soil_compost_views_api($module = NULL, $api = NULL) {
  * Implements hook_default_farm_asset_type().
  */
 function farm_soil_compost_default_farm_asset_type() {
-  $items = array();
-  $items['compost'] = entity_import('farm_asset_type', '{
-    "type" : "compost",
-    "label" : "Compost",
-    "weight" : 0,
-    "rdf_mapping" : []
-  }');
-  return $items;
+  return farm_record_entity_type_definitions('farm_soil_compost', 'farm_asset');
 }

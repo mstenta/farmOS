@@ -24,7 +24,5 @@ function farm_group_views_api($module = NULL, $api = NULL) {
  * Implements hook_default_farm_asset_type().
  */
 function farm_group_default_farm_asset_type() {
-  $items = array();
-  $items['group'] = entity_import('farm_asset_type', '{ "type" : "group", "label" : "Group", "weight" : 0, "rdf_mapping" : [] }');
-  return $items;
+  return farm_record_entity_type_definitions('farm_group', 'farm_asset');
 }

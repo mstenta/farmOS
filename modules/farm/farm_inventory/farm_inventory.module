@@ -26,6 +26,34 @@ function farm_inventory_farm_ui_entity_views($entity_type, $bundle, $entity) {
 }
 
 /**
+ * Implements hook_default_farm_asset_type_alter().
+ */
+function farm_inventory_default_farm_asset_type_alter(&$items) {
+
+  // Load asset record types.
+  $record_types = farm_record_types('farm_asset');
+
+  // Iterate through the asset types that were created.
+  foreach ($items as $bundle => &$item) {
+
+    // If the corresponding record type information has inventory settings,
+    // add them to the item.
+    if (!empty($record_types[$bundle]['inventory'])) {
+      foreach ($record_types[$bundle]['inventory'] as $key => $value) {
+
+        // If the value is a boolean (TRUE or FALSE), convert to 1 or 0.
+        if ($value === TRUE || $value === FALSE) {
+          $value = !empty($value) ? 1 : 0;
+        }
+
+        // Assign the value.
+        $item->inventory[$key] = $value;
+      }
+    }
+  }
+}
+
+/**
  * Implements hook_entity_view_alter().
  */
 function farm_inventory_entity_view_alter(&$build, $type) {

@@ -27,39 +27,12 @@ function farm_livestock_views_api($module = NULL, $api = NULL) {
  * Implements hook_default_farm_asset_type().
  */
 function farm_livestock_default_farm_asset_type() {
-  $items = array();
-  $items['animal'] = entity_import('farm_asset_type', '{
-    "type" : "animal",
-    "label" : "Animal",
-    "weight" : 0,
-    "inventory" : { "enabled" : "1", "individual" : "1" },
-    "rdf_mapping" : []
-  }');
-  return $items;
+  return farm_record_entity_type_definitions('farm_livestock', 'farm_asset');
 }
 
 /**
  * Implements hook_default_log_type().
  */
 function farm_livestock_default_log_type() {
-  $items = array();
-  $items['farm_birth'] = entity_import('log_type', '{
-    "type" : "farm_birth",
-    "label" : "Birth",
-    "weight" : 0,
-    "name_pattern" : "Birth: [log:field-farm-asset]",
-    "name_edit" : "0",
-    "done" : "1",
-    "rdf_mapping" : []
-  }');
-  $items['farm_medical'] = entity_import('log_type', '{
-    "type" : "farm_medical",
-    "label" : "Medical",
-    "weight" : 0,
-    "name_pattern" : "Medical: [log:field-farm-asset] [log:timestamp:short]",
-    "name_edit" : "1",
-    "done" : "1",
-    "rdf_mapping" : []
-  }');
-  return $items;
+  return farm_record_entity_type_definitions('farm_livestock', 'log');
 }

@@ -27,12 +27,5 @@ function farm_sensor_views_api($module = NULL, $api = NULL) {
  * Implements hook_default_farm_asset_type().
  */
 function farm_sensor_default_farm_asset_type() {
-  $items = array();
-  $items['sensor'] = entity_import('farm_asset_type', '{
-    "type" : "sensor",
-    "label" : "Sensor",
-    "weight" : 0,
-    "rdf_mapping" : []
-  }');
-  return $items;
+  return farm_record_entity_type_definitions('farm_sensor', 'farm_asset');
 }

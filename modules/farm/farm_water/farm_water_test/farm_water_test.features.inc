@@ -24,15 +24,5 @@ function farm_water_test_views_api($module = NULL, $api = NULL) {
  * Implements hook_default_log_type().
  */
 function farm_water_test_default_log_type() {
-  $items = array();
-  $items['farm_water_test'] = entity_import('log_type', '{
-    "type" : "farm_water_test",
-    "label" : "Water Test",
-    "weight" : 0,
-    "name_pattern" : "Water test: [log:field-farm-area]",
-    "name_edit" : "1",
-    "done" : "1",
-    "rdf_mapping" : []
-  }');
-  return $items;
+  return farm_record_entity_type_definitions('farm_water_test', 'log');
 }
