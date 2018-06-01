@@ -5,18 +5,9 @@
  * Code for the Farm Record module.
  */
 
+include_once('farm_record.hooks.inc');
 include_once('farm_record.entity.inc');
 include_once('farm_record.features.inc');
-
-/**
- * Implements hook_hook_info().
- */
-function farm_record_hook_info() {
-  $hooks['farm_record_types'] = array(
-    'group' => 'farm_record',
-  );
-  return $hooks;
-}
 
 /**
  * Load farmOS record type information.
