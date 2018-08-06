@@ -8,6 +8,11 @@
  * Implements hook_field_default_field_instances().
  */
 function farm_log_activity_field_default_field_instances() {
+  $field_instances = farm_record_field_instance_definitions('farm_log_activity');
+
+
+
+
   $field_instances = array();
 
   // Exported field_instance: 'log-farm_activity-field_farm_area'.

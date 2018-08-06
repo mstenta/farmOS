@@ -3,4 +3,5 @@ description = Provides an underlying framework for record types in farmOS.
 core = 7.x
 package = farmOS
 dependencies[] = farm_asset
+dependencies[] = farm_fields
 dependencies[] = farm_log
