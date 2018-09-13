@@ -13,7 +13,7 @@ function farm_lab_views_default_views() {
   $view = new view();
   $view->name = 'farm_log_lab_tests';
   $view->description = '';
-  $view->tag = 'default';
+  $view->tag = 'farm_lab';
   $view->base_table = 'log';
   $view->human_name = 'Farm Log: Lab Tests';
   $view->core = 7;

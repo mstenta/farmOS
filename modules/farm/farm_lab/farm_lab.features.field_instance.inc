@@ -114,7 +114,7 @@ function farm_lab_field_default_field_instances() {
     'bundle' => 'farm_lab_test',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Use the map to pinpoint the location(s) from which samples were taken. You may be sampling multiple points within a given area. All the points that comprise this sample should be included.',
+    'description' => 'This field is optional. It allows you to store geospatial data along with this observation. For example, if you are taking samples from the field, you can record the points where they were taken from.',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -129,7 +129,7 @@ function farm_lab_field_default_field_instances() {
     ),
     'entity_type' => 'log',
     'field_name' => 'field_farm_geofield',
-    'label' => 'Sample points',
+    'label' => 'Geometry',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -142,9 +142,9 @@ function farm_lab_field_default_field_instances() {
         'data_storage' => 'collection',
         'delta_handling' => 'default',
         'feature_types' => array(
-          'path' => 0,
+          'path' => 'path',
           'point' => 'point',
-          'polygon' => 0,
+          'polygon' => 'polygon',
         ),
         'geocoder_field' => 'field_farm_files',
         'geocoder_handler' => 'kml',
@@ -324,8 +324,8 @@ function farm_lab_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'log-farm_lab_test-farm_farm_lab'.
-  $field_instances['log-farm_lab_test-farm_farm_lab'] = array(
+  // Exported field_instance: 'log-farm_lab_test-field_farm_lab'.
+  $field_instances['log-farm_lab_test-field_farm_lab'] = array(
     'bundle' => 'farm_lab_test',
     'default_value' => NULL,
     'deleted' => 0,
@@ -340,7 +340,7 @@ function farm_lab_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'log',
-    'field_name' => 'farm_farm_lab',
+    'field_name' => 'field_farm_lab',
     'label' => 'Laboratory',
     'required' => 0,
     'settings' => array(
@@ -366,12 +366,12 @@ function farm_lab_field_default_field_instances() {
   t('Files');
   t('Flags');
   t('Laboratory');
+  t('Geometry');
   t('Log category');
   t('Notes');
   t('Optionally assign this task to one or more people.');
   t('Photos');
-  t('Sample points');
-  t('Use the map to pinpoint the location(s) from which samples were taken. You may be sampling multiple points within a given area. All the points that comprise this sample should be included.');
+  t('This field is optional. It allows you to store geospatial data along with this observation. For example, if you are taking samples from the field, you can record the points where they were taken from.');
   t('Use this to organize your logs into categories for easier searching and filtering later.');
   t('What areas is this sample being taken from?');
   t('What laboratory performed the test?');

@@ -13,6 +13,35 @@ function farm_lab_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_farm_areas|log|farm_lab_test|form';
+  $field_group->group_name = 'group_farm_areas';
+  $field_group->entity_type = 'log';
+  $field_group->bundle = 'farm_lab_test';
+  $field_group->mode = 'form';
+  $field_group->parent_name = 'group_farm_location';
+  $field_group->data = array(
+    'label' => 'Areas',
+    'weight' => '16',
+    'children' => array(
+      0 => 'field_farm_area',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'label' => 'Areas',
+      'instance_settings' => array(
+        'required_fields' => 1,
+        'id' => '',
+        'classes' => 'group-farm-areas field-group-fieldset',
+        'description' => '',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $field_groups['group_farm_areas|log|farm_lab_test|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_farm_assignment|log|farm_lab_test|form';
   $field_group->group_name = 'group_farm_assignment';
   $field_group->entity_type = 'log';
@@ -132,6 +161,35 @@ function farm_lab_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_farm_geometry|log|farm_lab_test|form';
+  $field_group->group_name = 'group_farm_geometry';
+  $field_group->entity_type = 'log';
+  $field_group->bundle = 'farm_lab_test';
+  $field_group->mode = 'form';
+  $field_group->parent_name = 'group_farm_location';
+  $field_group->data = array(
+    'label' => 'Geometry',
+    'weight' => '17',
+    'children' => array(
+      0 => 'field_farm_geofield',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'label' => 'Geometry',
+      'instance_settings' => array(
+        'required_fields' => 1,
+        'id' => '',
+        'classes' => 'group-farm-geometry field-group-fieldset',
+        'description' => '',
+      ),
+      'formatter' => 'collapsed',
+    ),
+  );
+  $field_groups['group_farm_geometry|log|farm_lab_test|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_farm_location|log|farm_lab_test|form';
   $field_group->group_name = 'group_farm_location';
   $field_group->entity_type = 'log';
@@ -142,8 +200,8 @@ function farm_lab_field_group_info() {
     'label' => 'Location',
     'weight' => '2',
     'children' => array(
-      0 => 'field_farm_area',
-      1 => 'field_farm_geofield',
+      0 => 'group_farm_areas',
+      1 => 'group_farm_geometry',
     ),
     'format_type' => 'field_group_easy_responsive_tabs_nav_item',
     'format_settings' => array(
@@ -195,10 +253,12 @@ function farm_lab_field_group_info() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Areas');
   t('Assignment');
   t('Category');
   t('Files');
   t('General');
+  t('Geometry');
   t('Location');
   t('Tabs');
 
