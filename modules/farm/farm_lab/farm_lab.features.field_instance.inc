@@ -358,6 +358,39 @@ function farm_lab_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'log-farm_lab_test-field_farm_quantity'.
+  $field_instances['log-farm_lab_test-field_farm_quantity'] = array(
+    'bundle' => 'farm_lab_test',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Optionally, use this quantity field to store individual lab quantity measurements.',
+    'display' => array(
+      'default' => array(
+        'label' => 'inline',
+        'module' => 'field_collection',
+        'settings' => array(
+          'view_mode' => 'full',
+        ),
+        'type' => 'field_collection_fields',
+        'weight' => 2,
+      ),
+    ),
+    'entity_type' => 'log',
+    'field_name' => 'field_farm_quantity',
+    'label' => 'Quantity',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'field_collection',
+      'settings' => array(),
+      'type' => 'field_collection_embed',
+      'weight' => 13,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Add flags to this log to enable better sorting and filtering of records.');
@@ -370,7 +403,9 @@ function farm_lab_field_default_field_instances() {
   t('Log category');
   t('Notes');
   t('Optionally assign this task to one or more people.');
+  t('Optionally, use this quantity field to store individual lab quantity measurements.');
   t('Photos');
+  t('Quantity');
   t('This field is optional. It allows you to store geospatial data along with this observation. For example, if you are taking samples from the field, you can record the points where they were taken from.');
   t('Use this to organize your logs into categories for easier searching and filtering later.');
   t('What areas is this sample being taken from?');
