@@ -1,0 +1,45 @@
+<?php
+/**
+ * @file
+ * Code for the Farm Lab feature.
+ */
+
+include_once 'farm_lab.features.inc';
+
+/**
+ * Implements hook_farm_ui_entities().
+ */
+function farm_lab_farm_ui_entities() {
+  return array(
+    'log' => array(
+      'farm_lab_test' => array(
+        'label' => t('Lab test'),
+        'label_plural' => t('Lab tests'),
+        'view' => 'farm_log_lab_tests',
+        'farm_asset' => 'none',
+        'areas' => TRUE,
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_feeds_importer_default_alter().
+ */
+function farm_lab_feeds_importer_default_alter(&$importers) {
+
+  // Add extra field mappings to lab tests.
+  $name = 'log_farm_lab_test';
+  if (!empty($importers[$name])) {
+    $mappings = array(
+      array(
+        'source' => 'Laboratory',
+        'target' => 'field_farm_lab',
+        'unique' => FALSE,
+        'language' => 'und',
+      ),
+    );
+    $importer_mappings =& $importers[$name]->config['processor']['config']['mappings'];
+    $importer_mappings = array_merge($importer_mappings, $mappings);
+  }
+}
