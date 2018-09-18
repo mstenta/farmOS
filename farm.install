@@ -62,13 +62,13 @@ function farm_install_configure_form($form, &$form_state) {
     'farm_livestock' => st('Livestock'),
     'farm_equipment' => st('Equipment'),
     'farm_soil_nrcs' => st('NRCS Soil Survey'),
-    'farm_soil_test' => st('Soil test logs'),
+    'farm_lab' => st('Lab test logs'),
     'farm_area_generate' => st('Area generator (for generating parallel beds within an area)'),
     'farm_tour' => st('farmOS Tours'),
   );
   // Extra modules will not be selected by default.
   $extra_modules = array(
-    'farm_water_test' => st('Water test logs'),
+    'farm_water' => st('Water lab test type'),
     'farm_soil_compost' => st('Compost'),
     'farm_sensor' => st('Sensor'),
     'farm_sensor_listener' => st('Sensor: Listener'),
