@@ -1,7 +1,9 @@
-name = Farm Soil Test
-description = Features for managing soil tests.
+name = Farm Soil Test (Deprecated)
+description = The functionality of this module has been moved to Farm Lab.
 core = 7.x
-package = farmOS
+package = farmOS (deprecated)
+dependencies[] = farm_lab
+
 dependencies[] = colorbox
 dependencies[] = ctools
 dependencies[] = date

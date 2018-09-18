@@ -9,6 +9,17 @@
  */
 function farm_water_farm_log_categories() {
 
-  // Provide an "Water" log category.
+  // Provide a "Water" log category.
   return array('Water');
+}
+
+/**
+ * Implements hook_farm_lab_test_types().
+ */
+function farm_water_farm_lab_test_types() {
+
+  // Provide a "Water test" lab test type.
+  return array(
+    'water' => t('Water test'),
+  );
 }

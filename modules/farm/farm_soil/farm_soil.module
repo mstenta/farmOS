@@ -11,6 +11,17 @@ include_once 'farm_soil.features.inc';
  */
 function farm_soil_farm_log_categories() {
 
-  // Provide an "Soil" log category.
+  // Provide a "Soil" log category.
   return array('Soil');
+}
+
+/**
+ * Implements hook_farm_lab_test_types().
+ */
+function farm_soil_farm_lab_test_types() {
+
+  // Provide a "Soil test" lab test type.
+  return array(
+    'soil' => t('Soil test'),
+  );
 }
