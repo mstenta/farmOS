@@ -4,6 +4,7 @@ core = 7.x
 package = farmOS
 dependencies[] = ctools
 dependencies[] = farm_area
+dependencies[] = farm_lab
 dependencies[] = features
 dependencies[] = geofield
 dependencies[] = strongarm
