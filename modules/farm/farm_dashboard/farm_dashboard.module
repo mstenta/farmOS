@@ -131,6 +131,8 @@ function farm_dashboard_page_callback() {
     if (!empty($title)) {
       $container['#type'] = 'fieldset';
       $container['#title'] = check_plain($title);
+      $container['#collapsible'] = TRUE;
+      $container['#collapsed'] = FALSE;
     }
 
     // Assemble a content markup item inside the container.

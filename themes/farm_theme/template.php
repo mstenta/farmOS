@@ -396,6 +396,9 @@ function farm_theme_page_alter(&$page) {
  */
 function farm_theme_preprocess_page(&$vars) {
 
+  // Add JS for creating a fixed dock for action links.
+  drupal_add_js(drupal_get_path('theme', 'farm_theme') . '/js/action-links.js');
+
   // Add JS for adding Bootstrap glyphicons throughout the UI.
   drupal_add_js(drupal_get_path('theme', 'farm_theme') . '/js/glyphicons.js');
 
@@ -404,14 +407,25 @@ function farm_theme_preprocess_page(&$vars) {
     drupal_add_js(drupal_get_path('theme', 'farm_theme') . '/js/help.js');
   }
 
-  // Split the farm dashboard into two columns, with the map on the right.
+  // Split the farm dashboard into two columns, with some groups on the right.
+  $right_groups = array(
+    'map',
+    'quick',
+  );
   $current_path = current_path();
   if ($current_path == 'farm') {
 
-    // Only proceed if the map group exists.
-    if (!empty($vars['page']['content']['system_main']['map'])) {
+    // Only proceed if any of the groups exist.
+    $right_groups_exist = FALSE;
+    foreach ($right_groups as $group) {
+      if (!empty($vars['page']['content']['system_main']['map'])) {
+        $right_groups_exist = TRUE;
+        break;
+      }
+    }
+    if ($right_groups_exist) {
 
-      // Get a list of groups (element children).
+      // Get a list of all groups (element children).
       $groups = element_children($vars['page']['content']['system_main']);
 
       // Create left and right columns.
@@ -424,11 +438,13 @@ function farm_theme_preprocess_page(&$vars) {
         '#suffix' => '</div>',
       );
 
-      // Move the map to the right column (and remove it from the groups list).
-      $vars['page']['content']['system_main']['right']['map'] = $vars['page']['content']['system_main']['map'];
-      unset($vars['page']['content']['system_main']['map']);
-      $map_key = array_search('map', $groups);
-      unset($groups[$map_key]);
+      // Move certain groups to the right column (and remove from the list).
+      foreach ($right_groups as $group) {
+        $vars['page']['content']['system_main']['right'][$group] = $vars['page']['content']['system_main'][$group];
+        unset($vars['page']['content']['system_main'][$group]);
+        $map_key = array_search('map', $groups);
+        unset($groups[$map_key]);
+      }
 
       // Iterate through the remaining groups and move them to the left column.
       foreach ($groups as $group) {

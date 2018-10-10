@@ -62,6 +62,29 @@ form#user-login-form ul li {
 }
 
 /**
+ * Put action links into a fixed dock in the bottom right.
+ */
+#action-links-dock {
+  position: fixed;
+  bottom: 2%;
+  right: 2%;
+  z-index: 100;
+}
+#action-links-dock {
+  background-color: #FFF;
+  border-radius: 10px;
+  padding: 5px 15px 0 15px;
+}
+#action-links-dock ul.action-links li {
+  display: block;
+  padding-bottom: 0.75em;
+}
+#action-links-dock ul.action-links li a {
+  text-align: left;
+  width: 100%;
+}
+
+/**
  * Override Views feed-icon img-responsive block display.
  */
 .view .feed-icon .img-responsive {
