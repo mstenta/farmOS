@@ -73,21 +73,40 @@ function farm_crop_planting_quick_form($form, &$form_state) {
       'title' => t('Seeding'),
       'type' => 'farm_seeding',
       'enabled' => TRUE,
-      'fields' => array('date', 'location', 'quantity', 'notes', 'done'),
+      'fields' => array('date', 'location', 'quantity', 'files', 'notes', 'done'),
       'quantity_measures' => array('count', 'length', 'weight', 'area', 'volume', 'ratio'),
+      'asset_properties' => array(
+        'created' => TRUE,
+      ),
     ),
     'transplanting' => array(
       'title' => t('Transplanting'),
       'type' => 'farm_transplanting',
       'enabled' => FALSE,
-      'fields' => array('date', 'location', 'quantity', 'notes', 'done'),
+      'fields' => array('date', 'location', 'quantity', 'files', 'notes', 'done'),
       'quantity_measures' => array('count', 'length', 'weight', 'area', 'volume', 'ratio'),
     ),
     'harvest' => array(
       'title' => t('Harvest'),
       'type' => 'farm_harvest',
       'enabled' => FALSE,
+//      'fields' => array('date', 'quantity', 'files', 'notes', 'done'),
       'fields' => array('date', 'quantity', 'notes', 'done'),
+      'asset_properties' => array(
+        'terminated' => TRUE,
+        'archived' => TRUE,
+      ),
+      'multiple' => TRUE,
+    ),
+    'termination' => array(
+      'title' => t('Termination'),
+      'type' => 'farm_observation',
+      'enabled' => FALSE,
+      'asset_properties' => array(
+        'terminated' => TRUE,
+        'archived' => TRUE,
+      ),
+      'fields' => array('date', 'notes', 'done'),
     ),
   );
 
@@ -184,6 +203,16 @@ function farm_crop_planting_quick_form($form, &$form_state) {
           '#type' => 'textfield',
           '#title' => t('Units'),
           '#autocomplete_path' => 'taxonomy/autocomplete/field_farm_quantity_units',
+        ),
+      ),
+      'files' => array(
+        '#type' => 'fieldset',
+        '#title' => t('Files/photos'),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+        'upload' => array(
+          '#type' => 'file',
+          '#title' => t('Upload files/photos'),
         ),
       ),
       'notes' => array(
