@@ -176,6 +176,9 @@ function farm_theme_form_views_exposed_form_alter(&$form, &$form_state, $form_id
  */
 function farm_theme_form_log_form_alter(&$form, &$form_state, $form_id) {
 
+  // Add datefield Javascript.
+  drupal_add_js(drupal_get_path('theme', 'farm_theme') . '/js/datefield.js');
+
   // Collapse the "Movement" and "Group Membership" fieldsets in log forms.
   $collapse_fieldsets = array(
     'field_farm_movement',
