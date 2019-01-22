@@ -5,6 +5,13 @@
  */
 
 /**
+ * Implements hook_field_schema().
+ */
+function farm_quantity_field_schema($field) {
+
+}
+
+/**
  * Implements hook_install().
  */
 function farm_quantity_install() {

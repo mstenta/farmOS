@@ -7,6 +7,9 @@
 // Include Features code.
 include_once 'farm_quantity.features.inc';
 
+// Include quantity field code.
+include_once 'farm_quantity.field.inc';
+
 /**
  * Implements hook_permission().
  */
