@@ -8,7 +8,47 @@
  * Implements hook_field_schema().
  */
 function farm_quantity_field_schema($field) {
-
+  $columns = array(
+    'measure' => array(
+      'description' => 'The quantity measure.',
+      'type' => 'varchar',
+      'length' => 16,
+      'not null' => FALSE,
+    ),
+    'value_numerator' => array(
+      'description' => 'The quantity value numerator.',
+      'type' => 'int',
+      'size' => 'big',
+      'not null' => FALSE,
+    ),
+    'value_denominator' => array(
+      'description' => 'The quantity value denominator.',
+      'type' => 'int',
+      'unsigned' => TRUE,
+      'not null' => FALSE,
+    ),
+    'unit' => array(
+      'description' => 'The quantity unit taxonomy term ID.',
+      'type' => 'int',
+      'unsigned' => TRUE,
+      'not null' => FALSE,
+    ),
+    'label' => array(
+      'description' => 'The quantity label.',
+      'type' => 'varchar',
+      'length' => 16,
+      'not null' => FALSE,
+    ),
+  );
+  $indexes = array(
+    'measure' => array('measure'),
+    'unit' => array('unit'),
+    'label' => array('label'),
+  );
+  return array(
+    'columns' => $columns,
+    'indexes' => $indexes,
+  );
 }
 
 /**
