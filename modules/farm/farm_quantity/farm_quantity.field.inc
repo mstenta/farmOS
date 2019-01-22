@@ -22,7 +22,7 @@ function farm_quantity_field_validate($entity_type, $entity, $field, $instance, 
  * Implements hook_field_is_empty().
  */
 function farm_quantity_field_is_empty($item, $field) {
-
+  return empty($item['measure']) && (empty($item['value_numerator']) || empty($item['value_denominator'])) && empty($item['units']) && empty($item['label']);
 }
 
 /**
