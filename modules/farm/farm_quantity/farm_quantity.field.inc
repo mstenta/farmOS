@@ -8,7 +8,14 @@
  * Implements of hook_field_info().
  */
 function farm_quantity_field_info() {
-
+  return array(
+    'quantity' => array(
+      'label' => t('Quantity'),
+      'description' => t('This field stores quantity measurements, including measure, value, units, and label.'),
+      'default_widget' => 'quantity_default',
+      'default_formatter' => 'quantity_default',
+    ),
+  );
 }
 
 /**
@@ -29,7 +36,12 @@ function farm_quantity_field_is_empty($item, $field) {
  * Implements of hook_field_widget_info().
  */
 function farm_quantity_field_widget_info() {
-
+  return array(
+    'quantity_default' => array(
+      'label' => t('Quantity measurement'),
+      'field types' => array('quantity'),
+    ),
+  );
 }
 
 /**
@@ -50,7 +62,12 @@ function farm_quantity_field_widget_error($element, $error, $form, &$form_state)
  * Implements of hook_field_info().
  */
 function farm_quantity_field_formatter_info() {
-
+  return array(
+    'quantity_default' => array(
+      'label' => t('Quantity measurement'),
+      'field types' => array('quantity'),
+    ),
+  );
 }
 
 /**
