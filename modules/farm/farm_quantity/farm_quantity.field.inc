@@ -29,7 +29,15 @@ function farm_quantity_field_validate($entity_type, $entity, $field, $instance, 
  * Implements hook_field_is_empty().
  */
 function farm_quantity_field_is_empty($item, $field) {
-  return empty($item['measure']) && (empty($item['value_numerator']) || empty($item['value_denominator'])) && empty($item['units']) && empty($item['label']);
+
+  // Define "empty" for each subfield.
+  $empty_measure = empty($item['measure']);
+  $empty_value = !isset($item['value_numerator']) || !isset($item['value_denominator']);
+  $empty_unit = empty($item['unit']);
+  $empty_label = empty($item['label']);
+
+  // The field is empty if all the subfields are empty.
+  return $empty_measure && $empty_value && $empty_unit && $empty_label;
 }
 
 /**
