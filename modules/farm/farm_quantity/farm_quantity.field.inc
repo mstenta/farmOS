@@ -40,11 +40,11 @@ function quantity_property_info_callback(&$info, $entity_type, $field, $instance
  */
 function farm_quantity_default_values() {
   return array(
+    'label' => NULL,
     'measure' => NULL,
     'value_numerator' => NULL,
     'value_denominator' => NULL,
     'unit' => NULL,
-    'label' => NULL,
   );
 }
 
@@ -55,6 +55,10 @@ function farm_quantity_data_property_info($name = NULL) {
 
   // Build an array of basic property information for the quantity field.
   $properties = array(
+    'label' => array(
+      'label' => t('Label'),
+      'type' => 'text',
+    ),
     'measure' => array(
       'label' => t('Measure'),
       'type' => 'text',
@@ -77,10 +81,6 @@ function farm_quantity_data_property_info($name = NULL) {
     ),
     'unit_label' => array(
       'label' => t('Unit Label'),
-      'type' => 'text',
-    ),
-    'label' => array(
-      'label' => t('Label'),
       'type' => 'text',
     ),
   );
@@ -137,13 +137,13 @@ function farm_quantity_field_validate($entity_type, $entity, $field, $instance, 
 function farm_quantity_field_is_empty($item, $field) {
 
   // Define "empty" for each subfield.
+  $empty_label = empty($item['label']);
   $empty_measure = empty($item['measure']);
   $empty_value = !isset($item['value_numerator']) || !isset($item['value_denominator']);
   $empty_unit = empty($item['unit']);
-  $empty_label = empty($item['label']);
 
   // The field is empty if all the subfields are empty.
-  return $empty_measure && $empty_value && $empty_unit && $empty_label;
+  return $empty_label && $empty_measure && $empty_value && $empty_unit;
 }
 
 /**
@@ -239,6 +239,12 @@ function farm_quantity_element_validate($element, &$form_state) {
   $parents = $element['#parents'];
   $values = drupal_array_get_nested_value($form_state['values'], $parents);
 
+  // If the label is empty, set it to NULL.
+  // This ensures that empty text fields are null in the database.
+  if ($values['label'] == '') {
+    $values['label'] = NULL;
+  }
+
   // If the measure is empty, set it to NULL.
   // This ensures that empty text fields are null in the database.
   if ($values['measure'] == '') {
@@ -260,12 +266,6 @@ function farm_quantity_element_validate($element, &$form_state) {
     if (!empty($term->tid)) {
       $values['unit'] = $term->tid;
     }
-  }
-
-  // If the label is empty, set it to NULL.
-  // This ensures that empty text fields are null in the database.
-  if ($values['label'] == '') {
-    $values['label'] = NULL;
   }
 
   // Set the element's form values.
@@ -303,6 +303,12 @@ function farm_quantity_field_formatter_view($entity_type, $entity, $field, $inst
   // Iterate through the items.
   foreach ($items as $delta => $item) {
 
+    // If a label is available, pass it through check_plain().
+    $label = '';
+    if (!empty($item['label'])) {
+      $label = check_plain($item['label']);
+    }
+
     // If a measure is available, load the translated name.
     $measure = '';
     if (!empty($item['measure']) && !empty($measures[$item['measure']])) {
@@ -322,12 +328,6 @@ function farm_quantity_field_formatter_view($entity_type, $entity, $field, $inst
       if (!empty($term->name)) {
         $unit = $term->name;
       }
-    }
-
-    // If a label is available, pass it through check_plain().
-    $label = '';
-    if (!empty($item['label'])) {
-      $label = check_plain($item['label']);
     }
 
     // Assemble the output.

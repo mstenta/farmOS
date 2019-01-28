@@ -9,6 +9,12 @@
  */
 function farm_quantity_field_schema($field) {
   $columns = array(
+    'label' => array(
+      'description' => 'The quantity label.',
+      'type' => 'varchar',
+      'length' => 16,
+      'not null' => FALSE,
+    ),
     'measure' => array(
       'description' => 'The quantity measure.',
       'type' => 'varchar',
@@ -33,17 +39,11 @@ function farm_quantity_field_schema($field) {
       'unsigned' => TRUE,
       'not null' => FALSE,
     ),
-    'label' => array(
-      'description' => 'The quantity label.',
-      'type' => 'varchar',
-      'length' => 16,
-      'not null' => FALSE,
-    ),
   );
   $indexes = array(
+    'label' => array('label'),
     'measure' => array('measure'),
     'unit' => array('unit'),
-    'label' => array('label'),
   );
   return array(
     'columns' => $columns,
