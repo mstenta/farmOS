@@ -14,8 +14,76 @@ function farm_quantity_field_info() {
       'description' => t('This field stores quantity measurements, including measure, value, units, and label.'),
       'default_widget' => 'quantity_default',
       'default_formatter' => 'quantity_default',
+      // Entity API integration.
+      'property_type' => 'field_item_quantity',
+      'property_callbacks' => array('quantity_property_info_callback'),
     ),
   );
+}
+
+/**
+ * Callback to alter the property info of quantity fields.
+ */
+function quantity_property_info_callback(&$info, $entity_type, $field, $instance, $field_type) {
+  $name = $field['field_name'];
+  $property = &$info[$entity_type]['bundles'][$instance['bundle']]['properties'][$name];
+  $property['type'] = ($field['cardinality'] != 1) ? 'list<field_item_quantity>' : 'field_item_quantity';
+  $property['getter callback'] = 'entity_metadata_field_verbatim_get';
+  $property['setter callback'] = 'entity_metadata_field_verbatim_set';
+  $property['auto creation'] = 'farm_quantity_default_values';
+  $property['property info'] = farm_quantity_data_property_info();
+  unset($property['query callback']);
+}
+
+/**
+ * Define default values for quantity fields.
+ */
+function farm_quantity_default_values() {
+  return array(
+    'measure' => NULL,
+    'value_numerator' => NULL,
+    'value_denominator' => NULL,
+    'unit' => NULL,
+    'label' => NULL,
+  );
+}
+
+/**
+ * Defines info for the properties of the quantity field data structure.
+ */
+function farm_quantity_data_property_info($name = NULL) {
+
+  // Build an array of basic property information for the quantity field.
+  $properties = array(
+    'measure' => array(
+      'label' => t('Measure'),
+      'type' => 'text',
+    ),
+    'value_numerator' => array(
+      'label' => t('Value Numerator'),
+      'type' => 'integer',
+    ),
+    'value_denominator' => array(
+      'label' => t('Value Denominator'),
+      'type' => 'integer',
+    ),
+    'unit' => array(
+      'label' => t('Unit'),
+      'type' => 'integer',
+    ),
+    'label' => array(
+      'label' => t('Label'),
+      'type' => 'text',
+    ),
+  );
+  foreach ($properties as &$property) {
+    $property += array(
+      'description' => !empty($name) ? t('!label of field %name', array('!label' => $property['label'], '%name' => $name)) : '',
+      'getter callback' => 'entity_property_verbatim_get',
+      'setter callback' => 'entity_property_verbatim_set',
+    );
+  }
+  return $properties;
 }
 
 /**
