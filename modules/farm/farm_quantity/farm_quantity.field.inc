@@ -75,6 +75,10 @@ function farm_quantity_data_property_info($name = NULL) {
       'label' => t('Unit'),
       'type' => 'integer',
     ),
+    'unit_label' => array(
+      'label' => t('Unit Label'),
+      'type' => 'text',
+    ),
     'label' => array(
       'label' => t('Label'),
       'type' => 'text',
@@ -105,6 +109,16 @@ function farm_quantity_field_load($entity_type, $entities, $field, $instances, $
         $value = fraction($items[$id][$delta]['value_numerator'], $items[$id][$delta]['value_denominator'])->toDecimal(0, TRUE);
       }
       $items[$id][$delta]['value'] = $value;
+
+      // If a unit ID is available, load the taxonomy term name.
+      $unit_label = NULL;
+      if (!empty($items[$id][$delta]['unit'])) {
+        $term = taxonomy_term_load($items[$id][$delta]['unit']);
+        if (!empty($term->name)) {
+          $unit_label = $term->name;
+        }
+      }
+      $items[$id][$delta]['unit_label'] = $unit_label;
     }
   }
 }
