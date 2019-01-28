@@ -189,5 +189,69 @@ function farm_quantity_field_formatter_info() {
  * Implements hook_field_formatter_view().
  */
 function farm_quantity_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
 
+  // Load the list of measures.
+  $measures = farm_quantity_measure_options();
+
+  // Iterate through the items.
+  foreach ($items as $delta => $item) {
+
+    // If a measure is available, load the translated name.
+    $measure = '';
+    if (!empty($item['measure']) && !empty($measures[$item['measure']])) {
+      $measure = $measures[$item['measure']];
+    }
+
+    // If a value numerator and denominator are available, convert to decimal.
+    $value = '';
+    if (isset($item['value_numerator']) && isset($item['value_denominator'])) {
+      $value = fraction($item['value_numerator'], $item['value_denominator'])->toDecimal(0, TRUE);
+    }
+
+    // If a unit ID is available, load the term name.
+    $unit = '';
+    if (!empty($item['unit'])) {
+      $term = taxonomy_term_load($item['unit']);
+      if (!empty($term->name)) {
+        $unit = $term->name;
+      }
+    }
+
+    // If a label is available, pass it through check_plain().
+    $label = '';
+    if (!empty($item['label'])) {
+      $label = check_plain($item['label']);
+    }
+
+    // Assemble the output.
+    $output_parts = array();
+    if (!empty($label)) {
+      if (!empty($value) || !empty($unit)) {
+        $label .= ':';
+      }
+      $output_parts[] = $label;
+    }
+    if (!empty($value)) {
+      $output_parts[] = $value;
+    }
+    if (!empty($unit)) {
+      $output_parts[] = $unit;
+    }
+    if (!empty($measure)) {
+      if (!empty($value) || !empty($unit) || !empty($label)) {
+        $measure = '(' . $measure . ')';
+      }
+      $output_parts[] = $measure;
+    }
+    $output = implode(' ', $output_parts);
+
+    // Create the markup element.
+    $element[$delta] = array(
+      '#type' => 'markup',
+      '#markup' => $output,
+    );
+  }
+
+  return $element;
 }
