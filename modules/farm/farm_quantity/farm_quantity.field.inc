@@ -59,6 +59,10 @@ function farm_quantity_data_property_info($name = NULL) {
       'label' => t('Measure'),
       'type' => 'text',
     ),
+    'value' => array(
+      'label' => t('Value'),
+      'type' => 'decimal',
+    ),
     'value_numerator' => array(
       'label' => t('Value Numerator'),
       'type' => 'integer',
@@ -85,6 +89,26 @@ function farm_quantity_data_property_info($name = NULL) {
   }
   return $properties;
 }
+
+/**
+ * Implements hook_field_load().
+ */
+function farm_quantity_field_load($entity_type, $entities, $field, $instances, $langcode, &$items, $age) {
+
+  // Iterate through entities and their items.
+  foreach ($entities as $id => $entity) {
+    foreach ($items[$id] as $delta => $item) {
+
+      // Add a decimal representation of the quantity value.
+      $value = NULL;
+      if (!is_null($items[$id][$delta]['value_numerator']) && !is_null($items[$id][$delta]['value_denominator'])) {
+        $value = fraction($items[$id][$delta]['value_numerator'], $items[$id][$delta]['value_denominator'])->toDecimal(0, TRUE);
+      }
+      $items[$id][$delta]['value'] = $value;
+    }
+  }
+}
+
 
 /**
  * Implements hook_field_validate().
