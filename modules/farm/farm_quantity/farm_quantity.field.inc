@@ -123,6 +123,43 @@ function farm_quantity_field_load($entity_type, $entities, $field, $instances, $
   }
 }
 
+/**
+ * Implements hook_field_presave().
+ */
+function farm_quantity_field_presave($entity_type, $entity, $field, $instance, $langcode, &$items) {
+
+  // If there are no items, bail.
+  if (empty($items)) {
+    return;
+  }
+
+  // Iterate through the items.
+  foreach ($items as &$item) {
+
+    // If a value is set, but numerator and denominator are not, convert to a
+    // fraction and fill them in.
+    if (!empty($item['value']) && (empty($item['value_numerator']) && empty($item['value_denominator']))) {
+      $fraction = fraction_from_decimal($item['value']);
+      $numerator = $fraction->getNumerator();
+      $denominator = $fraction->getDenominator();
+      if (!empty($numerator)) {
+        $item['value_numerator'] = $numerator;
+      }
+      if (!empty($denominator)) {
+        $item['value_denominator'] = $denominator;
+      }
+    }
+
+    // If a unit_label is set, but unit is not, look up the term ID and
+    // populate unit.
+    if (!empty($item['unit_label']) && empty($item['unit'])) {
+      $term = farm_term($item['unit_label'], 'farm_quantity_units');
+      if (!empty($term->tid)) {
+        $item['unit'] = $term->tid;
+      }
+    }
+  }
+}
 
 /**
  * Implements hook_field_validate().
