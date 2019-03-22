@@ -1,0 +1,48 @@
+<?php
+
+/**
+ * @file
+ * Farm entity module.
+ */
+
+/**
+ * Implements hook_hook_info().
+ */
+function farm_entity_hook_info() {
+  $hooks['farm_entity_info'] = array(
+    'group' => 'farm_entity',
+  );
+  return $hooks;
+}
+
+/**
+ * Load farm entity information.
+ *
+ * @param string $type
+ *   Optionally specify the entity type.
+ * @param string $bundle
+ *   Optionally specify the entity bundle.
+ *
+ * @return array
+ *   Returns an array of entity information.
+ */
+function farm_entity_info($type = '', $bundle = '') {
+
+  // Ask modules for entity information and static cache the results.
+  $entity_info = &drupal_static(__FUNCTION__);
+  if (!isset($entity_info)) {
+    $entity_info = module_invoke_all('farm_entity_info');
+  }
+
+  // If a type and bundle are specified, return specific info.
+  if (!empty($type) && !empty($bundle)) {
+    $bundle_info = array();
+    if (!empty($entity_info[$type][$bundle])) {
+      $bundle_info = $entity_info[$type][$bundle];
+    }
+    return $bundle_info;
+  }
+
+  // Return the entity information.
+  return $entity_info;
+}

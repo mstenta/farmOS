@@ -1,0 +1,4 @@
+name = Farm Entity
+description = Provides farm entity functions for use in other modules.
+core = 7.x
+package = farmOS
