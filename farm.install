@@ -794,6 +794,13 @@ function farm_update_7046(&$sandbox) {
 }
 
 /**
+ * Enable Farm Entity module.
+ */
+function farm_update_7047(&$sandbox) {
+  _farm_update_enable_modules(array('farm_entity'));
+}
+
+/**
  * Update helper function: enable modules.
  */
 function _farm_update_enable_modules($modules = array()) {
