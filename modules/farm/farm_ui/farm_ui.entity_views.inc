@@ -25,7 +25,7 @@ function farm_ui_entity_views($entity_type, $entity_bundle, $entity) {
   $views = array();
 
   // Load entity UI information.
-  $ui_info = farm_ui_entities();
+  $ui_info = farm_entity_info();
 
   // Automatically generate a list of log Views to display on assets.
   if ($entity_type == 'farm_asset' && !empty($ui_info['log'])) {

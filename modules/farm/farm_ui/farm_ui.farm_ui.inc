@@ -35,7 +35,7 @@ function farm_ui_farm_ui_entity_views($entity_type, $entity_bundle, $entity) {
   $views = array();
 
   // Load entity UI information.
-  $ui_info = farm_ui_entities();
+  $ui_info = farm_entity_info();
 
   // Automatically generate a list of Views to display on areas.
   if ($entity_type == 'taxonomy_term' && $entity_bundle == 'farm_areas') {
@@ -176,7 +176,7 @@ function farm_ui_farm_ui_actions() {
   );
 
   // Load entity UI information.
-  $ui_info = farm_ui_entities();
+  $ui_info = farm_entity_info();
 
   // Create action links for each entity type/bundle.
   foreach ($ui_info as $entity_type => $bundles) {

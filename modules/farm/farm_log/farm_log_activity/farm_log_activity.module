@@ -8,9 +8,9 @@
 include_once 'farm_log_activity.features.inc';
 
 /**
- * Implements hook_farm_ui_entities().
+ * Implements hook_farm_entity_info().
  */
-function farm_log_activity_farm_ui_entities() {
+function farm_log_activity_farm_entity_info() {
   return array(
     'log' => array(
       'farm_activity' => array(

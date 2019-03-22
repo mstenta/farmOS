@@ -68,7 +68,7 @@ function farm_ui_area_links($id, $entity_type) {
   $links = array();
 
   // Load entity UI info.
-  $ui_info = farm_ui_entities();
+  $ui_info = farm_entity_info();
 
   // Generate links for the entity type.
   if (!empty($ui_info[$entity_type])) {

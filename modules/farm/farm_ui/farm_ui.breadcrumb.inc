@@ -68,7 +68,7 @@ function farm_ui_entity_type_breadcrumb($type, $bundle) {
   $breadcrumb = array();
 
   // Load entity UI information.
-  $ui_info = farm_ui_entities($type, $bundle);
+  $ui_info = farm_entity_info($type, $bundle);
 
   // Get the label (plural). Bail if it's not set.
   if (empty($ui_info['label_plural'])) {

@@ -7,9 +7,9 @@
 include_once 'farm_livestock.features.inc';
 
 /**
- * Implements hook_farm_ui_entities().
+ * Implements hook_farm_entity_info().
  */
-function farm_livestock_farm_ui_entities() {
+function farm_livestock_farm_entity_info() {
   return array(
     'farm_asset' => array(
       'animal' => array(

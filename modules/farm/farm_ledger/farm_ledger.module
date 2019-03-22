@@ -7,9 +7,9 @@
 include_once 'farm_ledger.features.inc';
 
 /**
- * Implements hook_farm_ui_entities().
+ * Implements hook_farm_entity_info().
  */
-function farm_ledger_farm_ui_entities() {
+function farm_ledger_farm_entity_info() {
   return array(
     'log' => array(
       'farm_purchase' => array(

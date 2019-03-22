@@ -29,7 +29,7 @@
  * @return array
  *   Returns an array of entities and metadata about them (see example below).
  */
-function hook_farm_ui_entities() {
+function hook_farm_entity_info() {
   $entities = array(
 
     // Define farm_asset entity types provided by this module.
