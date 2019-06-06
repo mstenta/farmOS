@@ -139,12 +139,31 @@ function farm_map_settings_form($form, &$form_state) {
     '#default_value' => variable_get('farm_map_default_base_layer', 'farm_map_layer_google_hybrid'),
   );
 
-  // Google Maps API key.
-  $form['farm_map_google_api_key'] = array(
-    '#type' => 'textfield',
+  $form['farm_map_google_api'] = array(
+    '#type' => 'fieldgroup',
     '#title' => t('Google Maps API Key'),
     '#description' => t('Google Maps layers require that you obtain an API key. Refer to the <a href="@doc">Google Maps API Key</a> documentation on farmOS.org for instructions.', array('@doc' => 'https://farmos.org/hosting/googlemaps')),
+  );
+
+  // Google Maps JS API key.
+  $form['farm_map_google_api']['farm_map_google_api_key'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Google Maps API Key (Web)'),
     '#default_value' => variable_get('farm_map_google_api_key', ''),
+  );
+
+  // Google Maps JS API key (Android).
+  $form['farm_map_google_api']['farm_map_google_api_key_android'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Google Maps API Key (Android)'),
+    '#default_value' => variable_get('farm_map_google_api_key_android', ''),
+  );
+
+  // Google Maps API key (iOS).
+  $form['farm_map_google_api']['farm_map_google_api_key_ios'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Google Maps API Key (iOS)'),
+    '#default_value' => variable_get('farm_map_google_api_key_ios', ''),
   );
 
   // Add a custom submit function to clear the Drupal cache on submission.
@@ -170,10 +189,17 @@ function farm_map_settings_form_submit($form, $form_state) {
 function farm_map_farm_info() {
   $info = array();
 
-  // Add the Google Maps API key to /farm.json.
-  $google_maps_api_key = variable_get('farm_map_google_api_key', '');
-  if (!empty($google_maps_api_key)) {
-    $info['google_maps_api_key'] = $google_maps_api_key;
+  // Add the Google Maps API keys to /farm.json.
+  $keys = array(
+    'web' => 'farm_map_google_api_key',
+    'android' => 'farm_map_google_api_key_android',
+    'ios' => 'farm_map_google_api_key_ios',
+  );
+  foreach ($keys as $name => $variable) {
+    $api_key = variable_get($variable, '');
+    if (!empty($api_key)) {
+      $info['google_maps']['api_keys'][$name] = $api_key;
+    }
   }
 
   return $info;
