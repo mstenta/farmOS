@@ -32,6 +32,7 @@ function farm_crop_default_farm_asset_type() {
     "type" : "planting",
     "label" : "Planting",
     "weight" : 0,
+    "inventory" : { "enabled" : "1", "individual" : "1" },
     "rdf_mapping" : []
   }');
   return $items;

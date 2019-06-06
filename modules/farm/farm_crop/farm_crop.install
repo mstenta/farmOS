@@ -106,3 +106,22 @@ function farm_crop_update_7004(&$sandbox) {
 function farm_crop_update_7005(&$sandbox) {
   db_query("UPDATE {log_type} SET name_edit = 1 WHERE type IN ('farm_seeding', 'farm_transplanting')");
 }
+
+/**
+ * Enable inventory tracking for planting assets.
+ */
+function farm_crop_update_7006(&$sandbox) {
+
+  // Load the planting asset type.
+  $asset_type = farm_asset_type_load('planting');
+
+  // Add the inventory settings.
+  $asset_type->inventory = array(
+    'type' => 'planting',
+    'enabled' => TRUE,
+    'individual' => TRUE,
+  );
+
+  // Save the asset type.
+  farm_asset_type_save($asset_type);
+}
