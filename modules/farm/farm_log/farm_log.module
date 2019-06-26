@@ -4,6 +4,9 @@
  * Code for the Farm Log feature.
  */
 
+use Drupal\farm_log\FarmLogAssetQuery;
+use Drupal\farm_log\FarmLogQuery;
+
 // Include Features code.
 include_once 'farm_log.features.inc';
 
@@ -607,156 +610,30 @@ function farm_log_prepopulate_log_form_references(&$form) {
 /**
  * Helper function for building a select query of logs related to assets.
  *
- * This builds on top of the more general farm_log_query() function.
- *
- * @see farm_log_query()
- *
- * @param int|string $asset_id
- *   The asset id to search for. This can either be a specific id, or a field
- *   alias string from another query (ie: 'mytable.assetid'). For an example
- *   of field alias string usage, see the Views field handler code in
- *   farm_movement_handler_relationship_location::query(). If this is omitted,
- *   the asset reference table will still be joined in, but no further
- *   filtering will be done.
- * @param int $time
- *   Unix timestamp limiter. Only logs before this time will be included.
- *   Defaults to the current time. Set to 0 to load the absolute last.
- * @param bool|null $done
- *   Whether or not to only show logs that are marked as "done". TRUE will limit
- *   to logs that are done, and FALSE will limit to logs that are not done. If
- *   this is set to NULL, no filtering will be applied. Defaults to TRUE.
- * @param string|null $type
- *   The log type to filter by. If this is NULL, no filtering will be applied.
- * @param bool $single
- *   Whether or not to limit the query to a single result. Defaults to TRUE.
- *
- * @return \SelectQuery
- *   Returns a SelectQuery object.
+ * @see Drupal\farm_log\FarmLogAssetQuery
  */
 function farm_log_asset_query($asset_id = NULL, $time = REQUEST_TIME, $done = TRUE, $type = NULL, $single = TRUE) {
-
-  /**
-   * Please read the comments in farm_log_query() to understand how this works,
-   * and to be aware of the limitations and responsibilities we have in this
-   * function with regard to sanitizing query inputs.
-   */
-
-  // Start with a query from the farm_log_query() helper function.
-  $query = farm_log_query($time, $done, $type, $single);
-
-  // Add a query tag to identify where this came from.
-  $query->addTag('farm_log_asset_query');
-
-  // Ensure $asset_id is valid, because it will be used directly in the query
-  // string. This is defensive code. See note about farm_log_query() above.
-  if (!is_numeric($asset_id) || $asset_id < 0) {
-    $asset_id = db_escape_field($asset_id);
-  }
-
-  // Join in asset reference field. Use an inner join to exclude logs that do
-  // not have any asset references.
-  $query->innerJoin('field_data_field_farm_asset', 'ss_fdffa', "ss_fdffa.entity_type = 'log' AND ss_fdffa.entity_id = ss_log.id AND ss_fdffa.deleted = 0");
-
-  // If an asset ID is specified, only include logs that reference it.
-  if (!empty($asset_id)) {
-    $query->where('ss_fdffa.field_farm_asset_target_id = ' . $asset_id);
-  }
-
-  // Return the query object.
-  return $query;
+  $query = new FarmLogAssetQuery();
+  $query->asset_id = $asset_id;
+  $query->time = $time;
+  $query->done = $done;
+  $query->type = $type;
+  $query->single = $single;
+  return $query->build();
 }
 
 /**
  * Helper function for building a select query of logs.
  *
- * This function is used by other modules to build queries and Views handlers
- * that need to find the most recent log in a specific context.
- *
- * Modules can use this to generate a base query, and then add their own
- * modifications on top of that.
- *
- * @param int $time
- *   Unix timestamp limiter. Only logs before this time will be included.
- *   Defaults to the current time. Set to 0 to load the absolute last.
- * @param $done
- *   Whether or not to only show logs that are marked as "done". TRUE will limit
- *   to logs that are done, and FALSE will limit to logs that are not done. If
- *   any other value is used, no filtering will be applied. Defaults to TRUE.
- * @param string|null $type
- *   The log type to filter by. If this is NULL, no filtering will be applied.
- * @param bool $single
- *   Whether or not to limit the query to a single result. Defaults to TRUE.
- *
- * @return \SelectQuery
- *   Returns a SelectQuery object.
+ * @see Drupal\farm_log\FarmLogQuery
  */
 function farm_log_query($time = REQUEST_TIME, $done = TRUE, $type = NULL, $single = TRUE) {
-
-  /**
-   * This query may be used as a sub-query join in a Views handler via the
-   * views_join_subquery class (for an example see:
-   * farm_movement_handler_relationship_location). When a sub-query is added
-   * via views_join_subquery, it is not possible to use query arguments in the
-   * sub-query itself. So we cannot use the query::condition() method, or any
-   * other methods that take query arguments separately and perform sanitation
-   * on them. Thus, it is the responsibility of this function to sanitize any
-   * inputs and use them directly in the SQL.
-   *
-   * We use the "ss_" prefix on aliases to avoid potential name conflicts when
-   * this query is used as a sub-select inside another query.
-   */
-
-  // Ensure $time is valid, because it may be used directly in the query
-  // string. This is defensive code. See note about views_join_subquery above.
-  if (!is_numeric($time) || $time < 0) {
-    $time = REQUEST_TIME;
-  }
-
-  // Ensure that $type is a valid strings, because we use it directly in the
-  // query's WHERE statements below. This is defensive code. See note about
-  // views_join_subquery in farm_log_query().
-  if (!is_null($type)) {
-    $type = db_escape_field($type);
-  }
-
-  // Build a query to find a log that references an asset.
-  $query = db_select('log', 'ss_log');
-
-  // Add a query tag to identify where this came from.
-  $query->addTag('farm_log_query');
-
-  // If $type is not empty, filter to logs of that type.
-  if (!empty($type)) {
-    $query->where("ss_log.type = '" . $type . "'");
-  }
-
-  // If $time is not zero, limit to only logs before it. This allows the
-  // absolute last log to be found by setting $time to zero.
-  if ($time !== 0) {
-    $query->where('ss_log.timestamp <= ' . $time);
-  }
-
-  // Filter logs based on whether they are done or not. This will only happen
-  // if $done is explicitly set to TRUE or FALSE. If any other value is used,
-  // filtering will not take place.
-  if ($done === TRUE) {
-    $query->where('ss_log.done = 1');
-  }
-  elseif ($done === FALSE) {
-    $query->where('ss_log.done = 0');
-  }
-
-  // Order by timestamp and then log id, descending.
-  $query->orderBy('ss_log.timestamp', 'DESC');
-  $query->orderBy('ss_log.id', 'DESC');
-
-  // Limit the query to a single result (the first one), if desired.
-  if (!empty($single)) {
-    $query->range(0, 1);
-  }
-
-  // Return the query object.
-  return $query;
+  $query = new FarmLogQuery();
+  $query->time = $time;
+  $query->done = $done;
+  $query->type = $type;
+  $query->single = $single;
+  return $query->build();
 }
 
 /**
