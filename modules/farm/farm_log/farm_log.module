@@ -621,7 +621,7 @@ function farm_log_asset_query($asset_id = NULL, $time = REQUEST_TIME, $done = TR
     'single' => $single,
   );
   $query = new FarmLogAssetQuery($params);
-  return $query->build();
+  return $query->getQuery();
 }
 
 /**
@@ -637,7 +637,7 @@ function farm_log_query($time = REQUEST_TIME, $done = TRUE, $type = NULL, $singl
     'single' => $single,
   );
   $query = new FarmLogQuery($params);
-  return $query->build();
+  return $query->getQuery();
 }
 
 /**

@@ -52,6 +52,9 @@ class FarmLogQuery {
         $this->{$key} = $value;
       }
     }
+
+    // Build the query.
+    $this->build();
   }
 
   /**
@@ -63,7 +66,7 @@ class FarmLogQuery {
    * Extending classes can use this to generate a base query, and then add their
    * own modifications on top of that.
    */
-  public function build() {
+  protected function build() {
 
     /**
      * This query may be used as a sub-query join in a Views handler via the
@@ -118,8 +121,14 @@ class FarmLogQuery {
     if (!empty($this->single)) {
       $this->query->range(0, 1);
     }
+  }
 
-    // Return the query object.
+  /**
+   * Return the query object.
+   *
+   * @return \SelectQuery
+   */
+  public function getQuery() {
     return $this->query;
   }
 }

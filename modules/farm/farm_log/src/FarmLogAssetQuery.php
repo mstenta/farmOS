@@ -21,7 +21,7 @@ class FarmLogAssetQuery extends FarmLogQuery {
   /**
    * @inheritDoc
    */
-  public function build() {
+  protected function build() {
     parent::build();
 
     /**
@@ -44,8 +44,5 @@ class FarmLogAssetQuery extends FarmLogQuery {
     if (!empty($this->asset_id)) {
       $this->query->where($this->prefix . 'fdffa.field_farm_asset_target_id = ' . $this->asset_id);
     }
-
-    // Return the query object.
-    return $this->query;
   }
 }
