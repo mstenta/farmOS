@@ -53,44 +53,42 @@ class FarmLogQuery {
       }
     }
 
+    // Sanitize the properties that will be used in the query.
+    $this->sanitize();
+
     // Build the query.
     $this->build();
   }
 
   /**
-   * Build a select query of logs.
+   * Sanitize properties that will be used directly in SQL.
    *
-   * This method is used by other modules to build queries and Views handlers
-   * that need to find the most recent log in a specific context.
-   *
-   * Extending classes can use this to generate a base query, and then add their
-   * own modifications on top of that.
+   * This query may be used as a sub-query join in a Views handler via the
+   * views_join_subquery class (for an example see:
+   * farm_movement_handler_relationship_location). When a sub-query is added
+   * via views_join_subquery, it is not possible to use query arguments in the
+   * sub-query itself. So we cannot use the query::condition() method, or any
+   * other methods that take query arguments separately and perform sanitation
+   * on them. Thus, it is the responsibility of this function to sanitize any
+   * inputs and use them directly in the SQL.
    */
-  protected function build() {
+  protected function sanitize() {
 
-    /**
-     * This query may be used as a sub-query join in a Views handler via the
-     * views_join_subquery class (for an example see:
-     * farm_movement_handler_relationship_location). When a sub-query is added
-     * via views_join_subquery, it is not possible to use query arguments in the
-     * sub-query itself. So we cannot use the query::condition() method, or any
-     * other methods that take query arguments separately and perform sanitation
-     * on them. Thus, it is the responsibility of this function to sanitize any
-     * inputs and use them directly in the SQL.
-     */
-
-    // Ensure $time is valid, because it may be used directly in the query
-    // string. This is defensive code. See note about views_join_subquery above.
+    // Ensure $time is valid.
     if (!is_numeric($this->time) || $this->time < 0) {
       $this->time = REQUEST_TIME;
     }
 
-    // Ensure that $type is a valid strings, because we use it directly in the
-    // query's WHERE statements below. This is defensive code. See note about
-    // views_join_subquery in farm_log_query().
+    // Ensure that $type is a valid string.
     if (!is_null($this->type)) {
       $this->type = db_escape_field($this->type);
     }
+  }
+
+  /**
+   * Build a select query of logs.
+   */
+  protected function build() {
 
     // If $type is not empty, filter to logs of that type.
     if (!empty($this->type)) {

@@ -21,20 +21,26 @@ class FarmLogAssetQuery extends FarmLogQuery {
   /**
    * @inheritDoc
    */
-  protected function build() {
-    parent::build();
+  protected function sanitize() {
+    parent::sanitize();
 
     /**
-     * Please read the comments in farm_log_query() to understand how this works,
-     * and to be aware of the limitations and responsibilities we have in this
-     * function with regard to sanitizing query inputs.
+     * Please read the comments in FarmLogQuery::sanitize() to understand how
+     * this works, and to be aware of the limitations and responsibilities we
+     * have in this function with regard to sanitizing query inputs.
      */
 
-    // Ensure $asset_id is valid, because it will be used directly in the query
-    // string. This is defensive code. See note about farm_log_query() above.
+    // Ensure $asset_id is valid.
     if (!is_numeric($this->asset_id) || $this->asset_id < 0) {
       $this->asset_id = db_escape_field($this->asset_id);
     }
+  }
+
+  /**
+   * Build a select query of logs that reference a particular asset.
+   */
+  protected function build() {
+    parent::build();
 
     // Join in asset reference field. Use an inner join to exclude logs that do
     // not have any asset references.
