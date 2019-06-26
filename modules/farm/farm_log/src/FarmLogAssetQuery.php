@@ -8,7 +8,7 @@ namespace Drupal\farm_log;
 class FarmLogAssetQuery extends FarmLogQuery {
 
   // Set a query tag to identify where this came from.
-  public $tag = 'FarmLogAssetQuery';
+  protected $tag = 'FarmLogAssetQuery';
 
   // The asset id to search for. This can either be a specific id, or a field
   // alias string from another query (ie: 'mytable.asset_id'). For an example of
@@ -16,7 +16,7 @@ class FarmLogAssetQuery extends FarmLogQuery {
   // farm_movement_handler_relationship_location::query(). If this is omitted,
   // the asset reference table will still be joined in, but no further filtering
   // will be done.
-  public $asset_id = NULL;
+  protected $asset_id = NULL;
 
   /**
    * @inheritDoc

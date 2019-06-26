@@ -613,12 +613,14 @@ function farm_log_prepopulate_log_form_references(&$form) {
  * @see Drupal\farm_log\FarmLogAssetQuery
  */
 function farm_log_asset_query($asset_id = NULL, $time = REQUEST_TIME, $done = TRUE, $type = NULL, $single = TRUE) {
-  $query = new FarmLogAssetQuery();
-  $query->asset_id = $asset_id;
-  $query->time = $time;
-  $query->done = $done;
-  $query->type = $type;
-  $query->single = $single;
+  $params = array(
+    'asset_id' => $asset_id,
+    'time' => $time,
+    'done' => $done,
+    'type' => $type,
+    'single' => $single,
+  );
+  $query = new FarmLogAssetQuery($params);
   return $query->build();
 }
 
@@ -628,11 +630,13 @@ function farm_log_asset_query($asset_id = NULL, $time = REQUEST_TIME, $done = TR
  * @see Drupal\farm_log\FarmLogQuery
  */
 function farm_log_query($time = REQUEST_TIME, $done = TRUE, $type = NULL, $single = TRUE) {
-  $query = new FarmLogQuery();
-  $query->time = $time;
-  $query->done = $done;
-  $query->type = $type;
-  $query->single = $single;
+  $params = array(
+    'time' => $time,
+    'done' => $done,
+    'type' => $type,
+    'single' => $single,
+  );
+  $query = new FarmLogQuery($params);
   return $query->build();
 }
 

@@ -11,37 +11,47 @@ class FarmLogQuery {
   protected $query;
 
   // Set a query tag to identify where this came from.
-  public $tag = 'FarmLogQuery';
+  protected $tag = 'FarmLogQuery';
 
   // We use an explicit prefix on aliases to avoid potential name conflicts when
   // this query is used as a sub-select inside another query.
-  public $prefix = 'ss_';
+  protected $prefix = 'ss_';
 
   // Unix timestamp limiter. Only logs before this time will be included.
   // Defaults to the current time. Set to 0 to load the absolute last.
-  public $time = REQUEST_TIME;
+  protected $time = REQUEST_TIME;
 
   // Whether or not to only show logs that are marked as "done". TRUE will limit
   // to logs that are done, and FALSE will limit to logs that are not done. If
   // this is set to NULL, no filtering will be applied.
-  public $done = TRUE;
+  protected $done = TRUE;
 
   // The log type to filter by. If this is NULL, no filtering will be applied.
-  public $type = NULL;
+  protected $type = NULL;
 
   // Whether or not to limit the query to a single result.
-  public $single = TRUE;
+  protected $single = TRUE;
 
   /**
-   * Construct.
+   * Constructor.
+   *
+   * @param array $params
+   *   Parameters for limiting the query results.
    */
-  public function __construct() {
+  public function __construct($params = array()) {
 
     // Build a query of the log table with our prefix.
     $this->query = db_select('log',  $this->prefix . 'log');
 
     // Add a query tag to identify where this came from.
     $this->query->addTag($this->tag);
+
+    // Process parameters.
+    if (!empty($params)) {
+      foreach ($params as $key => $value) {
+        $this->{$key} = $value;
+      }
+    }
   }
 
   /**
