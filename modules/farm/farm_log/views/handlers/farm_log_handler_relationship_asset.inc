@@ -58,6 +58,7 @@ class farm_log_handler_relationship_asset extends views_handler_relationship {
    *
    */
   protected function build_query($asset_id, $time, $done) {
+
     return farm_log_asset_query($asset_id, $time, $done);
   }
 

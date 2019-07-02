@@ -498,7 +498,10 @@ function farm_movement_asset_next_movement(FarmAsset $asset, $time = REQUEST_TIM
  *   Returns a SelectQuery object.
  */
 function farm_movement_asset_movement_query($asset_id, $time = REQUEST_TIME, $done = TRUE, $single = TRUE, $field = 'log_id') {
-
+  /**
+   * @todo
+   * Convert to class that extends FarmLogQuery.
+   */
   /**
    * Please read the comments in farm_log_asset_query() to understand how this
    * works, and to be aware of the limitations and responsibilities we have in
@@ -552,7 +555,10 @@ function farm_movement_asset_movement_query($asset_id, $time = REQUEST_TIME, $do
  *   Returns a SelectQuery object.
  */
 function farm_movement_area_movement_query($area_id, $time = REQUEST_TIME, $done = TRUE) {
-
+  /**
+   * @todo
+   * Convert to class that extends FarmLogQuery.
+   */
   /**
    * Please read the comments in farm_log_query() to understand how this works,
    * and to be aware of the limitations and responsibilities we have in this
@@ -667,7 +673,10 @@ function farm_movement_area_assets($area, $time = REQUEST_TIME, $done = TRUE, $a
  *   Returns a SelectQuery object.
  */
 function farm_movement_area_assets_query($area_id, $time = REQUEST_TIME, $done = TRUE, $archived = FALSE) {
-
+  /**
+   * @todo
+   * Convert to class that extends FarmLogQuery.
+   */
   /**
    * @todo
    * Merge/abstract with farm_group_members_query().
