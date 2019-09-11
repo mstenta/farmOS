@@ -71,9 +71,6 @@ function farm_install() {
 
   // Use the farm menu for primary links (provided by farm_admin).
   variable_set('menu_main_links_source', 'farm');
-
-  // Set the Openlayers library variant to local.
-  \Drupal\openlayers\Config::set('openlayers.variant', 'local:4.6.4');
 }
 
 /**

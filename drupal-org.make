@@ -100,31 +100,6 @@ projects[multiupload_imagefield_widget][version] = "1.3"
 projects[navbar][subdir] = "contrib"
 projects[navbar][version] = "1.7"
 
-projects[openlayers][subdir] = "contrib"
-projects[openlayers][download][type] = "git"
-projects[openlayers][download][url] = "https://git.drupal.org/project/openlayers.git"
-projects[openlayers][download][branch] = "7.x-3.x"
-projects[openlayers][download][revision] = "569e90ca74ea1862c9ecfbc16836242e205de778"
-; Move Elements dependency to Openlayers Examples.
-projects[openlayers][patch][] = "http://www.drupal.org/files/issues/openlayers_examples_elements_dependency-2620098-2.patch"
-; Switch to ROADMAP when zoomed further than Google's max zoom level.
-projects[openlayers][patch][] = "http://www.drupal.org/files/issues/openlayers_gmap_zoom_switch_type-2680273-1.patch"
-; Add a jQuery trigger event when popups are displayed.
-projects[openlayers][patch][] = "http://www.drupal.org/files/issues/openlayers_popup_trigger-2687781-1.patch"
-; Issue #2644580: Maps with Google layers break when loaded in invisible element
-projects[openlayers][patch][] = "http://www.drupal.org/files/issues/openlayers_googlemaps_refresh-2644580-19.patch"
-; Issue #2911611: Update ZoomToSource Component: use new view.animate() method.
-projects[openlayers][patch][] = "http://www.drupal.org/files/issues/openlayers_ol4_zoomtosource-2911611-4.patch"
-; Issue #2946213: Google maps do not support fractional zoom
-projects[openlayers][patch][] = "http://www.drupal.org/files/issues/openlayers_googlemaps_fractional_zoom-2946213-2.patch"
-; Issue #3006751: PHP 7 support
-projects[openlayers][patch][] = "http://www.drupal.org/files/issues/2018-10-30/openlayers-2952602-6-php-72.patch"
-; Remove base layer assignment code.
-projects[openlayers][patch][] = "http://www.drupal.org/files/issues/2018-11-01/openlayers_base_layer_mechanism-2543130-12.patch"
-
-projects[openlayers_geolocate_button][subdir] = "contrib"
-projects[openlayers_geolocate_button][version] = "3.2"
-
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.3"
 ; Fix SQLite3 issue.
@@ -132,9 +107,6 @@ projects[pathauto][patch][] = "http://www.drupal.org/files/issues/2582655-path-p
 
 projects[pathauto_entity][subdir] = "contrib"
 projects[pathauto_entity][version] = "1.0"
-
-projects[registry_autoload][subdir] = "contrib"
-projects[registry_autoload][version] = "1.3"
 
 projects[restws][subdir] = "contrib"
 projects[restws][version] = "2.8"
@@ -154,9 +126,6 @@ projects[restws_file][download][revision] = "0052e281117ebe7356ae4fef638fbf74c0e
 projects[restws_file][download][branch] = "7.x-1.x"
 ; Ensure that files are saved to the correct directory.
 projects[restws_file][patch][] = "http://www.drupal.org/files/issues/2018-08-14/restws_file_field_info_file_directory-2780125-11.patch"
-
-projects[service_container][subdir] = "contrib"
-projects[service_container][version] = "1.0-beta5"
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
@@ -209,9 +178,6 @@ libraries[easy-responsive-tabs][download][url] = "https://github.com/samsono/Eas
 
 libraries[modernizr][download][type] = "get"
 libraries[modernizr][download][url] = "http://github.com/Modernizr/Modernizr/archive/v2.8.3.zip"
-
-libraries[openlayers3][download][type] = "get"
-libraries[openlayers3][download][url] = "http://github.com/openlayers/openlayers/releases/download/v4.6.4/v4.6.4.zip"
 
 libraries[underscore][download][type] = "get"
 libraries[underscore][download][url] = "http://github.com/jashkenas/underscore/archive/1.9.1.zip"
