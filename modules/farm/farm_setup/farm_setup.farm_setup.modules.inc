@@ -59,10 +59,32 @@ function farm_setup_modules_form($form, &$form_state) {
   // Load the list of available modules.
   $modules = farm_setup_modules();
 
-  // Allow user to choose which high-level farm modules to install.
+  /**
+   * @todo
+   * Test batch.
+   * Select modules that are already enabled.
+   * Do not allow unselecting modules.
+   * Wrap entire form in a fieldset.
+   * Provide high-level farm-type checkboxes, which auto-select modules:
+   *   Row crops
+   *   Diversified produce
+   *   Livestock
+   *   Custom
+   * Move checkboxes to a "Customize" fieldset (collapsed).
+   * Decide how to handle the hook_install_tasks().
+   * hook_update_N() in farm.install to install farm_setup on existing sites
+   * Add a list of pre-approved contrib farmOS modules, use system_rebuild_module_data()
+   *   to check if they are present, and then show them as optional checkboxes in the setup wizard
+   * Need a variable to know whether or not setup was run
+   */
+
+  // Build a list of module options.
   $module_options = array_merge($modules['default'], $modules['optional']);
+
   // Default modules will be selected by default.
   $module_defaults = array_keys($modules['default']);
+
+  // Module checkboxes.
   $form['modules'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Modules'),
