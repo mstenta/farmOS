@@ -3,6 +3,8 @@
     attach: function (context, settings) {
 
       // Calculate the timezone offset in milliseconds.
+      // @todo
+      // Get the user/site timezone from Drupal.
       var tzoffset = (new Date()).getTimezoneOffset() * 60000;
 
       // Iterate through the graphs.
