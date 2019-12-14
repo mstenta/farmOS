@@ -5,6 +5,21 @@
       // Create a popup and add it to the instance for future reference.
       instance.popup = instance.addPopup(function (event) {
         var content = '';
+        /**
+         * @todo
+         * This is only getting the last feature.
+         * We should be smarter about this: show info for all features at the
+         * pixel in the same popup.
+         * Hmm... but how do you show "area details" if multiple areas are
+         * selected?
+         * Perhaps just show a list of the areas, with an "(overview)" link that
+         * then initiates loading the area details via AJAX. So it would replace
+         * the popup content.
+         * ...
+         * Also: add a link to "Summarize all records at this point"
+         * Initiates AJAX request to new endpoint that performs an intersection
+         * query on the entire geofield table.
+         */
         var feature = instance.map.forEachFeatureAtPixel(event.pixel, function(feature, layer) { return feature; });
         if (feature) {
 
