@@ -249,6 +249,14 @@ function farm_map_add_behavior($behavior, $settings = array()) {
     }
 
     // If the module defines settings for the behavior, add them as JS settings.
+    /**
+     * @todo
+     * Make sure that each module only adds settings once for each behavior.
+     * This will remove the need for the static variable in
+     * farm_area_farm_map_behavior_settings and
+     * farm_movement_farm_map_behavior_settings, and therefore fix the conflic
+     * between assets_full and assets_cluster.
+     */
     $settings_hook = 'farm_map_behavior_settings';
     $default_settings = array();
     if (function_exists($module . '_' . $settings_hook)) {
