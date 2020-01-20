@@ -342,6 +342,16 @@ function farm_area_generate_form_submit(&$form, &$form_state) {
   // Generate child geometries.
   $geometries = farm_area_generate_geometries($polygon, $count, $orientation);
 
+  /**
+   * @todo
+   * Is it possible for this to end up saving a "GEOMETRYCOLLECTION EMPTY"?
+   * If so, we should still create the area? This came up with Daniel Kemper at
+   * Rodale. Ended up causing a fatal PHP error, which I fixed elsewhere in the
+   * code. But raised my awareness to the fact that "GEOMETRYCOLLECTION EMPTY"
+   * probably shouldn't ever be saved on areas or logs. Need to check to see
+   * if the new geofield widget will clear that out or not.
+   */
+
   // Iterate through the geometries and save each one as a new area.
   foreach ($geometries as $key => $geometry) {
 
