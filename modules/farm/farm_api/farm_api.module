@@ -38,7 +38,48 @@ function farm_api_menu() {
  * Farm info API callback.
  */
 function farm_api_info() {
-  $info = module_invoke_all('farm_info');
+
+  // Start an empty info array.
+  $info = array();
+
+  // Check for an authenticated user with access to farmOS API info.
+  $access = user_access('access farm api info');
+
+  // Iterate through all modules that implement hook_farm_info().
+  $hook = 'farm_info';
+  $modules = module_implements($hook);
+  foreach ($modules as $module) {
+
+    // Invoke the hook to get info.
+    $module_info = module_invoke($module, $hook);
+
+    // If the info is empty, skip it.
+    if (!is_array($module_info)) {
+      continue;
+    }
+
+    // Iterate through the info items.
+    foreach ($module_info as $item) {
+
+      // If the item is an array with an 'info' key, that is what we will
+      // include.
+      if (is_array($item) && !empty($item['info'])) {
+
+        // If the user is authenticated with permission OR if an OAuth2 scope is
+        // defined and accessible, add the item to the info array.
+        if ($access || (!empty($item['scope']) && farm_api_check_access($item['scope']))) {
+          $info = array_merge($info, $item['info']);
+        }
+      }
+
+      // Otherwise, if the user has permission, add the item to the info array.
+      elseif ($access) {
+        $info = array_merge($info, $item);
+      }
+    }
+  }
+
+  // Output as JSON.
   drupal_json_output($info);
 }
 
