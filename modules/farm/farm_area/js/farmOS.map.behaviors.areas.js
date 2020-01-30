@@ -25,6 +25,12 @@
       }
 
       // Load area details via AJAX when an area popup is displayed.
+      /**
+       * @todo
+       * If the popup is closed before this finishes loading, it ends up
+       * breaking the map position. Ideally we should detect if the popup
+       * is closed and return before that happens.
+       */
       instance.popup.on('farmOS-map.popup', function (event) {
         var area_details = jQuery('.ol-popup-description .area-details');
         if (area_details.attr('id') === undefined) {
