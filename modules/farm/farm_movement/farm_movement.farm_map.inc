@@ -77,6 +77,10 @@ function farm_movement_farm_map_view($name, $element) {
 
   // Add combined areas to the map used in the asset move action and zoom to it.
   elseif ($name == 'asset_move_action') {
+    /**
+     * @todo
+     * for some reason zoom is ending up false in JS setting??
+     */
     farm_map_add_behavior('areas_combined', array('zoom' => TRUE));
   }
 }
