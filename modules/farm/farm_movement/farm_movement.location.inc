@@ -821,6 +821,8 @@ function farm_movement_asset_move_action_form(array $context, array $form_state)
     '#required' => TRUE,
   );
 
+  $form['map'] = farm_map_build('asset_move_action', TRUE, t('Specific geometry'), TRUE);
+
   // Done field.
   $form['done'] = array(
     '#type' => 'checkbox',

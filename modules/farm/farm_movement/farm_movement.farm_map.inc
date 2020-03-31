@@ -74,4 +74,9 @@ function farm_movement_farm_map_view($name, $element) {
     farm_map_add_behavior('assets_cluster');
     farm_map_add_behavior('popup');
   }
+
+  // Add combined areas to the map used in the asset move action and zoom to it.
+  elseif ($name == 'asset_move_action') {
+    farm_map_add_behavior('areas_combined', array('zoom' => TRUE));
+  }
 }
