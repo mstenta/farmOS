@@ -10,6 +10,9 @@ ARG FARMOS_BRANCH=7.x-1.x
 # Install Xdebug.
 RUN yes | pecl install xdebug \
 	  && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
+    # This sets the default remote_host for Windows and Mac users. Linux users
+    # still need to override this in docker-compose.yml.
+    && echo "xdebug.remote_host=host.docker.internal" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini
 

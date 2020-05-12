@@ -11,6 +11,8 @@ services:
       MYSQL_DATABASE: farm
       MYSQL_USER: farm
       MYSQL_PASSWORD: farm
+      # Enable this if your hard drive is not SSD.
+#      MYSQL_INITDB_SKIP_TZINFO: 1 # @see https://github.com/docker-library/mariadb/issues/262
 
   www:
     depends_on:
@@ -20,5 +22,6 @@ services:
       - './www:/var/www/html'
     ports:
       - '80:80'
-    environment:
-      XDEBUG_CONFIG: remote_host=172.17.0.1
+    # On Linux, uncomment these lines and set the IP address to match the host.
+#    environment:
+#      XDEBUG_CONFIG: remote_host=172.17.0.1
