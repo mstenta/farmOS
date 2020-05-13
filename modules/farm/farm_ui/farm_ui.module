@@ -102,14 +102,6 @@ function farm_ui_farm_info() {
           'type' => $field['type'],
           'required' => $field_instance['required'],
         );
-        /**
-         * @deprecated
-         * The 'default_value' is not reliable, and will be removed from farmOS
-         * in 7.x-1.5.
-         */
-        if (array_key_exists('default_value', $field_instance)) {
-          $field_info['default_value'] = $field_instance['default_value'];
-        }
         if (array_key_exists($field['type'], $field_type_schemas)) {
           $data_schema = $field_type_schemas[$field['type']];
           if (array_key_exists($field_instance['field_name'], $field_type_schema_exceptions)) {
