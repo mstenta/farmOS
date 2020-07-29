@@ -2,20 +2,13 @@
 
 /**
  * @file
- * Farm metrics hooks implemented by farm_ui module.
+ * Farm metrics hooks implemented by farm_metrics module.
  */
 
 /**
  * Implements hook_farm_metrics().
  */
-function farm_ui_farm_metrics() {
-
-  /**
-   * @todo
-   * Move this out of farm_ui.
-   * Currently it depends on farm_ui_entities() function, which should be moved
-   * to a new general-purpose farm_entity module.
-   */
+function farm_metrics_farm_metrics() {
 
   // Start an empty metrics array.
   $metrics = array();
