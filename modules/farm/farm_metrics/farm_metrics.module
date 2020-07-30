@@ -73,6 +73,9 @@ function farm_metrics() {
     $metrics[$key] = array_merge($defaults, $metric);
   }
 
+  // Allow modules to alter metrics.
+  drupal_alter('farm_metrics', $metrics);
+
   // Sort the metrics by weight ascending, value descending.
   $weight_index = array();
   $value_index = array();

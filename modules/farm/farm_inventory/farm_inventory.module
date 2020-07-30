@@ -387,6 +387,19 @@ function farm_inventory_individual(FarmAsset $asset) {
 }
 
 /**
+ * Returns the total inventory of assets of a given type.
+ *
+ * @param $type
+ *   The asset type (bundle).
+ *
+ * @return string
+ *   Returns a string representing the total inventory.
+ */
+function farm_inventory_asset_type_total($type) {
+  return '1000';
+}
+
+/**
  * Calculate an asset's inventory level.
  *
  * @param FarmAsset $asset

@@ -47,5 +47,17 @@ function hook_farm_metrics() {
 }
 
 /**
+ * Alter farm metrics.
+ *
+ * @param array &$metrics
+ *   An array of metrics provided by other modules, passed by reference.
+ */
+function hook_farm_metrics_alter(&$metrics) {
+  if (!empty($metrics['example'])) {
+    $metrics['example']['label'] = t('Example altered title');
+  }
+}
+
+/**
  * @}
  */

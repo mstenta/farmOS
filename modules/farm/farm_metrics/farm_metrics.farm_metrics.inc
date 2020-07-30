@@ -35,6 +35,18 @@ function farm_metrics_farm_metrics() {
     );
   }
 
+  // If the inventory module is installed, and inventory tracking is enabled
+  // for this asset type, query the total inventory count.
+  if (!module_exists('farm_inventory')) {
+    $inventory_asset_types = farm_inventory_asset_types();
+    foreach ($metrics as $type => $metric) {
+      if (!in_array($type, $inventory_asset_types)) {
+        continue;
+      }
+      $metrics[$type]['value'] = farm_inventory_asset_type_total($type);
+    }
+  }
+
   // Return the metrics.
   return $metrics;
 }
