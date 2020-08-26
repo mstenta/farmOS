@@ -173,7 +173,10 @@ function farm_plan_form(array $form, array &$form_state, FarmPlan $farm_plan) {
  *   The form state array.
  */
 function farm_plan_form_validate(array $form, array &$form_state) {
-
+  $farm_plan = $form_state['values']['farm_plan'];
+  entity_form_submit_build_entity('farm_asset', $farm_plan, $form, $form_state);
+  $form['#entity'] = $farm_plan;
+  field_attach_form_validate('farm_plan', $farm_plan, $form, $form_state);
 }
 
 /**
@@ -185,9 +188,7 @@ function farm_plan_form_validate(array $form, array &$form_state) {
  *   The form state array.
  */
 function farm_plan_form_submit(array $form, array &$form_state) {
-  $farm_plan = $form_state['values']['farm_plan'];
-
-  entity_form_submit_build_entity('farm_plan', $farm_plan, $form, $form_state);
+  $farm_plan = $form['#entity'];
 
   farm_plan_save($farm_plan);
 

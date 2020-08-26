@@ -176,6 +176,9 @@ function farm_asset_form(array $form, array &$form_state, FarmAsset $farm_asset)
  *   The form state array.
  */
 function farm_asset_form_validate(array $form, array &$form_state) {
+  $farm_asset = $form_state['values']['farm_asset'];
+  entity_form_submit_build_entity('farm_asset', $farm_asset, $form, $form_state);
+  $form['#entity'] = $farm_asset;
 
   // If the 'archived_boolean' checkbox has changed, update the asset.
   if ($form_state['values']['archived_boolean'] != $form['asset_status']['archived_boolean']['#default_value']) {
@@ -201,7 +204,7 @@ function farm_asset_form_validate(array $form, array &$form_state) {
  *   The form state array.
  */
 function farm_asset_form_submit(array $form, array &$form_state) {
-  $farm_asset = $form_state['values']['farm_asset'];
+  $farm_asset = $form['#entity'];
 
   entity_form_submit_build_entity('farm_asset', $farm_asset, $form, $form_state);
 
