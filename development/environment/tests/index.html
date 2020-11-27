@@ -423,9 +423,38 @@
       
     
     
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Automated tests
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
     <a href="./" class="md-nav__link md-nav__link--active">
       Automated tests
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#faster-testing-without-xdebug" class="md-nav__link">
+    Faster testing without XDebug
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
     
   </li>
 
@@ -518,6 +547,21 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#faster-testing-without-xdebug" class="md-nav__link">
+    Faster testing without XDebug
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -534,12 +578,43 @@
 dependencies necessary for running automated tests via
 <a href="https://phpunit.de">PHPUnit</a>.</p>
 <p>The following command will run all automated tests provided by farmOS:</p>
-<pre><code>docker exec -it -u www-data farmos_www_1 phpunit --verbose --debug --group farm
+<pre><code class="language-sh">docker exec -it -u www-data farmos_www_1 phpunit --verbose --debug --group farm
 </code></pre>
 <p>Tests from other projects/dependencies can be run in a similar fashion. For
 example, the following command will run all tests in the Log module:</p>
-<pre><code>docker exec -it -u www-data farmos_www_1 phpunit --verbose --debug --group Log
+<pre><code class="language-sh">docker exec -it -u www-data farmos_www_1 phpunit --verbose --debug --group Log
 </code></pre>
+<h2 id="faster-testing-without-xdebug">Faster testing without XDebug<a class="headerlink" href="#faster-testing-without-xdebug" title="Permanent link">&para;</a></h2>
+<p>The instructions above will run tests with XDebug enabled which may be helpful
+for <a href="/development/environment/debug">debugging</a>, but is also slower. One way to avoid
+XDebug is to run the tests via the prod farmOS image.</p>
+<p>The automated tests which run upon Github check-in follow this strategy which is
+orchestrated via <a href="https://raw.githubusercontent.com/farmOS/farmOS/2.x/.github/workflows/run-tests.yml">run-tests.yml</a> and <a href="https://raw.githubusercontent.com/farmOS/farmOS/2.x/docker/docker-compose.testing.yml">docker-compose.testing.yml</a>.</p>
+<p>Something similar can be accomplished locally by adding an additional container to one's
+dev environment using the <code>farmos/farmos:2.x</code> image and mounting the same volume from the
+dev container to <code>/opt/drupal</code>.</p>
+<p>In a docker-compose.yml based off <a href="https://raw.githubusercontent.com/farmOS/farmOS/2.x/docker/docker-compose.development.yml">docker-compose.development.yml</a>, this might look like;</p>
+<pre><code class="language-yml">  test-runner:
+    image: farmos/farmos:2.x
+    volumes:
+      - './www:/opt/drupal'
+</code></pre>
+<p>The tests could then be run via <code>docker-compose exec</code> as follows;</p>
+<pre><code class="language-sh">docker-compose exec -u www-data -T test-runner phpunit --verbose --debug --group farm
+</code></pre>
+<p><em>Note: As described in the <a href="/development/environment/docker">farmOS docker documentation</a>,
+the dev docker container uses a different user id for the <code>www-data</code> user - by default 1000.
+Since that id differs from the default <code>www-data</code> user id for the prod image - 33 - the permissions
+of the files mounted to <code>/opt/drupal</code> will cause tests to fail. Solutions to this will be specific
+to a developers environment, but some approaches are outlined below;</em></p>
+<ul>
+<li>Build a docker image derived from <code>farmos/farmos:2.x</code> which sets the id of the <code>www-data</code> user 
+to match that of the dev image by including <code>RUN usermod -u ${WWW_DATA_ID} www-data &amp;&amp; groupmod -g ${WWW_DATA_ID} www-data</code>
+and passing <code>WWW_DATA_ID</code> as a build build-arg</li>
+<li>Before launching the tests, use <code>chmod</code>/<code>chown</code>/<code>setfacl</code> to modify the permissions of the files
+mounted to <code>/opt/drupal</code> such that user id 33 can access them</li>
+<li>Rebuild the dev docker image to also use 33 as the user id of the <code>www-data</code> user</li>
+</ul>
                 
               
               
