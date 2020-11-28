@@ -11,3 +11,4 @@ dependencies:
   - farm:farm_location
   - farm:farm_ui_menu
   - log:log
+  - verf:verf
