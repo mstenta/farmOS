@@ -59,6 +59,9 @@
                 "Issue #3167287: Always load clients through the Client Repository service": "https://www.drupal.org/files/issues/2020-09-29/3167287-9.patch",
                 "Issue #3174572: Passing a third argument to headers->get() is deprecated": "https://www.drupal.org/files/issues/2020-10-02/3174572-2.patch",
                 "Issue #3186301: Make $modules variable protected in tests": "https://www.drupal.org/files/issues/2020-12-03/3186301-2.patch"
+            },
+            "drupal/verf": {
+                "Issue #3113519: SQL JOIN column name error": "https://www.drupal.org/files/issues/2020-02-14/3113519-issue.patch"
             }
         }
     },
