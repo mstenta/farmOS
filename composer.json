@@ -33,6 +33,7 @@
         "drupal/migrate_tools": "^5.0",
         "drupal/simple_oauth": "^5.0",
         "drupal/token": "^1.7",
+        "drupal/verf": "^1.0",
         "lcobucci/jwt": "3.3.3"
     },
     "_comments": {
