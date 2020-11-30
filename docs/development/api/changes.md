@@ -2,6 +2,8 @@
 
 ## 2.x vs 1.x
 
+@todo link to auth changes to highlight content type and new token url
+
 farmOS 1.x used the [RESTful Web Services](https://drupal.org/project/restws)
 module, which provided API endpoints for each entity type (asset, log, taxonomy
 term, etc).
