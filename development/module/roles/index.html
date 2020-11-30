@@ -692,8 +692,8 @@ type.</li>
 </ul>
 <p>Settings used for the Manager role (full access to all entities + access to
 configuration):</p>
-<pre><code class="language-yaml"># user.role.farm_manager.yml
-... standard role config ...
+<p><code>user.role.farm_manager.yml</code></p>
+<pre><code class="language-yaml"># (standard role config goes here)
 third_party_settings:
   farm_role:
     access:
@@ -712,8 +712,8 @@ third_party_settings:
 <li>Only update planting assets.</li>
 <li>View, edit and delete any taxonomy_term entity.</li>
 </ul>
-<pre><code class="language-yaml"># user.role.farm_harvester.yml
-... standard role config ...
+<p><code>user.role.farm_harvester.yml</code></p>
+<pre><code class="language-yaml"># (standard role config goes here)
 third_party_settings:
   farm_role:
     access:
@@ -751,8 +751,8 @@ are provided by creating a <code>ManagedRolePermissions</code> plugin in the
   based on the managed role's settings.</li>
 </ul>
 <p>As an example, the <code>farm_role</code> module provides the following permissions:</p>
-<pre><code class="language-yaml"># farm_role.managed_role_permissions.yml
-farm_role:
+<p><code>farm_role.managed_role_permissions.yml</code></p>
+<pre><code class="language-yaml">farm_role:
   default_permissions:
     - access content
     - access administration pages
@@ -764,15 +764,14 @@ farm_role:
 <h4 id="permission-callbacks">Permission callbacks<a class="headerlink" href="#permission-callbacks" title="Permanent link">&para;</a></h4>
 <p>Example that adds permissions conditionally based on the role name and settings:</p>
 <p>Plugin definition:</p>
-<pre><code class="language-yaml"># my_module.managed_role_permissions.yml
-my_module:
+<p><code>my_module.managed_role_permissions.yml</code></p>
+<pre><code class="language-yaml">my_module:
   permission_callbacks:
     - Drupal\my_module\CustomPermissions::permissions
 </code></pre>
 <p>Example implementation of a <code>permission_callback</code>:</p>
+<p><code>my_module/src/CustomPermissions.php</code></p>
 <pre><code class="language-php">&lt;?php
-
-# my_module/src/CustomPermissions.php
 
 namespace Drupal\my_module;
 
@@ -783,6 +782,15 @@ use Drupal\user\RoleInterface;
  */
 class CustomPermissions {
 
+  /**
+   * Return an array of permission strings that will be added to the role.
+   *
+   * @param \Drupal\user\RoleInterface $role
+   *   The role to add permissions to.
+   *
+   * @return array
+   *   An array of permission strings.
+   */
   public function permissions(RoleInterface $role) {
 
     // Array of permissions to return.
