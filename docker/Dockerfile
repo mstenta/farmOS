@@ -10,22 +10,6 @@ ARG PROJECT_VERSION=2.x
 # Install the BCMath PHP extension.
 RUN docker-php-ext-install bcmath
 
-# Build and install the GEOS PHP extension.
-# See https://git.osgeo.org/gitea/geos/php-geos
-RUN apt-get update && apt-get install -y libgeos-dev \
-  && curl -fsSL 'https://git.osgeo.org/gitea/geos/php-geos/archive/1.0.0.tar.gz' -o php-geos.tar.gz \
-  && tar -xzf php-geos.tar.gz \
-  && rm php-geos.tar.gz \
-  && ( \
-    cd php-geos \
-    && ./autogen.sh \
-    && ./configure \
-    && make \
-    && make install \
-  ) \
-  && rm -r php-geos \
-  && docker-php-ext-enable geos
-
 # Set recommended PHP settings for farmOS.
 # See https://farmos.org/hosting/installing/#requirements
 RUN { \
