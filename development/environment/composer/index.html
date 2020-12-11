@@ -449,13 +449,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#updating-dependencies" class="md-nav__link">
-    Updating dependencies
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#adding-a-module" class="md-nav__link">
     Adding a module
   </a>
@@ -615,13 +608,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#updating-dependencies" class="md-nav__link">
-    Updating dependencies
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#adding-a-module" class="md-nav__link">
     Adding a module
   </a>
@@ -662,16 +648,13 @@ command inside the farmOS container.</p>
 <pre><code>docker exec -it -u www-data farmos_www_1 composer
 </code></pre>
 <p>For example, the following will run the <code>composer help</code> command:</p>
-<pre><code>docker exec -it -u www-data farmos_www_1 composer help
-</code></pre>
-<h2 id="common-tasks">Common tasks<a class="headerlink" href="#common-tasks" title="Permanent link">&para;</a></h2>
-<p>Some common Composer tasks are documented here.</p>
-<h3 id="updating-dependencies">Updating dependencies<a class="headerlink" href="#updating-dependencies" title="Permanent link">&para;</a></h3>
-<pre><code>composer update [package-name]
+<pre><code>docker exec -it -u www-data farmos_www_1 composer help'
 </code></pre>
 <p><strong>Warning</strong>: If <code>composer update farmos/farmos</code> is run, it will replace the
 Git repository in <code>web/profiles/farm</code>, discarding all
 changes/branches/remotes/etc.</p>
+<h2 id="common-tasks">Common tasks<a class="headerlink" href="#common-tasks" title="Permanent link">&para;</a></h2>
+<p>Some common Composer tasks are documented here.</p>
 <h3 id="adding-a-module">Adding a module<a class="headerlink" href="#adding-a-module" title="Permanent link">&para;</a></h3>
 <pre><code>composer require drupal/[module]
 </code></pre>
