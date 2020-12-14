@@ -280,6 +280,18 @@
           
           
 
+
+  <li class="md-nav__item">
+    <a href="../entities/" class="md-nav__link">
+      Entities
+    </a>
+  </li>
+
+        
+          
+          
+          
+
   
 
 
@@ -311,6 +323,33 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#adding-fields" class="md-nav__link">
+    Adding fields
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding fields">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#base-fields" class="md-nav__link">
+    Base fields
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bundle-fields" class="md-nav__link">
+    Bundle fields
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#select-options" class="md-nav__link">
@@ -386,6 +425,18 @@
   <li class="md-nav__item">
     <a href="../roles/" class="md-nav__link">
       Roles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../updates/" class="md-nav__link">
+      Updates
     </a>
   </li>
 
@@ -606,6 +657,33 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#adding-fields" class="md-nav__link">
+    Adding fields
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding fields">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#base-fields" class="md-nav__link">
+    Base fields
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bundle-fields" class="md-nav__link">
+    Bundle fields
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#select-options" class="md-nav__link">
     Select options
   </a>
@@ -666,6 +744,81 @@
                 
                 
                 <h1 id="fields">Fields<a class="headerlink" href="#fields" title="Permanent link">&para;</a></h1>
+<h2 id="adding-fields">Adding fields<a class="headerlink" href="#adding-fields" title="Permanent link">&para;</a></h2>
+<p>A module may add additional fields to assets, logs, and other entity types in
+farmOS.</p>
+<p>The following documents how to add fields to existing entity types. See
+<a href="/development/module/entities">Entity types</a> to understand how to create new
+asset, log, and plan types with custom fields on them.</p>
+<h3 id="base-fields">Base fields<a class="headerlink" href="#base-fields" title="Permanent link">&para;</a></h3>
+<p>If the field should be added to all bundles of a given entity type (eg: all log
+types), then they should be added as "base fields" via
+<code>hook_entity_base_field_info()</code>.</p>
+<p>A <code>farm_field.factory</code> helper service is provided to make this easier:</p>
+<pre><code class="language-php">&lt;?php
+
+use Drupal\Core\Entity\EntityTypeInterface;
+
+/**
+ * Implements hook_entity_base_field_info().
+ */
+function mymodule_entity_base_field_info(EntityTypeInterface $entity_type) {
+  $fields = [];
+
+  // Add a new string field to Log entities.
+  if ($entity_type-&gt;id() == 'log') {
+    $options = [
+      'type' =&gt; 'string',
+      'label' =&gt; t('My new field'),
+      'description' =&gt; t('My field description.'),
+      'weight' =&gt; [
+        'form' =&gt; 10,
+        'view' =&gt; 10,
+      ],
+    ];
+    $fields['myfield'] = \Drupal::service('farm_field.factory')-&gt;baseFieldDefinition($options);
+  }
+
+  return $fields;
+}
+</code></pre>
+<h3 id="bundle-fields">Bundle fields<a class="headerlink" href="#bundle-fields" title="Permanent link">&para;</a></h3>
+<p>If the field should only be added to a single bundle (eg: only "Input" logs),
+then they should be added as "bundle fields" via
+<code>hook_farm_entity_bundle_field_info()</code>&ast;</p>
+<p>&ast; Note that this is a custom hook provided  by farmOS, which may be
+deprecated in favor of a core Drupal hook in the future. See core issue:
+<a href="https://www.drupal.org/node/2346347">https://www.drupal.org/node/2346347</a></p>
+<p>The format for bundle field definitions is identical to base field definitions
+(above), but the <code>bundleFieldDefinition()</code> method must be used instead of
+<code>baseFieldDefinition()</code>.</p>
+<pre><code class="language-php">&lt;?php
+
+use Drupal\Core\Entity\EntityTypeInterface;
+
+/**
+ * Implements hook_farm_entity_bundle_field_info().
+ */
+function mymodule_farm_entity_bundle_field_info(EntityTypeInterface $entity_type, $bundle) {
+  $fields = [];
+
+  // Add a new string field to Input Logs.
+  if ($entity_type-&gt;id() == 'log' &amp;&amp; $bundle == 'input') {
+    $options = [
+      'type' =&gt; 'string',
+      'label' =&gt; t('My new field'),
+      'description' =&gt; t('My field description.'),
+      'weight' =&gt; [
+        'form' =&gt; 10,
+        'view' =&gt; 10,
+      ],
+    ];
+    $fields['myfield'] = \Drupal::service('farm_field.factory')-&gt;bundleFieldDefinition($options);
+  }
+
+  return $fields;
+}
+</code></pre>
 <h2 id="select-options">Select options<a class="headerlink" href="#select-options" title="Permanent link">&para;</a></h2>
 <p>Certain fields on assets and logs include a list of options to select from.
 These include:</p>
@@ -746,7 +899,8 @@ label: Ear tag
 bundles:
   - animal
 </code></pre>
-<p>If you want the tag type to apply to all assets, set <code>bundle: null</code>.</p>
+<p>If you want the tag type to apply to all assets, set <code>bundles: null</code>.
+(or can it just be omitted?)</p>
                 
               
               
@@ -765,7 +919,7 @@ bundles:
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../entities/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -774,7 +928,7 @@ bundles:
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Getting started
+                Entities
               </div>
             </div>
           </a>

@@ -14,7 +14,7 @@
     
     
       
-        <title>Debugging - farmOS 2.x Docs</title>
+        <title>Entities - farmOS 2.x Docs</title>
       
     
     
@@ -61,7 +61,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#debugging" class="md-skip">
+        <a href="#entity-types" class="md-skip">
           Skip to content
         </a>
       
@@ -91,7 +91,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Debugging
+              Entities
             
           </span>
         </div>
@@ -246,10 +246,12 @@
           
           
 
+  
 
-  <li class="md-nav__item md-nav__item--nested">
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-1-2" type="checkbox" id="nav-1-2" >
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-1-2" type="checkbox" id="nav-1-2" checked>
     <label class="md-nav__link" for="nav-1-2">
       Module
       <span class="md-nav__icon md-icon"></span>
@@ -258,105 +260,6 @@
       <label class="md-nav__title" for="nav-1-2">
         <span class="md-nav__icon md-icon"></span>
         Module
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../module/" class="md-nav__link">
-      Getting started
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../module/entities/" class="md-nav__link">
-      Entities
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../module/fields/" class="md-nav__link">
-      Fields
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../module/oauth/" class="md-nav__link">
-      OAuth
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../module/roles/" class="md-nav__link">
-      Roles
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../module/updates/" class="md-nav__link">
-      Updates
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-        
-          
-          
-          
-
-  
-
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-    
-    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-1-3" type="checkbox" id="nav-1-3" checked>
-    <label class="md-nav__link" for="nav-1-3">
-      Environment
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="Environment" data-md-level="2">
-      <label class="md-nav__title" for="nav-1-3">
-        <span class="md-nav__icon md-icon"></span>
-        Environment
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -377,66 +280,6 @@
           
           
 
-
-  <li class="md-nav__item">
-    <a href="../update/" class="md-nav__link">
-      Updating
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../docker/" class="md-nav__link">
-      Docker
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../postgresql/" class="md-nav__link">
-      PostgreSQL
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../drush/" class="md-nav__link">
-      Drush
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../composer/" class="md-nav__link">
-      Composer
-    </a>
-  </li>
-
-        
-          
-          
-          
-
   
 
 
@@ -448,12 +291,12 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Debugging
+        Entities
         <span class="md-nav__icon md-icon"></span>
       </label>
     
     <a href="./" class="md-nav__link md-nav__link--active">
-      Debugging
+      Entities
     </a>
     
       
@@ -470,22 +313,16 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#phpstorm" class="md-nav__link">
-    PHPStorm
-  </a>
-  
-    <nav class="md-nav" aria-label="PHPStorm">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#drush-phpstorm" class="md-nav__link">
-    Drush + PHPStorm
+  <a href="#adding-asset-log-and-plan-types" class="md-nav__link">
+    Adding asset, log, and plan types
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#bundle-fields" class="md-nav__link">
+    Bundle fields
+  </a>
   
 </li>
       
@@ -502,7 +339,164 @@
 
 
   <li class="md-nav__item">
-    <a href="../tests/" class="md-nav__link">
+    <a href="../fields/" class="md-nav__link">
+      Fields
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../oauth/" class="md-nav__link">
+      OAuth
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../roles/" class="md-nav__link">
+      Roles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../updates/" class="md-nav__link">
+      Updates
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-1-3" type="checkbox" id="nav-1-3" >
+    <label class="md-nav__link" for="nav-1-3">
+      Environment
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Environment" data-md-level="2">
+      <label class="md-nav__title" for="nav-1-3">
+        <span class="md-nav__icon md-icon"></span>
+        Environment
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../environment/" class="md-nav__link">
+      Getting started
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../environment/update/" class="md-nav__link">
+      Updating
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../environment/docker/" class="md-nav__link">
+      Docker
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../environment/postgresql/" class="md-nav__link">
+      PostgreSQL
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../environment/drush/" class="md-nav__link">
+      Drush
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../environment/composer/" class="md-nav__link">
+      Composer
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../environment/debug/" class="md-nav__link">
+      Debugging
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../environment/tests/" class="md-nav__link">
       Automated tests
     </a>
   </li>
@@ -514,7 +508,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../code/" class="md-nav__link">
+    <a href="../../environment/code/" class="md-nav__link">
       Coding standards
     </a>
   </li>
@@ -526,7 +520,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../documentation/" class="md-nav__link">
+    <a href="../../environment/documentation/" class="md-nav__link">
       Documentation
     </a>
   </li>
@@ -603,22 +597,16 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#phpstorm" class="md-nav__link">
-    PHPStorm
-  </a>
-  
-    <nav class="md-nav" aria-label="PHPStorm">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#drush-phpstorm" class="md-nav__link">
-    Drush + PHPStorm
+  <a href="#adding-asset-log-and-plan-types" class="md-nav__link">
+    Adding asset, log, and plan types
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#bundle-fields" class="md-nav__link">
+    Bundle fields
+  </a>
   
 </li>
       
@@ -635,46 +623,96 @@
               
                 
                 
-                <h1 id="debugging">Debugging<a class="headerlink" href="#debugging" title="Permanent link">&para;</a></h1>
-<p>The farmOS development Docker image comes pre-installed with
-<a href="https://xdebug.org">XDebug</a> 3, which allows debugger connections on port 9003.</p>
-<p>In order to connect to it, the <code>XDEBUG_CONFIG</code> environment variable must be
-used to configure XDebug's <code>client_host</code> setting  with the Docker container's
-"Gateway" IP address.</p>
-<p>With the containers running, this command will print the gateway IP:</p>
-<pre><code>docker inspect farmos_www_1 | grep -o '"Gateway": ".*\..*\..*\..*"'
+                <h1 id="entity-types">Entity types<a class="headerlink" href="#entity-types" title="Permanent link">&para;</a></h1>
+<p>Assets, logs, plans, taxonomy terms, users, etc are all types of "entities" in
+farmOS/Drupal terminology. Entities can have sub-types called "bundles", which
+represent "bundles of fields". Some fields may be common across all bundles of
+a given entity type, and some fields may be bundle-specific.</p>
+<h2 id="adding-asset-log-and-plan-types">Adding asset, log, and plan types<a class="headerlink" href="#adding-asset-log-and-plan-types" title="Permanent link">&para;</a></h2>
+<p>Asset types, log types, and plan types can be provided by adding two files to a
+module:</p>
+<ol>
+<li>An entity type config file (YAML), and:</li>
+<li>A bundle plugin class (PHP).</li>
+</ol>
+<p>For example, the "Activity" log type is provided as follows:</p>
+<p><code>config/install/log.type.activity.yml</code>:</p>
+<pre><code class="language-yaml">langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_activity
+id: activity
+label: Activity
+description: ''
+name_pattern: 'Activity log [log:id]'
+workflow: log_default
+new_revision: true
 </code></pre>
-<p>Edit <code>docker-compose.yml</code> and enter the gateway IP in the <code>XDEBUG_CONFIG</code>
-environment variable. For example:</p>
-<pre><code>environment:
-  XDEBUG_MODE: debug
-  XDEBUG_CONFIG: client_host=192.168.128.1
+<p><code>src/Plugin/Log/LogType/Activity.php</code>:</p>
+<pre><code class="language-php">&lt;?php
+
+namespace Drupal\farm_activity\Plugin\Log\LogType;
+
+use Drupal\farm_entity\Plugin\Log\LogType\FarmLogType;
+
+/**
+ * Provides the activity log type.
+ *
+ * @LogType(
+ *   id = &quot;activity&quot;,
+ *   label = @Translation(&quot;Activity&quot;),
+ * )
+ */
+class Activity extends FarmLogType {
+
+}
 </code></pre>
-<p>Restart the Docker containers for this change to take affect.</p>
-<pre><code>docker-compose restart
+<h2 id="bundle-fields">Bundle fields<a class="headerlink" href="#bundle-fields" title="Permanent link">&para;</a></h2>
+<p>Bundles can declare field definitions in their plugin class via the
+<code>buildFieldDefinitions()</code> method.</p>
+<p>A <code>farm_field.factory</code> helper service is provided to make this easier.</p>
+<p>The Equipment asset type does this to add "Manufacturer", "Model", and
+"Serial number" fields:</p>
+<pre><code class="language-php">  /**
+   * {@inheritdoc}
+   */
+  public function buildFieldDefinitions() {
+    $fields = parent::buildFieldDefinitions();
+    $field_info = [
+      'manufacturer' =&gt; [
+        'type' =&gt; 'string',
+        'label' =&gt; $this-&gt;t('Manufacturer'),
+        'weight' =&gt; [
+          'form' =&gt; -20,
+          'view' =&gt; -50,
+        ],
+      ],
+      'model' =&gt; [
+        'type' =&gt; 'string',
+        'label' =&gt; $this-&gt;t('Model'),
+        'weight' =&gt; [
+          'form' =&gt; -15,
+          'view' =&gt; -40,
+        ],
+      ],
+      'serial_number' =&gt; [
+        'type' =&gt; 'string',
+        'label' =&gt; $this-&gt;t('Serial number'),
+        'weight' =&gt; [
+          'form' =&gt; -10,
+          'view' =&gt; -30,
+        ],
+      ],
+    ];
+    foreach ($field_info as $name =&gt; $info) {
+      $fields[$name] = \Drupal::service('farm_field.factory')-&gt;bundleFieldDefinition($info);
+    }
+    return $fields;
+  }
 </code></pre>
-<p><strong>Note</strong>: If the Docker containers are removed and recreated, the IP address
-may change, and you will need to repeat these steps to reconfigure it.</p>
-<h2 id="phpstorm">PHPStorm<a class="headerlink" href="#phpstorm" title="Permanent link">&para;</a></h2>
-<p>If you are using the PHPStorm IDE, with the configuration above in place,
-enable the "Start listening for PHP Debug Connections" option. Add a
-breakpoint in your code, load the page in your browser, and you should see
-a prompt appear in PHPStorm that will begin the debugging session and pause
-execution at your breakpoint.</p>
-<h3 id="drush-phpstorm">Drush + PHPStorm<a class="headerlink" href="#drush-phpstorm" title="Permanent link">&para;</a></h3>
-<p>Debugging code that is run via <a href="/development/environment/drush">Drush</a> commands
-requires additional configuration. Add an <code>XDEBUG_SESSION</code> environment variable
-with a value of <code>PHPSTORM</code>, and a <code>PHP_IDE_CONFIG</code> environment variable with a
-value of <code>serverName=localhost</code>, as follows:</p>
-<pre><code>environment:
-  XDEBUG_MODE: debug
-  XDEBUG_CONFIG: client_host=192.168.128.1
-  XDEBUG_SESSION: PHPSTORM
-  PHP_IDE_CONFIG: serverName=localhost
-</code></pre>
-<p>Run a <code>drush</code> command and a prompt should appear in PHPStorm. You will need to
-map the path to Drush (<code>vendor/drush</code>) in the PHPStorm debugger config. Then
-you can set breakpoints in the Drush code you want to test.</p>
+<p>For more information, see <a href="/development/module/fields">Adding fields</a>.</p>
                 
               
               
@@ -693,7 +731,7 @@ you can set breakpoints in the Drush code you want to test.</p>
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../composer/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -702,19 +740,19 @@ you can set breakpoints in the Drush code you want to test.</p>
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Composer
+                Getting started
               </div>
             </div>
           </a>
         
         
-          <a href="../tests/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../fields/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Automated tests
+                Fields
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
