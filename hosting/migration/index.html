@@ -606,6 +606,26 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    Troubleshooting
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#movement-logs" class="md-nav__link">
+    Movement logs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -656,6 +676,26 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    Troubleshooting
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#movement-logs" class="md-nav__link">
+    Movement logs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -695,6 +735,7 @@
 <li>Run the farmOS 1.x Migrations via Drush (in this order):<pre><code>drush migrate:import --group=farm_migrate
 drush migrate:import --group=farm_migrate_taxonomy
 drush migrate:import --group=farm_migrate_asset
+drush migrate:import --group=farm_migrate_area
 drush migrate:import --group=farm_migrate_log
 drush migrate:import --group=farm_migrate_reference
 </code></pre>
@@ -703,6 +744,12 @@ drush migrate:import --group=farm_migrate_reference
 <p>To view the status of all farmOS 1.x migrations:</p>
 <pre><code>drush migrate:status --tag="farmOS 1.x"
 </code></pre>
+<p>After all migrations are complete, perform a thorough examination of data to
+confirm that nothing is missing or incorrect. The original 1.x database will
+not be touched during the migration, so if issues are discovered it can
+continue to be used as the canonical farmOS database until further testing and
+debugging can be performed. See "Troubleshooting" below for known issues.</p>
+<p>Please open bug reports in the farmOS issue queue if new issues are discovered.</p>
 <h2 id="uploaded-files">Uploaded files<a class="headerlink" href="#uploaded-files" title="Permanent link">&para;</a></h2>
 <p>farmOS allows files to be uploaded/attached to records. In order to migrate
 these files, they need to be copied into new site's files/private directories.</p>
@@ -740,6 +787,52 @@ they will not be migrated.</p>
 </ul>
 <p>If you maintain a contrib/custom module for farmOS 1.x, it is your
 responsibility to update the modules for 2.x and provide migration logic.</p>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<p>If an error occurs during migration, the status of the broken migration may be
+stuck as "Importing". In order to rerun the migration, first reset the status
+and then roll back the migration. Replace <code>[migration_id]</code> with ID of the
+migration that is stuck.</p>
+<pre><code>drush migrate:reset-status [migration_id]
+drush migrate:rollback [migration_id]
+</code></pre>
+<h3 id="movement-logs">Movement logs<a class="headerlink" href="#movement-logs" title="Permanent link">&para;</a></h3>
+<p>farmOS 2.x changes the way asset movements are described via logs. There is a
+single "Location reference" and "Geometry" field on logs now, as opposed to
+the separate "Move to" and "Movement geometry" fields that existed in 1.x. The
+migration will use the movement area references and geometry if they are
+present, and will automatically mark the log as a movement.</p>
+<p>However, if the log has additional area references and geometry data, then the
+migration logic will detect the conflict and one of the following errors will
+be thrown:</p>
+<blockquote>
+<p>Log 123 has both area references and movement area references.</p>
+<p>Log 123 has both a geometry and a movement geometry.</p>
+</blockquote>
+<p>If these errors are encountered, the migration will halt and can not be
+completed until either:</p>
+<ol>
+<li>the logs in the old database are cleaned up, or</li>
+<li>the migration script is explicitly allowed to overwrite non-movement area
+   references and geometry</li>
+</ol>
+<p>Manual clean up involves reviewing the logs that cause errors in the old
+database, deleting the "Areas" and "Geometry" fields (or copying them into the
+"Move to" and "Movement geometry" fields), and retrying the migration. In some
+cases it may make sense to split the log into two separate logs, in order to
+retain information.</p>
+<p>Alternatively, the migration script can be allowed to automatically overwrite
+the "Areas" and "Geometry" data from the log, and only keep the "Move to" and
+"Movement geometry" data. This can be configured by  adding the following line
+to <code>settings.php</code>:</p>
+<pre><code>$settings['farm_migrate_allow_movement_overwrite'] = TRUE;
+</code></pre>
+<p><strong>Beware that this may result in loss of data/context if the separate fields
+were being used intentionally. It is recommended that logs be reviewed manually to
+understand whether or not the data is needed.</strong></p>
+<p>After running the migration with this setting, warnings for each log will be
+stored, and can be viewed with:</p>
+<pre><code>drush migrate:messages [migration_id]
+</code></pre>
                 
               
               

@@ -400,6 +400,20 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#land-type" class="md-nav__link">
+    Land type
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#structure-type" class="md-nav__link">
+    Structure type
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#lab-test-type" class="md-nav__link">
     Lab test type
   </a>
@@ -755,6 +769,20 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#land-type" class="md-nav__link">
+    Land type
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#structure-type" class="md-nav__link">
+    Structure type
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#lab-test-type" class="md-nav__link">
     Lab test type
   </a>
@@ -877,6 +905,20 @@ These include:</p>
 <li>Priority (<code>priority</code>)</li>
 </ul>
 </li>
+<li><strong>Land types</strong> (on Land assets)<ul>
+<li>Property (<code>property</code>)</li>
+<li>Field (<code>field</code>)</li>
+<li>Bed (<code>bed</code>)</li>
+<li>Paddock (<code>paddock</code>)</li>
+<li>Landmark (<code>landmark</code>)</li>
+<li>Other (<code>other</code>)</li>
+</ul>
+</li>
+<li><strong>Structure types</strong> (on Structure assets)<ul>
+<li>Building (<code>building</code>)</li>
+<li>Greenhouse (<code>greenhouse</code>)</li>
+</ul>
+</li>
 <li><strong>Lab test type</strong> (on Lab test logs)<ul>
 <li>Soil test (<code>soil</code>)</li>
 <li>Water test (<code>water</code>)</li>
@@ -916,6 +958,30 @@ will be shown in the select field and other parts of the UI.</p>
 <p>The <code>langcode</code> and <code>status</code> and <code>dependencies</code> are standard configuration
 entity properties. By putting the module's name in "enforced modules" it will
 ensure that the flag is removed when the module is uninstalled.</p>
+<h4 id="land-type">Land type<a class="headerlink" href="#land-type" title="Permanent link">&para;</a></h4>
+<p>The "Land" module in farmOS provides a "Field" type like this:</p>
+<p><code>land/config/install/farm_land.land_type.field.yml</code></p>
+<pre><code class="language-yaml">langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_land
+id: field
+label: Field
+</code></pre>
+<h4 id="structure-type">Structure type<a class="headerlink" href="#structure-type" title="Permanent link">&para;</a></h4>
+<p>The "Structure" module in farmOS provides a "Building" type like this:</p>
+<p><code>structure/config/install/farm_structure.structure_type.building.yml</code></p>
+<pre><code class="language-yaml">langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_structure
+id: building
+label: Building
+</code></pre>
 <h4 id="lab-test-type">Lab test type<a class="headerlink" href="#lab-test-type" title="Permanent link">&para;</a></h4>
 <p>The "Lab test" module in farmOS provides a "Soil test" type like this:</p>
 <p><code>lab_test/config/install/farm_lab_test.lab_test_type.soil.yml</code></p>
