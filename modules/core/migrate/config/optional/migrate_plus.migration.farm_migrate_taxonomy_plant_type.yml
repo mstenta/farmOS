@@ -50,13 +50,13 @@ process:
         plugin: migration_lookup
         migration: farm_migrate_taxonomy_plant_type
         source: tid
-  crop_family:
+  family:
     plugin: sub_process
     source: field_farm_crop_family
     process:
       target_id:
         plugin: migration_lookup
-        migration: farm_migrate_taxonomy_crop_family
+        migration: farm_migrate_taxonomy_family
         source: tid
         no_stub: true
   transplant_days:
@@ -82,5 +82,5 @@ process:
       height: height
 migration_dependencies:
   required:
-    - farm_migrate_taxonomy_crop_family
+    - farm_migrate_taxonomy_family
   optional: {  }

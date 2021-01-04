@@ -2,15 +2,15 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.taxonomy_term.crop_family
-    - taxonomy.vocabulary.crop_family
+    - field.storage.taxonomy_term.family
+    - taxonomy.vocabulary.family
     - taxonomy.vocabulary.plant_type
-id: taxonomy_term.plant_type.crop_family
-field_name: crop_family
+id: taxonomy_term.plant_type.family
+field_name: family
 entity_type: taxonomy_term
 bundle: plant_type
-label: 'Crop family'
-description: 'What crop family is this a member of?'
+label: 'Family'
+description: 'What family is this a member of?'
 required: false
 translatable: false
 default_value: {  }
@@ -19,7 +19,7 @@ settings:
   handler: 'default:taxonomy_term'
   handler_settings:
     target_bundles:
-      crop_family: crop_family
+      family: family
     sort:
       field: name
       direction: asc

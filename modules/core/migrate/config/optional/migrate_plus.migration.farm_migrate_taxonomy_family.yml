@@ -3,10 +3,10 @@ status: true
 dependencies:
   enforced:
     module:
+      - farm_family
       - farm_migrate
-      - farm_plant
-id: farm_migrate_taxonomy_crop_family
-label: 'Taxonomy terms (Crop family)'
+id: farm_migrate_taxonomy_family
+label: 'Taxonomy terms (Family)'
 migration_group: farm_migrate_taxonomy
 migration_tags:
   - 'Drupal 7'
@@ -23,7 +23,7 @@ process:
   # Hard-code the vocabulary.
   vid:
     plugin: default_value
-    default_value: crop_family
+    default_value: family
   # Maintain the term ID.
   tid:
     plugin: get
@@ -36,7 +36,7 @@ process:
       source: parent
     -
       plugin: migration_lookup
-      migration: farm_migrate_taxonomy_crop_family
+      migration: farm_migrate_taxonomy_family
   parent:
     plugin: default_value
     default_value: 0

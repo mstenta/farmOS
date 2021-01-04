@@ -3,7 +3,7 @@ status: true
 dependencies:
   config:
     - field.field.taxonomy_term.plant_type.companions
-    - field.field.taxonomy_term.plant_type.crop_family
+    - field.field.taxonomy_term.plant_type.family
     - field.field.taxonomy_term.plant_type.image
     - field.field.taxonomy_term.plant_type.maturity_days
     - field.field.taxonomy_term.plant_type.transplant_days
@@ -27,16 +27,6 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  crop_family:
-    type: entity_reference_autocomplete
-    weight: 2
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
   description:
     type: text_textarea
     weight: 1
@@ -45,6 +35,16 @@ content:
       placeholder: ''
       rows: 5
     third_party_settings: {  }
+  family:
+    type: entity_reference_autocomplete
+    weight: 2
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: { }
   image:
     type: image_image
     weight: 6
