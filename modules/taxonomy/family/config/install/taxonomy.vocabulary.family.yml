@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_family
+name: Families
+vid: family
+description: 'A list of families.'
+weight: 0

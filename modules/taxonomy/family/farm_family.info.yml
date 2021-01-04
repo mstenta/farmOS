@@ -1,0 +1,7 @@
+name: Family vocabulary
+description: Provides a Families vocabulary.
+type: module
+package: farmOS Taxonomies
+core_version_requirement: ^9
+dependencies:
+  - drupal:taxonomy
