@@ -281,6 +281,7 @@ fields are not listed here):
 - `animal_tag` -> `id_tag`
 - `archived` -> `status` and `archived` (see "Asset status" below)
 - `crop` -> `plant_type`
+- `crop_family` -> `family`
 - `date` -> `birthdate` (on `animal` assets)
 - `description` -> `notes` (see also "Text format" above)
 - `flags` -> `flag`
@@ -301,6 +302,8 @@ In farmOS 2.x, these have been split into two separate fields:
 
 ### Taxonomies
 
+### Vocabularies
+
 farmOS 2.x continues to use Drupal's core `taxonomy_term` entities to represent
 vocabularies of terms. The vocabulary machine names have changed, to drop the
 `farm_` prefix, and to standardize plurality.
@@ -310,4 +313,11 @@ vocabularies of terms. The vocabulary machine names have changed, to drop the
 - `farm_materials` -> `material`
 - `farm_season` -> `season`
 - `farm_crops` -> `plant_type`
-- `farm_crop_families` -> `crop_family`
+- `farm_crop_families` -> `family`
+
+#### Taxonomy term fields
+
+Term field names are largely unchanged, with a few exceptions (note that *new*
+fields are not listed here):
+
+- `crop_family` -> `family`
