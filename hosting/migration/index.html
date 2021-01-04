@@ -732,12 +732,21 @@
 <p>Copy user-uploaded files to the new directory (see "Uploaded files" below).</p>
 </li>
 <li>Install the farmOS Migrate (<code>farm_migrate</code>) module.</li>
-<li>Run the farmOS 1.x Migrations via Drush (in this order):<pre><code>drush migrate:import --group=farm_migrate
+<li>
+<p>Run the farmOS 1.x Migrations via Drush (in this order):</p>
+<pre><code>drush migrate:import --group=farm_migrate
 drush migrate:import --group=farm_migrate_taxonomy
 drush migrate:import --group=farm_migrate_asset
 drush migrate:import --group=farm_migrate_area
 drush migrate:import --group=farm_migrate_log
-drush migrate:import --group=farm_migrate_reference
+</code></pre>
+</li>
+<li>
+<p>Confirm that all the above migrations were successful before running the
+   final migration, which focuses only on populating the "Parents" field of
+   assets. This migration cannot be rolled back (see
+   <a href="https://www.drupal.org/project/farm/issues/3189740">Issue #3189740</a>):</p>
+<pre><code>drush migrate:import --group=farm_migrate_reference
 </code></pre>
 </li>
 </ol>
