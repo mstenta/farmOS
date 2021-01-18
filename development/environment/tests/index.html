@@ -656,7 +656,9 @@ example, the following command will run all tests in the Log module:</p>
 for <a href="/development/environment/debug">debugging</a>, but is also slower. One way to avoid
 XDebug is to run the tests via the prod farmOS image.</p>
 <p>The automated tests which run upon Github check-in follow this strategy which is
-orchestrated via <a href="https://raw.githubusercontent.com/farmOS/farmOS/2.x/.github/workflows/run-tests.yml">run-tests.yml</a> and <a href="https://raw.githubusercontent.com/farmOS/farmOS/2.x/docker/docker-compose.testing.yml">docker-compose.testing.yml</a>.</p>
+orchestrated via <a href="https://raw.githubusercontent.com/farmOS/farmOS/2.x/.github/workflows/run-tests.yml">run-tests.yml</a> and a docker-compose file like
+<a href="https://raw.githubusercontent.com/farmOS/farmOS/2.x/docker/docker-compose.testing.pgsql.yml">docker-compose.testing.pgsql.yml</a> - corresponding files also exist for <a href="https://raw.githubusercontent.com/farmOS/farmOS/2.x/docker/docker-compose.testing.mariadb.yml">MariaDB</a> and
+<a href="https://raw.githubusercontent.com/farmOS/farmOS/2.x/docker/docker-compose.testing.sqlite.yml">SQLite</a>.</p>
 <p>Something similar can be accomplished locally by adding an additional container to one's
 dev environment using the <code>farmos/farmos:2.x</code> image and mounting the same volume from the
 dev container to <code>/opt/drupal</code>.</p>
