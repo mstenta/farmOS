@@ -1,6 +1,7 @@
 site_name: farmOS 2.x Docs
 nav:
   - Development:
+    - Changelog: development/changelog.md
     - API:
       - Introduction: development/api/index.md
       - Authentication: development/api/authentication.md
