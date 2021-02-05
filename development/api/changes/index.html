@@ -415,6 +415,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#quantities" class="md-nav__link">
+    Quantities
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -894,6 +901,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#quantities" class="md-nav__link">
+    Quantities
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1109,6 +1123,7 @@ fields are not listed here):</p>
 <li><code>seed_source</code> -&gt; <code>source</code></li>
 <li><code>soil_lab</code> -&gt; <code>lab</code></li>
 <li><code>water_lab</code> -&gt; <code>lab</code></li>
+<li><code>quantity</code> (see "Quantities" below)</li>
 </ul>
 <p>See also "Text format" above for information about the changes to the <code>format</code>
 parameter of long text fields.</p>
@@ -1170,6 +1185,7 @@ vocabularies of terms. The vocabulary machine names have changed, to drop the
 <li><code>farm_season</code> -&gt; <code>season</code></li>
 <li><code>farm_crops</code> -&gt; <code>plant_type</code></li>
 <li><code>farm_crop_families</code> -&gt; <code>crop_family</code></li>
+<li><code>farm_quantity_units</code> -&gt; <code>unit</code></li>
 </ul>
 <h3 id="areas">Areas<a class="headerlink" href="#areas" title="Permanent link">&para;</a></h3>
 <p>farmOS 2.x had the concept of "Areas" for representing places/locations. These
@@ -1199,6 +1215,17 @@ whether or not it is "fixed":</p>
   always be empty for "fixed" assets. Otherwise, it will mirror the location
   reference field of the asset's most recent movement log.</li>
 </ul>
+<h3 id="quantities">Quantities<a class="headerlink" href="#quantities" title="Permanent link">&para;</a></h3>
+<p>In farmOS 1.x, log quantities were saved within separate Field Collection
+entities. farmOS used the <a href="https://drupal.org/project/restws_field_collection">RESTful Web Services Field Collection</a>
+module to  hide the fact that these were separate entities, allowing their
+field to be accessed and modified in the same request to the host entity.</p>
+<p>In farmOS 2.x, quantities are represented as <code>quantity</code> entities. These are
+referenced under a log's <code>relationships</code> in JSON:API, and have a JSON:API
+resource name of <code>quantity--quantity</code>. In order to add a quantity to a new or
+existing log, they must be created in a separate API request before they can be
+referenced by the log. Quantities still have <code>measure</code>, <code>value</code>, <code>unit</code> and
+<code>label</code> fields.</p>
                 
               
               
