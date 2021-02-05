@@ -20,6 +20,7 @@ Quantity types:
 - Standard
 - Material
 - Price
+- Time
 
 ## ID
 
@@ -111,3 +112,13 @@ alongside the standard "Value" attribute. When these are used, the "Value"
 attribute is considered to be the total value ("Unit Price" multiplied by
 "Unit Quantity"). The "Units" of a Price Quantity will generally be a
 currency code such as "USD" or "EUR".
+
+#### Time Quantities
+
+Time Quantities are used for tracking time spent on a particular Log. They have
+an additional "User" relationship, which references the [User](/model/type/user)
+that clocked time on the task. They also have "Start" and "End" attributes to
+allow "clocking in/out". When a user "clocks out", the duration between start
+and end is calculated and stored in the value field.
+
+For more information, see [farmOS Time Tracking Logic](/model/logic/time)

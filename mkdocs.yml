@@ -13,6 +13,7 @@ nav:
       - Location: model/logic/location.md
       - Group membership: model/logic/group.md
       - Inventory: model/logic/inventory.md
+      - Time tracking: model/logic/time.md
     - Conventions: model/convention/index.md
   - Development:
     - API:
