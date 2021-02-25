@@ -10,6 +10,10 @@ description: 'Migrates logs from farmOS 1.x to farmOS 2.x'
 source_type: 'farmOS 1.x'
 module: null
 shared_configuration:
+  source:
+    constants:
+      date_format: 'c'
+      log_message: 'Migrated from farmOS 1.x '
   process:
     name:
       plugin: get
@@ -147,6 +151,15 @@ shared_configuration:
         process:
           target_id: '0'
           target_revision_id: '1'
+    _date:
+      plugin: callback
+      callable: 'date'
+      source: constants/date_format
+    revision_log:
+      plugin: concat
+      source:
+        - constants/log_message
+        - '@_date'
   migration_dependencies:
     required:
       - farm_migrate_file

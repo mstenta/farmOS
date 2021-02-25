@@ -9,4 +9,18 @@ label: 'farmOS 1.x Quantity Migration'
 description: 'Migrates quantity measurements from farmOS 1.x to farmOS 2.x'
 source_type: 'farmOS 1.x'
 module: null
-shared_configuration : null
+shared_configuration:
+  source:
+    constants:
+      date_format: 'c'
+      log_message: 'Migrated from farmOS 1.x '
+  process:
+    _date:
+      plugin: callback
+      callable: 'date'
+      source: constants/date_format
+    revision_log:
+      plugin: concat
+      source:
+        - constants/log_message
+        - '@_date'
