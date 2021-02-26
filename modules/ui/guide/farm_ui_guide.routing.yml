@@ -1,0 +1,7 @@
+farm.guide:
+  path: '/guide'
+  defaults:
+    _title: 'User guide'
+    _controller: '\Drupal\farm_ui_guide\Controller\GuideController::guide'
+  requirements:
+    _permission: 'access farm user guide'
