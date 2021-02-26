@@ -22,6 +22,9 @@ class GuideController extends ControllerBase {
     // Start a build array.
     $build = [];
 
+    // @todo parse /docs/guide and build pages
+    // @see https://twig.symfony.com/doc/2.x/filters/markdown_to_html.html
+
     // Return the build array.
     return $build;
   }
