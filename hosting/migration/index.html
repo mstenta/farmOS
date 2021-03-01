@@ -672,6 +672,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#quantities" class="md-nav__link">
+    Quantities
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -758,6 +765,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#quantities" class="md-nav__link">
+    Quantities
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -817,9 +831,10 @@ YML configuration files included with the farmOS Migrate module.</p>
 <li>Install the farmOS Migrate (<code>farm_migrate</code>) module.</li>
 <li>
 <p>Run the farmOS 1.x Migrations via Drush (in this order):</p>
-<pre><code>drush migrate:import --group=farm_migrate
+<pre><code>drush migrate:import --group=farm_migrate_config
 drush migrate:import --group=farm_migrate_role
 drush migrate:import --group=farm_migrate_user
+drush migrate:import --group=farm_migrate_file
 drush migrate:import --group=farm_migrate_taxonomy
 drush migrate:import --group=farm_migrate_asset
 drush migrate:import --group=farm_migrate_area
@@ -930,6 +945,12 @@ understand whether or not the data is needed.</strong></p>
 stored, and can be viewed with:</p>
 <pre><code>drush migrate:messages [migration_id]
 </code></pre>
+<h3 id="quantities">Quantities<a class="headerlink" href="#quantities" title="Permanent link">&para;</a></h3>
+<p>The farmOS 2.x migration creates all Quantity entities before it creates the
+Log entities that reference them. This means that it is possible to end up with
+orphaned quantities, if for instance you do not migrate all of your log types
+from farmOS 1.x. There is no built-in way to clean these up currently, so it is
+recommended that all log types be migrated.</p>
                 
               
               
