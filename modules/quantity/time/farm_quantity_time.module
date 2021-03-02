@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * @file
+ * The farm_quantity_time module.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function farm_quantity_time_theme() {
+  return [
+    'quantity__time' => [
+      'render element' => 'elements',
+      'base hook' => 'quantity',
+    ],
+  ];
+}
