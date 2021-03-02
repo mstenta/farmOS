@@ -47,6 +47,14 @@ class Time extends FarmQuantityType {
           'form' => 3,
         ],
       ],
+      'notes' => [
+        'type' => 'text_long',
+        'label' => $this->t('Notes'),
+        'weight' => [
+          'view' => 15,
+          'form' => 15,
+        ],
+      ],
     ];
     foreach ($field_info as $name => $info) {
       $fields[$name] = $this->farmFieldFactory->bundleFieldDefinition($info);

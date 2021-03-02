@@ -19,5 +19,6 @@
     {% if content.label %}<strong>{{ content.label }}</strong>{% endif %}
     {% if content.measure %}({{ content.measure }}){% endif %}
     {{ content.value }} {{ content.units }} {{ content.user }} {{ content.start }} {{ content.end }}
+    {{ content.notes }}
   {% endif %}
 </div>
