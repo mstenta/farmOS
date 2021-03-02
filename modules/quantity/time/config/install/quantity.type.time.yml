@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_quantity_time
+id: time
+label: Time
+description: 'Time quantity type.'
+new_revision: true
