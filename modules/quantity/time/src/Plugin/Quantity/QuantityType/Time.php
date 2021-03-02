@@ -31,6 +31,22 @@ class Time extends FarmQuantityType {
         'target_type' => 'user',
         'multiple' => TRUE,
       ],
+      'start' => [
+        'type' => 'timestamp',
+        'label' => $this->t('Start'),
+        'weight' => [
+          'view' => 3,
+          'form' => 3,
+        ],
+      ],
+      'end' => [
+        'type' => 'timestamp',
+        'label' => $this->t('End'),
+        'weight' => [
+          'view' => 3,
+          'form' => 3,
+        ],
+      ],
     ];
     foreach ($field_info as $name => $info) {
       $fields[$name] = $this->farmFieldFactory->bundleFieldDefinition($info);
