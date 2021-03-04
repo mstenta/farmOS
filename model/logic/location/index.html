@@ -963,7 +963,9 @@ geometry as well as relation to other Assets.</p>
 <p>Some Assets are <em>fixed</em> in location. The geometry of these Assets is
 <em>intrinsic</em> to the Asset itself.</p>
 <p>Land is an example of an Asset with a fixed location. Although geography
-changes over time, farmOS models land in discrete period parcels with a defined
+changes over time, land assets in farmOS should be considered a snapshot of the
+physical land they represent at the current time. This is useful because it
+provides a simplified model for referring to a logical piece of land and its
 geometry.</p>
 <p>Changes to a fixed Asset's intrinsic geometry should be limited to minor
 updates or corrections. If the changes are more substantial, a new Asset should
