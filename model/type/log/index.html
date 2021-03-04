@@ -1301,10 +1301,10 @@
 inputs are all types of Logs. Modules can provide additional Log types.</p>
 <h2 id="type">Type<a class="headerlink" href="#type" title="Permanent link">&para;</a></h2>
 <p>Each Log must have a type. All Log types have a common set of attributes and
-relationships. Specific Log types (also called "bundles") may also add
-additional attributes and relationships (collectively referred to as "fields").
-Log types are defined by modules, and are only available if their module is
-enabled. The modules included with farmOS define the following Log types:</p>
+relationships. Specific Log types may also add additional attributes and
+relationships (collectively referred to as "fields"). Log types are defined by
+modules, and are only available if their module is enabled. The modules
+included with farmOS define the following Log types:</p>
 <ul>
 <li>Activity</li>
 <li>Observation</li>
@@ -1398,10 +1398,10 @@ then the referenced Assets will no longer be members of a group.</p>
 have quantitative data via related <strong>Quantities</strong>. They can be assigned to the
 <strong>Users</strong> who are responsible for them. And they can be organized using
 <strong>Terms</strong> and other metadata.</p>
-<p>These relationships are stored as entity reference fields on Log entities.
-References are uni-directional, meaning that Logs reference Assets, but Assets
-do not reference Logs. It is possible to retrieve all Logs that reference a
-particular Asset, as well as retrieve all Assets referenced by a Log.</p>
+<p>These relationships are stored as reference fields on Logs. References are
+uni-directional, meaning that Logs reference Assets, but Assets do not
+reference Logs. It is possible to retrieve all Logs that reference a particular
+Asset, as well as retrieve all Assets referenced by a Log.</p>
 <p>All Logs have the same standard set of relationships. Modules can add
 additional relationships.</p>
 <h3 id="standard-relationships">Standard relationships<a class="headerlink" href="#standard-relationships" title="Permanent link">&para;</a></h3>
@@ -1426,7 +1426,7 @@ they took place.</p>
 referenced on the Log to the locations specified.</p>
 <p>For more information, see <a href="/model/logic/location">farmOS Location Logic</a>.</p>
 <h4 id="quantities">Quantities<a class="headerlink" href="#quantities" title="Permanent link">&para;</a></h4>
-<p>Quantities are entities that contain quantitative data. These are used to
+<p>Quantities are records that contain quantitative data. These are used to
 represent things like input amounts, harvest totals, time tracking, etc. For
 more information, see: <a href="/model/type/quantity">Quantities</a>.</p>
 <h4 id="owners">Owners<a class="headerlink" href="#owners" title="Permanent link">&para;</a></h4>

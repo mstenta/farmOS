@@ -1145,15 +1145,14 @@
                 
                 
                 <h1 id="plans">Plans<a class="headerlink" href="#plans" title="Permanent link">&para;</a></h1>
-<p>Plans are higher-level entities that organize Assets and Logs around a
+<p>Plans are higher-level records that organize Assets and Logs around a
 particular goal. Modules can provide Plan types, along with additional UI and
 logic for Assets and Logs that are managed by them.</p>
 <h2 id="type">Type<a class="headerlink" href="#type" title="Permanent link">&para;</a></h2>
-<p>Each Asset must have a type. All Asset types have a common set of attributes and
-relationships. Specific Asset types (also called "bundles") may also add
-additional attributes and relationships (collectively referred to as "fields").
-Asset types are defined by modules, and are only available if their module is
-enabled.</p>
+<p>Each Plan must have a type. All Plan types have a common set of attributes and
+relationships. Specific Plan types may also add additional attributes and
+relationships (collectively referred to as "fields"). Plan types are defined by
+modules, and are only available if their module is enabled.</p>
 <p><em>farmOS core does not currently provide any Plan types.</em></p>
 <h2 id="id">ID<a class="headerlink" href="#id" title="Permanent link">&para;</a></h2>
 <p>Each Plan will be assigned two unique IDs in the database: a universally unique
@@ -1198,7 +1197,7 @@ created or managed by software outside of farmOS, it can be identified easily.
 It can also be used to store additional structured metadata that does not fit
 into the standard Plan attributes.</p>
 <h2 id="relationships">Relationships<a class="headerlink" href="#relationships" title="Permanent link">&para;</a></h2>
-<p>Plans can reference other entity types (like Assets and Logs) that are "part of
+<p>Plans can reference other record types (like Assets and Logs) that are "part of
 the Plan". These relationships can be simple (referencing the Asset/Log ID), or
 a Plan-type providing module can define more complex relationships by including
 other metadata alongside it.</p>
@@ -1236,12 +1235,12 @@ additional relationships.</p>
 <p>Images can be attached to Plans. This provides a place to store photos that can
 be displayed alongside the Plan in farmOS. If the photos pertain to specific
 Assets or Logs within the Plan, it may be better to attach them to those
-entities instead of the Plan.</p>
+records instead of the Plan.</p>
 <h4 id="files">Files<a class="headerlink" href="#files" title="Permanent link">&para;</a></h4>
 <p>Files can be attached to Plans. This provides a place to put documents such as
 Shapefiles, PDFs, CSVs, or other files associated with the Plan. If the files
 pertain to specific Assets or Logs within the Plan, it may be better to attach
-them to those entities instead of the Plan.</p>
+them to those records instead of the Plan.</p>
 <h3 id="additional-relationships">Additional relationships<a class="headerlink" href="#additional-relationships" title="Permanent link">&para;</a></h3>
 <p>Plans <em>may</em> contain additional relationships:</p>
 <ul>
