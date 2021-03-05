@@ -302,6 +302,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#type" class="md-nav__link">
+    Type
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#id" class="md-nav__link">
     ID
   </a>
@@ -357,13 +364,6 @@
   
     <nav class="md-nav" aria-label="Standard relationships">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#vocabulary" class="md-nav__link">
-    Vocabulary
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#parent" class="md-nav__link">
@@ -955,6 +955,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#type" class="md-nav__link">
+    Type
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#id" class="md-nav__link">
     ID
   </a>
@@ -1012,13 +1019,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#vocabulary" class="md-nav__link">
-    Vocabulary
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#parent" class="md-nav__link">
     Parent
   </a>
@@ -1049,7 +1049,7 @@
                 
                 
                 <h1 id="terms">Terms<a class="headerlink" href="#terms" title="Permanent link">&para;</a></h1>
-<p>Taxonomies (also referred to as vocabularies or ontologies) are used to
+<p>Vocabularies (also referred to as taxonomies or ontologies) are used to
 organize and manage Terms used in various contexts throughout farmOS. These can
 be used for flagging, categorization, and organization of other record types.</p>
 <p>Most Terms in farmOS are user-defined, and the vocabularies are empty when
@@ -1057,8 +1057,10 @@ farmOS is first installed. As <a href="/model/type/log">Logs</a> and
 <a href="/model/type/asset">Assets</a> are created, Terms that are used to describe them
 are automatically generated in the appropriate vocabularies. These can then be
 used to filter records in the future.</p>
-<p>Taxonomies are defined by modules, and are only available if their module is
-enabled. The modules included with farmOS define the following taxonomies:</p>
+<h2 id="type">Type<a class="headerlink" href="#type" title="Permanent link">&para;</a></h2>
+<p>Each term must be in a vocabulary. Vocabularies are defined by modules, and are
+only available if their module is enabled. The modules included with farmOS
+define the following vocabularies:</p>
 <ul>
 <li>Animal type</li>
 <li>Log category</li>
@@ -1097,11 +1099,8 @@ additional relationships.</p>
 <h3 id="standard-relationships">Standard relationships<a class="headerlink" href="#standard-relationships" title="Permanent link">&para;</a></h3>
 <p>Relationships that are common to all Term types include:</p>
 <ul>
-<li>Vocabulary</li>
 <li>Parent</li>
 </ul>
-<h4 id="vocabulary">Vocabulary<a class="headerlink" href="#vocabulary" title="Permanent link">&para;</a></h4>
-<p>Each Term must be in a vocabulary.</p>
 <h4 id="parent">Parent<a class="headerlink" href="#parent" title="Permanent link">&para;</a></h4>
 <p>Terms can specify "Parent" Terms to create a hierarchy. See related "Weight"
 attribute above for ordering Terms within the hierarchy.</p>
