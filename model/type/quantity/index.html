@@ -10,7 +10,7 @@
       
       
       <link rel="shortcut icon" href="../../../favicon.ico">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.0.4">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.0.5">
     
     
       
@@ -362,6 +362,26 @@
         
       </ul>
     </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-specific-fields" class="md-nav__link">
+    Type-specific fields
+  </a>
+  
+    <nav class="md-nav" aria-label="Type-specific fields">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standard-quantities" class="md-nav__link">
+    Standard Quantities
+  </a>
   
 </li>
         
@@ -1035,6 +1055,26 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#type-specific-fields" class="md-nav__link">
+    Type-specific fields
+  </a>
+  
+    <nav class="md-nav" aria-label="Type-specific fields">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standard-quantities" class="md-nav__link">
+    Standard Quantities
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1056,7 +1096,15 @@ referenced by <a href="/model/type/log">Logs</a>. Logs provide the supporting me
 give context to the data stored in Quantities, including timestamp, location,
 relation to <a href="/model/type/asset">Assets</a>, etc.</p>
 <h2 id="type">Type<a class="headerlink" href="#type" title="Permanent link">&para;</a></h2>
-<p>Currently there is only one type of Quantity.</p>
+<p>Each Quantity must have a type. All Quantity types have a common set of
+attributes and relationships. Specific Quantity types (also called "bundles")
+may also add additional attributes and relationships (collectively referred to
+as "fields"). Quantity types are defined by modules, and are only available if
+their module is enabled. The modules included with farmOS define the following
+Quantity types:</p>
+<ul>
+<li>Standard</li>
+</ul>
 <h2 id="id">ID<a class="headerlink" href="#id" title="Permanent link">&para;</a></h2>
 <p>Each Quantity will be assigned two unique IDs in the database: a universally
 unique identifier (UUID), and an internal numeric ID.</p>
@@ -1110,6 +1158,11 @@ additional relationships.</p>
 <h4 id="unit">Unit<a class="headerlink" href="#unit" title="Permanent link">&para;</a></h4>
 <p>The Unit of measurement is stored as a <a href="/model/type/term">Term</a> in the Units
 vocabulary.</p>
+<h2 id="type-specific-fields">Type-specific fields<a class="headerlink" href="#type-specific-fields" title="Permanent link">&para;</a></h2>
+<p>In addition to the fields that are common to all Quantity types described
+above, some types add additional type-specific fields. These include:</p>
+<h4 id="standard-quantities">Standard Quantities<a class="headerlink" href="#standard-quantities" title="Permanent link">&para;</a></h4>
+<p>Standard Quantities do not define any type-specific fields.</p>
                 
               
               
@@ -1170,6 +1223,7 @@ vocabulary.</p>
         <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
           Material for MkDocs
         </a>
+        
       </div>
       
     </div>
@@ -1183,7 +1237,7 @@ vocabulary.</p>
     <script id="__config" type="application/json">{"base": "../../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../assets/javascripts/workers/search.fb4a9340.min.js", "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.9b151c6a.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.5cf3e710.min.js"></script>
       
     
   </body>
