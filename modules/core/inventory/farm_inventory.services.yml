@@ -1,0 +1,3 @@
+services:
+  asset.inventory:
+    class: Drupal\farm_inventory\AssetInventory
