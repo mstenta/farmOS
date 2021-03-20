@@ -5,6 +5,32 @@
  * Code for creating inventory base field definitions.
  */
 
+use Drupal\farm_inventory\Field\AssetInventoryItemList;
+
+/**
+ * Define asset base fields for inventory tracking.
+ */
+function farm_inventory_asset_base_fields() {
+  $field_info = [
+    'inventory' => [
+      'type' => 'inventory',
+      'label' => t('Inventory'),
+      'multiple' => TRUE,
+      'computed' => AssetInventoryItemList::class,
+      'hidden' => 'form',
+      'weight' => [
+        'view' => 96,
+      ],
+    ],
+  ];
+  $fields = [];
+  foreach ($field_info as $name => $info) {
+    $fields[$name] = \Drupal::service('farm_field.factory')->baseFieldDefinition($info);
+  }
+  return $fields;
+}
+
+
 /**
  * Define quantity base fields for inventory tracking.
  */
