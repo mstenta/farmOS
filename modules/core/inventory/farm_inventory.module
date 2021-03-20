@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Implements hook_entity_base_field_info().
@@ -24,5 +25,19 @@ function farm_inventory_entity_base_field_info(EntityTypeInterface $entity_type)
 
     default:
       return [];
+  }
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function farm_inventory_form_quantity_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  // Check if the form has the required inventory fields.
+  if (isset($form['group']) && isset($form['inventory_adjustment'])) {
+
+    // Set the visible state of the quantity.inventory_asset field.
+    // Only display if inventory_adjustment is not NULL.
+    $form['inventory_adjustment']['#states']['visible'] = [':input[name="inventory_adjustment[value]"]' => ['checked' => TRUE]];
   }
 }
