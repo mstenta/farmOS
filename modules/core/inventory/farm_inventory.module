@@ -29,15 +29,26 @@ function farm_inventory_entity_base_field_info(EntityTypeInterface $entity_type)
 }
 
 /**
- * Implements hook_form_BASE_FORM_ID_alter().
+ * Implements hook_inline_entity_form_entity_form_alter().
  */
-function farm_inventory_form_quantity_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+function farm_inventory_inline_entity_form_entity_form_alter(array &$entity_form, FormStateInterface &$form_state) {
 
-  // Check if the form has the required inventory fields.
-  if (isset($form['group']) && isset($form['inventory_adjustment'])) {
+  // Check for an IEF quantity form that has the required inventory fields.
+  if ($entity_form['#entity_type'] == 'quantity' && isset($entity_form['inventory_adjustment']) && isset($entity_form['inventory_asset'])) {
+
+    // Get the delta value.
+    $delta = $entity_form['#ief_row_delta'];
+
+    // Set a name on the form element.
+    $adjustment_input_name = 'ief[quantity][' . $delta . '][form][inventory_adjustment]';
+    $entity_form['inventory_adjustment']['widget']['#attributes']['name'] = $adjustment_input_name;
 
     // Set the visible state of the quantity.inventory_asset field.
-    // Only display if inventory_adjustment is not NULL.
-    $form['inventory_adjustment']['#states']['visible'] = [':input[name="inventory_adjustment[value]"]' => ['checked' => TRUE]];
+    // Only display if inventory_adjustment is not _none.
+    // @todo The inventory_adjustment field should default to N/A.
+    // @todo Validate if an asset is selected, but no adjustment type is set?
+    $entity_form['inventory_asset']['#states']['visible'] = [
+      ':input[name="' . $adjustment_input_name . '"]' => ['!value' => '_none'],
+    ];
   }
 }
