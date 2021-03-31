@@ -167,6 +167,15 @@ class DataStreamApiTest extends DataStreamTestBase {
     $data = $plugin->storageGet($this->dataStream, ['limit' => 1, 'end' => $timestamp]);
     $this->assertEquals(1, count($data));
     $this->assertTrue(in_array($test_point, $data));
+
+    // Test posting non-numeric data.
+    $test_data = [
+      'timestamp' => \Drupal::time()->getRequestTime(),
+      'value' => 'test',
+    ];
+    $request = Request::create($uri, 'POST', ['private_key' => $this->dataStream->getPrivateKey()], [], [], [], Json::encode($test_data));
+    $response = $this->processRequest($request);
+    $this->assertNotEquals(201, $response->getStatusCode());
   }
 
   /**
