@@ -1006,14 +1006,12 @@
 detailed documentation of Drupal development more generally, refer to the
 <a href="https://www.drupal.org/docs/creating-custom-modules">guide on drupal.org</a>.</p>
 <h2 id="modules-directory">Modules directory<a class="headerlink" href="#modules-directory" title="Permanent link">&para;</a></h2>
-<p>Modules should be placed in the <code>modules</code> directory of the server's document
-root, at the same level as the <code>profiles</code> directory, which contains the <code>farm</code>
-profile (farmOS). If you are using the farmOS Docker image, this will be:
-<code>/var/opt/drupal/web/modules</code></p>
-<p>farmOS automatically puts Drupal module dependencies in <code>modules/contrib</code>. A
-good practice is to download farmOS-specific modules into <code>modules/farm</code> to keep
-them separate. You may also consider creating a <code>modules/custom</code> directory for
-custom modules that are specific to your farmOS instance.</p>
+<p>Modules should be placed in the <code>sites/all/modules</code> directory of the server's
+document root. If you are using the farmOS Docker image, this will be:
+<code>/var/opt/drupal/web/sites/all/modules</code></p>
+<p>A good practice is to download farmOS-specific modules into <code>modules/farm</code> to
+keep them separate. You may also consider creating a <code>modules/custom</code> directory
+for custom modules that are specific to your farmOS instance.</p>
 <h2 id="namespacing">Namespacing<a class="headerlink" href="#namespacing" title="Permanent link">&para;</a></h2>
 <p>A farmOS (Drupal) module must have a unique name consisting only of
 lowercase alphanumeric characters and underscores. This is used as a namespace
