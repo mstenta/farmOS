@@ -1,0 +1,60 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall function for the farm_location module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function farm_location_schema() {
+  $schema['asset_location_index'] = [
+    'description' => 'Stores computed history of asset locations over time.',
+    'fields' => [
+      'asset_id' => [
+        'description' => 'The asset ID.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'location_id' => [
+        'description' => 'The asset ID.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'log_id' => [
+        'description' => 'The movement log ID.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'arrival_timestamp' => [
+        'description' => 'The arrival timestamp.',
+        'type' => 'int',
+        'unsigned' => FALSE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'departure_timestamp' => [
+        'description' => 'The departure timestamp.',
+        'type' => 'int',
+        'unsigned' => FALSE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'indexes' => [
+      'asset_id' => ['asset_id'],
+      'location_id' => ['location_id'],
+      'log_id' => ['log_id'],
+      'arrival_timestamp' => ['arrival_timestamp'],
+      'departure_timestamp' => ['departure_timestamp'],
+    ],
+  ];
+  return $schema;
+}

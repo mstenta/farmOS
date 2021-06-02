@@ -5,6 +5,8 @@ services:
       [ '@log.location', '@farm.log_query', '@entity_type.manager', '@datetime.time' ]
   log.location:
     class: Drupal\farm_location\LogLocation
+  location.index:
+    class: Drupal\farm_location\LocationIndex
   farm_location.log_presave:
     class: Drupal\farm_location\EventSubscriber\LogEventSubscriber
     arguments:
