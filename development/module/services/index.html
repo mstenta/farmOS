@@ -986,6 +986,7 @@ location. Some of these services are documented here.</p>
 <p>The asset location service provides methods that encapsulate the logic for
 determining an asset's location and geometry.</p>
 <p><strong>Methods</strong>:</p>
+<p><code>isLocation($asset)</code> - Check if an asset is a location. Returns a boolean.</p>
 <p><code>isFixed($asset)</code> - Check if an asset is fixed. Returns a boolean.</p>
 <p><code>hasLocation($asset)</code> - Check if an asset is located within other location
 assets. Returns a boolean.</p>
@@ -998,6 +999,7 @@ string.</p>
 asset. Returns a log entity, or <code>NULL</code> if no logs were found.</p>
 <p><code>setIntrinsicGeometry($asset, $wkt)</code> - Set an asset's intrinsic geometry, given
 a string in Well-Known Text format.</p>
+<p><code>getAssetsByLocation($location)</code> - Get assets that are in a location.</p>
 <p><strong>Example usage</strong>:</p>
 <pre><code class="language-php">// Get an asset's current geometry.
 $geometry = \Drupal::service('asset.location')-&gt;getGeometry($asset);
@@ -1023,14 +1025,17 @@ $gallons_of_fertilizer = \Drupal::service('asset.inventory')-&gt;getInventory($a
 determining an asset's group membership. This is provided by the optional Group
 Asset module, and will only be available if that module is installed.</p>
 <p><strong>Methods</strong>:</p>
-<p><code>hasGroup()</code> - Check if an asset is a member of a group. Returns a boolean.</p>
-<p><code>getGroup()</code> - Get group assets that an asset is a member of. Returns an array
-of asset entities.</p>
-<p><code>getGroupAssignmentLog()</code> - Find the latest group assignment log that
+<p><code>hasGroup($asset)</code> - Check if an asset is a member of a group. Returns a
+boolean.</p>
+<p><code>getGroup($asset)</code> - Get group assets that an asset is a member of. Returns an
+array of asset entities.</p>
+<p><code>getGroupAssignmentLog($asset)</code> - Find the latest group assignment log that
 references an asset. Returns a log entity, or <code>NULL</code> if no logs were found.</p>
+<p><code>getGroupMembers($group, $recurse)</code> - Get assets that are members of a group,
+optionally recursing into child groups.</p>
 <p><strong>Example usage:</strong></p>
 <pre><code class="language-php">// Get the groups that an asset is a member of.
-$geometry = \Drupal::service('group.membership')-&gt;getGroup($asset);
+$groups = \Drupal::service('group.membership')-&gt;getGroup($asset);
 </code></pre>
 <h2 id="log-query-service">Log query service<a class="headerlink" href="#log-query-service" title="Permanent link">&para;</a></h2>
 <p><strong>Service name</strong>: <code>log.query</code></p>
@@ -1038,7 +1043,7 @@ $geometry = \Drupal::service('group.membership')-&gt;getGroup($asset);
 query. This is primarily used to query for the "latest" log of an asset.
 The asset location and group membership services use this.</p>
 <p><strong>Methods</strong>:</p>
-<p><code>getQuery()</code> - Builds a log database query.</p>
+<p><code>getQuery($options)</code> - Builds a log database query.</p>
 <p>The query will be sorted by log <code>timestamp</code> and <code>id</code>, descending.</p>
 <p>It accepts a keyed array of options:</p>
 <ul>
