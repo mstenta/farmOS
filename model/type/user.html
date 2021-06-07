@@ -14,7 +14,7 @@
     
     
       
-        <title>Conventions - farmOS 2.x Docs</title>
+        <title>Users - farmOS 2.x Docs</title>
       
     
     
@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#conventions" class="md-skip">
+        <a href="#users" class="md-skip">
           Skip to content
         </a>
       
@@ -93,7 +93,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Conventions
+              Users
             
           </span>
         </div>
@@ -206,12 +206,14 @@
             
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_2" type="checkbox" id="__nav_1_2" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_2" type="checkbox" id="__nav_1_2" checked>
       
       <label class="md-nav__link" for="__nav_1_2">
         Record types
@@ -229,7 +231,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../type/asset.html" class="md-nav__link">
+      <a href="asset.html" class="md-nav__link">
         Assets
       </a>
     </li>
@@ -241,7 +243,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../type/log.html" class="md-nav__link">
+      <a href="log.html" class="md-nav__link">
         Logs
       </a>
     </li>
@@ -253,7 +255,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../type/quantity.html" class="md-nav__link">
+      <a href="quantity.html" class="md-nav__link">
         Quantities
       </a>
     </li>
@@ -265,7 +267,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../type/data_stream.html" class="md-nav__link">
+      <a href="data_stream.html" class="md-nav__link">
         Data streams
       </a>
     </li>
@@ -277,7 +279,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../type/term.html" class="md-nav__link">
+      <a href="term.html" class="md-nav__link">
         Terms
       </a>
     </li>
@@ -289,7 +291,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../type/plan.html" class="md-nav__link">
+      <a href="plan.html" class="md-nav__link">
         Plans
       </a>
     </li>
@@ -299,11 +301,21 @@
             
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../type/user.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="user.html" class="md-nav__link md-nav__link--active">
         Users
       </a>
+      
     </li>
   
 
@@ -380,58 +392,11 @@
             
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Conventions
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="index.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../convention/index.html" class="md-nav__link">
         Conventions
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#in-theory" class="md-nav__link">
-    In theory
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#in-practice" class="md-nav__link">
-    In practice
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -914,28 +879,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#in-theory" class="md-nav__link">
-    In theory
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#in-practice" class="md-nav__link">
-    In practice
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -947,41 +890,12 @@
               
                 
                 
-                <h1 id="conventions">Conventions<a class="headerlink" href="#conventions" title="Permanent link">&para;</a></h1>
-<h2 id="in-theory">In theory<a class="headerlink" href="#in-theory" title="Permanent link">&para;</a></h2>
-<p>The farmOS data model describes basic record types that can be used to
-represent a farming system, but <em>how</em> those record types are used is left up to
-the user in large part.</p>
-<p>It is not the data model's responsibility to enforce an opinionated standard
-for all data that it stores. Instead, it aims to provide the flexibility for
-these standards to be developed through a collaborative community effort on top
-of the data model over time. These standards are collectively referred to as
-"conventions".</p>
-<p>Conventions are not part of the data model itself, but understanding how they
-relate to and are built on top of the model helps develop good record keeping
-habits, which result in more consistent and comparable data.</p>
-<p>One of the longer term goals of farmOS is to be a platform that supports the
-collaborative development of these conventions over time. As new standards
-are developed and adopted in the community, they can be written into modules
-that provide different levels of "enforcement of" or "compliance to" these
-conventions.</p>
-<p>The data model, combined with established conventions, and tools like the
-<a href="https://github.com/farmOS/farmOS-aggregator">farmOS Aggregator</a> can enable a
-wide variety of data sharing, aggregating, and reporting use-cases.</p>
-<h2 id="in-practice">In practice<a class="headerlink" href="#in-practice" title="Permanent link">&para;</a></h2>
-<p>Within an individual farmOS instance, you may develop your own conventions
-around naming your Assets. Or you may develop a standard operating procedure
-for certain types of common data entry, to ensure that it always goes into
-farmOS in the same manner and format.</p>
-<p>Across separate farmOS instances, developing shared conventions enables data to
-be more easily aggregated and compared at larger scales.</p>
-<p>Some ways in which conventions are already being developed include:</p>
-<ul>
-<li>Quick forms, surveys, and other data entry tools that collect specific
-  information and store it consistently in Logs.</li>
-<li>Reports that query the database for Logs that match a certain convention
-  and summarize them in different ways.</li>
-</ul>
+                <h1 id="users">Users<a class="headerlink" href="#users" title="Permanent link">&para;</a></h1>
+<p>Users can log into farmOS with their own user accounts, each with a unique
+user name and email address. These accounts can be granted different roles,
+which include sets of permissions that give the user access to specific farmOS
+data and features.</p>
+<p><a href="/model/type/log">Logs</a> can be assigned to Users.</p>
                 
               
               
@@ -1001,7 +915,7 @@ be more easily aggregated and compared at larger scales.</p>
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../logic/inventory.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Inventory" rel="prev">
+        <a href="plan.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Plans" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1010,20 +924,20 @@ be more easily aggregated and compared at larger scales.</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              Inventory
+              Plans
             </div>
           </div>
         </a>
       
       
         
-        <a href="../../development/api/index.html" class="md-footer__link md-footer__link--next" aria-label="Next: Introduction" rel="next">
+        <a href="../logic/location.html" class="md-footer__link md-footer__link--next" aria-label="Next: Location" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Introduction
+              Location
             </div>
           </div>
           <div class="md-footer__button md-icon">

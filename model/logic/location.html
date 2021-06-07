@@ -14,7 +14,7 @@
     
     
       
-        <title>Conventions - farmOS 2.x Docs</title>
+        <title>Location - farmOS 2.x Docs</title>
       
     
     
@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#conventions" class="md-skip">
+        <a href="#location" class="md-skip">
           Skip to content
         </a>
       
@@ -93,7 +93,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Conventions
+              Location
             
           </span>
         </div>
@@ -317,12 +317,14 @@
             
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_3" type="checkbox" id="__nav_1_3" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_3" type="checkbox" id="__nav_1_3" checked>
       
       <label class="md-nav__link" for="__nav_1_3">
         Logic
@@ -334,48 +336,6 @@
           Logic
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../logic/location.html" class="md-nav__link">
-        Location
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../logic/group.html" class="md-nav__link">
-        Group membership
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../logic/inventory.html" class="md-nav__link">
-        Inventory
-      </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
-    </li>
-  
-
           
             
   
@@ -392,12 +352,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Conventions
+          Location
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <a href="index.html" class="md-nav__link md-nav__link--active">
-        Conventions
+      <a href="location.html" class="md-nav__link md-nav__link--active">
+        Location
       </a>
       
         
@@ -415,15 +375,36 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#in-theory" class="md-nav__link">
-    In theory
+  <a href="#fixed-assets" class="md-nav__link">
+    Fixed Assets
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#in-practice" class="md-nav__link">
-    In practice
+  <a href="#movable-assets" class="md-nav__link">
+    Movable Assets
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#locations" class="md-nav__link">
+    Locations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logic" class="md-nav__link">
+    Logic
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#geometry" class="md-nav__link">
+    Geometry
   </a>
   
 </li>
@@ -432,6 +413,48 @@
   
 </nav>
       
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="group.html" class="md-nav__link">
+        Group membership
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="inventory.html" class="md-nav__link">
+        Inventory
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../convention/index.html" class="md-nav__link">
+        Conventions
+      </a>
     </li>
   
 
@@ -921,15 +944,36 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#in-theory" class="md-nav__link">
-    In theory
+  <a href="#fixed-assets" class="md-nav__link">
+    Fixed Assets
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#in-practice" class="md-nav__link">
-    In practice
+  <a href="#movable-assets" class="md-nav__link">
+    Movable Assets
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#locations" class="md-nav__link">
+    Locations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logic" class="md-nav__link">
+    Logic
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#geometry" class="md-nav__link">
+    Geometry
   </a>
   
 </li>
@@ -947,41 +991,72 @@
               
                 
                 
-                <h1 id="conventions">Conventions<a class="headerlink" href="#conventions" title="Permanent link">&para;</a></h1>
-<h2 id="in-theory">In theory<a class="headerlink" href="#in-theory" title="Permanent link">&para;</a></h2>
-<p>The farmOS data model describes basic record types that can be used to
-represent a farming system, but <em>how</em> those record types are used is left up to
-the user in large part.</p>
-<p>It is not the data model's responsibility to enforce an opinionated standard
-for all data that it stores. Instead, it aims to provide the flexibility for
-these standards to be developed through a collaborative community effort on top
-of the data model over time. These standards are collectively referred to as
-"conventions".</p>
-<p>Conventions are not part of the data model itself, but understanding how they
-relate to and are built on top of the model helps develop good record keeping
-habits, which result in more consistent and comparable data.</p>
-<p>One of the longer term goals of farmOS is to be a platform that supports the
-collaborative development of these conventions over time. As new standards
-are developed and adopted in the community, they can be written into modules
-that provide different levels of "enforcement of" or "compliance to" these
-conventions.</p>
-<p>The data model, combined with established conventions, and tools like the
-<a href="https://github.com/farmOS/farmOS-aggregator">farmOS Aggregator</a> can enable a
-wide variety of data sharing, aggregating, and reporting use-cases.</p>
-<h2 id="in-practice">In practice<a class="headerlink" href="#in-practice" title="Permanent link">&para;</a></h2>
-<p>Within an individual farmOS instance, you may develop your own conventions
-around naming your Assets. Or you may develop a standard operating procedure
-for certain types of common data entry, to ensure that it always goes into
-farmOS in the same manner and format.</p>
-<p>Across separate farmOS instances, developing shared conventions enables data to
-be more easily aggregated and compared at larger scales.</p>
-<p>Some ways in which conventions are already being developed include:</p>
+                <h1 id="location">Location<a class="headerlink" href="#location" title="Permanent link">&para;</a></h1>
+<p>farmOS can track the physical location of Assets over time. This includes map
+geometry as well as relation to other Assets.</p>
+<h2 id="fixed-assets">Fixed Assets<a class="headerlink" href="#fixed-assets" title="Permanent link">&para;</a></h2>
+<p>Some Assets are <em>fixed</em> in location. The geometry of these Assets is
+<em>intrinsic</em> to the Asset itself.</p>
+<p>Land is an example of an Asset with a fixed location. Although geography
+changes over time, land assets in farmOS should be considered a snapshot of the
+physical land they represent at the current time. This is useful because it
+provides a simplified model for referring to a logical piece of land and its
+geometry.</p>
+<p>Changes to a fixed Asset's intrinsic geometry should be limited to minor
+updates or corrections. If the changes are more substantial, a new Asset should
+be created, and the old Asset archived, to demarcate it as a new phase of the
+place in question.</p>
+<h2 id="movable-assets">Movable Assets<a class="headerlink" href="#movable-assets" title="Permanent link">&para;</a></h2>
+<p>If an Asset is not fixed, then it is considered <em>movable</em>, and its location and
+geometry will be determined by <em>movement</em> Logs that reference it.</p>
+<p>In order to set or change a movable Asset's location, a movement Log must be
+created that defines its new location at that point in time.</p>
+<p>Any Log can be a movement. It just needs to reference the Assets that are
+moving, along with their new location. The new location can be in the form of a
+geometry and/or a reference to one or more location Assets.</p>
+<p>It is possible to find an Asset's location at any point in time by querying its
+movement Logs.</p>
+<p>Generally a movement Log is only included if it is "done", although it is also
+possible to find "pending" movement Logs in the future to find an Asset's
+projected future location.</p>
+<h2 id="locations">Locations<a class="headerlink" href="#locations" title="Permanent link">&para;</a></h2>
+<p>Assets can be designated as <em>locations</em>. This allows other Assets to be moved
+to them.</p>
+<p>Typically, fixed Assets will also be designated as locations. However, movable
+Assets can also be locations. Consider a tractor (Equipment Asset) with
+multiple attachments (more Equipment Assets). It is possible to record that an
+attachment is connected to the tractor, and therefore its location is derived
+from the tractor's location.</p>
+<p>Fixed location Assets can designate <em>parent</em> Assets to create a hierarchical
+organization.</p>
+<h2 id="logic">Logic<a class="headerlink" href="#logic" title="Permanent link">&para;</a></h2>
+<p>The logic for determining an Asset's geometry is as follows:</p>
 <ul>
-<li>Quick forms, surveys, and other data entry tools that collect specific
-  information and store it consistently in Logs.</li>
-<li>Reports that query the database for Logs that match a certain convention
-  and summarize them in different ways.</li>
+<li><em>Is the Asset fixed?</em><ul>
+<li>Yes: <em>Does it have an intrinsic geometry?</em><ul>
+<li>Yes: <strong>intrinsic geometry</strong></li>
+<li>No: <strong>no geometry</strong></li>
 </ul>
+</li>
+<li>No: <em>Does it have a movement Log?</em><ul>
+<li>Yes: <em>Does the movement Log have geometry?</em><ul>
+<li>Yes: <strong>movement Log geometry</strong></li>
+<li>No: <em>Does the movement Log reference a location Asset?</em><ul>
+<li>Yes: <strong>(recurse to determine location Asset's geometry)</strong></li>
+<li>No: <strong>no geometry</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>No: <strong>no geometry</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="geometry">Geometry<a class="headerlink" href="#geometry" title="Permanent link">&para;</a></h2>
+<p>When a Log is saved without a geometry, and it references locations that have
+geometries, the locations geometries will be copied to the Log.</p>
                 
               
               
@@ -1001,7 +1076,7 @@ be more easily aggregated and compared at larger scales.</p>
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../logic/inventory.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Inventory" rel="prev">
+        <a href="../type/user.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Users" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1010,20 +1085,20 @@ be more easily aggregated and compared at larger scales.</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              Inventory
+              Users
             </div>
           </div>
         </a>
       
       
         
-        <a href="../../development/api/index.html" class="md-footer__link md-footer__link--next" aria-label="Next: Introduction" rel="next">
+        <a href="group.html" class="md-footer__link md-footer__link--next" aria-label="Next: Group membership" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Introduction
+              Group membership
             </div>
           </div>
           <div class="md-footer__button md-icon">

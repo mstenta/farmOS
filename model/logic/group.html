@@ -14,7 +14,7 @@
     
     
       
-        <title>Conventions - farmOS 2.x Docs</title>
+        <title>Group membership - farmOS 2.x Docs</title>
       
     
     
@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#conventions" class="md-skip">
+        <a href="#group-membership" class="md-skip">
           Skip to content
         </a>
       
@@ -93,7 +93,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Conventions
+              Group membership
             
           </span>
         </div>
@@ -317,12 +317,14 @@
             
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_3" type="checkbox" id="__nav_1_3" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_3" type="checkbox" id="__nav_1_3" checked>
       
       <label class="md-nav__link" for="__nav_1_3">
         Logic
@@ -340,39 +342,9 @@
   
   
     <li class="md-nav__item">
-      <a href="../logic/location.html" class="md-nav__link">
+      <a href="location.html" class="md-nav__link">
         Location
       </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../logic/group.html" class="md-nav__link">
-        Group membership
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../logic/inventory.html" class="md-nav__link">
-        Inventory
-      </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
     </li>
   
 
@@ -392,12 +364,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Conventions
+          Group membership
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <a href="index.html" class="md-nav__link md-nav__link--active">
-        Conventions
+      <a href="group.html" class="md-nav__link md-nav__link--active">
+        Group membership
       </a>
       
         
@@ -415,15 +387,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#in-theory" class="md-nav__link">
-    In theory
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#in-practice" class="md-nav__link">
-    In practice
+  <a href="#group-membership-logic" class="md-nav__link">
+    Group membership logic
   </a>
   
 </li>
@@ -432,6 +397,36 @@
   
 </nav>
       
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="inventory.html" class="md-nav__link">
+        Inventory
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../convention/index.html" class="md-nav__link">
+        Conventions
+      </a>
     </li>
   
 
@@ -921,15 +916,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#in-theory" class="md-nav__link">
-    In theory
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#in-practice" class="md-nav__link">
-    In practice
+  <a href="#group-membership-logic" class="md-nav__link">
+    Group membership logic
   </a>
   
 </li>
@@ -947,40 +935,36 @@
               
                 
                 
-                <h1 id="conventions">Conventions<a class="headerlink" href="#conventions" title="Permanent link">&para;</a></h1>
-<h2 id="in-theory">In theory<a class="headerlink" href="#in-theory" title="Permanent link">&para;</a></h2>
-<p>The farmOS data model describes basic record types that can be used to
-represent a farming system, but <em>how</em> those record types are used is left up to
-the user in large part.</p>
-<p>It is not the data model's responsibility to enforce an opinionated standard
-for all data that it stores. Instead, it aims to provide the flexibility for
-these standards to be developed through a collaborative community effort on top
-of the data model over time. These standards are collectively referred to as
-"conventions".</p>
-<p>Conventions are not part of the data model itself, but understanding how they
-relate to and are built on top of the model helps develop good record keeping
-habits, which result in more consistent and comparable data.</p>
-<p>One of the longer term goals of farmOS is to be a platform that supports the
-collaborative development of these conventions over time. As new standards
-are developed and adopted in the community, they can be written into modules
-that provide different levels of "enforcement of" or "compliance to" these
-conventions.</p>
-<p>The data model, combined with established conventions, and tools like the
-<a href="https://github.com/farmOS/farmOS-aggregator">farmOS Aggregator</a> can enable a
-wide variety of data sharing, aggregating, and reporting use-cases.</p>
-<h2 id="in-practice">In practice<a class="headerlink" href="#in-practice" title="Permanent link">&para;</a></h2>
-<p>Within an individual farmOS instance, you may develop your own conventions
-around naming your Assets. Or you may develop a standard operating procedure
-for certain types of common data entry, to ensure that it always goes into
-farmOS in the same manner and format.</p>
-<p>Across separate farmOS instances, developing shared conventions enables data to
-be more easily aggregated and compared at larger scales.</p>
-<p>Some ways in which conventions are already being developed include:</p>
+                <h1 id="group-membership">Group membership<a class="headerlink" href="#group-membership" title="Permanent link">&para;</a></h1>
+<p>farmOS includes an optional "Group asset" module, which adds a new Asset type
+called Group, as well as some organizational features that are unique to Group
+Assets.</p>
+<p>A Group can have "members", which are other individual Assets. Group membership
+is tracked via "group assignment" Logs. This is very similar to the way that
+<a href="/model/logic/location">Location</a> works for "movable" Assets. This means that
+an Asset's group membership can change, and the full history of its previous
+memberships is maintained in Logs.</p>
+<p>A useful feature of Groups is that any Logs associated with the Group will also
+be associated with its member Assets.</p>
+<p>A common use case for this is tracking "herds" of Animal assets. Each herd can
+be represented as a Group Asset, with Animal Assets assigned to it. Logs can be
+used to move the whole group, instead of referencing Animal Assets individually.</p>
+<p>Notably, when the Group module is enabled, it overrides the Asset location
+logic to consider group membership. If the Asset is a member of a group, and
+the group has a movement Log that is more recent than any of the Asset's own
+movement Logs, then the Asset's location will be based on the group's Log.</p>
+<h2 id="group-membership-logic">Group membership logic<a class="headerlink" href="#group-membership-logic" title="Permanent link">&para;</a></h2>
+<p>The logic for determining an Asset's group membership is as follows:</p>
 <ul>
-<li>Quick forms, surveys, and other data entry tools that collect specific
-  information and store it consistently in Logs.</li>
-<li>Reports that query the database for Logs that match a certain convention
-  and summarize them in different ways.</li>
+<li><em>Does the asset have a group assignment Log?</em><ul>
+<li>Yes: <em>Does the group assignment Log reference groups?</em><ul>
+<li>Yes: <strong>groups referenced by the group assignment Log</strong></li>
+<li>No: <strong>no group</strong></li>
+</ul>
+</li>
+<li>No: <strong>no group</strong></li>
+</ul>
+</li>
 </ul>
                 
               
@@ -1001,7 +985,7 @@ be more easily aggregated and compared at larger scales.</p>
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../logic/inventory.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Inventory" rel="prev">
+        <a href="location.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Location" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1010,20 +994,20 @@ be more easily aggregated and compared at larger scales.</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              Inventory
+              Location
             </div>
           </div>
         </a>
       
       
         
-        <a href="../../development/api/index.html" class="md-footer__link md-footer__link--next" aria-label="Next: Introduction" rel="next">
+        <a href="inventory.html" class="md-footer__link md-footer__link--next" aria-label="Next: Inventory" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Introduction
+              Inventory
             </div>
           </div>
           <div class="md-footer__button md-icon">

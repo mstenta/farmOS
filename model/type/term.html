@@ -14,7 +14,7 @@
     
     
       
-        <title>Conventions - farmOS 2.x Docs</title>
+        <title>Terms - farmOS 2.x Docs</title>
       
     
     
@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#conventions" class="md-skip">
+        <a href="#terms" class="md-skip">
           Skip to content
         </a>
       
@@ -93,7 +93,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Conventions
+              Terms
             
           </span>
         </div>
@@ -206,12 +206,14 @@
             
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_2" type="checkbox" id="__nav_1_2" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_2" type="checkbox" id="__nav_1_2" checked>
       
       <label class="md-nav__link" for="__nav_1_2">
         Record types
@@ -229,7 +231,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../type/asset.html" class="md-nav__link">
+      <a href="asset.html" class="md-nav__link">
         Assets
       </a>
     </li>
@@ -241,7 +243,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../type/log.html" class="md-nav__link">
+      <a href="log.html" class="md-nav__link">
         Logs
       </a>
     </li>
@@ -253,7 +255,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../type/quantity.html" class="md-nav__link">
+      <a href="quantity.html" class="md-nav__link">
         Quantities
       </a>
     </li>
@@ -265,7 +267,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../type/data_stream.html" class="md-nav__link">
+      <a href="data_stream.html" class="md-nav__link">
         Data streams
       </a>
     </li>
@@ -275,11 +277,158 @@
             
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../type/term.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Terms
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="term.html" class="md-nav__link md-nav__link--active">
         Terms
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#type" class="md-nav__link">
+    Type
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#id" class="md-nav__link">
+    ID
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attributes" class="md-nav__link">
+    Attributes
+  </a>
+  
+    <nav class="md-nav" aria-label="Attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standard-attributes" class="md-nav__link">
+    Standard attributes
+  </a>
+  
+    <nav class="md-nav" aria-label="Standard attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#name" class="md-nav__link">
+    Name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#weight" class="md-nav__link">
+    Weight
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#relationships" class="md-nav__link">
+    Relationships
+  </a>
+  
+    <nav class="md-nav" aria-label="Relationships">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standard-relationships" class="md-nav__link">
+    Standard relationships
+  </a>
+  
+    <nav class="md-nav" aria-label="Standard relationships">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parent" class="md-nav__link">
+    Parent
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-specific-fields" class="md-nav__link">
+    Type-specific fields
+  </a>
+  
+    <nav class="md-nav" aria-label="Type-specific fields">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plant-type-terms" class="md-nav__link">
+    Plant Type Terms
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -289,7 +438,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../type/plan.html" class="md-nav__link">
+      <a href="plan.html" class="md-nav__link">
         Plans
       </a>
     </li>
@@ -301,7 +450,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../type/user.html" class="md-nav__link">
+      <a href="user.html" class="md-nav__link">
         Users
       </a>
     </li>
@@ -380,58 +529,11 @@
             
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Conventions
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="index.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../convention/index.html" class="md-nav__link">
         Conventions
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#in-theory" class="md-nav__link">
-    In theory
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#in-practice" class="md-nav__link">
-    In practice
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -921,16 +1023,116 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#in-theory" class="md-nav__link">
-    In theory
+  <a href="#type" class="md-nav__link">
+    Type
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#in-practice" class="md-nav__link">
-    In practice
+  <a href="#id" class="md-nav__link">
+    ID
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attributes" class="md-nav__link">
+    Attributes
+  </a>
+  
+    <nav class="md-nav" aria-label="Attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standard-attributes" class="md-nav__link">
+    Standard attributes
+  </a>
+  
+    <nav class="md-nav" aria-label="Standard attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#name" class="md-nav__link">
+    Name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#weight" class="md-nav__link">
+    Weight
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#relationships" class="md-nav__link">
+    Relationships
+  </a>
+  
+    <nav class="md-nav" aria-label="Relationships">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standard-relationships" class="md-nav__link">
+    Standard relationships
+  </a>
+  
+    <nav class="md-nav" aria-label="Standard relationships">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parent" class="md-nav__link">
+    Parent
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-specific-fields" class="md-nav__link">
+    Type-specific fields
+  </a>
+  
+    <nav class="md-nav" aria-label="Type-specific fields">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plant-type-terms" class="md-nav__link">
+    Plant Type Terms
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -947,40 +1149,77 @@
               
                 
                 
-                <h1 id="conventions">Conventions<a class="headerlink" href="#conventions" title="Permanent link">&para;</a></h1>
-<h2 id="in-theory">In theory<a class="headerlink" href="#in-theory" title="Permanent link">&para;</a></h2>
-<p>The farmOS data model describes basic record types that can be used to
-represent a farming system, but <em>how</em> those record types are used is left up to
-the user in large part.</p>
-<p>It is not the data model's responsibility to enforce an opinionated standard
-for all data that it stores. Instead, it aims to provide the flexibility for
-these standards to be developed through a collaborative community effort on top
-of the data model over time. These standards are collectively referred to as
-"conventions".</p>
-<p>Conventions are not part of the data model itself, but understanding how they
-relate to and are built on top of the model helps develop good record keeping
-habits, which result in more consistent and comparable data.</p>
-<p>One of the longer term goals of farmOS is to be a platform that supports the
-collaborative development of these conventions over time. As new standards
-are developed and adopted in the community, they can be written into modules
-that provide different levels of "enforcement of" or "compliance to" these
-conventions.</p>
-<p>The data model, combined with established conventions, and tools like the
-<a href="https://github.com/farmOS/farmOS-aggregator">farmOS Aggregator</a> can enable a
-wide variety of data sharing, aggregating, and reporting use-cases.</p>
-<h2 id="in-practice">In practice<a class="headerlink" href="#in-practice" title="Permanent link">&para;</a></h2>
-<p>Within an individual farmOS instance, you may develop your own conventions
-around naming your Assets. Or you may develop a standard operating procedure
-for certain types of common data entry, to ensure that it always goes into
-farmOS in the same manner and format.</p>
-<p>Across separate farmOS instances, developing shared conventions enables data to
-be more easily aggregated and compared at larger scales.</p>
-<p>Some ways in which conventions are already being developed include:</p>
+                <h1 id="terms">Terms<a class="headerlink" href="#terms" title="Permanent link">&para;</a></h1>
+<p>Vocabularies (also referred to as taxonomies or ontologies) are used to
+organize and manage Terms used in various contexts throughout farmOS. These can
+be used for flagging, categorization, and organization of other record types.</p>
+<p>Most Terms in farmOS are user-defined, and the vocabularies are empty when
+farmOS is first installed. As <a href="/model/type/log">Logs</a> and
+<a href="/model/type/asset">Assets</a> are created, Terms that are used to describe them
+are automatically generated in the appropriate vocabularies. These can then be
+used to filter records in the future.</p>
+<h2 id="type">Type<a class="headerlink" href="#type" title="Permanent link">&para;</a></h2>
+<p>Each term must have a type, which is a reference to the vocabulary that it is
+in. Vocabularies are defined by modules, and are only available if their module
+is enabled. The modules included with farmOS define the following vocabularies:</p>
 <ul>
-<li>Quick forms, surveys, and other data entry tools that collect specific
-  information and store it consistently in Logs.</li>
-<li>Reports that query the database for Logs that match a certain convention
-  and summarize them in different ways.</li>
+<li>Animal type</li>
+<li>Log category</li>
+<li>Material</li>
+<li>Plant type</li>
+<li>Season</li>
+<li>Unit</li>
+</ul>
+<h2 id="id">ID<a class="headerlink" href="#id" title="Permanent link">&para;</a></h2>
+<p>Each Term will be assigned two unique IDs in the database: a universally unique
+identifier (UUID), and an internal numeric ID.</p>
+<p>The UUID will be unique <strong>across</strong> farmOS databases. The internal ID will only
+be unique to a <strong>single</strong> farmOS database. Therefore, the farmOS API uses UUIDs
+to ensure that IDs pulled from multiple farmOS databases do not conflict.
+Internally, farmOS modules use the internal IDs to perform CRUD operations.</p>
+<h2 id="attributes">Attributes<a class="headerlink" href="#attributes" title="Permanent link">&para;</a></h2>
+<p>Terms have a number of attributes that serve to describe their meta information.
+All Terms have the same standard set of attributes. Modules can add additional
+attributes.</p>
+<h3 id="standard-attributes">Standard attributes<a class="headerlink" href="#standard-attributes" title="Permanent link">&para;</a></h3>
+<p>Attributes that are common to all Term types include:</p>
+<ul>
+<li>Name</li>
+<li>Description</li>
+<li>Weight</li>
+</ul>
+<h4 id="name">Name<a class="headerlink" href="#name" title="Permanent link">&para;</a></h4>
+<p>Terms must have a name.</p>
+<h4 id="description">Description<a class="headerlink" href="#description" title="Permanent link">&para;</a></h4>
+<p>Optionally, Terms may have a description.</p>
+<h4 id="weight">Weight<a class="headerlink" href="#weight" title="Permanent link">&para;</a></h4>
+<p>The Term's weight determines how it is ordered in the vocabulary. See related
+"Parent" relationship below for organizing Terms into a hierarchy.</p>
+<h2 id="relationships">Relationships<a class="headerlink" href="#relationships" title="Permanent link">&para;</a></h2>
+<p>All Terms have the same standard set of relationships. Modules can add
+additional relationships.</p>
+<h3 id="standard-relationships">Standard relationships<a class="headerlink" href="#standard-relationships" title="Permanent link">&para;</a></h3>
+<p>Relationships that are common to all Term types include:</p>
+<ul>
+<li>Parent</li>
+</ul>
+<h4 id="parent">Parent<a class="headerlink" href="#parent" title="Permanent link">&para;</a></h4>
+<p>Terms can specify "Parent" Terms to create a hierarchy. See related "Weight"
+attribute above for ordering Terms within the hierarchy.</p>
+<h2 id="type-specific-fields">Type-specific fields<a class="headerlink" href="#type-specific-fields" title="Permanent link">&para;</a></h2>
+<p>In addition to the fields that are common to all Term types described
+above, some types add additional type-specific fields. These include:</p>
+<h4 id="plant-type-terms">Plant Type Terms<a class="headerlink" href="#plant-type-terms" title="Permanent link">&para;</a></h4>
+<p>Terms in the "Plant type" vocabulary have the following additional attributes:</p>
+<ul>
+<li>Days to maturity (Integer)</li>
+<li>Days to transplant (Integer)</li>
+</ul>
+<p>And the following additional relationships:</p>
+<ul>
+<li>Companions (references other Terms in the "Plant type" vocabulary)</li>
+<li>Crop family (references a Term in the "Crop Family" vocabulary)</li>
+<li>Images (references uploaded image files)</li>
 </ul>
                 
               
@@ -1001,7 +1240,7 @@ be more easily aggregated and compared at larger scales.</p>
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../logic/inventory.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Inventory" rel="prev">
+        <a href="data_stream.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Data streams" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1010,20 +1249,20 @@ be more easily aggregated and compared at larger scales.</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              Inventory
+              Data streams
             </div>
           </div>
         </a>
       
       
         
-        <a href="../../development/api/index.html" class="md-footer__link md-footer__link--next" aria-label="Next: Introduction" rel="next">
+        <a href="plan.html" class="md-footer__link md-footer__link--next" aria-label="Next: Plans" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Introduction
+              Plans
             </div>
           </div>
           <div class="md-footer__button md-icon">

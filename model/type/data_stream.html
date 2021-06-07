@@ -14,7 +14,7 @@
     
     
       
-        <title>Conventions - farmOS 2.x Docs</title>
+        <title>Data streams - farmOS 2.x Docs</title>
       
     
     
@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#conventions" class="md-skip">
+        <a href="#data-streams" class="md-skip">
           Skip to content
         </a>
       
@@ -93,7 +93,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Conventions
+              Data streams
             
           </span>
         </div>
@@ -206,12 +206,14 @@
             
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_2" type="checkbox" id="__nav_1_2" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_2" type="checkbox" id="__nav_1_2" checked>
       
       <label class="md-nav__link" for="__nav_1_2">
         Record types
@@ -229,7 +231,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../type/asset.html" class="md-nav__link">
+      <a href="asset.html" class="md-nav__link">
         Assets
       </a>
     </li>
@@ -241,7 +243,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../type/log.html" class="md-nav__link">
+      <a href="log.html" class="md-nav__link">
         Logs
       </a>
     </li>
@@ -253,7 +255,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../type/quantity.html" class="md-nav__link">
+      <a href="quantity.html" class="md-nav__link">
         Quantities
       </a>
     </li>
@@ -263,11 +265,152 @@
             
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../type/data_stream.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Data streams
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="data_stream.html" class="md-nav__link md-nav__link--active">
         Data streams
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#type" class="md-nav__link">
+    Type
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#id" class="md-nav__link">
+    ID
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attributes" class="md-nav__link">
+    Attributes
+  </a>
+  
+    <nav class="md-nav" aria-label="Attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standard-attributes" class="md-nav__link">
+    Standard attributes
+  </a>
+  
+    <nav class="md-nav" aria-label="Standard attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#name" class="md-nav__link">
+    Name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#private-key" class="md-nav__link">
+    Private key
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#public" class="md-nav__link">
+    Public
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#relationships" class="md-nav__link">
+    Relationships
+  </a>
+  
+    <nav class="md-nav" aria-label="Relationships">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#assets" class="md-nav__link">
+    Assets
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-specific-fields" class="md-nav__link">
+    Type-specific fields
+  </a>
+  
+    <nav class="md-nav" aria-label="Type-specific fields">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-data-streams" class="md-nav__link">
+    Basic Data Streams
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listener-legacy-data-streams" class="md-nav__link">
+    Listener (Legacy) Data Streams
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -277,7 +420,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../type/term.html" class="md-nav__link">
+      <a href="term.html" class="md-nav__link">
         Terms
       </a>
     </li>
@@ -289,7 +432,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../type/plan.html" class="md-nav__link">
+      <a href="plan.html" class="md-nav__link">
         Plans
       </a>
     </li>
@@ -301,7 +444,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../type/user.html" class="md-nav__link">
+      <a href="user.html" class="md-nav__link">
         Users
       </a>
     </li>
@@ -380,58 +523,11 @@
             
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Conventions
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="index.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../convention/index.html" class="md-nav__link">
         Conventions
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#in-theory" class="md-nav__link">
-    In theory
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#in-practice" class="md-nav__link">
-    In practice
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -921,16 +1017,110 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#in-theory" class="md-nav__link">
-    In theory
+  <a href="#type" class="md-nav__link">
+    Type
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#in-practice" class="md-nav__link">
-    In practice
+  <a href="#id" class="md-nav__link">
+    ID
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attributes" class="md-nav__link">
+    Attributes
+  </a>
+  
+    <nav class="md-nav" aria-label="Attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standard-attributes" class="md-nav__link">
+    Standard attributes
+  </a>
+  
+    <nav class="md-nav" aria-label="Standard attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#name" class="md-nav__link">
+    Name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#private-key" class="md-nav__link">
+    Private key
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#public" class="md-nav__link">
+    Public
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#relationships" class="md-nav__link">
+    Relationships
+  </a>
+  
+    <nav class="md-nav" aria-label="Relationships">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#assets" class="md-nav__link">
+    Assets
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-specific-fields" class="md-nav__link">
+    Type-specific fields
+  </a>
+  
+    <nav class="md-nav" aria-label="Type-specific fields">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-data-streams" class="md-nav__link">
+    Basic Data Streams
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listener-legacy-data-streams" class="md-nav__link">
+    Listener (Legacy) Data Streams
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -947,41 +1137,81 @@
               
                 
                 
-                <h1 id="conventions">Conventions<a class="headerlink" href="#conventions" title="Permanent link">&para;</a></h1>
-<h2 id="in-theory">In theory<a class="headerlink" href="#in-theory" title="Permanent link">&para;</a></h2>
-<p>The farmOS data model describes basic record types that can be used to
-represent a farming system, but <em>how</em> those record types are used is left up to
-the user in large part.</p>
-<p>It is not the data model's responsibility to enforce an opinionated standard
-for all data that it stores. Instead, it aims to provide the flexibility for
-these standards to be developed through a collaborative community effort on top
-of the data model over time. These standards are collectively referred to as
-"conventions".</p>
-<p>Conventions are not part of the data model itself, but understanding how they
-relate to and are built on top of the model helps develop good record keeping
-habits, which result in more consistent and comparable data.</p>
-<p>One of the longer term goals of farmOS is to be a platform that supports the
-collaborative development of these conventions over time. As new standards
-are developed and adopted in the community, they can be written into modules
-that provide different levels of "enforcement of" or "compliance to" these
-conventions.</p>
-<p>The data model, combined with established conventions, and tools like the
-<a href="https://github.com/farmOS/farmOS-aggregator">farmOS Aggregator</a> can enable a
-wide variety of data sharing, aggregating, and reporting use-cases.</p>
-<h2 id="in-practice">In practice<a class="headerlink" href="#in-practice" title="Permanent link">&para;</a></h2>
-<p>Within an individual farmOS instance, you may develop your own conventions
-around naming your Assets. Or you may develop a standard operating procedure
-for certain types of common data entry, to ensure that it always goes into
-farmOS in the same manner and format.</p>
-<p>Across separate farmOS instances, developing shared conventions enables data to
-be more easily aggregated and compared at larger scales.</p>
-<p>Some ways in which conventions are already being developed include:</p>
+                <h1 id="data-streams">Data Streams<a class="headerlink" href="#data-streams" title="Permanent link">&para;</a></h1>
+<p>Data Streams are records that represent sets of data streamed from sensors or
+other real-world devices.</p>
+<h2 id="type">Type<a class="headerlink" href="#type" title="Permanent link">&para;</a></h2>
+<p>Each Data Stream must have a type. All Asset types have a common set of
+attributes and relationships. Specific Data Stream types may also add
+additional attributes and relationships (collectively referred to as "fields").
+Data Stream types are defined by modules, and are only available if their
+module is enabled. The modules included with farmOS define the following Data
+Stream types:</p>
 <ul>
-<li>Quick forms, surveys, and other data entry tools that collect specific
-  information and store it consistently in Logs.</li>
-<li>Reports that query the database for Logs that match a certain convention
-  and summarize them in different ways.</li>
+<li>Basic</li>
+<li>Listener (Legacy)</li>
 </ul>
+<h2 id="id">ID<a class="headerlink" href="#id" title="Permanent link">&para;</a></h2>
+<p>Each Data Stream will be assigned two unique IDs in the database: a universally
+unique identifier (UUID), and an internal numeric ID.</p>
+<p>The UUID will be unique <strong>across</strong> farmOS databases. The internal ID will only
+be unique to a <strong>single</strong> farmOS database. Therefore, the farmOS API uses UUIDs
+to ensure that IDs pulled from multiple farmOS databases do not conflict.
+Internally, farmOS modules use the internal IDs to perform CRUD operations.</p>
+<h2 id="attributes">Attributes<a class="headerlink" href="#attributes" title="Permanent link">&para;</a></h2>
+<p>Data Streams have a number of attributes that serve to describe their meta
+information. All Data Stream have the same standard set of attributes. Modules
+can add additional attributes.</p>
+<h3 id="standard-attributes">Standard attributes<a class="headerlink" href="#standard-attributes" title="Permanent link">&para;</a></h3>
+<p>Attributes that are common to all Data Stream types include:</p>
+<ul>
+<li>Name</li>
+<li>Private key</li>
+<li>Public</li>
+</ul>
+<h4 id="name">Name<a class="headerlink" href="#name" title="Permanent link">&para;</a></h4>
+<p>Data Streams must have a name that describes them. The name is used in lists of
+Data Streams to easily identify them at quick glance.</p>
+<h4 id="private-key">Private key<a class="headerlink" href="#private-key" title="Permanent link">&para;</a></h4>
+<p>A Data Stream's private key is the password used to post data to (and get data
+from) its API endpoint.</p>
+<h4 id="public">Public<a class="headerlink" href="#public" title="Permanent link">&para;</a></h4>
+<p>A Data Stream may be marked as "public" to allow read-access from the API
+without a private key. This is useful for loading data into public
+third-party apps or scripts, for graphing or other purposes. Data Streams
+are not public by default.</p>
+<h2 id="relationships">Relationships<a class="headerlink" href="#relationships" title="Permanent link">&para;</a></h2>
+<p>Data Streams can be related to other records in farmOS These relationships are
+stored as reference fields on Data Stream records.</p>
+<p>All Data Streams have the same standard set of relationships. Modules can add
+additional relationships.</p>
+<p>Relationships that are common to all Data Streams types include:</p>
+<ul>
+<li>Assets</li>
+</ul>
+<h4 id="assets">Assets<a class="headerlink" href="#assets" title="Permanent link">&para;</a></h4>
+<p>Data Streams can reference one or more Assets to indicate that the data they
+collect is directly relevant to them.</p>
+<p>For example, if a soil moisture sensor that is installed in a field can be
+represented with a Sensor Asset (for the soil moisture sensor device itself),
+with a Data Stream (soil moisture data readings), that reference a Land Asset
+(the field it is installed in). This makes it possible for a single device to
+be moved/reused for monitoring multiple Assets, by moving the Sensor Asset
+and creating new Data Streams.</p>
+<h2 id="type-specific-fields">Type-specific fields<a class="headerlink" href="#type-specific-fields" title="Permanent link">&para;</a></h2>
+<p>In addition to the fields that are common to all Data Stream types described
+above, some types add additional type-specific fields. These include:</p>
+<h4 id="basic-data-streams">Basic Data Streams<a class="headerlink" href="#basic-data-streams" title="Permanent link">&para;</a></h4>
+<p>Basic Data Streams do not define any type-specific fields.</p>
+<h4 id="listener-legacy-data-streams">Listener (Legacy) Data Streams<a class="headerlink" href="#listener-legacy-data-streams" title="Permanent link">&para;</a></h4>
+<p>Listener (Legacy) Data Streams have an additional "public key" attribute,
+which is used in the Data Stream's API endpoint for posting/getting data. This
+was used in farmOS 1.x to provide a unique ID for the sensor, separate from the
+Sensor Asset ID that housed the data. This is no longer needed in farmOS 2.x,
+because each Data Stream has its own UUID, which is used in the API endpoints
+instead. The public key is retained for Legacy (Listener) Data Streams to
+ensure that existing sensors can continue to push data without needing to be
+reconfigured.</p>
                 
               
               
@@ -1001,7 +1231,7 @@ be more easily aggregated and compared at larger scales.</p>
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../logic/inventory.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Inventory" rel="prev">
+        <a href="quantity.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Quantities" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1010,20 +1240,20 @@ be more easily aggregated and compared at larger scales.</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              Inventory
+              Quantities
             </div>
           </div>
         </a>
       
       
         
-        <a href="../../development/api/index.html" class="md-footer__link md-footer__link--next" aria-label="Next: Introduction" rel="next">
+        <a href="term.html" class="md-footer__link md-footer__link--next" aria-label="Next: Terms" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Introduction
+              Terms
             </div>
           </div>
           <div class="md-footer__button md-icon">
