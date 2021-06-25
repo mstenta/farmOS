@@ -7,6 +7,7 @@ dependencies:
   - farm:farm_ui_action
   - farm:farm_ui_breadcrumb
   - farm:farm_ui_dashboard
+  - farm:farm_ui_entity
   - farm:farm_ui_help
   - farm:farm_ui_location
   - farm:farm_ui_map
