@@ -38,6 +38,10 @@ function farm_ui_entity_entity_base_field_info_alter(&$fields, EntityTypeInterfa
     'uid' => [
       'hidden' => TRUE,
     ],
+    'uuid' => [
+      'weight' => -95,
+      'hidden' => 'form',
+    ],
   ];
   foreach ($alter_fields as $name => $options) {
 
