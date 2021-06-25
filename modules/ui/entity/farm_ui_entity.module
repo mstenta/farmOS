@@ -5,7 +5,10 @@
  * The farmOS UI Entity module.
  */
 
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Link;
 
 /**
  * Implements hook_entity_base_field_info_alter().
@@ -96,4 +99,24 @@ function farm_ui_entity_entity_base_field_info_alter(&$fields, EntityTypeInterfa
     $fields[$name]->setDisplayOptions('form', $form_display_options);
     $fields[$name]->setDisplayOptions('view', $view_display_options);
   }
+}
+
+/**
+ * Implements hook_entity_view().
+ */
+function farm_ui_entity_entity_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
+
+  // Only alter asset, log, and plan entity displays.
+  if (!in_array($entity->getEntityTypeId(), ['asset', 'log', 'plan'])) {
+    return;
+  }
+
+  // Only alter the full view mode.
+  if ($view_mode !== 'full') {
+    return;
+  }
+
+  // Link UUID field to JSON:API endpoint.
+  $jsonapi_route = 'jsonapi.' . $entity->getEntityTypeId() . '--' . $entity->bundle() . '.individual';
+  $build['uuid'][0]['#context']['value'] = Link::createFromRoute($entity->uuid(), $jsonapi_route, ['entity' => $entity->uuid()])->toString();
 }
