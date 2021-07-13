@@ -658,6 +658,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#files" class="md-nav__link">
+    Files
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1221,6 +1228,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#files" class="md-nav__link">
+    Files
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1244,9 +1258,9 @@
 <p>farmOS 1.x used the <a href="https://drupal.org/project/restws">RESTful Web Services</a>
 module, which provided API endpoints for each entity type (asset, log, taxonomy
 term, etc).</p>
-<p>farmOS 2.x uses the new JSON:API module included with Drupal core, which
-follows the <a href="https://jsonapi.org/">JSON:API</a> specification for defining API
-resources.</p>
+<p>farmOS 2.x uses the new <a href="https://www.drupal.org/docs/core-modules-and-themes/core-modules/jsonapi-module">JSON:API</a>
+module included with Drupal core, which follows the <a href="https://jsonapi.org/">JSON:API</a>
+specification for defining API resources.</p>
 <p>The root API endpoint is <code>/api</code>.</p>
 <h3 id="json-schema">JSON Schema<a class="headerlink" href="#json-schema" title="Permanent link">&para;</a></h3>
 <p>farmOS 2.x also provides <a href="https://json-schema.org/">JSON Schema</a> information
@@ -1550,6 +1564,28 @@ resource name of <code>quantity--quantity</code>. In order to add a quantity to 
 existing log, they must be created in a separate API request before they can be
 referenced by the log. Quantities still have <code>measure</code>, <code>value</code>, <code>unit</code> and
 <code>label</code> fields.</p>
+<h3 id="files">Files<a class="headerlink" href="#files" title="Permanent link">&para;</a></h3>
+<p>farmOS 1.x used the <a href="https://www.drupal.org/project/restws_file">RESTful Web Services File</a>
+module to enable file uploads via the API. The API accepted an array of
+base64-encoded strings to be included in the JSON body payload of the host
+entity.</p>
+<p>In farmOS 2.x, file uploads are supported by the core JSON:API module. Instead
+of base64-encoded strings, the API requires a separate <code>POST</code> of binary data
+for each file to upload. This reflects "real" PHP upload semantics, allowing
+for faster and larger file uploads via the API. This also means that files
+cannot be uploaded in the same request that creates an entity. Instead, a file
+can be uploaded to an <em>existing entity</em> in a single request, or the file can be
+uploaded and assigned to an entity in two separate requests. Refer to the
+<a href="https://www.drupal.org/docs/core-modules-and-themes/core-modules/jsonapi-module/file-uploads">Drupal.org JSON:API File Uploads documentation</a>
+for more information.</p>
+<p>For example, to upload an image file to an existing observation log with <code>curl</code>:</p>
+<pre><code>curl https://example.com/api/log/observation/{UUID}/image \
+   -H 'Accept: application/vnd.api+json' \
+   -H 'Content-Type: application/octet-stream' \
+   -H 'Content-Disposition: attachment; filename="observation.jpg"' \
+   -H 'Authorization: Bearer …………' \
+   --data-binary @/path/to/observation.jpg
+</code></pre>
                 
               
               
