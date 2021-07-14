@@ -117,6 +117,7 @@ function farm_ui_entity_entity_view(array &$build, EntityInterface $entity, Enti
   }
 
   // Link UUID field to JSON:API endpoint.
+  // @todo Check that farm_api is enabled.
   $jsonapi_route = 'jsonapi.' . $entity->getEntityTypeId() . '--' . $entity->bundle() . '.individual';
   $build['uuid'][0]['#context']['value'] = Link::createFromRoute($entity->uuid(), $jsonapi_route, ['entity' => $entity->uuid()])->toString();
 }
