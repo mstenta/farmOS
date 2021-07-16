@@ -53,6 +53,7 @@ function farm_modules() {
       'farm_medical' => t('Medical logs'),
       'farm_purchase' => t('Purchase logs'),
       'farm_sale' => t('Sale logs'),
+      'farm_egg' => t('Quick form: Egg harvest'),
     ],
   ];
 }
