@@ -17,6 +17,11 @@ function farm_ui_menu_menu_links_discovered_alter(&$links) {
     $links['system.admin']['parent'] = 'farm.base';
     $links['system.admin']['weight'] = 100;
   }
+
+  // If the farm.quick menu item exists, move it under farm.base.
+  if (!empty($links['farm.quick'])) {
+    $links['farm.quick']['parent'] = 'farm.base';
+  }
 }
 
 /**
