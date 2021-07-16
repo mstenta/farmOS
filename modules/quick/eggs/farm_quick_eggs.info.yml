@@ -1,0 +1,9 @@
+name: Egg Harvest Quick Form
+description: Provides a quick form for recording egg harvests.
+type: module
+package: farmOS Quick Forms
+core_version_requirement: ^9
+dependencies:
+  - farm:farm_harvest
+  - farm:farm_quantity_standard
+  - farm:farm_quick
