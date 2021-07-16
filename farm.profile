@@ -54,6 +54,7 @@ function farm_modules() {
       'farm_purchase' => t('Purchase logs'),
       'farm_sale' => t('Sale logs'),
       'farm_egg' => t('Quick form: Egg harvest'),
+      'farm_weather' => t('Quick form: Weather event'),
     ],
   ];
 }
