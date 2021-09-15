@@ -888,6 +888,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#rolling-back-migration" class="md-nav__link">
+    Rolling back migration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#migrating-files" class="md-nav__link">
     Migrating files
   </a>
@@ -908,6 +915,20 @@
   
     <nav class="md-nav" aria-label="Troubleshooting">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#validation" class="md-nav__link">
+    Validation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reset-status" class="md-nav__link">
+    Reset status
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#movement-logs" class="md-nav__link">
@@ -982,6 +1003,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#rolling-back-migration" class="md-nav__link">
+    Rolling back migration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#migrating-files" class="md-nav__link">
     Migrating files
   </a>
@@ -1002,6 +1030,20 @@
   
     <nav class="md-nav" aria-label="Troubleshooting">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#validation" class="md-nav__link">
+    Validation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reset-status" class="md-nav__link">
+    Reset status
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#movement-logs" class="md-nav__link">
@@ -1079,8 +1121,12 @@ YML configuration files included with the farmOS Migrate module.</p>
    <a href="#migrating-files">Migrating files</a> below).</p>
 </li>
 <li>Install the farmOS Migrate (<code>farm_migrate</code>) module.</li>
-<li>
-<p>Run the farmOS 1.x Migrations via Drush (in this order):</p>
+<li>Run the farmOS 1.x Migrations via Drush:<pre><code>drush farm_migrate:migrate
+</code></pre>
+</li>
+</ol>
+<p>Alternatively, migration groups can be run individually, if you need
+more control over the process. They must be run in this order:</p>
 <pre><code>drush migrate:import --group=farm_migrate_config
 drush migrate:import --group=farm_migrate_role
 drush migrate:import --group=farm_migrate_user
@@ -1088,21 +1134,12 @@ drush migrate:import --group=farm_migrate_file
 drush migrate:import --group=farm_migrate_taxonomy
 drush migrate:import --group=farm_migrate_asset
 drush migrate:import --group=farm_migrate_area
+drush migrate:import --group=farm_migrate_asset_parent
 drush migrate:import --group=farm_migrate_sensor_data
 drush migrate:import --group=farm_migrate_quantity
 drush migrate:import --group=farm_migrate_log
 drush migrate:import --group=farm_migrate_plan
 </code></pre>
-</li>
-<li>
-<p>Confirm that all the above migrations were successful before running the
-   final migration, which focuses only on populating the "Parents" field of
-   assets. This migration cannot be rolled back (see
-   <a href="https://www.drupal.org/project/farm/issues/3189740">Issue #3189740</a>):</p>
-<pre><code>drush migrate:import --group=farm_migrate_reference
-</code></pre>
-</li>
-</ol>
 <p>To view the status of all farmOS 1.x migrations:</p>
 <pre><code>drush migrate:status --tag="farmOS 1.x"
 </code></pre>
@@ -1113,6 +1150,25 @@ continue to be used as the canonical farmOS database until further testing and
 debugging can be performed. See <a href="#troubleshooting">Troubleshooting</a> below for
 known issues.</p>
 <p>Please open bug reports in the farmOS issue queue if new issues are discovered.</p>
+<h2 id="rolling-back-migration">Rolling back migration<a class="headerlink" href="#rolling-back-migration" title="Permanent link">&para;</a></h2>
+<p>Migrations can be rolled back with the following command:</p>
+<pre><code>drush farm_migrate:rollback
+</code></pre>
+<p>Alternatively, migration groups can be rolled back individually. This should be
+done in the following order (reverse of the order of import):</p>
+<pre><code>drush migrate:import --group=farm_migrate_plan
+drush migrate:import --group=farm_migrate_log
+drush migrate:import --group=farm_migrate_quantity
+drush migrate:import --group=farm_migrate_sensor_data
+drush migrate:import --group=farm_migrate_asset_parent
+drush migrate:import --group=farm_migrate_area
+drush migrate:import --group=farm_migrate_asset
+drush migrate:import --group=farm_migrate_taxonomy
+drush migrate:import --group=farm_migrate_file
+drush migrate:import --group=farm_migrate_user
+drush migrate:import --group=farm_migrate_role
+drush migrate:import --group=farm_migrate_config
+</code></pre>
 <h2 id="migrating-files">Migrating files<a class="headerlink" href="#migrating-files" title="Permanent link">&para;</a></h2>
 <p>farmOS allows files to be uploaded/attached to records. In order to migrate
 these files, they need to be copied into new site's files/private directories.</p>
@@ -1151,6 +1207,31 @@ they will not be migrated.</p>
 <p>If you maintain a contrib/custom module for farmOS 1.x, it is your
 responsibility to update the modules for 2.x and provide migration logic.</p>
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="validation">Validation<a class="headerlink" href="#validation" title="Permanent link">&para;</a></h3>
+<p>Validation is performed on all areas, assets, logs, plans, and taxonomy terms
+as they are migrated. This will check things like required fields, allowed
+values, etc. In some cases the data in a 1.x database will not pass validation,
+either because it was not properly validated originally, or due to legacy bugs
+in the farmOS 1.x code. If any entities fail validation, migration will stop
+and an error like the following will be displayed:</p>
+<pre><code>farm_migrate_asset_plant Migration - 1 failed.
+</code></pre>
+<p>You can view validation messages for individual migrations by running
+<code>drush migrate:messages [migration-id]</code>, which will provide more details. For
+example:</p>
+<pre><code>$ drush migrate:messages farm_migrate_asset_plant
+ -------------- ------------------- ------- ---------------------------------------------------------
+  Source ID(s)   Destination ID(s)   Level   Message
+ -------------- ------------------- ------- ---------------------------------------------------------
+  432                                1       [asset: 432]: plant_type=This value should not be null.
+ -------------- ------------------- ------- ---------------------------------------------------------
+</code></pre>
+<p>This gives you the opportunity to fix the data in your 1.x database. Then you
+can rollback and re-run the migration, like so:</p>
+<pre><code>drush migrate:rollback farm_migrate_asset_plant
+drush migrate:import farm_migrate_asset_plant
+</code></pre>
+<h3 id="reset-status">Reset status<a class="headerlink" href="#reset-status" title="Permanent link">&para;</a></h3>
 <p>If an error occurs during migration, the status of the broken migration may be
 stuck as "Importing". In order to rerun the migration, first reset the status
 and then roll back the migration. Replace <code>[migration_id]</code> with ID of the
