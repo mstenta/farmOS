@@ -902,6 +902,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#sensor-data-streams" class="md-nav__link">
+    Sensor data streams
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#limitations" class="md-nav__link">
     Limitations
   </a>
@@ -926,6 +933,13 @@
           <li class="md-nav__item">
   <a href="#reset-status" class="md-nav__link">
     Reset status
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-limit" class="md-nav__link">
+    Memory limit
   </a>
   
 </li>
@@ -1017,6 +1031,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#sensor-data-streams" class="md-nav__link">
+    Sensor data streams
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#limitations" class="md-nav__link">
     Limitations
   </a>
@@ -1041,6 +1062,13 @@
           <li class="md-nav__item">
   <a href="#reset-status" class="md-nav__link">
     Reset status
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-limit" class="md-nav__link">
+    Memory limit
   </a>
   
 </li>
@@ -1094,6 +1122,8 @@ YML configuration files included with the farmOS Migrate module.</p>
   See <a href="https://www.drupal.org/project/farm/issues/3203228">Issue #3203228</a></li>
 <li>Uploaded photos/files must be copied to the destination filesystem before
   migrating. See <a href="#migrating-files">Migrating files</a> below.</li>
+<li>If you are using the "Farm sensor: Listener" module, see
+  <a href="#sensor-data-streams">Sensor data streams</a> below</li>
 <li>See <a href="#limitations">Limitations</a> below.</li>
 </ul>
 <h2 id="running-the-migration">Running the migration<a class="headerlink" href="#running-the-migration" title="Permanent link">&para;</a></h2>
@@ -1103,9 +1133,7 @@ YML configuration files included with the farmOS Migrate module.</p>
 <li>Install the farmOS modules you intend to use at <code>/farm/settings/modules</code>
    (this will determine what data is migrated). If you have any community
    modules installed in 1.x be sure to download and install 2.x versions.</li>
-<li>
-<p>Add farmOS 1.x database connection info to <code>settings.php</code>:</p>
-<pre><code>$databases['migrate']['default'] = [
+<li>Add farmOS 1.x database connection info to <code>settings.php</code>:<pre><code>$databases['migrate']['default'] = [
   'database' =&gt; 'my_farmos_1x_db',
   'username' =&gt; 'my-db-username',
   'password' =&gt; 'my-db-password',
@@ -1117,10 +1145,16 @@ YML configuration files included with the farmOS Migrate module.</p>
 ];
 </code></pre>
 </li>
-<li>
-<p>Copy user-uploaded files to the new directory (see
-   <a href="#migrating-files">Migrating files</a> below).</p>
-</li>
+</ol>
+<p>It is also recommended that you increase the PHP <code>memory_limit</code> for Drush by
+   adding the following to <code>settings.php</code>:</p>
+<pre><code>    if (PHP_SAPI === 'cli') {
+      ini_set('memory_limit', '512M');
+    }
+</code></pre>
+<ol>
+<li>Copy user-uploaded files to the new directory (see
+   <a href="#migrating-files">Migrating files</a> below).</li>
 <li>Install the farmOS Migrate (<code>farm_migrate</code>) module.</li>
 <li>Run the farmOS 1.x Migrations via Drush:<pre><code>drush farm_migrate:migrate
 </code></pre>
@@ -1195,6 +1229,35 @@ be moved, leaving behind various temporary files in the <code>migrate</code> dir
 that are no longer needed after the migration. This <code>migrate</code> directory can be
 deleted after the migration, once it has been confirmed that everything was
 migrated successfully.</p>
+<h2 id="sensor-data-streams">Sensor data streams<a class="headerlink" href="#sensor-data-streams" title="Permanent link">&para;</a></h2>
+<p>If you are using the "Farm sensor: Listener" module in farmOS 1.x to collect
+data from sensors, there are a few extra steps and considerations for migrating
+and maintaining these data streams in farmOS 2.x.</p>
+<p>farmOS 2.x introduces a new entity type called "Data streams", which represent
+named sets of time-series data. All data from the old "listener" module can be
+migrated into named data streams.</p>
+<p>In order to migrate data, you must enable the "Sensor listener (legacy)" module
+in farmOS 2.x. This can be found in Drupal core's <code>/admin/modules</code> page, or it
+can be enabled via Drush:</p>
+<pre><code>drush en farm_sensor_listener
+</code></pre>
+<p>Enabling this module does two things:</p>
+<ol>
+<li>Adds a migration for 1.x sensor data into 2.x data streams.</li>
+<li>Creates URL endpoints that match the legacy listener paths, which ensures
+   that farmOS will continue receiving and storing data being pushed from your
+   sensors.</li>
+</ol>
+<p>If you have active sensors that are sending data to your farmOS, and you want
+to minimize downtime/interruption of these streams during migration, one
+approach is to set up your 2.x instance on a different domain, run migrations,
+and then point your domain to the new server. Be sure to set the TTL value of
+your domain's DNS record to 5 minutes or less to ensure that the change
+propagates quickly. It is highly recommended that you test the migrations at
+least once before this, to ensure that they all work smoothly.</p>
+<p>If you do not have any active sensors sending data, then you can optionally
+uninstall the <code>farm_sensor_listener</code> module after running migrations. This will
+remove the legacy API endpoints, but still keep your migrated data.</p>
 <h2 id="limitations">Limitations<a class="headerlink" href="#limitations" title="Permanent link">&para;</a></h2>
 <p>The farmOS migration code is designed to migrate a <em>default</em> farmOS 1.x
 database to 2.x. If any customizations have been made on top of the defaults,
@@ -1240,6 +1303,16 @@ migration that is stuck.</p>
 <pre><code>drush migrate:reset-status [migration_id]
 drush migrate:rollback [migration_id]
 </code></pre>
+<h3 id="memory-limit">Memory limit<a class="headerlink" href="#memory-limit" title="Permanent link">&para;</a></h3>
+<p>If you have a large amount of data, there is a chance you may encounter run
+into the PHP memory limit. You will see an error like the following:</p>
+<pre><code>Fatal error: Allowed memory size of 268435456 bytes exhausted
+</code></pre>
+<p>If this happens, you can increase the PHP <code>memory_limit</code> setting for Drush by
+tweaking the <code>ini_set('memory_limit', '512M');</code> line in your <code>settings.php</code>,
+assuming your host's memory can accommodate it.</p>
+<p><strong>Be sure to roll back any migrations that were being processed when the error
+occurred to ensure that no data is corrupted.</strong></p>
 <h3 id="movement-logs">Movement logs<a class="headerlink" href="#movement-logs" title="Permanent link">&para;</a></h3>
 <p>farmOS 2.x changes the way asset movements are described via logs. There is a
 single "Location reference" and "Geometry" field on logs now, as opposed to
