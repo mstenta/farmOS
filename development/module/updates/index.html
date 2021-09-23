@@ -676,9 +676,86 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Updates
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Updates
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#update-hooks" class="md-nav__link">
+    Update hooks
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-updates" class="md-nav__link">
+    Configuration updates
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration updates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#disable-farmos-update-module" class="md-nav__link">
+    Disable farmOS Update module
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exclude-specific-configuration" class="md-nav__link">
+    Exclude specific configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="Exclude specific configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hook_farm_update_exclude_config" class="md-nav__link">
+    hook_farm_update_exclude_config()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#farm_updatesettings" class="md-nav__link">
+    farm_update.settings
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1022,6 +1099,68 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#update-hooks" class="md-nav__link">
+    Update hooks
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-updates" class="md-nav__link">
+    Configuration updates
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration updates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#disable-farmos-update-module" class="md-nav__link">
+    Disable farmOS Update module
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exclude-specific-configuration" class="md-nav__link">
+    Exclude specific configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="Exclude specific configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hook_farm_update_exclude_config" class="md-nav__link">
+    hook_farm_update_exclude_config()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#farm_updatesettings" class="md-nav__link">
+    farm_update.settings
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1034,6 +1173,7 @@
                 
                 
                 <h1 id="automated-updates">Automated updates<a class="headerlink" href="#automated-updates" title="Permanent link">&para;</a></h1>
+<h2 id="update-hooks">Update hooks<a class="headerlink" href="#update-hooks" title="Permanent link">&para;</a></h2>
 <p>farmOS modules may change and evolve over time. If these changes require
 updates to a farmOS database or configuration, then update logic should be
 provided so that users of the module can perform the necessary changes
@@ -1041,6 +1181,62 @@ automatically when they update to the new version.</p>
 <p>This logic can be supplied via implementations of <code>hook_update_N()</code>.</p>
 <p>For more information, see the documentation for Drupal's
 <a href="https://www.drupal.org/docs/drupal-apis/update-api/">Update API</a>.</p>
+<h2 id="configuration-updates">Configuration updates<a class="headerlink" href="#configuration-updates" title="Permanent link">&para;</a></h2>
+<p>If the farmOS Update module is enabled, changes to configuration will be
+automatically reverted when caches are rebuilt. The purpose of this is to
+make it easier for farmOS module developers to make minor changes to the
+configuration included with their module without writing update hooks.</p>
+<p>Note that this only handles overridden configuration. It does not handle
+missing, inactive, or added configuration.</p>
+<p>In most cases this is desirable, but if you are intentionally overriding
+configuration in your farmOS instance then you have a few options for
+disabling this behavior.</p>
+<h3 id="disable-farmos-update-module">Disable farmOS Update module<a class="headerlink" href="#disable-farmos-update-module" title="Permanent link">&para;</a></h3>
+<p>The easiest way to disable automatic configuration updates is to turn off the
+<code>farm_update</code> module. This can be done via Drush:</p>
+<pre><code>drush pm-uninstall farm_update
+</code></pre>
+<p>This will completely disable automatic reverts of configuration. You can then
+manage all configuration changes and deployment manually. One way to do this
+is with the <code>config_update_ui</code> module, which provides a report of all missing,
+inactive, added, and changed configuration. This can be enabled via Drush:</p>
+<pre><code>drush en config_update_ui
+</code></pre>
+<p>Then go to <code>/admin/config/development/configuration/report/type/system.all</code> to
+see the full report. Individual configuration items can be reverted, imported,
+and deleted.</p>
+<h3 id="exclude-specific-configuration">Exclude specific configuration<a class="headerlink" href="#exclude-specific-configuration" title="Permanent link">&para;</a></h3>
+<p>Alternatively, if you want to keep automatic updates enabled, but want control
+over certain items, the farmOS Update module provides two mechanisms for
+excluding specific configuration from automatic updates.</p>
+<h4 id="hook_farm_update_exclude_config"><code>hook_farm_update_exclude_config()</code><a class="headerlink" href="#hook_farm_update_exclude_config" title="Permanent link">&para;</a></h4>
+<p>If a module overrides certain configuration items, either in
+<code>hook_install()</code> or via something like the <code>config_rewrite</code> module, the
+module can list these configuration items in an array returned by an
+implementation of <code>hook_farm_update_exclude_config()</code>.</p>
+<p>For example, in <code>mymodule.module</code>:</p>
+<pre><code class="language-php">/**
+ * Implements hook_farm_update_exclude_config().
+ */
+function mymodule_farm_update_exclude_config() {
+
+  // Exclude mymodule.settings from automatic configuration updates.
+  return [
+    'mymodule.settings',
+  ];
+}
+</code></pre>
+<h4 id="farm_updatesettings"><code>farm_update.settings</code><a class="headerlink" href="#farm_updatesettings" title="Permanent link">&para;</a></h4>
+<p>The farmOS Update module will also check the <code>exclude_config</code> setting in
+its own <code>farm_update.settings</code> configuration for a list of configuration
+items to exclude from automatic updates. This can be provided by a custom
+module in <code>config/install/farm_update.settings.yml</code>, or synced/imported into
+active configuration by other means.</p>
+<p>For example, in <code>farm_update.settings.yml</code>:</p>
+<pre><code class="language-yaml">exclude_config:
+  # Exclude mymodule.settings from automatic configuration updates.
+  - mymodule.settings
+</code></pre>
                 
               
               
