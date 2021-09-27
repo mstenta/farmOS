@@ -1182,12 +1182,13 @@ automatically when they update to the new version.</p>
 <p>For more information, see the documentation for Drupal's
 <a href="https://www.drupal.org/docs/drupal-apis/update-api/">Update API</a>.</p>
 <h2 id="configuration-updates">Configuration updates<a class="headerlink" href="#configuration-updates" title="Permanent link">&para;</a></h2>
-<p>If the farmOS Update module is enabled, changes to configuration will be
-automatically reverted when caches are rebuilt. The purpose of this is to
+<p>If the farmOS Update module is enabled, changes to configuration entities will
+be automatically reverted when caches are rebuilt. The purpose of this is to
 make it easier for farmOS module developers to make minor changes to the
 configuration included with their module without writing update hooks.</p>
 <p>Note that this only handles overridden configuration. It does not handle
-missing, inactive, or added configuration.</p>
+missing, inactive, or added configuration. It also does not touch "simple"
+configuration (eg: module settings) - only configuration entities (eg: Views).</p>
 <p>In most cases this is desirable, but if you are intentionally overriding
 configuration in your farmOS instance then you have a few options for
 disabling this behavior.</p>
