@@ -1128,6 +1128,9 @@ location. Some of these services are documented here.</p>
 <p><strong>Service name</strong>: <code>asset.location</code></p>
 <p>The asset location service provides methods that encapsulate the logic for
 determining an asset's location and geometry.</p>
+<p>Note that these methods do not perform access checking on any of the assets or
+logs used to determine location. It is up to downstream code to ensure access
+controls are respected.</p>
 <p><strong>Methods</strong>:</p>
 <p><code>isLocation($asset)</code> - Check if an asset is a location. Returns a boolean.</p>
 <p><code>isFixed($asset)</code> - Check if an asset is fixed. Returns a boolean.</p>
@@ -1151,6 +1154,9 @@ $geometry = \Drupal::service('asset.location')-&gt;getGeometry($asset);
 <p><strong>Service name</strong>: <code>asset.inventory</code></p>
 <p>The asset inventory service provides methods that encapsulate the logic for
 determining an asset's inventory.</p>
+<p>Note that these methods do not perform access checking on any of the assets or
+logs used to determine inventory. It is up to downstream code to ensure access
+controls are respected.</p>
 <p><strong>Methods</strong>:</p>
 <p><code>getInventory($asset, $measure = '', $units = '')</code> - Get inventory summaries
 for an asset. Returns an array of arrays with the following keys: <code>measure</code>,
@@ -1167,6 +1173,9 @@ $gallons_of_fertilizer = \Drupal::service('asset.inventory')-&gt;getInventory($a
 <p>The group membership service provides methods that encapsulate the logic for
 determining an asset's group membership. This is provided by the optional Group
 Asset module, and will only be available if that module is installed.</p>
+<p>Note that these methods do not perform access checking on any of the assets or
+logs used to determine group membership. It is up to downstream code to ensure
+access controls are respected.</p>
 <p><strong>Methods</strong>:</p>
 <p><code>hasGroup($asset)</code> - Check if an asset is a member of a group. Returns a
 boolean.</p>
@@ -1185,6 +1194,15 @@ $groups = \Drupal::service('group.membership')-&gt;getGroup($asset);
 <p>The log query service is a helper service for building a standard log database
 query. This is primarily used to query for the "latest" log of an asset.
 The asset location and group membership services use this.</p>
+<p>Note that you must set specify whether or not you want access checking to be
+performed on the queried logs by running the <code>accessCheck()</code> method on the
+query object that is returned. This will determine whether or not logs that
+the current user does not have access to will be filtered out. If you are
+trying to find the "latest" log of an asset for a particular purpose, filtering
+out logs can cause inconsistent results, so typically <code>accessCheck(FALSE)</code> is
+necessary. It is the responsibility of the code that uses this service to
+understand the security implications of the data this returns, and perform
+additional access checking if necessary.</p>
 <p><strong>Methods</strong>:</p>
 <p><code>getQuery($options)</code> - Builds a log database query.</p>
 <p>The query will be sorted by log <code>timestamp</code> and <code>id</code>, descending.</p>
@@ -1207,6 +1225,7 @@ $options = [
 ];
 $query = \Drupal::service('farm.log_query')-&gt;getQuery($options);
 $query-&gt;condition('is_movement', TRUE);
+$query-&gt;accessCheck(FALSE);
 $log_ids = $query-&gt;execute();
 
 // Load the first log.
