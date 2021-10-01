@@ -1181,7 +1181,7 @@ optionally recursing into child groups.</p>
 $groups = \Drupal::service('group.membership')-&gt;getGroup($asset);
 </code></pre>
 <h2 id="log-query-service">Log query service<a class="headerlink" href="#log-query-service" title="Permanent link">&para;</a></h2>
-<p><strong>Service name</strong>: <code>log.query</code></p>
+<p><strong>Service name</strong>: <code>farm.log_query</code></p>
 <p>The log query service is a helper service for building a standard log database
 query. This is primarily used to query for the "latest" log of an asset.
 The asset location and group membership services use this.</p>
@@ -1205,7 +1205,7 @@ $options = [
   'status' =&gt; 'done',
   'limit' =&gt; 1,
 ];
-$query = \Drupal::service('log.query')-&gt;getQuery($options);
+$query = \Drupal::service('farm.log_query')-&gt;getQuery($options);
 $query-&gt;condition('is_movement', TRUE);
 $log_ids = $query-&gt;execute();
 
