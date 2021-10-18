@@ -1320,7 +1320,7 @@ function mymodule_farm_entity_bundle_field_info(EntityTypeInterface $entity_type
 <p>Certain fields on assets and logs include a list of options to select from.
 These include:</p>
 <ul>
-<li><strong>Flags</strong> (on assets and logs)<ul>
+<li><strong>Flags</strong> (on assets, logs, and plans)<ul>
 <li>Monitor (<code>monitor</code>)</li>
 <li>Needs review (<code>needs_review</code>)</li>
 <li>Priority (<code>priority</code>)</li>
@@ -1372,13 +1372,32 @@ dependencies:
       - my_module
 id: monitor
 label: Monitor
+entity_types: null
 </code></pre>
 <p>The most important parts are the <code>id</code>, which is a unique machine name for
-the flag, and <code>label</code>, which is the human readable/translatable label that
-will be shown in the select field and other parts of the UI.</p>
+the flag, <code>label</code>, which is the human readable/translatable label that will be
+shown in the select field and other parts of the UI, and <code>entity_types</code>, which
+can optionally specify the entity types and bundles that this flag applies to.</p>
 <p>The <code>langcode</code> and <code>status</code> and <code>dependencies</code> are standard configuration
 entity properties. By putting the module's name in "enforced modules" it will
 ensure that the flag is removed when the module is uninstalled.</p>
+<p>Flags can be limited to certain entity types and bundles via an optional
+<code>entity_types</code> property. This accepts a set of entity types with arrays of
+bundles that the flag applies to (or <code>all</code> to apply to all bundles). For
+example, to create a flag that only applies to Animal assets:</p>
+<pre><code class="language-yaml">entity_types:
+  asset:
+    - animal
+</code></pre>
+<p>To create a flag that applies to all asset types and log types, but not plans,
+specify <code>all</code> for the <code>asset</code> and <code>log</code> bundles, but omit the <code>plan</code> entity
+type:</p>
+<pre><code class="language-yaml">entity_types:
+  asset:
+    - all
+  log:
+    - all
+</code></pre>
 <h4 id="land-type">Land type<a class="headerlink" href="#land-type" title="Permanent link">&para;</a></h4>
 <p>The "Land" module in farmOS provides a "Field" type like this:</p>
 <p><code>land/config/install/farm_land.land_type.field.yml</code></p>
@@ -1416,9 +1435,9 @@ id: soil
 label: Soil test
 </code></pre>
 <h4 id="id-tag-type">ID tag type<a class="headerlink" href="#id-tag-type" title="Permanent link">&para;</a></h4>
-<p>ID tag types are similar to Flags, in that they have an <code>id</code> and <code>label</code>, but
-they also have an additional property: <code>bundle</code>. This allows the tag type to
-be limited to certain types of assets.</p>
+<p>ID tag types are similar to Flags, in that they have an <code>id</code> and <code>label</code>. They
+also have an additional <code>bundle</code> property, which allows them to be limited to
+certain types of assets.</p>
 <p>For example, an "Ear tag" type, provided by the "Animal asset" module, only
 applies to "Animal" assets:</p>
 <p><code>animal/config/install/farm_flag.flag.ear_tag.yml</code></p>
