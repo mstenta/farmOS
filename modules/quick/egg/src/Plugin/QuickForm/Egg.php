@@ -4,6 +4,7 @@ namespace Drupal\farm_quick_egg\Plugin\QuickForm;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
+use Drupal\farm_quick\Traits\QuickPrepopulateTrait;
 use Drupal\farm_quick\Traits\QuickLogTrait;
 
 /**
@@ -21,6 +22,7 @@ use Drupal\farm_quick\Traits\QuickLogTrait;
  */
 class Egg extends QuickFormBase {
 
+  use QuickPrepopulateTrait;
   use QuickLogTrait;
 
   /**
@@ -39,7 +41,7 @@ class Egg extends QuickFormBase {
 
     // Egg layer(s) asset reference.
     // @todo Figure out which assets to present as options.
-    $assets = [];
+    $assets = $this->getPrepopulatedEntities('asset');
     if (!empty($assets)) {
       $asset_options = [];
       foreach ($assets as $asset) {
@@ -75,8 +77,8 @@ class Egg extends QuickFormBase {
     ];
 
     // Reference assets, if specified.
-    if (!empty($form_state->getValue('asset'))) {
-      // @todo Reference assets.
+    if ($asset = $form_state->getValue('asset')) {
+      $log['asset'] = $asset;
     }
 
     // Create the log.

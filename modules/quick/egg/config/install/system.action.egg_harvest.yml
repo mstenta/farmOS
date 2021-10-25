@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - asset
+    - farm_egg
+id: egg_harvest
+label: 'Record egg harvest'
+type: asset
+plugin: egg_harvest
+configuration: {  }
