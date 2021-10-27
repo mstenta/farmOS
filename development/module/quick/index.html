@@ -14,7 +14,7 @@
     
     
       
-        <title>Services - farmOS 2.x Docs</title>
+        <title>Quick forms - farmOS 2.x Docs</title>
       
     
     
@@ -65,7 +65,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#services" class="md-skip">
+        <a href="#quick-forms" class="md-skip">
           Skip to content
         </a>
       
@@ -97,7 +97,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Services
+              Quick forms
             
           </span>
         </div>
@@ -464,14 +464,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
       
       
       
@@ -567,14 +565,12 @@
               
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" >
       
       
       
@@ -679,72 +675,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Services
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../services/" class="md-nav__link">
         Services
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#asset-location-service" class="md-nav__link">
-    Asset location service
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#asset-inventory-service" class="md-nav__link">
-    Asset inventory service
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#group-membership-service" class="md-nav__link">
-    Group membership service
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#log-query-service" class="md-nav__link">
-    Log query service
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1080,30 +1015,63 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#asset-location-service" class="md-nav__link">
-    Asset location service
+  <a href="#building-quick-forms" class="md-nav__link">
+    Building quick forms
   </a>
+  
+    <nav class="md-nav" aria-label="Building quick forms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#annotation" class="md-nav__link">
+    Annotation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#methods" class="md-nav__link">
+    Methods
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#traits-and-helper-methods" class="md-nav__link">
+    Traits and helper methods
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    Dependencies
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#asset-inventory-service" class="md-nav__link">
-    Asset inventory service
+  <a href="#quick-form-actions" class="md-nav__link">
+    Quick form actions
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick form actions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#providing-a-quick-form-action" class="md-nav__link">
+    Providing a quick form action
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#group-membership-service" class="md-nav__link">
-    Group membership service
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#log-query-service" class="md-nav__link">
-    Log query service
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1120,116 +1088,195 @@
               
                 
                 
-                <h1 id="services">Services<a class="headerlink" href="#services" title="Permanent link">&para;</a></h1>
-<p>farmOS provides some <a href="https://symfony.com/doc/current/service_container.html">services</a>
-that encapsulate common logic like querying logs and getting an asset's current
-location. Some of these services are documented here.</p>
-<h2 id="asset-location-service">Asset location service<a class="headerlink" href="#asset-location-service" title="Permanent link">&para;</a></h2>
-<p><strong>Service name</strong>: <code>asset.location</code></p>
-<p>The asset location service provides methods that encapsulate the logic for
-determining an asset's location and geometry.</p>
-<p>Note that these methods do not perform access checking on any of the assets or
-logs used to determine location. It is up to downstream code to ensure access
-controls are respected.</p>
-<p><strong>Methods</strong>:</p>
-<p><code>isLocation($asset)</code> - Check if an asset is a location. Returns a boolean.</p>
-<p><code>isFixed($asset)</code> - Check if an asset is fixed. Returns a boolean.</p>
-<p><code>hasLocation($asset)</code> - Check if an asset is located within other location
-assets. Returns a boolean.</p>
-<p><code>hasGeometry($asset)</code> - Check if an asset has geometry. Returns a boolean.</p>
-<p><code>getLocation($asset)</code> - Get location assets that an asset is located within.
-Returns an array of asset entities.</p>
-<p><code>getGeometry($asset)</code> - Get an asset's geometry. Returns a Well-Known Text
-string.</p>
-<p><code>getMovementLog($asset)</code> - Find the latest movement log that references an
-asset. Returns a log entity, or <code>NULL</code> if no logs were found.</p>
-<p><code>setIntrinsicGeometry($asset, $wkt)</code> - Set an asset's intrinsic geometry, given
-a string in Well-Known Text format.</p>
-<p><code>getAssetsByLocation($locations)</code> - Get assets that are in locations.</p>
-<p><strong>Example usage</strong>:</p>
-<pre><code class="language-php">// Get an asset's current geometry.
-$geometry = \Drupal::service('asset.location')-&gt;getGeometry($asset);
-</code></pre>
-<h2 id="asset-inventory-service">Asset inventory service<a class="headerlink" href="#asset-inventory-service" title="Permanent link">&para;</a></h2>
-<p><strong>Service name</strong>: <code>asset.inventory</code></p>
-<p>The asset inventory service provides methods that encapsulate the logic for
-determining an asset's inventory.</p>
-<p>Note that these methods do not perform access checking on any of the assets or
-logs used to determine inventory. It is up to downstream code to ensure access
-controls are respected.</p>
-<p><strong>Methods</strong>:</p>
-<p><code>getInventory($asset, $measure = '', $units = '')</code> - Get inventory summaries
-for an asset. Returns an array of arrays with the following keys: <code>measure</code>,
-<code>value</code>, <code>units</code>. This can be optionally filtered by <code>$measure</code> and <code>$units</code>.</p>
-<p><strong>Example usage</strong>:</p>
-<pre><code class="language-php">// Get summaries of all inventories for an asset.
-$all_inventory = \Drupal::service('asset.inventory')-&gt;getInventory($asset);
+                <h1 id="quick-forms">Quick forms<a class="headerlink" href="#quick-forms" title="Permanent link">&para;</a></h1>
+<p>Quick forms provide a simplified user interface for common data entry tasks.</p>
+<h2 id="building-quick-forms">Building quick forms<a class="headerlink" href="#building-quick-forms" title="Permanent link">&para;</a></h2>
+<p>To add a quick form, a module can provide a PHP class in <code>src/Plugin/QuickForm</code>
+that extends the <code>QuickFormBase</code> class.</p>
+<p>For example, a simplified "Egg harvest" quick form would be provided as
+follows:</p>
+<p><code>src/Plugin/QuickForm/Egg.php</code>:</p>
+<pre><code class="language-php">&lt;?php
 
-// Get the current inventory for a given measure and units.
-$gallons_of_fertilizer = \Drupal::service('asset.inventory')-&gt;getInventory($asset, 'volume', 'gallons');
+namespace Drupal\farm_egg\Plugin\QuickForm;
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\farm_quick\QuickFormBase;
+use Drupal\farm_quick\Traits\QuickLogTrait;
+
+/**
+ * Egg harvest quick form.
+ *
+ * @QuickForm(
+ *   id = &quot;egg&quot;,
+ *   label = @Translation(&quot;Egg harvest&quot;),
+ *   description = @Translation(&quot;Record when eggs are harvested.&quot;),
+ *   helpText = @Translation(&quot;Use this form to record when eggs are havested.&quot;),
+ *   permissions = {
+ *     &quot;create harvest log&quot;,
+ *   }
+ * )
+ */
+class Egg extends QuickFormBase {
+
+  use QuickLogTrait;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildForm(array $form, FormStateInterface $form_state, string $id = NULL) {
+
+    // Egg quantity.
+    $form['quantity'] = [
+      '#type' =&gt; 'number',
+      '#title' =&gt; $this-&gt;t('Quantity'),
+      '#min' =&gt; 0,
+      '#step' =&gt; 1,
+      '#required' =&gt; TRUE,
+    ];
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitForm(array &amp;$form, FormStateInterface $form_state) {
+
+    // Draft an egg harvest log from the user-submitted data.
+    $quantity = $form_state-&gt;getValue('quantity');
+    $log = [
+      'name' =&gt; $this-&gt;t('Collected @count egg(s)', ['@count' =&gt; $quantity]),
+      'type' =&gt; 'harvest',
+      'quantity' =&gt; [
+        [
+          'measure' =&gt; 'count',
+          'value' =&gt; $quantity,
+          'unit' =&gt; $this-&gt;t('egg(s)'),
+        ],
+      ],
+    ];
+
+    // Create the log.
+    $this-&gt;createLog($log);
+  }
+
+}
 </code></pre>
-<h2 id="group-membership-service">Group membership service<a class="headerlink" href="#group-membership-service" title="Permanent link">&para;</a></h2>
-<p><strong>Service name</strong>: <code>group.membership</code></p>
-<p>The group membership service provides methods that encapsulate the logic for
-determining an asset's group membership. This is provided by the optional Group
-Asset module, and will only be available if that module is installed.</p>
-<p>Note that these methods do not perform access checking on any of the assets or
-logs used to determine group membership. It is up to downstream code to ensure
-access controls are respected.</p>
-<p><strong>Methods</strong>:</p>
-<p><code>hasGroup($asset)</code> - Check if an asset is a member of a group. Returns a
-boolean.</p>
-<p><code>getGroup($asset)</code> - Get group assets that an asset is a member of. Returns an
-array of asset entities.</p>
-<p><code>getGroupAssignmentLog($asset)</code> - Find the latest group assignment log that
-references an asset. Returns a log entity, or <code>NULL</code> if no logs were found.</p>
-<p><code>getGroupMembers($groups, $recurse)</code> - Get assets that are members of groups,
-optionally recursing into child groups.</p>
-<p><strong>Example usage:</strong></p>
-<pre><code class="language-php">// Get the groups that an asset is a member of.
-$groups = \Drupal::service('group.membership')-&gt;getGroup($asset);
-</code></pre>
-<h2 id="log-query-service">Log query service<a class="headerlink" href="#log-query-service" title="Permanent link">&para;</a></h2>
-<p><strong>Service name</strong>: <code>farm.log_query</code></p>
-<p>The log query service is a helper service for building a standard log database
-query. This is primarily used to query for the "latest" log of an asset.
-The asset location and group membership services use this.</p>
-<p>Note that you must set specify whether or not you want access checking to be
-performed on the queried logs by running the <code>accessCheck()</code> method on the
-query object that is returned. This will determine whether or not logs that
-the current user does not have access to will be filtered out. If you are
-trying to find the "latest" log of an asset for a particular purpose, filtering
-out logs can cause inconsistent results, so typically <code>accessCheck(FALSE)</code> is
-necessary. It is the responsibility of the code that uses this service to
-understand the security implications of the data this returns, and perform
-additional access checking if necessary.</p>
-<p><strong>Methods</strong>:</p>
-<p><code>getQuery($options)</code> - Builds a log database query.</p>
-<p>The query will be sorted by log <code>timestamp</code> and <code>id</code>, descending.</p>
-<p>It accepts a keyed array of options:</p>
+<h3 id="annotation">Annotation<a class="headerlink" href="#annotation" title="Permanent link">&para;</a></h3>
+<p>The <code>@QuickForm</code> annotation comment above the class declaration is required,
+and provides import metadata about the quick form.</p>
 <ul>
-<li><code>type</code> (string) - Filter by log type.</li>
-<li><code>timestamp</code> (Unix timestamp) - Filter to logs by timestamp. Only logs with
-  a timestamp less than or equal to this will be included.</li>
-<li><code>status</code> (string) - Filter by log status.</li>
-<li><code>asset</code> (asset entity) - Filter to logs that reference a particular asset.</li>
-<li><code>limit</code> (int) - Only include this many results.</li>
+<li><code>id</code> - The quick form's unique ID.</li>
+<li><code>label</code> - The translated label of the quick form displayed at the top of the
+  quick form and in the quick form index page.</li>
+<li><code>description</code> - The translated description of the quick form displayed in the
+  quick form index page.</li>
+<li><code>helpText</code> - The translated help text of the quick form displayed above the
+  quick form when the Help module is enabled.</li>
+<li><code>permissions</code> - An array of permissions that are required to access the quick
+  form.</li>
 </ul>
-<p><strong>Example usage</strong>:</p>
-<pre><code class="language-php">// Find the latest &quot;movement&quot; log for an asset.
-$options = [
-  'asset' =&gt; $asset,
-  'timestamp' =&gt; \Drupal::time()-&gt;getCurrentTime(),
-  'status' =&gt; 'done',
-  'limit' =&gt; 1,
-];
-$query = \Drupal::service('farm.log_query')-&gt;getQuery($options);
-$query-&gt;condition('is_movement', TRUE);
-$query-&gt;accessCheck(FALSE);
-$log_ids = $query-&gt;execute();
+<h3 id="methods">Methods<a class="headerlink" href="#methods" title="Permanent link">&para;</a></h3>
+<p>The <code>QuickFormBase</code> class implements all the necessary methods defined in the
+<code>QuickFormInterface</code> interface, and child classes can choose to override only
+the ones they need to. At minimum, this will usually include the <code>buildForm()</code>
+and <code>submitForm()</code> methods.</p>
+<p>Available methods include:</p>
+<ul>
+<li><code>access()</code> - Checks to see if the current use has access to the quick form.
+  If omitted, then the <code>QuickFormBase::access()</code> parent method will check to
+  see if the user has all of the permissions specified in the list of
+  <code>permissions</code> in the <code>@QuickForm</code> annotation. Overriding this method allows
+  a quick form to implement more customized access control logic.</li>
+<li><code>buildForm()</code> - Build the quick form as an array using the
+  <a href="https://www.drupal.org/docs/drupal-apis/form-api/introduction-to-form-api">Drupal Form API</a>.</li>
+<li><code>validateForm()</code> - Perform validation on the user input.</li>
+<li><code>submitForm()</code> - Perform logic when the form is submitted. This will not run
+  if validation fails.</li>
+</ul>
+<h3 id="traits-and-helper-methods">Traits and helper methods<a class="headerlink" href="#traits-and-helper-methods" title="Permanent link">&para;</a></h3>
+<p>farmOS provides some helpers for common quick form operations. These are
+available in the form of traits that can be added to the quick form class.
+Available traits and the methods that they provide include:</p>
+<ul>
+<li><code>QuickAssetTrait</code></li>
+<li><code>createAsset($values)</code> - Creates and returns a new asset entity from
+    an array of values. This also creates a link in the database between the
+    entity and the quick form that created it, and displays a message to the
+    user upon submission with a link to the entity.</li>
+<li><code>QuickLogTrait</code></li>
+<li><code>createLog($values)</code> - Creates and returns a new log entity from an
+    array of values. This also creates a link in the database between the
+    entity and the quick form that created it, and displays a message to the
+    user upon submission with a link to the entity.</li>
+<li><code>QuickPrepopulateTrait</code></li>
+<li><code>getPrepopulatedEntities($entity_type)</code> - Returns entities of the specified
+    entity type that have been prepopulated for the quick form. Entities may
+    be prepopulated by either a query param or a user specific tempstore that
+    is populated by the quick form action.</li>
+<li><code>QuickQuantityTrait</code></li>
+<li><code>createQuantity($values)</code> - Creates and returns a new quantity entity from
+    an array of values.</li>
+<li><code>QuickTermTrait</code></li>
+<li><code>createTerm($values)</code> - Creates and returns a new term entity from an array
+    of values.</li>
+<li><code>createOrLoadTerm($name, $vocabulary)</code> - Attempts to load an existing term,
+    given a name and vocabulary. If the term does not exist, a new term will be
+    created.</li>
+</ul>
+<h3 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h3>
+<p>All dependencies for a quick form should be declared in the module's
+<code>*.info.yml</code> file.</p>
+<h2 id="quick-form-actions">Quick form actions<a class="headerlink" href="#quick-form-actions" title="Permanent link">&para;</a></h2>
+<p>Quick form actions provide a shortcut to completing a quick form that performs
+actions on or references existing entities.</p>
+<h3 id="providing-a-quick-form-action">Providing a quick form action<a class="headerlink" href="#providing-a-quick-form-action" title="Permanent link">&para;</a></h3>
+<p>To add a quick form action, a module can provide a PHP class in
+<code>src/Plugin/Action</code> that extends the <code>QuickFormActionBase</code> class.</p>
+<p>For example, an action to complete the "Egg harvest" quick for select
+assets would be provided as follows:</p>
+<p><code>src/Plugin/Action/EggHarvest.php</code>:</p>
+<pre><code class="language-php">&lt;?php
 
-// Load the first log.
-$log = \Drupal::service('entity_type.manager')-&gt;getStorage('log')-&gt;load(reset($log_ids));
+namespace Drupal\farm_egg\Plugin\Action;
+
+use Drupal\farm_quick\Plugin\Action\QuickFormActionBase;
+
+/**
+ * Action for recording egg harvests.
+ *
+ * @Action(
+ *   id = &quot;egg_harvest&quot;,
+ *   label = @Translation(&quot;Record egg harvest&quot;),
+ *   type = &quot;asset&quot;,
+ *   confirm_form_route_name = &quot;farm.quick.egg&quot;
+ * )
+ */
+class EggHarvest extends QuickFormActionBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getQuckFormId(): string {
+    return 'egg';
+  }
+
+}
+</code></pre>
+<p>Once the plugin is created, an action config entity needs to be created:</p>
+<p><code>config/install/system.action.egg_harvest.yml</code>:</p>
+<pre><code class="language-yml">langcode: en
+status: true
+dependencies:
+  module:
+    - asset
+    - farm_egg
+id: egg_harvest
+label: 'Record egg harvest'
+type: asset
+plugin: egg_harvest
+configuration: {  }
 </code></pre>
                 
               
@@ -1246,41 +1293,6 @@ $log = \Drupal::service('entity_type.manager')-&gt;getStorage('log')-&gt;load(re
       
         
 <footer class="md-footer">
-  
-    <nav class="md-footer__inner md-grid" aria-label="Footer">
-      
-        
-        <a href="../updates/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Updates" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              Updates
-            </div>
-          </div>
-        </a>
-      
-      
-        
-        <a href="../../environment/" class="md-footer__link md-footer__link--next" aria-label="Next: Getting started" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Getting started
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
