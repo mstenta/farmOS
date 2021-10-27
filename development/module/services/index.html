@@ -1145,7 +1145,7 @@ string.</p>
 asset. Returns a log entity, or <code>NULL</code> if no logs were found.</p>
 <p><code>setIntrinsicGeometry($asset, $wkt)</code> - Set an asset's intrinsic geometry, given
 a string in Well-Known Text format.</p>
-<p><code>getAssetsByLocation($location)</code> - Get assets that are in a location.</p>
+<p><code>getAssetsByLocation($locations)</code> - Get assets that are in locations.</p>
 <p><strong>Example usage</strong>:</p>
 <pre><code class="language-php">// Get an asset's current geometry.
 $geometry = \Drupal::service('asset.location')-&gt;getGeometry($asset);
@@ -1183,7 +1183,7 @@ boolean.</p>
 array of asset entities.</p>
 <p><code>getGroupAssignmentLog($asset)</code> - Find the latest group assignment log that
 references an asset. Returns a log entity, or <code>NULL</code> if no logs were found.</p>
-<p><code>getGroupMembers($group, $recurse)</code> - Get assets that are members of a group,
+<p><code>getGroupMembers($groups, $recurse)</code> - Get assets that are members of groups,
 optionally recursing into child groups.</p>
 <p><strong>Example usage:</strong></p>
 <pre><code class="language-php">// Get the groups that an asset is a member of.
