@@ -9,7 +9,7 @@
       
       
       <link rel="icon" href="../../../favicon.ico">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.0.3">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.0.5">
     
     
       
@@ -17,7 +17,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.62128196.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.a617204b.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.9204c3b2.min.css">
@@ -38,7 +38,7 @@
       
     
     
-    <script>function __md_scope(e,t,_){return new URL(_||(t===localStorage?"../../..":"../../.."),location).pathname+"."+e}function __md_get(e,t=localStorage,_){return JSON.parse(t.getItem(__md_scope(e,t,_)))}function __md_set(e,t,_=localStorage,o){try{_.setItem(__md_scope(e,_,o),JSON.stringify(t))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -1747,10 +1747,27 @@ historical record of everything that has happened to a particular Asset.</p>
 <h4 id="locations">Locations<a class="headerlink" href="#locations" title="Permanent link">&para;</a></h4>
 <p>Logs can reference Assets that are designated as "locations" to indicate where
 they took place.</p>
-<p>See the "Is location" attribute of <a href="/model/type/asset#is_location">Assets</a>.</p>
+<p>This differs from the Assets relationship described above. The distinction is:</p>
+<ul>
+<li>The "Asset" relationship means "this happened <em>TO</em> this Asset".</li>
+<li>The "Location" relationship means "this happened <em>IN</em> this Asset".</li>
+</ul>
+<p>This distinction is important, and it makes intuitive sense for many use-cases.
+For example, if you are creating a Maintenance Log, you can say that it was
+maintenance applied to a tractor Asset (referenced in the "Asset" field), and
+it was performed in a barn Asset (referenced in the "Location" field).</p>
+<p>However, some cases are less intuitive - specifically when you want to represent
+an action that is being performed directly to Assets that are designated as
+locations.</p>
+<p>For example: if you are applying an input to a pasture (represented as an Asset
+of type "Land"), then the action is happening both <em>TO</em> the pasture and <em>IN</em>
+the pasture. In this case, the pasture Asset can be referenced in either or both
+the "Asset" and "Location" fields. This decision is left up to the
+<a href="/model/convention">convention</a> of the end-user or module that implements it.</p>
 <p>When combined with the "Is movement" attribute (above), this will move all Assets
-referenced on the Log to the locations specified.</p>
-<p>For more information, see <a href="/model/logic/location">farmOS Location Logic</a>.</p>
+referenced on the Log to the locations specified. For more information, see
+<a href="/model/logic/location">farmOS Location Logic</a>.</p>
+<p>See also: the "Is location" attribute of <a href="/model/type/asset#is_location">Assets</a>.</p>
 <h4 id="quantities">Quantities<a class="headerlink" href="#quantities" title="Permanent link">&para;</a></h4>
 <p>Quantities are records that contain quantitative data. These are used to
 represent things like input amounts, harvest totals, time tracking, etc. For
@@ -1907,10 +1924,10 @@ above, some types add additional type-specific fields. These include:</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../../assets/javascripts/workers/search.01824240.min.js"}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../../assets/javascripts/workers/search.cefbb252.min.js"}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.e0abf5b0.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.a5f8ea78.min.js"></script>
       
     
   </body>
