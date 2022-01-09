@@ -1,6 +1,8 @@
 # Translating farmOS
 
-This describes how to enable translations in farmOS.
+This describes how to enable translations in farmOS. If you would like to help
+translate farmOS into more languages, or improve existing translations, refer
+to the [contributing translations](/development/localization) guide.
 
 1. Enable the **farmOS Localization** (`farm_l10n1) module.
 2. Add your desired language and download translations.

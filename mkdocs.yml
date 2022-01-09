@@ -54,6 +54,7 @@ nav:
       - Automated tests: development/environment/tests.md
       - Coding standards: development/environment/code.md
       - Documentation: development/environment/documentation.md
+    - Localization: development/localization.md
   - Hosting:
     - Introduction: hosting/index.md
     - Installing: hosting/install.md
