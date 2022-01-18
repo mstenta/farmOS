@@ -6,6 +6,7 @@ use Drupal\asset\Entity\Asset;
 use Drupal\asset\Entity\AssetInterface;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Url;
+use Drupal\data_stream\Entity\DataStream;
 use Drupal\Tests\farm_test\Functional\FarmBrowserTestBase;
 use GuzzleHttp\RequestOptions;
 
@@ -41,6 +42,48 @@ class SensorDataApiTest extends FarmBrowserTestBase {
       'name' => $this->randomMachineName(),
     ]);
     $this->asset->save();
+  }
+
+  /**
+   * Test that references to data streams are removed when deleted.
+   */
+  public function testRemoveDataStreamReference() {
+
+    // @todo Run this test once issue 485 is fixed.
+    $this->markTestSkipped('Skip this test until integration with entity reference integrity is fixed. Issue 485.');
+
+    // Create a data stream.
+    $data_stream = DataStream::create([
+      'type' => 'basic',
+      'name' => $this->randomMachineName(),
+    ]);
+    $data_stream->save();
+
+    // Add to the asset.
+    $this->asset->set('data_stream', $data_stream);
+    $this->asset->save();
+
+    // Save the data stream ID.
+    $data_stream_id = $data_stream->id();
+
+    // First assert that the data stream is referenced.
+    $count = \Drupal::database()->select('asset__data_stream')
+      ->condition('data_stream_target_id', $data_stream_id)
+      ->countQuery()
+      ->execute()
+      ->fetchfield();
+    $this->assertGreaterThan(0, $count);
+
+    // Delete the data stream.
+    $data_stream->delete();
+
+    // Assert that the data stream is no longer referenced.
+    $count = \Drupal::database()->select('asset__data_stream')
+      ->condition('data_stream_target_id', $data_stream_id)
+      ->countQuery()
+      ->execute()
+      ->fetchField();
+    $this->assertEquals(0, $count);
   }
 
   /**
