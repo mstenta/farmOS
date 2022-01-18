@@ -83,3 +83,15 @@ function farm_sensor_asset_view_alter(array &$build, AssetInterface $asset, Enti
     ];
   }
 }
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ */
+function farm_sensor_data_stream_delete(DataStreamInterface $data_stream) {
+
+  // @todo Considerations for improved entity reference integrity?
+  // Remove any references to this data stream from the asset.data_stream field.
+  \Drupal::database()->delete('asset__data_stream')
+    ->condition('data_stream_target_id', $data_stream->id())
+    ->execute();
+}
