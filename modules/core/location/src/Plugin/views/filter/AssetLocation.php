@@ -1,20 +1,20 @@
 <?php
 
-namespace Drupal\farm_location\Plugin\views\argument;
+namespace Drupal\farm_location\Plugin\views\filter;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\farm_location\AssetLocationInterface;
-use Drupal\views\Plugin\views\argument\ArgumentPluginBase;
+use Drupal\views\Plugin\views\filter\ManyToOne;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * An argument for filtering assets by their current location.
+ * A handler for filtering assets by their current location.
  *
- * @ingroup views_argument_handlers
+ * @ingroup views_filter_handlers
  *
- * @ViewsArgument("asset_location")
+ * @ViewsFilter("asset_location")
  */
-class AssetLocation extends ArgumentPluginBase {
+class AssetLocation extends ManyToOne {
 
   /**
    * The entity type manager service.
@@ -66,7 +66,25 @@ class AssetLocation extends ArgumentPluginBase {
   /**
    * {@inheritdoc}
    */
-  public function query($group_by = FALSE) {
+  public function getValueOptions() {
+    if (isset($this->valueOptions)) {
+      return $this->valueOptions;
+    }
+
+    // @todo populate this with real values
+    // @todo render location hierarchy
+    $this->valueOptions = [
+      2 => 'Greenhouse 1',
+      53 => 'Field C',
+    ];
+
+    return $this->valueOptions;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function query() {
 
     // First query for a list of asset IDs in the location, then use this list
     // to filter the current View.
@@ -79,23 +97,24 @@ class AssetLocation extends ArgumentPluginBase {
     // 3. It keeps this Views argument handler's query modifications very
     // simple. It only needs the condition: "WHERE asset.id IN (:asset_ids)".
     // See https://www.drupal.org/project/farm/issues/3217168 for more info.
-    // This same approach is used in filter/AssetLocation.php.
-    /** @var \Drupal\asset\Entity\AssetInterface $location */
-    $location = $this->entityTypeManager->getStorage('asset')->load($this->argument);
-    $assets = $this->assetLocation->getAssetsByLocation([$location]);
+    // This same approach is used in argument/AssetLocation.php.
     $asset_ids = [];
-    foreach ($assets as $asset) {
-      $asset_ids[] = $asset->id();
+    if (!empty($this->value)) {
+      foreach ($this->value as $location_id) {
+        /** @var \Drupal\asset\Entity\AssetInterface $location */
+        $location = $this->entityTypeManager->getStorage('asset')->load($location_id);
+        $assets = $this->assetLocation->getAssetsByLocation([$location]);
+        foreach ($assets as $asset) {
+          $asset_ids[] = $asset->id();
+        }
+      }
     }
 
-    // If there are no asset IDs, add 0 to ensure the array is not empty.
-    if (empty($asset_ids)) {
-      $asset_ids[] = 0;
-    }
+    // Set $this->value to the asset IDs in the selected location(s).
+    $this->value = $asset_ids;
 
-    // Filter to only include assets with those IDs.
-    $this->ensureMyTable();
-    $this->query->addWhere(0, "$this->tableAlias.$this->realField", $asset_ids, 'IN');
+    // Delegate to the parent method.
+    parent::query();
   }
 
 }
