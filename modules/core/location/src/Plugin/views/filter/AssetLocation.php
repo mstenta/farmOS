@@ -66,6 +66,18 @@ class AssetLocation extends ManyToOne {
   /**
    * {@inheritdoc}
    */
+  public function operatorOptions($which = 'title') {
+
+    // Only allow the 'IN' operator, because our query() method logic does not
+    // currently support other operators.
+    return array_filter(parent::operatorOptions(), function($k) {
+      return $k == 'in';
+    }, ARRAY_FILTER_USE_KEY);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getValueOptions() {
     if (isset($this->valueOptions)) {
       return $this->valueOptions;
