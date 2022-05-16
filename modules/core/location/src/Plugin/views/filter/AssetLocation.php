@@ -3,6 +3,7 @@
 namespace Drupal\farm_location\Plugin\views\filter;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\farm_location\AssetLocationInterface;
 use Drupal\views\Plugin\views\filter\ManyToOne;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -78,6 +79,34 @@ class AssetLocation extends ManyToOne {
   /**
    * {@inheritdoc}
    */
+  protected function valueForm(&$form, FormStateInterface $form_state) {
+    $default_value = [];
+    if (!empty($this->value)) {
+      $default_value = $this->entityTypeManager->getStorage('asset')->loadMultiple((array) $this->value);
+    }
+    $form['value'] = [
+      '#type' => 'entity_autocomplete',
+      '#title' => $this->valueTitle,
+      '#default_value' => $default_value,
+      '#target_type' => 'asset',
+      '#selection_handler' => 'views',
+      '#selection_settings' => [
+        'view' => [
+          'view_name' => 'farm_location_reference',
+          'display_name' => 'entity_reference',
+        ],
+        'match_operator' => 'CONTAINS',
+        'match_limit' => 10,
+      ],
+      '#tags' => TRUE,
+      '#validate_reference' => FALSE,
+      '#maxlength' => 1024,
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getValueOptions() {
     if (isset($this->valueOptions)) {
       return $this->valueOptions;
@@ -112,9 +141,9 @@ class AssetLocation extends ManyToOne {
     // This same approach is used in argument/AssetLocation.php.
     $asset_ids = [];
     if (!empty($this->value)) {
-      foreach ($this->value as $location_id) {
+      foreach ($this->value as $value) {
         /** @var \Drupal\asset\Entity\AssetInterface $location */
-        $location = $this->entityTypeManager->getStorage('asset')->load($location_id);
+        $location = $this->entityTypeManager->getStorage('asset')->load($value['target_id']);
         $assets = $this->assetLocation->getAssetsByLocation([$location]);
         foreach ($assets as $asset) {
           $asset_ids[] = $asset->id();
