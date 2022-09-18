@@ -695,6 +695,21 @@ class LocationTest extends KernelTestBase {
     $violations = $third_log->validate();
     $this->assertCount(1, $violations);
     $this->assertEquals($this->t('%asset cannot be located within itself.', ['%asset' => $this->locations[2]->label()]), $violations[0]->getMessage());
+
+    // @todo
+    // Does reverting to a previous entity revision perform validation?
+    // If not, it would be possible to get into a circular location situation.
+    // I could see this not being covered by core because most validation does
+    // not involve checking other entities like this does.
+    // Come to think of it... is it possible to create the same condition by
+    // deleting a log? Imagine creating logs for two assets that move them
+    // through being located within each other, and the logs all validate
+    // initially, but then you delete one that causes a later one to become
+    // invalid...
+    // what if you shuffle around the timestamps of a bunch of movement logs?
+
+    // @todo
+    // investigate if there's a race condition
   }
 
 }
