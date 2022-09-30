@@ -203,5 +203,7 @@ jobs:
         run: |
           docker tag mstenta/farmos:2.x mstenta/farmos:${{ env.FARMOS_VERSION }}
           docker push mstenta/farmos:${{ env.FARMOS_VERSION }}
-          docker tag mstenta/farmos:2.x mstenta/farmos:latest
-          docker push mstenta/farmos:latest
+          if [[ ${{ env.FARMOS_VERSION }} =~ ^(?!0\d)\d+(?:\.(?!0\d)\d+){2}(?:-(?:(?!0\d)(?:(?!_)[\w-])+|\.(?!\.|$))+)?(?:\+(?:(?:(?!_)[\w-])+|\.(?!\.|$))+)?$ ]]; then
+            docker tag mstenta/farmos:2.x mstenta/farmos:latest
+            docker push mstenta/farmos:latest
+          fi
