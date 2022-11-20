@@ -42,3 +42,10 @@ Some ways in which conventions are already being developed include:
   information and store it consistently in Logs.
 - Reports that query the database for Logs that match a certain convention
   and summarize them in different ways.
+
+## Convention documentation
+
+A repository of community-maintained conventions is available on GitHub atg
+[github.com/farmOS/conventions](https://github.com/farmOS/conventions), and
+automatically included here for reference. These conventions are developed
+through a community consensus process, and are versioned
