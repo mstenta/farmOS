@@ -16,12 +16,6 @@ jobs:
   build:
     name: Build Docker images
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        # Build images for each platform.
-        platform:
-          - linux/amd64
-          - linux/arm64/v8
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v3
@@ -40,42 +34,67 @@ jobs:
         run: |
           echo "FARMOS_VERSION=${GITHUB_HEAD_REF}" >> $GITHUB_ENV
           echo "FARMOS_REPO=${{ github.event.pull_request.head.repo.full_name }}" >> $GITHUB_ENV
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-        with:
-          platforms: ${{ matrix.platform }}
       - name: Build and save farmOS 2.x Docker image
         run: |
-          docker buildx build --platform=${{ matrix.platform }} --build-arg FARMOS_REPO=https://github.com/${FARMOS_REPO} --build-arg FARMOS_VERSION=${FARMOS_VERSION} -t farmos/farmos:2.x docker
+          docker build --build-arg FARMOS_REPO=https://github.com/${FARMOS_REPO} --build-arg FARMOS_VERSION=${FARMOS_VERSION} -t farmos/farmos:2.x docker
           docker save farmos/farmos:2.x > /tmp/farmos-2x.tar
       - name: Cache farmOS 2.x Docker image
         uses: actions/cache@v3
         with:
           path: /tmp/farmos-2x.tar
-          key: farmos-2x-${{ matrix.platform }}-${{ github.run_id }}
+          key: farmos-2x-${{ github.run_id }}
       # This builds the dev Docker image using the specified FARMOS_VERSION,
       # but notably it does NOT override the default PROJECT_VERSION, so the
       # farmOS Composer project 2.x branch is always used.
       - name: Build and save farmOS 2.x-dev Docker image
         run: |
-          docker buildx build --platform=${{ matrix.platform }} --build-arg FARMOS_REPO=https://github.com/${FARMOS_REPO} --build-arg FARMOS_VERSION=${FARMOS_VERSION} -t farmos/farmos:2.x-dev docker/dev
+          docker build --build-arg FARMOS_REPO=https://github.com/${FARMOS_REPO} --build-arg FARMOS_VERSION=${FARMOS_VERSION} -t farmos/farmos:2.x-dev docker/dev
           docker save farmos/farmos:2.x-dev > /tmp/farmos-2x-dev.tar
       - name: Cache farmOS 2.x-dev Docker image
         uses: actions/cache@v3
         with:
           path: /tmp/farmos-2x-dev.tar
-          key: farmos-2x-dev-${{ matrix.platform }}-${{ github.run_id }}
+          key: farmos-2x-dev-${{ github.run_id }}
     outputs:
       farmos_version: ${{ env.FARMOS_VERSION }}
+  build-arm64:
+    name: Build Docker images for ARM64
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+      - name: Set FARMOS_VERSION from previous output.
+        run: echo "FARMOS_VERSION=${{ needs.build.outputs.farmos_version }}" >> $GITHUB_ENV
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: linux/arm64/v8
+      - name: Build and save farmOS 2.x Docker image
+        run: |
+          docker buildx build --platform=linux/arm64/v8 --build-arg FARMOS_REPO=https://github.com/${FARMOS_REPO} --build-arg FARMOS_VERSION=${FARMOS_VERSION} -t farmos/farmos:2.x docker
+          docker save farmos/farmos:2.x > /tmp/farmos-2x-arm64v8.tar
+      - name: Cache farmOS 2.x Docker image
+        uses: actions/cache@v3
+        with:
+          path: /tmp/farmos-2x-arm64v8.tar
+          key: farmos-2x-arm64v8-${{ github.run_id }}
+      # This builds the dev Docker image using the specified FARMOS_VERSION,
+      # but notably it does NOT override the default PROJECT_VERSION, so the
+      # farmOS Composer project 2.x branch is always used.
+      - name: Build and save farmOS 2.x-dev Docker image
+        run: |
+          docker buildx build --platform=linux/arm64/v8 --build-arg FARMOS_REPO=https://github.com/${FARMOS_REPO} --build-arg FARMOS_VERSION=${FARMOS_VERSION} -t farmos/farmos:2.x-dev docker/dev
+          docker save farmos/farmos:2.x-dev > /tmp/farmos-2x-dev-arm64v8.tar
+      - name: Cache farmOS 2.x-dev Docker image
+        uses: actions/cache@v3
+        with:
+          path: /tmp/farmos-2x-dev-arm64v8.tar
+          key: farmos-2x-dev-arm64v8-${{ github.run_id }}
   sniff:
     name: Run PHP Codesniffer and PHPStan
     runs-on: ubuntu-latest
     needs: build
-    strategy:
-      matrix:
-        # Only run code checks against linux/amd64 image.
-        platform:
-          - linux/amd64
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v3
@@ -83,7 +102,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: /tmp/farmos-2x-dev.tar
-          key: farmos-2x-dev-${{ matrix.platform }}-${{ github.run_id }}
+          key: farmos-2x-dev-${{ github.run_id }}
       - name: Load farmos/farmos:2.x-dev image
         run: docker load < /tmp/farmos-2x-dev.tar
       - name: Run PHP CodeSniffer
@@ -100,9 +119,6 @@ jobs:
     needs: build
     strategy:
       matrix:
-        # Only run tests against linux/amd64 image.
-        platform:
-          - linux/amd64
         dbms:
          - pgsql
          - mariadb
@@ -126,7 +142,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: /tmp/farmos-2x-dev.tar
-          key: farmos-2x-dev-${{ matrix.platform }}-${{ github.run_id }}
+          key: farmos-2x-dev-${{ github.run_id }}
       - name: Load farmos/farmos:2.x-dev image
         run: docker load < /tmp/farmos-2x-dev.tar
       # Build a new docker-compose.yml file from docker-compose.testing.common + docker-compose.testing.{dbms}.yml.
@@ -155,11 +171,6 @@ jobs:
       - build
       - sniff
       - test
-    strategy:
-      matrix:
-        # Create release from linux/amd64 image.
-        platform:
-          - linux/amd64
     steps:
       - name: Set FARMOS_VERSION from previous output.
         run: echo "FARMOS_VERSION=${{ needs.build.outputs.farmos_version }}" >> $GITHUB_ENV
@@ -167,7 +178,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: /tmp/farmos-2x.tar
-          key: farmos-2x-${{ matrix.platform }}-${{ github.run_id }}
+          key: farmos-2x-${{ github.run_id }}
       - name: Load farmos/farmos:2.x image
         run: docker load < /tmp/farmos-2x.tar
       - name: Run farmOS Docker container
@@ -190,14 +201,9 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - build
+      - build-arm64
       - sniff
       - test
-    strategy:
-      matrix:
-        # Publish images to Docker Hub for all platforms.
-        platform:
-          - linux/amd64
-          - linux/arm64/v8
     steps:
       - name: Set FARMOS_VERSION from previous output.
         run: echo "FARMOS_VERSION=${{ needs.build.outputs.farmos_version }}" >> $GITHUB_ENV
@@ -205,14 +211,14 @@ jobs:
         uses: actions/cache@v3
         with:
           path: /tmp/farmos-2x.tar
-          key: farmos-2x-${{ matrix.platform }}-${{ github.run_id }}
+          key: farmos-2x-${{ github.run_id }}
       - name: Load farmos/farmos:2.x image
         run: docker load < /tmp/farmos-2x.tar
       - name: Restore farmOS 2.x-dev Docker image from cache
         uses: actions/cache@v3
         with:
           path: /tmp/farmos-2x-dev.tar
-          key: farmos-2x-dev-${{ matrix.platform }}-${{ github.run_id }}
+          key: farmos-2x-dev-${{ github.run_id }}
       - name: Load farmos/farmos:2.x-dev image
         run: docker load < /tmp/farmos-2x-dev.tar
       - name: Login to Docker Hub.
@@ -243,6 +249,7 @@ jobs:
           else
             echo "ANNOUNCE_RELEASE=0" >> $GITHUB_ENV
           fi
+      # @todo push arm64 images
     outputs:
       announce: ${{ env.ANNOUNCE_RELEASE }}
   announce:
