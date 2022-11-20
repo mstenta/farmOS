@@ -40,6 +40,10 @@ jobs:
         run: |
           echo "FARMOS_VERSION=${GITHUB_HEAD_REF}" >> $GITHUB_ENV
           echo "FARMOS_REPO=${{ github.event.pull_request.head.repo.full_name }}" >> $GITHUB_ENV
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: ${{ matrix.platform }}
       - name: Build and save farmOS 2.x Docker image
         run: |
           docker buildx build --platform=${{ matrix.platform }} --build-arg FARMOS_REPO=https://github.com/${FARMOS_REPO} --build-arg FARMOS_VERSION=${FARMOS_VERSION} -t farmos/farmos:2.x docker
