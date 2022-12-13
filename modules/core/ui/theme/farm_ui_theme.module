@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Block\BlockPluginInterface;
+use Drupal\layout_builder\Entity\LayoutBuilderEntityViewDisplay;
 
 /**
  * Implements hook_theme().
@@ -65,7 +66,6 @@ function farm_ui_theme_preprocess_field__flag(array &$variables) {
  */
 function farm_ui_theme_preprocess_asset__full(&$variables) {
   farm_ui_theme_build_stacked_twocol_layout($variables, 'asset');
-  $variables['#attached']['library'][] = 'farm_ui_theme/layout';
 }
 
 /**
@@ -73,7 +73,6 @@ function farm_ui_theme_preprocess_asset__full(&$variables) {
  */
 function farm_ui_theme_preprocess_log__full(&$variables) {
   farm_ui_theme_build_stacked_twocol_layout($variables, 'log');
-  $variables['#attached']['library'][] = 'farm_ui_theme/layout';
 }
 
 /**
@@ -81,7 +80,6 @@ function farm_ui_theme_preprocess_log__full(&$variables) {
  */
 function farm_ui_theme_preprocess_plan__full(&$variables) {
   farm_ui_theme_build_stacked_twocol_layout($variables, 'plan');
-  $variables['#attached']['library'][] = 'farm_ui_theme/layout';
 }
 
 /**
@@ -94,6 +92,26 @@ function farm_ui_theme_preprocess_plan__full(&$variables) {
  *   The entity type.
  */
 function farm_ui_theme_build_stacked_twocol_layout(array &$variables, string $entity_type) {
+
+  // If the Layout Builder module is enabled, and is configured for the current
+  // entity bundle, allow it to take full control.
+  if (\Drupal::moduleHandler()->moduleExists('layout_builder')) {
+
+    // Load the entity_view_display config for this entity+bundle's default
+    // view mode.
+    $bundle = $variables[$entity_type]->bundle();
+    $view_mode = 'default';
+    $display = \Drupal::entityTypeManager()->getStorage('entity_view_display')->load($entity_type . '.' . $bundle . '.' . $view_mode);
+
+    // If $display is an instance of LayoutBuilderEntityViewDisplay, we know
+    // that layout builder is controlling this bundle. So we bail here.
+    if ($display instanceof LayoutBuilderEntityViewDisplay) {
+      return;
+    }
+  }
+
+  // Add two-column layout CSS adjustments.
+  $variables['#attached']['library'][] = 'farm_ui_theme/layout';
 
   // Ask modules for a list of region items.
   $region_items = \Drupal::moduleHandler()->invokeAll('farm_ui_theme_region_items', [$entity_type]);
