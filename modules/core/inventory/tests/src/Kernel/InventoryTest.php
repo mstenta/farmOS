@@ -84,6 +84,7 @@ class InventoryTest extends KernelTestBase {
 
     // When an asset has no adjustment logs, it has no inventory.
     $inventory = $this->assetInventory->getInventory($asset);
+    // @todo this is inconsistent w/ timestamp
     $this->assertEmpty($inventory, 'New assets do not have inventory.');
 
     // Assert that the asset's cache tags were not invalidated.
