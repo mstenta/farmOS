@@ -44,7 +44,7 @@
         "drupal/role_delegation": "^1.2",
         "drupal/simple_oauth": "5.2.3",
         "drupal/state_machine": "^1.6",
-        "drupal/subrequests": "^3.0.3",
+        "drupal/subrequests": "^3.0",
         "drupal/token": "^1.11",
         "drupal/views_geojson": "^1.2",
         "drush/drush": "^11.3",
