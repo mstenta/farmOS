@@ -10,6 +10,12 @@
  */
 function farm_entity_fields_asset_base_fields() {
   $field_info = [
+    'convention' => [
+      'type' => 'string',
+      'label' => t('Convention'),
+      'multiple' => TRUE,
+      'hidden' => TRUE,
+    ],
     'data' => [
       'type' => 'string_long',
       'label' => t('Data'),
@@ -58,6 +64,12 @@ function farm_entity_fields_asset_base_fields() {
  */
 function farm_entity_fields_log_base_fields() {
   $field_info = [
+    'convention' => [
+      'type' => 'string',
+      'label' => t('Convention'),
+      'multiple' => TRUE,
+      'hidden' => TRUE,
+    ],
     'data' => [
       'type' => 'string_long',
       'label' => t('Data'),

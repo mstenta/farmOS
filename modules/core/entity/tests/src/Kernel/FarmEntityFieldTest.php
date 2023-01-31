@@ -60,6 +60,7 @@ class FarmEntityFieldTest extends KernelTestBase {
     // Test asset field storage definitions.
     $fields = $this->entityFieldManager->getFieldStorageDefinitions('asset');
     $field_names = [
+      'convention',
       'data',
       'flag',
       'file',
@@ -85,6 +86,7 @@ class FarmEntityFieldTest extends KernelTestBase {
     $fields = $this->entityFieldManager->getFieldStorageDefinitions('log');
     $field_names = [
       'asset',
+      'convention',
       'data',
       'flag',
       'file',

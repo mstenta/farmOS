@@ -48,6 +48,7 @@ Attributes that are common to all Log types include:
 - Geometry
 - Is movement
 - Notes
+- Convention
 - Data
 
 #### Name
@@ -100,6 +101,12 @@ For more information, see [farmOS Location Logic](/model/logic/location).
 Notes can be added to a Log to describe it in more detail. This is a freeform
 text field that allows a limited set of HTML tags, including links, lists,
 blockquotes, emphasis, etc.
+
+#### Convention
+
+Logs have a hidden "convention" field on them that is only accessible via the
+API. This allows an asset to specify which convention ID(s) it intends to
+adhere to. See the [convention](/model/convention) docs for more info.
 
 #### Data
 

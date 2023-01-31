@@ -64,6 +64,7 @@ Attributes that are common to all Asset types include:
 - Is fixed
 - Notes
 - ID Tags
+- Convention
 - Data
 
 #### Name
@@ -130,6 +131,12 @@ lists, blockquotes, emphasis, etc.
 Often an Asset will have ID tags associated with it. For example, an animal may
 have an RFID collar or an ear tag with a unique ID. ID tags in farmOS can
 store this ID, as well as its type and location.
+
+#### Convention
+
+Assets have a hidden "convention" field on them that is only accessible via
+the API. This allows an asset to specify which convention ID(s) it intends to
+adhere to. See the [convention](/model/convention) docs for more info.
 
 #### Data
 

@@ -42,3 +42,10 @@ Some ways in which conventions are already being developed include:
   information and store it consistently in Logs.
 - Reports that query the database for Logs that match a certain convention
   and summarize them in different ways.
+
+### Convention IDs
+
+Logs and Assets can specify which convention(s) they intend to adhere to by
+specifying convention IDs alongside their other data. The farmOS community is
+in the process of developing a collection of standard and agreed upon
+conventions for representing common types of data.
