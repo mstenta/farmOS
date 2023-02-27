@@ -34,18 +34,12 @@ class Time extends FarmQuantityType {
       'start' => [
         'type' => 'timestamp',
         'label' => $this->t('Start'),
-        'weight' => [
-          'view' => 3,
-          'form' => 3,
-        ],
+        'hidden' => TRUE,
       ],
       'end' => [
         'type' => 'timestamp',
         'label' => $this->t('End'),
-        'weight' => [
-          'view' => 3,
-          'form' => 3,
-        ],
+        'hidden' => TRUE,
       ],
     ];
     foreach ($field_info as $name => $info) {
