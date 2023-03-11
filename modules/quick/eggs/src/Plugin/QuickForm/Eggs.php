@@ -59,6 +59,21 @@ class Eggs extends QuickFormBase implements ConfigurableQuickFormInterface {
       '#required' => TRUE,
     ];
 
+    // Egg layer(s) asset reference.
+    // @todo Figure out which assets to present as options.
+    $assets = [];
+    if (!empty($assets)) {
+      $asset_options = [];
+      foreach ($assets as $asset) {
+        $asset_options[$asset->id()] = $asset->label();
+      }
+      $form['asset'] = [
+        '#type' => 'checkboxes',
+        '#title' => $this->t('Egg layer(s)'),
+        '#options' => $asset_options,
+      ];
+    }
+
     return $form;
   }
 
@@ -86,6 +101,11 @@ class Eggs extends QuickFormBase implements ConfigurableQuickFormInterface {
       'status' => 'done',
     ];
 
+    // Reference assets, if specified.
+    if (!empty($form_state->getValue('asset'))) {
+      // @todo Reference assets.
+    }
+
     // Create the log.
     $this->createLog($log);
   }
@@ -102,6 +122,35 @@ class Eggs extends QuickFormBase implements ConfigurableQuickFormInterface {
       '#description' => $this->t('Define the measurement units for egg harvest logs. A new unit taxonomy term will be created on demand if necessary.'),
       '#default_value' => $this->configuration['units'],
       '#required' => TRUE,
+    ];
+
+    # Add a layer asset.
+    $form['add_asset'] = [
+      '#type' => 'entity_autocomplete',
+      '#title' => $this->t('Add layer asset'),
+      '#description' => $this->t('Search for assets that lay eggs to add them to the quick form.'),
+      '#target_type' => 'asset',
+      '#selection_settings' => [
+        'target_bundles' => ['animal'],
+        'sort' => [
+          'field' => 'status',
+          'direction' => 'ASC',
+        ],
+      ],
+    ];
+
+    // If the group asset module is enabled, also allow referencing groups.
+    if (\Drupal::moduleHandler()->moduleExists('farm_group')) {
+      $form['add_asset']['#selection_settings']['target_bundles'][] = 'group';
+    }
+
+    # Layer assets.
+    $form['assets'] = [
+      '#type' => 'checkboxes',
+      '#title' => $this->t('Layer asset options'),
+      '#description' => $this->t('These assets will be shown in the egg harvest quick form so that harvests can optionally be associated with them.'),
+      '#options' => [],
+      '#default_value' => [],
     ];
 
     return $form;
