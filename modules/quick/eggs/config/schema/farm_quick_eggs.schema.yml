@@ -1,0 +1,7 @@
+farm.quick.eggs:
+  type: mapping
+  label: 'Egg harvest quick form settings'
+  mapping:
+    units:
+      type: string
+      label: 'The units to use for egg harvest logs.'

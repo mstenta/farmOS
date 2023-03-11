@@ -4,7 +4,9 @@ namespace Drupal\farm_quick_eggs\Plugin\QuickForm;
 
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\farm_quick\Plugin\QuickForm\ConfigurableQuickFormInterface;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
+use Drupal\farm_quick\Traits\ConfigurableQuickFormTrait;
 use Drupal\farm_quick\Traits\QuickLogTrait;
 
 /**
@@ -20,9 +22,19 @@ use Drupal\farm_quick\Traits\QuickLogTrait;
  *   }
  * )
  */
-class Eggs extends QuickFormBase {
+class Eggs extends QuickFormBase implements ConfigurableQuickFormInterface {
 
+  use ConfigurableQuickFormTrait;
   use QuickLogTrait;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function defaultConfiguration() {
+    return [
+      'units' => 'egg(s)',
+    ];
+  }
 
   /**
    * {@inheritdoc}
@@ -41,6 +53,7 @@ class Eggs extends QuickFormBase {
     $form['quantity'] = [
       '#type' => 'number',
       '#title' => $this->t('Quantity'),
+      '#description' => $this->t('Enter the total quantity collected. This will be recorded as a count with a measurement unit of @units.', ['@units' => $this->configuration['units']]),
       '#min' => 0,
       '#step' => 1,
       '#required' => TRUE,
@@ -57,8 +70,9 @@ class Eggs extends QuickFormBase {
     // Draft an egg harvest log from the user-submitted data.
     $timestamp = $form_state->getValue('date')->getTimestamp();
     $quantity = $form_state->getValue('quantity');
+    $units = $this->configuration['units'];
     $log = [
-      'name' => $this->t('Collected @count egg(s)', ['@count' => $quantity]),
+      'name' => $this->t('Collected @count @units', ['@count' => $quantity, '@units' => $units]),
       'type' => 'harvest',
       'timestamp' => $timestamp,
       'quantity' => [
@@ -66,7 +80,7 @@ class Eggs extends QuickFormBase {
           'type' => 'standard',
           'measure' => 'count',
           'value' => $quantity,
-          'units' => 'egg(s)',
+          'units' => $this->configuration['units'],
         ],
       ],
       'status' => 'done',
@@ -74,6 +88,23 @@ class Eggs extends QuickFormBase {
 
     // Create the log.
     $this->createLog($log);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
+
+    # Units.
+    $form['units'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Units'),
+      '#description' => $this->t('Define the measurement units for egg harvest logs. A new unit taxonomy term will be created on demand if necessary.'),
+      '#default_value' => $this->configuration['units'],
+      '#required' => TRUE,
+    ];
+
+    return $form;
   }
 
 }
