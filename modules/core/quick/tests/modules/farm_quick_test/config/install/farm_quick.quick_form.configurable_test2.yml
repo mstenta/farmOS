@@ -1,0 +1,10 @@
+langcode: en
+status: true
+id: configurable_test2
+plugin: configurable_test
+provider: farm_quick_test
+label: Test configurable quick form 2
+description: Overridden description
+helpText: Overridden help text
+settings:
+  test_default: 500
