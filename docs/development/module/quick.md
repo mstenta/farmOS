@@ -222,6 +222,83 @@ Available traits and the methods that they provide include:
     given a name and vocabulary. If the term does not exist, a new term will be
     created.
 
+## Configurable quick forms
+
+A "configurable" quick form is one that allows users to change how the quick
+form behaves.
+
+To make an existing quick form configurable:
+
+1. Add `implements ConfigurableQuickFormInterface` to the quick form's class
+   definition. This indicates to farmOS that the quick form is configurable,
+   builds a router item for the configuration form, adds it to the UI, etc.
+2. Add `use ConfigurableQuickFormTrait` to the quick form's class definition.
+   This adds default methods required by the `ConfigurableQuickFormInterface`.
+3. Add a `defaultConfiguration()` method that returns an array of default
+   configuration values.
+4. Add a `buildConfigurationForm()` method that builds a configuration form
+   with form items for each of the properties defined in
+   `defaultConfiguration()`.
+
+### Methods
+
+The `ConfigurableQuickFormTrait` class add all the necessary methods required
+by `ConfigurableQuickFormInterface` (which is used to designate a quick form as
+"configurable"). Child classes can override these methods to customize their
+behavior. At a minimum, most configurable quick form classes should override
+`defaultConfiguration()`, `buildConfigurationForm()`, and
+`submitConfigurationForm()`.
+
+Available methods include:
+
+- `defaultConfiguration()` - Provide an array of default configuration values.
+- `buildConfigurationForm()` - Build the configuration form as an array using
+  [Drupal Form API](https://www.drupal.org/docs/drupal-apis/form-api/introduction-to-form-api).
+- `validateConfigurationForm()` - Perform validation on the user input.
+- `submitConfigurationForm()` - Perform logic when the form is submitted to
+  prepare the quick form configuration entity. This will not run if validation
+  fails.
+
+## Quick form configuration entities
+
+Each quick form that is displayed to the user in farmOS is represented as a
+[configuration entity](https://www.drupal.org/docs/drupal-apis/entity-api/configuration-entity).
+Each configuration entity specifies which quick form plugin it uses (aka which
+PHP class that extends from `QuickFormBase`), along with other information like
+label, description, help text, and configuration settings (used by configurable
+quick forms).
+
+However, if a configuration entity is not saved, farmOS will try to provide a
+"default instance" of the quick form plugin. From a module developer's
+perspective, this means that the module does not need to provide any config
+entity YML files in `config/install`. It can rely on farmOS's default quick
+form instance logic to show the quick form.
+
+In the case of configurable quick forms, a config entity will be automatically
+created when the user modifies the quick form's configuration and submits the
+configuration form.
+
+Quick form configuration entities can also be used to override defaults,
+including the label, description, and help text. They can also be used to
+disable a quick form entirely by setting the config entity's `status` to
+false.
+
+If multiple configuration entities are provided for the same plugin, multiple
+quick forms will be displayed in the UI. This is useful if you want to create
+a set of similar quick forms with pre-set configuration options.
+
+### Disable default instance
+
+In some cases, a plugin may not want a "default instance" to be created.
+Instead, they may want to require that a quick form configuration entity be
+explicitly created. For example, if a plugin requires configuration settings,
+but there isn't a sensible default for that configuration and user input is
+required, a "default instance" may not be possible.
+
+In that case, the plugin can add `requiresEntity = True` to its annotation,
+which will tell farmOS not to create a default instance of the quick form.
+The quick form will only be made available if a configuration entity is saved.
+
 ## Quick form actions
 
 farmOS provides lists of logs and assets throughout its interface. Many of
