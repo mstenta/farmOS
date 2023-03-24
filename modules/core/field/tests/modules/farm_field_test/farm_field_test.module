@@ -1,0 +1,103 @@
+<?php
+
+/**
+ * @file
+ * Contains farm_field_test.module.
+ */
+
+use Drupal\Core\Entity\EntityTypeInterface;
+
+/**
+ * Implements hook_entity_base_field_info().
+ */
+function farm_field_test_entity_base_field_info(EntityTypeInterface $entity_type) {
+  $fields = [];
+  if ($entity_type->id() == 'asset') {
+    $field_info = farm_field_test_fields();
+    foreach ($field_info as $name => $info) {
+      $fields[$name] = \Drupal::service('farm_field.factory')->baseFieldDefinition($info);
+    }
+  }
+  return $fields;
+}
+
+/**
+ * Helper function for defining test fields.
+ */
+function farm_field_test_fields() {
+  return [
+    'test_boolean' => [
+      'type' => 'boolean',
+      'label' => t('Test Boolean'),
+    ],
+    'test_decimal' => [
+      'type' => 'decimal',
+      'label' => t('Test Decimal'),
+    ],
+    'test_entity_reference' => [
+      'type' => 'entity_reference',
+      'label' => t('Test Entity Reference'),
+      'target_type' => 'asset',
+    ],
+    'test_email' => [
+      'type' => 'email',
+      'label' => t('Test Email'),
+    ],
+    'test_entity_reference_revisions' => [
+      'type' => 'entity_reference_revisions',
+      'label' => t('Test Entity Reference Revisions'),
+      'target_type' => 'quantity',
+    ],
+    'test_file' => [
+      'type' => 'file',
+      'label' => t('Test File'),
+    ],
+    'test_image' => [
+      'type' => 'image',
+      'label' => t('Test Image'),
+    ],
+    'test_fraction' => [
+      'type' => 'fraction',
+      'label' => t('Test Fraction'),
+    ],
+    'test_geofield' => [
+      'type' => 'geofield',
+      'label' => t('Test Geofield'),
+    ],
+    'test_id_tag' => [
+      'type' => 'id_tag',
+      'label' => t('Test ID Tag'),
+    ],
+    'test_integer' => [
+      'type' => 'integer',
+      'label' => t('Test Integer'),
+    ],
+    'test_inventory' => [
+      'type' => 'inventory',
+      'label' => t('Test Inventory'),
+    ],
+    'test_list_string' => [
+      'type' => 'list_string',
+      'label' => t('Test List String'),
+    ],
+    'test_string' => [
+      'type' => 'string',
+      'label' => t('Test String'),
+      'description' => t('This is a test of the field description'),
+      'required' => TRUE,
+      'multiple' => TRUE,
+    ],
+    'test_string_long' => [
+      'type' => 'string_long',
+      'label' => t('Test String Long'),
+    ],
+    'test_text_long' => [
+      'type' => 'text_long',
+      'label' => t('Test Text Long'),
+    ],
+    'test_timestamp' => [
+      'type' => 'timestamp',
+      'label' => t('Test Timestamp'),
+    ],
+  ];
+}
