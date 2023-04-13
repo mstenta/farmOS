@@ -356,6 +356,7 @@ class Planting extends QuickFormBase {
         ],
         'match_operator' => 'CONTAINS',
       ],
+      '#tags' => TRUE,
       '#required' => TRUE,
     ];
     $field_info['quantity'] = $this->buildInlineContainer();
@@ -439,7 +440,7 @@ class Planting extends QuickFormBase {
       }
     }
 
-    // Get the location name.
+    // Get the location name(s).
     // The "final" location of the plant is assumed to be the transplanting
     // location (if the transplanting module is enabled). If a transplanting is
     // not being created, but a seeding is, then use the seeding location.
@@ -450,13 +451,10 @@ class Planting extends QuickFormBase {
     $location_name = '';
     foreach ($location_keys as $key) {
       if ($form_state->hasValue($key)) {
-        $location_id = $form_state->getValue($key);
-        if (!empty($location_id)) {
-          $location = $this->entityTypeManager->getStorage('asset')->load($location_id);
-          if (!empty($location)) {
-            $location_name = $location->label();
-          }
-        }
+        $location_names = array_map(function ($value) {
+          return $this->entityTypeManager->getStorage('asset')->load($value['target_id'])->label();
+        }, $form_state->getValue($key));
+        $location_name = implode(', ', $location_names);
       }
     }
 

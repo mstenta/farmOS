@@ -196,7 +196,9 @@ class QuickPlantingTest extends QuickFormTestBase {
           'date' => '2022-05-15',
           'time' => '00:00:00',
         ],
-        'location' => $land1->label(),
+        'location' => [
+          ['target_id' => $land1->id()],
+        ],
         'quantity' => [
           'measure' => 'weight',
           'value' => '10.01',
@@ -251,7 +253,9 @@ class QuickPlantingTest extends QuickFormTestBase {
           'date' => '2022-05-15',
           'time' => '00:00:00',
         ],
-        'location' => $land1->label(),
+        'location' => [
+          ['target_id' => $land1->id()],
+        ],
         'notes' => [],
         'done' => TRUE,
       ],
@@ -261,7 +265,9 @@ class QuickPlantingTest extends QuickFormTestBase {
           'date' => '2022-06-15',
           'time' => '00:00:00',
         ],
-        'location' => $land2->label(),
+        'location' => [
+          ['target_id' => $land2->id()],
+        ],
         'notes' => [],
         'done' => FALSE,
       ],
@@ -291,6 +297,36 @@ class QuickPlantingTest extends QuickFormTestBase {
     $this->assertEquals('pending', $log->get('status')->value);
     $log = $logs[4];
     $this->assertEquals('pending', $log->get('status')->value);
+
+    // Test referencing multiple locations.
+    $this->submitQuickForm([
+      'seasons' => [['target_id' => $season->id()]],
+      'crops' => [[['target_id' => $crop->id()]]],
+      'crop_count' => 1,
+      'log_types' => [
+        'seeding' => 'seeding',
+      ],
+      'seeding' => [
+        'type' => 'seeding',
+        'date' => [
+          'date' => '2022-05-15',
+          'time' => '00:00:00',
+        ],
+        'location' => [
+          ['target_id' => $land1->id()],
+          ['target_id' => $land2->id()],
+        ],
+        'notes' => [],
+        'done' => TRUE,
+      ],
+    ]);
+
+    // Confirm that another log was created and it references both locations.
+    $logs = $this->logStorage->loadMultiple();
+    $this->assertCount(5, $logs);
+    $log = $logs[5];
+    $this->assertEquals($land1->id(), $log->get('location')->referencedEntities()[0]->id());
+    $this->assertEquals($land2->id(), $log->get('location')->referencedEntities()[1]->id());
   }
 
 }

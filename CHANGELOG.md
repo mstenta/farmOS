@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- [Allow multiple locations to be referenced in the planting quick form #839](https://github.com/farmOS/farmOS/pull/839)
+
 ### Fixed
 
 - [Remove data_table from existing plan_record entity type definition #829](https://github.com/farmOS/farmOS/pull/829)
