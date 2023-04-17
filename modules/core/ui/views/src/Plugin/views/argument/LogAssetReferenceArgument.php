@@ -94,6 +94,8 @@ class LogAssetReferenceArgument extends ArgumentPluginBase {
     return [
       'asset' => $this->t('Assets'),
       'location' => $this->t('Location'),
+      'equipment' => $this->t('Equipment'),
+      'group' => $this->t('Group'),
     ];
   }
 

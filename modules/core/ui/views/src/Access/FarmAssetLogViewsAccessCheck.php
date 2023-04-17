@@ -58,7 +58,9 @@ class FarmAssetLogViewsAccessCheck implements AccessInterface {
     // Only include logs that reference the asset.
     $reference_condition = $query->orConditionGroup()
       ->condition('asset.entity.id', $asset_id)
-      ->condition('location.entity.id', $asset_id);
+      ->condition('location.entity.id', $asset_id)
+      ->condition('equipment.entity.id', $asset_id)
+      ->condition('group.entity.id', $asset_id);
     $query->condition($reference_condition);
 
     // Determine access based on the log count.
