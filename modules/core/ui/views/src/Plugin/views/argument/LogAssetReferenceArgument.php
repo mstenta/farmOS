@@ -2,6 +2,7 @@
 
 namespace Drupal\farm_ui_views\Plugin\views\argument;
 
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\views\Plugin\views\argument\ArgumentPluginBase;
 use Drupal\views\Views;
 
@@ -15,55 +16,85 @@ class LogAssetReferenceArgument extends ArgumentPluginBase {
   /**
    * {@inheritdoc}
    */
+  public function canExpose() {
+    return TRUE;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function isExposed() {
+    return TRUE;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildExposedForm(&$form, FormStateInterface $form_state) {
+    $form['asset_reference_fields'] = [
+      '#type' => 'checkboxes',
+      '#title' => 'Asset references',
+      '#options' => $this->assetReferenceFields(),
+      '#default_value' => array_keys($this->assetReferenceFields()),
+      '#weight' => 100,
+    ];
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function query($group_by = FALSE) {
 
-    // Join the log__asset table with a condition to match the asset ID.
+    // Join all the asset reference fields that were selected in the exposed
+    // form.
+    // @todo Get this from the submitted form.
+    $asset_reference_fields = array_keys($this->assetReferenceFields());
+
+    // Join each of the asset reference field tables with a condition to match
+    // the asset ID argument.
     $this->ensureMyTable();
-    /** @var \Drupal\views\Plugin\views\join\JoinPluginBase $join */
-    $join = Views::pluginManager('join')->createInstance('standard', [
-      'table' => 'log__asset',
-      'field' => 'entity_id',
-      'left_table' => $this->table,
-      'left_field' => 'id',
-      'extra' => [
-        [
-          'field' => 'deleted',
-          'value' => 0,
+    $aliases = [];
+    foreach ($asset_reference_fields as $field_name) {
+      /** @var \Drupal\views\Plugin\views\join\JoinPluginBase $join */
+      $join = Views::pluginManager('join')->createInstance('standard', [
+        'table' => 'log__' . $field_name,
+        'field' => 'entity_id',
+        'left_table' => $this->table,
+        'left_field' => 'id',
+        'extra' => [
+          [
+            'field' => 'deleted',
+            'value' => 0,
+          ],
+          [
+            'field' => $field_name . '_target_id',
+            'value' => $this->argument,
+          ],
         ],
-        [
-          'field' => 'asset_target_id',
-          'value' => $this->argument,
-        ],
-      ],
-    ]);
-    $asset_alias = $this->query->addRelationship('log__asset', $join, $this->table);
+      ]);
+      $aliases[$field_name] = $this->query->addRelationship('log__' . $field_name, $join, $this->table);
+    }
 
-    // Join the log__location table with a condition to match the asset ID.
-    /** @var \Drupal\views\Plugin\views\join\JoinPluginBase $join */
-    $join = Views::pluginManager('join')->createInstance('standard', [
-      'table' => 'log__location',
-      'field' => 'entity_id',
-      'left_table' => $this->table,
-      'left_field' => 'id',
-      'extra' => [
-        [
-          'field' => 'deleted',
-          'value' => 0,
-        ],
-        [
-          'field' => 'location_target_id',
-          'value' => $this->argument,
-        ],
-      ],
-    ]);
-    $location_alias = $this->query->addRelationship('log__location', $join, $this->table);
+    // Limit the query to only include logs that reference the asset on ONE of
+    // the asset reference fields. This must be added in a single where
+    // expression so the condition is not combined with other filters from the
+    // view.
+    $conditions = [];
+    foreach ($asset_reference_fields as $field_name) {
+      $conditions[] = $aliases[$field_name] . '.' . $field_name . '_target_id IS NOT NULL';
+    }
+    $this->query->addWhereExpression(0, $this->table . '.id IS NOT NULL AND (' . implode(' OR ', $conditions). ')');
+  }
 
-    // Limit the query to only include logs that reference the asset on the
-    // asset OR location field. This must be added in a single where expression
-    // so the condition is not combined with other filters from the view.
-    $asset_condition = "$asset_alias.asset_target_id IS NOT NULL";
-    $location_condition = "$location_alias.location_target_id IS NOT NULL";
-    $this->query->addWhereExpression(0, "$this->table.id IS NOT NULL AND ($asset_condition OR $location_condition)");
+  /**
+   * Define available asset reference fields.
+   */
+  protected function assetReferenceFields() {
+    return [
+      'asset' => $this->t('Assets'),
+      'location' => $this->t('Location'),
+    ];
   }
 
 }
