@@ -6,11 +6,11 @@ use Drupal\views\Plugin\views\argument\ArgumentPluginBase;
 use Drupal\views\Views;
 
 /**
- * Argument handler for both the asset and location fields on logs.
+ * Argument handler for filtering logs by multiple asset reference fields.
  *
- * @ViewsArgument("asset_or_location")
+ * @ViewsArgument("log_asset_reference")
  */
-class AssetOrLocationArgument extends ArgumentPluginBase {
+class LogAssetReferenceArgument extends ArgumentPluginBase {
 
   /**
    * {@inheritdoc}

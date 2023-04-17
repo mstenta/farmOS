@@ -2425,15 +2425,15 @@ display:
     position: 3
     display_options:
       arguments:
-        asset_or_location:
-          id: asset_or_location
+        log_asset_reference:
+          id: log_asset_reference
           table: log_field_data
-          field: asset_or_location
+          field: log_asset_reference
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: log
-          plugin_id: asset_or_location
+          plugin_id: log_asset_reference
           default_action: 'not found'
           exception:
             value: all
