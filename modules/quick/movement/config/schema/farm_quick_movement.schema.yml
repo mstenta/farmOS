@@ -1,0 +1,4 @@
+# Schema for actions.
+action.configuration.movement_action:
+  type: action_configuration_default
+  label: 'Configuration for the movement action'

@@ -4,9 +4,9 @@ dependencies:
   module:
     - asset
     - farm_activity
-    - farm_location
-id: asset_move_action
-label: 'Move asset'
+    - farm_quick_movement
+id: movement_action
+label: 'Move assets'
 type: asset
-plugin: 'asset_move_action'
+plugin: 'movement_action'
 configuration: {  }
