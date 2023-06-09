@@ -62,6 +62,8 @@ trait QuickQuantityTrait {
     /** @var \Drupal\quantity\Entity\QuantityInterface $quantity */
     $quantity = Quantity::create($values);
 
+    // @todo validate??
+
     // Save the quantity.
     $quantity->save();
 

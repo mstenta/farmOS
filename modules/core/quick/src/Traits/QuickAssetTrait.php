@@ -48,6 +48,8 @@ trait QuickAssetTrait {
     // Track which quick form created the entity.
     $asset->quick[] = $this->getId();
 
+    // @todo validate??
+
     // Save the asset.
     $asset->save();
 

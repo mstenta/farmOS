@@ -70,6 +70,8 @@ trait QuickLogTrait {
     // Track which quick form created the entity.
     $log->quick[] = $this->getId();
 
+    // @todo validate??
+
     // Save the log.
     $log->save();
 
