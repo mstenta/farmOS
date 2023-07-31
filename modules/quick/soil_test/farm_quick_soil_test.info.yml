@@ -1,0 +1,8 @@
+name: Soil Test Quick Form
+description: Provides a quick form for recording a soil test.
+type: module
+package: farmOS Quick Forms
+core_version_requirement: ^9
+dependencies:
+  - farm:farm_lab_test
+  - farm:farm_quick
