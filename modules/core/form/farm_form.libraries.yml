@@ -1,0 +1,6 @@
+date_done:
+  css:
+    theme:
+      css/date_done.css: { }
+  js:
+    js/date_done.js: { }

@@ -1,0 +1,8 @@
+form .date_done {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 1em;
+}
+form .date_done .form-type--checkbox {
+  padding-top: 2em;
+}
