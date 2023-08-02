@@ -19,6 +19,7 @@ trait QuickAssetTrait {
    * Returns the quick form ID.
    *
    * This must be implemented by the quick form class that uses this trait.
+   *
    * @see \Drupal\farm_quick\Plugin\QuickForm\QuickFormInterface
    *
    * @return string
