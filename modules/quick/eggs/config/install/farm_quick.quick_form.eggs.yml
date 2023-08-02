@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_quick_eggs
+id: eggs
+provider: farm_quick_eggs
+plugin: eggs
+settings:
+  units: 'egg(s)'

@@ -1,4 +1,4 @@
-farm.quick.eggs:
+farm_quick.quick_form.eggs.settings:
   type: mapping
   label: 'Egg harvest quick form settings'
   mapping:
