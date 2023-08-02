@@ -61,7 +61,7 @@ class QuickForm extends FormBase implements BaseFormIdInterface {
    */
   public function getFormId() {
     $id = $this->getRouteMatch()->getParameter('id');
-    return $this->quickFormManager->createInstance($id)->getFormId();
+    return $this->getBaseFormId() . '_' . $this->quickFormManager->createInstance($id)->getFormId();
   }
 
   /**
