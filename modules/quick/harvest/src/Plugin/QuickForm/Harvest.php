@@ -4,7 +4,9 @@ namespace Drupal\farm_quick_harvest\Plugin\QuickForm;
 
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\farm_quick\Plugin\QuickForm\ConfigurableQuickFormInterface;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
+use Drupal\farm_quick\Traits\ConfigurableQuickFormTrait;
 use Drupal\farm_quick\Traits\QuickLogTrait;
 use Drupal\farm_quick\Traits\QuickPrepopulateTrait;
 
@@ -21,10 +23,20 @@ use Drupal\farm_quick\Traits\QuickPrepopulateTrait;
  *   }
  * )
  */
-class Harvest extends QuickFormBase {
+class Harvest extends QuickFormBase implements ConfigurableQuickFormInterface {
 
+  use ConfigurableQuickFormTrait;
   use QuickLogTrait;
   use QuickPrepopulateTrait;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function defaultConfiguration() {
+    return [
+      'default_quantity' => 100,
+    ];
+  }
 
   /**
    * {@inheritdoc}
@@ -53,6 +65,7 @@ class Harvest extends QuickFormBase {
       '#type' => 'number',
       '#title' => $this->t('Quantity'),
       '#required' => TRUE,
+      '#default_value' => $this->configuration['default_quantity'],
     ];
 
     return $form;
@@ -82,6 +95,28 @@ class Harvest extends QuickFormBase {
 
     // Create the log.
     $this->createLog($log);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
+
+    // Default quantity configuration.
+    $form['default_quantity'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Default quantity'),
+      '#default_value' => $this->configuration['default_quantity'],
+    ];
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {
+    $this->configuration['default_quantity'] = $form_state->getValue('default_quantity');
   }
 
 }

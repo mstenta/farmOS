@@ -1,0 +1,7 @@
+farm_quick.settings.harvest:
+  type: quick_form_settings
+  label: 'Harvest quick form settings'
+  mapping:
+    default_quantity:
+      type: integer
+      label: 'Default quantity'
