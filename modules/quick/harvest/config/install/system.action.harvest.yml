@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - asset
+    - farm_quick_harvest
+id: harvest
+label: 'Record harvest'
+type: asset
+plugin: harvest
+configuration: {  }
