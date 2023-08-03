@@ -4,7 +4,9 @@ namespace Drupal\farm_quick_harvest\Plugin\QuickForm;
 
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\farm_quick\Plugin\QuickForm\ConfigurableQuickFormInterface;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
+use Drupal\farm_quick\Traits\ConfigurableQuickFormTrait;
 use Drupal\farm_quick\Traits\QuickLogTrait;
 use Drupal\farm_quick\Traits\QuickPrepopulateTrait;
 
@@ -21,8 +23,9 @@ use Drupal\farm_quick\Traits\QuickPrepopulateTrait;
  *   }
  * )
  */
-class Harvest extends QuickFormBase {
+class Harvest extends QuickFormBase implements ConfigurableQuickFormInterface {
 
+  use ConfigurableQuickFormTrait;
   use QuickLogTrait;
   use QuickPrepopulateTrait;
 
