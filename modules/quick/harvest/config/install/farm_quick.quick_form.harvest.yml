@@ -1,0 +1,16 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - farm_quick_harvest
+  enforced:
+    module:
+      - farm_quick_harvest
+id: harvest
+plugin: harvest
+provider: farm_quick_harvest
+label: Harvest 1
+description: This is the overridden description 1
+helpText: This is the overridden help text 1
+settings:
+  default_quantity: 101
