@@ -1,0 +1,16 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - farm_quick_harvest
+  enforced:
+    module:
+      - farm_quick_harvest
+id: harvest2
+plugin: harvest
+provider: farm_quick_harvest
+label: Harvest 2
+description: This is the overridden description 2
+helpText: This is the overridden help text 2
+settings:
+  foo: baz
