@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- [Misc quick form code and documentation improvements #703](https://github.com/farmOS/farmOS/pull/703)
+
 ### Fixed
 
 - [Fix composer.json version constraints for migrate_plus and migrate_tools #702](https://github.com/farmOS/farmOS/pull/702)
