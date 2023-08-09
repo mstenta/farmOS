@@ -8,7 +8,6 @@ use Drupal\farm_quick\Plugin\QuickForm\ConfigurableQuickFormInterface;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
 use Drupal\farm_quick\Traits\ConfigurableQuickFormTrait;
 use Drupal\farm_quick\Traits\QuickLogTrait;
-use Drupal\farm_quick\Traits\QuickPrepopulateTrait;
 
 /**
  * Harvest quick form.
@@ -27,7 +26,6 @@ class Harvest extends QuickFormBase implements ConfigurableQuickFormInterface {
 
   use ConfigurableQuickFormTrait;
   use QuickLogTrait;
-  use QuickPrepopulateTrait;
 
   /**
    * {@inheritdoc}
@@ -57,7 +55,6 @@ class Harvest extends QuickFormBase implements ConfigurableQuickFormInterface {
       '#title' => $this->t('Assets'),
       '#target_type' => 'asset',
       '#tags' => TRUE,
-      '#default_value' => $this->getPrepopulatedEntities('asset', $form_state),
     ];
 
     // Harvest quantity field.
