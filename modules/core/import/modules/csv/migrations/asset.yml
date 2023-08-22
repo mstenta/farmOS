@@ -16,6 +16,8 @@ process:
     plugin: default_value
     default_value: default
 
+  # Lookup parent asset(s).
+
   # Asset status.
   status: status
 
