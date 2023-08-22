@@ -22,6 +22,23 @@ class CsvImportMigrationTerm extends CsvImportMigrationBase {
       'plugin' => 'default_value',
       'default_value' => $bundle,
     ];
+
+    // Add support for assigning term parent.
+    // The parent term must already exist in the same vocabulary.
+    $mapping['parent'] = [
+      [
+        'plugin' => 'skip_on_empty',
+        'method' => 'process',
+        'source' => 'parent',
+      ],
+      [
+        'plugin' => 'entity_lookup',
+        'entity_type' => 'taxonomy_term',
+        'value_key' => 'name',
+        'bundle_key' => 'vid',
+        'bundle' => $bundle,
+      ],
+    ];
   }
 
 }

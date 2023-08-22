@@ -39,7 +39,7 @@ class TermCsvImportTest extends CsvImportTestBase {
 
     // Confirm that terms have been created with the expected values.
     $terms = Term::loadMultiple();
-    $this->assertCount(3, $terms);
+    $this->assertCount(4, $terms);
     $expected_values = [
       1 => [
         'name' => 'Cow',
@@ -53,12 +53,23 @@ class TermCsvImportTest extends CsvImportTestBase {
         'name' => 'Sheep',
         'description' => 'Sheep description',
       ],
+      4 => [
+        'name' => 'Galway',
+        'description' => 'Large polled white-faced sheep',
+        'parent' => 'Sheep',
+      ],
     ];
     foreach ($terms as $id => $term) {
       $this->assertEquals('animal_type', $term->bundle());
       $this->assertEquals($expected_values[$id]['name'], $term->label());
       $this->assertEquals($expected_values[$id]['description'], $term->getDescription());
       $this->assertEquals('default', $term->get('description')->format);
+      if (!empty($expected_values[$id]['parent'])) {
+        $this->assertEquals($expected_values[$id]['parent'], $term->get('parent')->referencedEntities()[0]->label());
+      }
+      else {
+        $this->assertEmpty($term->get('parent')->referencedEntities());
+      }
     }
   }
 
