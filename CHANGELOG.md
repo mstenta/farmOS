@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- [Add an Account Admin role with permission to administer users and assign managed roles #714](https://github.com/farmOS/farmOS/pull/714)
+
 ### Fixed
 
 - [Fix composer.json version constraints for migrate_plus and migrate_tools #702](https://github.com/farmOS/farmOS/pull/702)
