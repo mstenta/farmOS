@@ -81,6 +81,44 @@ class CsvImportTest extends FarmBrowserTestBase {
     $this->assertSession()->pageTextNotContains('Migrations');
     $this->assertSession()->pageTextNotContains('Update existing records');
     $this->assertSession()->pageTextNotContains('Migrate');
+
+    // Go to the asset, log, and term importers and confirm that column
+    // descriptions are included.
+    $this->drupalGet('import/csv/asset:equipment');
+    $this->assertSession()->statusCodeEquals(200);
+    $log_columns = [
+      'name: Name of the asset (required).',
+      'notes: Notes about the asset.',
+      'status: Status of the asset.',
+    ];
+    foreach ($log_columns as $description) {
+      $this->assertSession()->pageTextContains($description);
+    }
+    $this->drupalGet('import/csv/log:harvest');
+    $this->assertSession()->statusCodeEquals(200);
+    $log_columns = [
+      'name: Name of the log.',
+      'timestamp: Timestamp of the log. This can understand most date/time formats.',
+      'quantity measure: Measure of the quantity.',
+      'quantity value: Numeric value of the quantity.',
+      'quantity units: Units of measurement of the quantity. A new term in the units taxonomy will be created if necessary.',
+      'quantity label: Label of the quantity.',
+      'notes: Notes about the log.',
+      'status: Status of the log.',
+    ];
+    foreach ($log_columns as $description) {
+      $this->assertSession()->pageTextContains($description);
+    }
+    $this->drupalGet('import/csv/taxonomy_term:animal_type');
+    $this->assertSession()->statusCodeEquals(200);
+    $log_columns = [
+      'name: Name of the term (required).',
+      'description: Description of the term.',
+      'parent: Parent term in the taxonomy hierarchy.',
+    ];
+    foreach ($log_columns as $description) {
+      $this->assertSession()->pageTextContains($description);
+    }
   }
 
 }
