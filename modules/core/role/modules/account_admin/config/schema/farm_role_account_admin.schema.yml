@@ -5,3 +5,6 @@ farm_role_account_admin.settings:
     allow_peer_role_assignment:
       type: boolean
       label: 'Allow users with the Account Admin role to assign/revoke the Account Admin role.'
+    allow_peer_edit:
+      type: boolean
+      label: 'Allow users with the Account Admin role to edit other users with the Account Admin role.'

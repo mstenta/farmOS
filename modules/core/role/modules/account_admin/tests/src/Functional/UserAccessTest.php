@@ -34,6 +34,26 @@ class UserAccessTest extends FarmBrowserTestBase {
     $this->assertSession()->statusCodeEquals(403);
     $this->drupalGet('user/1/edit');
     $this->assertSession()->statusCodeEquals(403);
+
+    // Create a second user with farm_account_admin role.
+    $user2 = $this->createUser();
+    $user2->addRole('farm_account_admin');
+    $user2->save();
+
+    // Confirm that the first farm_account_admin user cannot edit the second
+    // farm_account_admin user.
+    $this->drupalGet('user/1/edit');
+    $this->assertSession()->statusCodeEquals(403);
+
+    // Enable the allow_peer_edit setting.
+    $settings = \Drupal::configFactory()->getEditable('farm_role_account_admin.settings');
+    $settings->set('allow_peer_edit', TRUE);
+    $settings->save();
+
+    // Confirm that the first farm_account_admin user can edit the second
+    // farm_account_admin user.
+    $this->drupalGet('user/1/edit');
+    $this->assertSession()->statusCodeEquals(200);
   }
 
 }

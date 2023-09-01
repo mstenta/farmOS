@@ -46,6 +46,13 @@ class AccountAdminSettingsForm extends ConfigFormbase {
       '#default_value' => $config->get('allow_peer_role_assignment'),
     ];
 
+    $form['allow_peer_edit'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Allow peer editing'),
+      '#description' => $this->t('Allow users with the Account Admin role to edit other users with the Account Admin role.'),
+      '#default_value' => $config->get('allow_peer_edit'),
+    ];
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -55,6 +62,7 @@ class AccountAdminSettingsForm extends ConfigFormbase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->configFactory->getEditable(static::SETTINGS)
       ->set('allow_peer_role_assignment', $form_state->getValue('allow_peer_role_assignment'))
+      ->set('allow_peer_edit', $form_state->getValue('allow_peer_edit'))
       ->save();
 
     parent::submitForm($form, $form_state);
