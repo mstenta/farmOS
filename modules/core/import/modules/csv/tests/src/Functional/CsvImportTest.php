@@ -83,9 +83,10 @@ class CsvImportTest extends FarmBrowserTestBase {
     $this->assertSession()->pageTextNotContains('Migrate');
 
     // Go to the asset, log, and term importers and confirm that column
-    // descriptions are included.
+    // descriptions are included, along with a link to download a template.
     $this->drupalGet('import/csv/asset:equipment');
     $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->pageTextContains('Download template');
     $log_columns = [
       'name: Name of the asset (required).',
       'notes: Notes about the asset.',
@@ -96,6 +97,7 @@ class CsvImportTest extends FarmBrowserTestBase {
     }
     $this->drupalGet('import/csv/log:harvest');
     $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->pageTextContains('Download template');
     $log_columns = [
       'name: Name of the log.',
       'timestamp: Timestamp of the log. This can understand most date/time formats.',
@@ -111,6 +113,7 @@ class CsvImportTest extends FarmBrowserTestBase {
     }
     $this->drupalGet('import/csv/taxonomy_term:animal_type');
     $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->pageTextContains('Download template');
     $log_columns = [
       'name: Name of the term (required).',
       'description: Description of the term.',
