@@ -36,7 +36,7 @@ class CsvImportMigrationGroupTest extends CsvImportTestBase {
     $migrations = $this->migrationManager->getDefinitions();
     foreach ($migrations as $migration) {
       $this->assertEquals('farm_import_csv', $migration['migration_group']);
-      $this->assertEquals('csv', $migration['source']['plugin']);
+      $this->assertEquals('csv_file', $migration['source']['plugin']);
       $this->assertTrue($migration['source']['create_record_number']);
       $this->assertEquals('rownum', $migration['source']['record_number_field']);
       $this->assertEquals(['rownum'], $migration['source']['ids']);
