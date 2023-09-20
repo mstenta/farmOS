@@ -4,6 +4,7 @@ namespace Drupal\farm_import_csv\Controller;
 
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Database\Connection;
 use Drupal\Core\Link;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
@@ -45,6 +46,13 @@ class CsvImportController extends ControllerBase {
   protected $migrationAccess;
 
   /**
+   * The database connection.
+   *
+   * @var \Drupal\Core\Database\Connection
+   */
+  protected $database;
+
+  /**
    * Constructs a new CsvImportController.
    *
    * @param \Drupal\Core\Menu\MenuLinkTreeInterface $menu_link_tree
@@ -53,11 +61,14 @@ class CsvImportController extends ControllerBase {
    *   The migration plugin manager.
    * @param \Drupal\farm_import_csv\Access\CsvImportMigrationAccess $migration_access
    *   The CSV import migration access service.
+   * @param \Drupal\Core\Database\Connection $database
+   *   The database connection.
    */
-  public function __construct(MenuLinkTreeInterface $menu_link_tree, MigrationPluginManager $plugin_manager_migration, CsvImportMigrationAccess $migration_access) {
+  public function __construct(MenuLinkTreeInterface $menu_link_tree, MigrationPluginManager $plugin_manager_migration, CsvImportMigrationAccess $migration_access, Connection $database) {
     $this->menuLinkTree = $menu_link_tree;
     $this->pluginManagerMigration = $plugin_manager_migration;
     $this->migrationAccess = $migration_access;
+    $this->database = $database;
   }
 
   /**
@@ -68,6 +79,7 @@ class CsvImportController extends ControllerBase {
       $container->get('menu.link_tree'),
       $container->get('plugin.manager.migration'),
       $container->get('farm_import_csv.access'),
+      $container->get('database'),
     );
   }
 
@@ -203,6 +215,18 @@ class CsvImportController extends ControllerBase {
 
     // Add the importer form.
     $build['form'] = \Drupal::formBuilder()->getForm('Drupal\farm_import_csv\Form\CsvImportForm', $migration_id);
+
+    // If entities have been created by this importer, display a View of them.
+    if ($this->database->select('farm_import_csv_entity', 'e')->condition('e.migration', $migration_id)->countQuery()->execute()->fetchField()) {
+      $entity_type = str_replace('entity:', '', $migration['destination']['plugin']);
+      $build['imported'] = [
+        '#type' => 'details',
+        '#title' => $this->t('Imported records'),
+        '#open' => TRUE,
+        '#weight' => 100,
+      ];
+      $build['imported']['view'] = views_embed_view('farm_import_csv_' . $entity_type, 'default', $migration_id);
+    }
 
     return $build;
   }
