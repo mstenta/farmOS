@@ -2,6 +2,7 @@
 
 namespace Drupal\farm_import_csv\Access;
 
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\migrate\Plugin\MigrationPluginManager;
@@ -49,7 +50,11 @@ class CsvImportMigrationAccess {
   public function access(AccountInterface $account, string $migration_id) {
 
     // Load the migration definition.
-    $definition = $this->pluginManagerMigration->getDefinition($migration_id);
+    try {
+      $definition = $this->pluginManagerMigration->getDefinition($migration_id);
+    } catch (PluginNotFoundException $e) {
+      return AccessResult::forbidden();
+    }
 
     // If the source plugin is csv_file, and it is in the farm_import_csv
     // migration group, check access based on third party settings.
@@ -64,5 +69,4 @@ class CsvImportMigrationAccess {
     // Otherwise, deny access.
     return AccessResult::forbidden();
   }
-
 }
