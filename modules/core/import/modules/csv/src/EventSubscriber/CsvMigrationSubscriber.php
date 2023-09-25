@@ -115,15 +115,23 @@ class CsvMigrationSubscriber implements EventSubscriberInterface {
     $file_id = $this->tempStore->get($tempstore_key);
     $this->tempStore->delete($tempstore_key);
     if (!empty($file_id)) {
+
+      // Query the migrate_map_* table, if it exists.
+      // Migrate map tables are generated on-the-fly by the Drupal core migrate
+      // module, only when needed. If no rows get imported (due to validation
+      // errors, empty CSV files, etc), then the table will not be generated
+      // when this code runs.
       $table = $event->getMigration()->getIdMap()->mapTableName();
-      $query = $this->database->select($table, 'm');
-      $query->addField('m', 'sourceid2');
-      $query->condition('m.sourceid1', $file_id);
-      $record_numbers = $query->execute()->fetchCol();
-      foreach ($record_numbers as $record_number) {
-        $messages = $event->getMigration()->getIdMap()->getMessages(['file_id' => $file_id, 'record_number' => $record_number]);
-        foreach ($messages as $message) {
-          $event->logMessage($this->t('Row @rownum: @message', ['@rownum' => $record_number, '@message' => $message->message]), 'warning');
+      if ($this->database->schema()->tableExists($table)) {
+        $query = $this->database->select($table, 'm');
+        $query->addField('m', 'sourceid2');
+        $query->condition('m.sourceid1', $file_id);
+        $record_numbers = $query->execute()->fetchCol();
+        foreach ($record_numbers as $record_number) {
+          $messages = $event->getMigration()->getIdMap()->getMessages(['file_id' => $file_id, 'record_number' => $record_number]);
+          foreach ($messages as $message) {
+            $event->logMessage($this->t('Row @rownum: @message', ['@rownum' => $record_number, '@message' => $message->message]), 'warning');
+          }
         }
       }
     }
