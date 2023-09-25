@@ -2,15 +2,15 @@ langcode: en
 status: true
 dependencies:
   module:
-    - asset
     - farm_import_csv
     - file
-id: farm_import_csv_asset
-label: 'CSV imported assets'
+    - log
+id: farm_import_csv_log
+label: 'CSV imported logs'
 module: views
 description: ''
 tag: ''
-base_table: asset_field_data
+base_table: log_field_data
 base_field: id
 display:
   default:
@@ -20,14 +20,14 @@ display:
     position: 0
     display_options:
       fields:
-        asset_bulk_form:
-          id: asset_bulk_form
-          table: asset
-          field: asset_bulk_form
+        log_bulk_form:
+          id: log_bulk_form
+          table: log
+          field: log_bulk_form
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: asset
+          entity_type: log
           plugin_id: bulk_form
           label: 'Bulk update'
           exclude: false
@@ -73,7 +73,7 @@ display:
           action_title: Action
           include_exclude: include
           selected_actions:
-            - asset_delete_action
+            - log_delete_action
         created:
           id: created
           table: file_managed
@@ -151,7 +151,7 @@ display:
           entity_type: file
           entity_field: filename
           plugin_id: field
-          label: 'CSV file'
+          label: Filename
           exclude: false
           alter:
             alter_text: false
@@ -193,63 +193,8 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: file_link
-          settings:
-            relationship: file_id
-            fieldsets:
-              - more
-              - admin_label
-            custom_label: 1
-            label: 'CSV file'
-            element_label_colon: 1
-            exclude: 0
-            element_type_enable: 0
-            element_type: ''
-            element_class_enable: 0
-            element_class: ''
-            element_label_type_enable: 0
-            element_label_type: ''
-            element_label_class_enable: 0
-            element_label_class: ''
-            element_wrapper_type_enable: 0
-            element_wrapper_type: ''
-            element_wrapper_class_enable: 0
-            element_wrapper_class: ''
-            element_default_classes: 1
-            alter:
-              alter_text: 0
-              text: ''
-              make_link: 0
-              path: ''
-              absolute: 0
-              replace_spaces: 0
-              external: 0
-              path_case: none
-              link_class: ''
-              alt: ''
-              rel: ''
-              prefix: ''
-              suffix: ''
-              target: ''
-              trim: 0
-              max_length: '0'
-              word_boundary: 1
-              ellipsis: 1
-              more_link: 0
-              more_link_text: ''
-              more_link_path: ''
-              html: 0
-              strip_tags: 0
-              preserve_tags: ''
-              trim_whitespace: 0
-              nl2br: 0
-            empty: ''
-            empty_zero: 0
-            hide_empty: 0
-            hide_alter_empty: 1
-            click_sort_column: value
-            type: file_link
-            field_api_classes: 0
+          type: string
+          settings: {  }
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -317,9 +262,76 @@ display:
           format_plural_string: !!binary MQNAY291bnQ=
           prefix: ''
           suffix: ''
+        timestamp:
+          id: timestamp
+          table: log_field_data
+          field: timestamp
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: log
+          entity_field: timestamp
+          plugin_id: log_field
+          label: Timestamp
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: timestamp
+          settings:
+            date_format: html_date
+            custom_date_format: ''
+            timezone: ''
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
         name:
           id: name
-          table: asset_field_data
+          table: log_field_data
           field: name
           relationship: none
           group_type: group
@@ -327,7 +339,7 @@ display:
           entity_type: null
           entity_field: name
           plugin_id: field
-          label: 'Asset name'
+          label: 'Log name'
           exclude: false
           alter:
             alter_text: false
@@ -469,14 +481,15 @@ display:
           row_class: ''
           default_row_class: true
           columns:
-            asset_bulk_form: asset_bulk_form
+            log_bulk_form: log_bulk_form
             created: created
             filename: filename
             rownum: rownum
+            timestamp: timestamp
             name: name
           default: created
           info:
-            asset_bulk_form:
+            log_bulk_form:
               align: ''
               separator: ''
               empty_column: false
@@ -498,6 +511,13 @@ display:
             rownum:
               sortable: true
               default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            timestamp:
+              sortable: true
+              default_sort_order: desc
               align: ''
               separator: ''
               empty_column: false
@@ -542,9 +562,6 @@ display:
           required: true
       header: {  }
       footer: {  }
-      display_extenders:
-        collapsible_filter:
-          collapsible: false
     cache_metadata:
       max-age: 0
       contexts:
