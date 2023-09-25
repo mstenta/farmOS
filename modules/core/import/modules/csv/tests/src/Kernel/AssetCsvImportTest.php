@@ -32,7 +32,7 @@ class AssetCsvImportTest extends CsvImportTestBase {
   public function testAssetCsvImport() {
 
     // Run the CSV import.
-    $this->importCsv('equipment.csv', 'asset:equipment');
+    $this->importCsv('equipment.csv', 'csv_asset:equipment');
 
     // Confirm that assets have been created with the expected values.
     $assets = Asset::loadMultiple();
