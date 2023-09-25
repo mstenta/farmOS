@@ -225,6 +225,8 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
         break;
     }
 
+    # exclude hidden fields
+
     // Add column description.
     $description = (string) $field_definition->getDescription();
     if (!empty($extra_description)) {
