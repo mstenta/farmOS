@@ -87,17 +87,17 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        filename:
-          id: filename
+        uri:
+          id: uri
           table: file_managed
-          field: filename
+          field: uri
           relationship: file_id
           group_type: group
           admin_label: ''
           entity_type: file
-          entity_field: filename
+          entity_field: uri
           plugin_id: field
-          label: 'CSV file'
+          label: Filename
           exclude: false
           alter:
             alter_text: false
@@ -139,8 +139,10 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: string
-          settings: {  }
+          type: file_uri
+          settings:
+            link_to_file: true
+            file_download_path: false
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -375,7 +377,7 @@ display:
           default_row_class: true
           columns:
             created: created
-            filename: filename
+            uri: uri
             rownum: rownum
             name: name
           default: created
@@ -387,7 +389,7 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            filename:
+            uri:
               sortable: true
               default_sort_order: desc
               align: ''
