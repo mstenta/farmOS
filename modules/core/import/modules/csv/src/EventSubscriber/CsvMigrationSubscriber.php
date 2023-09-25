@@ -110,7 +110,7 @@ class CsvMigrationSubscriber implements EventSubscriberInterface {
     }
 
     // Load the file ID from temporary storage (set during CSV upload form
-    // submit), and show any messages associated with it..
+    // submit), and show any messages associated with it.
     $tempstore_key = $this->currentUser->id() . ':' . $event->getMigration()->id();
     $file_id = $this->tempStore->get($tempstore_key);
     $this->tempStore->delete($tempstore_key);
