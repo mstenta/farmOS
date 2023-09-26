@@ -121,6 +121,11 @@ class CsvImportForm extends MigrateSourceUiForm {
   public function validateForm(array &$form, FormStateInterface $form_state) {
     parent::validateForm($form, $form_state);
 
+    // If there is no uploaded file, bail.
+    if (empty($form_state->getValue('file_path'))) {
+      return;
+    }
+
     // Prepare the private://csv directory.
     $directory = 'private://csv';
     $this->fileSystem->prepareDirectory($directory, FileSystemInterface::CREATE_DIRECTORY);
