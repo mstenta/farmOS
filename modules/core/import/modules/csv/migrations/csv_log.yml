@@ -57,7 +57,11 @@ process:
     default_value: default
 
   # Log status.
-  status: status
+  status:
+    - plugin: get
+      source: status
+    - plugin: default_value
+      default_value: done
 
 # Describe the base columns.
 third_party_settings:
@@ -78,6 +82,6 @@ third_party_settings:
       - name: notes
         description: Notes about the log.
       - name: status
-        description: Status of the log.
+        description: 'Status of the log. Allowed values: pending, done. Defaults to done.'
 
 deriver: \Drupal\farm_import_csv\Plugin\Derivative\CsvImportMigrationLog
