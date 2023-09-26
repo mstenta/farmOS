@@ -149,6 +149,12 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
    */
   protected function addBundleField($field_definition, &$mapping, &$columns): void {
 
+    // Do not include hidden fields.
+    $form_display_options = $field_definition->getDisplayOptions('form');
+    if (isset($form_display_options['region']) && $form_display_options['region'] == 'hidden') {
+      return;
+    }
+
     // Get the field name.
     $field_name = $field_definition->getName();
 
