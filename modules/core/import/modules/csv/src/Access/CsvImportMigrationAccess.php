@@ -8,6 +8,9 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\migrate\Plugin\MigrationPluginManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Access checking logic for CSV importers.
+ */
 class CsvImportMigrationAccess {
 
   /**
@@ -42,7 +45,7 @@ class CsvImportMigrationAccess {
    * @param \Drupal\Core\Session\AccountInterface $account
    *   The user account to check access for.
    * @param string $migration_id
-   *    The migration ID.
+   *   The migration ID.
    *
    * @return \Drupal\Core\Access\AccessResultInterface
    *   An access result.
@@ -52,7 +55,8 @@ class CsvImportMigrationAccess {
     // Load the migration definition.
     try {
       $definition = $this->pluginManagerMigration->getDefinition($migration_id);
-    } catch (PluginNotFoundException $e) {
+    }
+    catch (PluginNotFoundException $e) {
       return AccessResult::forbidden();
     }
 
@@ -69,4 +73,5 @@ class CsvImportMigrationAccess {
     // Otherwise, deny access.
     return AccessResult::forbidden();
   }
+
 }

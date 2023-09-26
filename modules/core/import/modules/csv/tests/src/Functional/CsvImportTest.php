@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\farm_import_csv\Functional;
 
-use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Tests\farm_test\Functional\FarmBrowserTestBase;
 
 /**

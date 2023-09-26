@@ -136,9 +136,9 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
    * @param \Drupal\entity\BundleFieldDefinition $field_definition
    *   The field definition.
    * @param array &$mapping
-   *    The migration process mapping.
+   *   The migration process mapping.
    * @param array &$columns
-   *    The column descriptions from third-party settings.
+   *   The column descriptions from third-party settings.
    */
   protected function addBundleField($field_definition, &$mapping, &$columns): void {
 
@@ -153,15 +153,12 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
 
       // Boolean field.
       case 'boolean':
-        # @todo
-        # Accept 1, 0, y, n, yes, no, true, false (convert to lowercase)
-
+        // @todo Accept 1, 0, y, n, yes, no, true, false (convert to lowercase)
         break;
 
       // Entity reference field.
       case 'entity_reference':
-        # @todo
-        # Support assets and terms.
+        // @todo Support assets and terms.
         break;
 
       // List of strings field.
@@ -177,7 +174,7 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
         }
 
         // Generate an "allowed values" message.
-        $allowed_values_message = t('Allowed values');
+        $allowed_values_message = $this->t('Allowed values');
         $allowed_values_message .= ': ' . implode(', ', array_keys($allowed_values));
 
         // Filter out values that are not allowed.
@@ -213,19 +210,19 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
       // Timestamp.
       case 'timestamp':
 
-        # Parse with strtotime().
+        // Parse with strtotime().
         $mapping[$field_name] = [
           'plugin' => 'callback',
           'callable' => 'strtotime',
           'source' => $column_name,
         ];
 
-        # Describe allowed values.
+        // Describe allowed values.
         $extra_description = $this->t('Accepts most date/time formats.');
         break;
     }
 
-    # exclude hidden fields
+    // @todo exclude hidden fields
 
     // Add column description.
     $description = (string) $field_definition->getDescription();

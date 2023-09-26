@@ -12,7 +12,7 @@ use Drupal\migrate\Event\MigratePostRowSaveEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Class CsvMigrationSubscriber.
+ * Subscribe to migration events.
  */
 class CsvMigrationSubscriber implements EventSubscriberInterface {
   use StringTranslationTrait;
@@ -44,7 +44,7 @@ class CsvMigrationSubscriber implements EventSubscriberInterface {
    * @param \Drupal\Core\Database\Connection $database
    *   The database connection.
    * @param \Drupal\Core\Session\AccountInterface $current_user
-   *    The current user.
+   *   The current user.
    * @param \Drupal\Core\TempStore\PrivateTempStoreFactory $temp_store_factory
    *   The tempstore service.
    */
@@ -114,7 +114,7 @@ class CsvMigrationSubscriber implements EventSubscriberInterface {
     $tempstore_key = $this->currentUser->id() . ':' . $event->getMigration()->id();
     $file_id = $this->tempStore->get($tempstore_key);
     $this->tempStore->delete($tempstore_key);
-    if (!empty($file_id)) {
+    if (!is_null($file_id)) {
 
       // Query the migrate_map_* table, if it exists.
       // Migrate map tables are generated on-the-fly by the Drupal core migrate

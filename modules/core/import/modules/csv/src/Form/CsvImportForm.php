@@ -3,7 +3,6 @@
 namespace Drupal\farm_import_csv\Form;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -131,12 +130,13 @@ class CsvImportForm extends MigrateSourceUiForm {
     $file_storage = $this->entityTypeManager->getStorage('file');
     /** @var \Drupal\file\FileInterface[] $files */
     $files = $file_storage->loadByProperties(['uri' => $form_state->getValue('file_path')]);
-    if (!empty($files)) {
-      $file = reset($files);
-      $file = $this->fileRepository->move($file, $directory);
-      $form_state->setValue('file_path', $file->getFileUri());
-      $this->fileUsage->add($file, 'farm_import_csv', 'migration', $form_state->getValue('migrations'));
+    if (empty($files)) {
+      return;
     }
+    $file = reset($files);
+    $file = $this->fileRepository->move($file, $directory);
+    $form_state->setValue('file_path', $file->getFileUri());
+    $this->fileUsage->add($file, 'farm_import_csv', 'migration', $form_state->getValue('migrations'));
 
     // Save the file ID to the private tempstore.
     $this->tempStore->set($this->currentUser()->id() . ':' . $form_state->getValue('migrations'), $file->id());

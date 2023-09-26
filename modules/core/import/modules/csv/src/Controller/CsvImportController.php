@@ -2,9 +2,11 @@
 
 namespace Drupal\farm_import_csv\Controller;
 
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Database\Connection;
+use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
@@ -53,10 +55,19 @@ class CsvImportController extends ControllerBase {
   protected $database;
 
   /**
+   * The form builder.
+   *
+   * @var \Drupal\Core\Form\FormBuilderInterface
+   */
+  protected $formBuilder;
+
+  /**
    * Constructs a new CsvImportController.
    *
    * @param \Drupal\Core\Menu\MenuLinkTreeInterface $menu_link_tree
    *   The menu link tree service.
+   * @param \Drupal\Core\Form\FormBuilderInterface $form_builder
+   *   The form builder.
    * @param \Drupal\migrate\Plugin\MigrationPluginManager $plugin_manager_migration
    *   The migration plugin manager.
    * @param \Drupal\farm_import_csv\Access\CsvImportMigrationAccess $migration_access
@@ -64,8 +75,9 @@ class CsvImportController extends ControllerBase {
    * @param \Drupal\Core\Database\Connection $database
    *   The database connection.
    */
-  public function __construct(MenuLinkTreeInterface $menu_link_tree, MigrationPluginManager $plugin_manager_migration, CsvImportMigrationAccess $migration_access, Connection $database) {
+  public function __construct(MenuLinkTreeInterface $menu_link_tree, FormBuilderInterface $form_builder, MigrationPluginManager $plugin_manager_migration, CsvImportMigrationAccess $migration_access, Connection $database) {
     $this->menuLinkTree = $menu_link_tree;
+    $this->formBuilder = $form_builder;
     $this->pluginManagerMigration = $plugin_manager_migration;
     $this->migrationAccess = $migration_access;
     $this->database = $database;
@@ -77,6 +89,7 @@ class CsvImportController extends ControllerBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('menu.link_tree'),
+      $container->get('form_builder'),
       $container->get('plugin.manager.migration'),
       $container->get('farm_import_csv.access'),
       $container->get('database'),
@@ -200,7 +213,7 @@ class CsvImportController extends ControllerBase {
         if (!empty($info['name'])) {
           $item = '<strong>' . $info['name'] . '</strong>';
           if (!empty($info['description'])) {
-            $item .= ': ' . $this->t($info['description']);
+            $item .= ': ' . $info['description'];
           }
           $items[] = Markup::create($item);
         }
@@ -214,7 +227,7 @@ class CsvImportController extends ControllerBase {
     }
 
     // Add the importer form.
-    $build['form'] = \Drupal::formBuilder()->getForm('Drupal\farm_import_csv\Form\CsvImportForm', $migration_id);
+    $build['form'] = $this->formBuilder->getForm('Drupal\farm_import_csv\Form\CsvImportForm', $migration_id);
 
     // If entities have been created by this importer, display a View of them.
     if ($this->database->select('farm_import_csv_entity', 'e')->condition('e.migration', $migration_id)->countQuery()->execute()->fetchField()) {
@@ -241,9 +254,14 @@ class CsvImportController extends ControllerBase {
    *   An application/csv file download response object.
    */
   public function template(string $migration_id) {
-    /** @var \Drupal\migrate\Plugin\MigrationInterface $migration */
-    $migration = $this->pluginManagerMigration->getDefinition($migration_id);
-    if (empty($migration) || $migration['migration_group'] != 'farm_import_csv') {
+    try {
+      /** @var \Drupal\migrate\Plugin\MigrationInterface $migration */
+      $migration = $this->pluginManagerMigration->getDefinition($migration_id);
+    }
+    catch (PluginNotFoundException $e) {
+      throw new ResourceNotFoundException();
+    }
+    if ($migration['migration_group'] != 'farm_import_csv') {
       throw new ResourceNotFoundException();
     }
     else {
