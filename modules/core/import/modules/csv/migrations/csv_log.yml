@@ -29,13 +29,15 @@ process:
       bundle: unit
       source: quantity units
   quantity:
-    - plugin: skip_on_empty
+    - plugin: concat
       method: process
       source:
         - quantity measure
         - quantity value
         - quantity units
         - quantity label
+    - plugin: skip_on_empty
+      method: process
     - plugin: static_map
       map: {  }
       default_value: [ [ ] ]
