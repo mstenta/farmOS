@@ -23,6 +23,7 @@ class CsvImportMigrationAsset extends CsvImportMigrationBase {
    * {@inheritdoc}
    */
   protected function alterProcessMapping(array &$mapping, string $bundle): void {
+    parent::alterProcessMapping($mapping, $bundle);
 
     // Set the asset type.
     $mapping['type'] = [

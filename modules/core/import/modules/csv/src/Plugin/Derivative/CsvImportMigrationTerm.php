@@ -23,6 +23,7 @@ class CsvImportMigrationTerm extends CsvImportMigrationBase {
    * {@inheritdoc}
    */
   protected function alterProcessMapping(array &$mapping, string $bundle): void {
+    parent::alterProcessMapping($mapping, $bundle);
 
     // Set the vocabulary.
     $mapping['vid'] = [
@@ -52,6 +53,7 @@ class CsvImportMigrationTerm extends CsvImportMigrationBase {
    * {@inheritdoc}
    */
   protected function alterColumnDescriptions(array &$columns, string $bundle): void {
+    parent::alterColumnDescriptions($columns, $bundle);
 
     // Describe the parent column.
     $columns['parent'] = [

@@ -23,6 +23,7 @@ class CsvImportMigrationLog extends CsvImportMigrationBase {
    * {@inheritdoc}
    */
   protected function alterProcessMapping(array &$mapping, string $bundle): void {
+    parent::alterProcessMapping($mapping, $bundle);
 
     // Set the log type.
     $mapping['type'] = [
