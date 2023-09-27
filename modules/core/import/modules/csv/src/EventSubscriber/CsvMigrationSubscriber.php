@@ -113,7 +113,6 @@ class CsvMigrationSubscriber implements EventSubscriberInterface {
     // submit), and show any messages associated with it.
     $tempstore_key = $this->currentUser->id() . ':' . $event->getMigration()->id();
     $file_id = $this->tempStore->get($tempstore_key);
-    $this->tempStore->delete($tempstore_key);
     if (!is_null($file_id)) {
 
       // Query the migrate_map_* table, if it exists.
