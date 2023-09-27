@@ -32,8 +32,8 @@ process:
     - plugin: concat
       method: process
       source:
+        - quantity
         - quantity measure
-        - quantity value
         - quantity units
         - quantity label
     - plugin: skip_on_empty
@@ -45,8 +45,8 @@ process:
       default_values:
         type: standard
       values:
+        value: quantity
         measure: quantity measure
-        value: quantity value
         units: '@_qty_units'
         label: quantity label
 
@@ -71,10 +71,10 @@ third_party_settings:
         description: Name of the log.
       - name: timestamp
         description: Timestamp of the log. Accepts most date/time formats.
+      - name: quantity
+        description: Numeric quantity value. Accepts integers or decimals.
       - name: quantity measure
         description: Measure of the quantity.
-      - name: quantity value
-        description: Numeric value of the quantity.
       - name: quantity units
         description: Units of measurement of the quantity. A new term in the units taxonomy will be created if necessary.
       - name: quantity label

@@ -100,8 +100,8 @@ class CsvImportTest extends FarmBrowserTestBase {
     $log_columns = [
       'name: Name of the log.',
       'timestamp: Timestamp of the log. This can understand most date/time formats.',
+      'quantity: Numeric quantity value.',
       'quantity measure: Measure of the quantity.',
-      'quantity value: Numeric value of the quantity.',
       'quantity units: Units of measurement of the quantity. A new term in the units taxonomy will be created if necessary.',
       'quantity label: Label of the quantity.',
       'notes: Notes about the log.',
