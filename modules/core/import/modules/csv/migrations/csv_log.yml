@@ -70,7 +70,7 @@ third_party_settings:
       - name: name
         description: Name of the log.
       - name: timestamp
-        description: Timestamp of the log. This can understand most date/time formats.
+        description: Timestamp of the log. Accepts most date/time formats.
       - name: quantity measure
         description: Measure of the quantity.
       - name: quantity value
