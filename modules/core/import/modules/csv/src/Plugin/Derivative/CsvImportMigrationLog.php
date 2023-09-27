@@ -32,4 +32,21 @@ class CsvImportMigrationLog extends CsvImportMigrationBase {
     ];
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  protected function alterColumnDescriptions(array &$columns, string $bundle): void {
+    parent::alterColumnDescriptions($columns, $bundle);
+
+    // Add allowed quantity measure values.
+    foreach ($columns as &$column) {
+      if ($column['name'] == 'quantity measure') {
+        $allowed_measures = array_keys(quantity_measures());
+        $column['description'] .= ' Allowed values: ' . implode(', ', $allowed_measures);
+        break;
+      }
+    }
+
+  }
+
 }

@@ -101,7 +101,7 @@ class CsvImportTest extends FarmBrowserTestBase {
       'name: Name of the log.',
       'timestamp: Timestamp of the log. This can understand most date/time formats.',
       'quantity: Numeric quantity value.',
-      'quantity measure: Measure of the quantity.',
+      'quantity measure: Measure of the quantity. Allowed values: count, length, weight, area, volume, time, temperature, pressure, water_content, value, rate, rating, ratio, probability, speed',
       'quantity units: Units of measurement of the quantity. A new term in the units taxonomy will be created if necessary.',
       'quantity label: Label of the quantity.',
       'notes: Notes about the log.',
