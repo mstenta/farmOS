@@ -45,6 +45,8 @@ third_party_settings:
     access:
       permissions:
         - {{ PERMISSION_STRING }}
+    columns:
+      {{ COLUMN_DESCRIPTIONS }}
 ```
 
 - `{{ UNIQUE_ID }}` must be a unique machine-name for the importer, consisting
@@ -58,6 +60,8 @@ third_party_settings:
 - `{{ PERMISSION_STRING }}` should be a Drupal permission that the user must
   have in order to use the importer. Multiple permissions can be included on
   separate lines.
+- `{{ COLUMN_DESCRIPTIONS }}` should be an array of items with `name` and
+  `description` keys to describe each CSV column.
 
 ### Example
 
@@ -131,6 +135,11 @@ third_party_settings:
     access:
       permissions:
         - create harvest log
+    columns:
+      - name: Date
+        description: Date of egg harvest.
+      - name: Eggs
+        description: Number of eggs harvested.
 ```
 
 This will be able to import a CSV with `Date` and `Eggs` collumns, creating a
