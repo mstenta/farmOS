@@ -30,6 +30,7 @@ class CsvImportTestBase extends MigrateTestBase {
     'asset',
     'entity_reference_revisions',
     'farm_entity_fields',
+    'farm_entity_views',
     'farm_field',
     'farm_format',
     'farm_import',
@@ -69,7 +70,7 @@ class CsvImportTestBase extends MigrateTestBase {
     $this->installEntitySchema('quantity');
     $this->installEntitySchema('taxonomy_term');
     $this->installEntitySchema('user');
-    $this->installConfig(['farm_format', 'farm_quantity_standard', 'farm_import_csv']);
+    $this->installConfig(['farm_format', 'farm_entity_views', 'farm_quantity_standard', 'farm_import_csv']);
     $this->installSchema('farm_import_csv', ['farm_import_csv_entity']);
 
     // Run tests as the user 1 to avoid permissions issues.
