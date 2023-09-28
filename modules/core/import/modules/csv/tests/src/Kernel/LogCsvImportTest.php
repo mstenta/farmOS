@@ -28,6 +28,9 @@ class LogCsvImportTest extends CsvImportTestBase {
     'farm_plant',
     'farm_plant_type',
     'geofield',
+    'rest',
+    'serialization',
+    'views_geojson',
   ];
 
   /**
@@ -35,7 +38,7 @@ class LogCsvImportTest extends CsvImportTestBase {
    */
   public function setUp(): void {
     parent::setUp();
-    $this->installConfig(['farm_harvest', 'farm_plant', 'farm_land', 'farm_land_types']);
+    $this->installConfig(['farm_harvest', 'farm_plant', 'farm_land', 'farm_land_types', 'farm_location']);
 
     // Create assets to test asset_lookup.
     $terms[] = Term::create(['name' => 'Garlic', 'vid' => 'plant_type']);
@@ -44,8 +47,8 @@ class LogCsvImportTest extends CsvImportTestBase {
       $term->save();
     }
     $assets[] = Asset::create(['name' => 'Garlic', 'type' => 'plant', 'plant_type' => 1, 'status' => 'active']);
-    $assets[] = Asset::create(['name' => 'Potato 1', 'type' => 'plant', 'plant_type' => 2, 'status' => 'active']);
-    $assets[] = Asset::create(['name' => 'Potato 2', 'type' => 'plant', 'plant_type' => 2, 'id_tag' => ['id' => '1234'], 'status' => 'active']);
+    $assets[] = Asset::create(['name' => 'Potatoes 1', 'type' => 'plant', 'plant_type' => 2, 'status' => 'active']);
+    $assets[] = Asset::create(['name' => 'Potatoes 2', 'type' => 'plant', 'plant_type' => 2, 'id_tag' => ['id' => '1234'], 'status' => 'active']);
     $assets[] = Asset::create(['name' => 'Field A', 'type' => 'land', 'land_type' => 'land', 'status' => 'active']);
     $assets[] = Asset::create(['name' => 'Field B', 'type' => 'land', 'land_type' => 'land', 'status' => 'active']);
     $assets[] = Asset::create(['name' => 'Field C', 'type' => 'land', 'land_type' => 'land', 'status' => 'active']);
