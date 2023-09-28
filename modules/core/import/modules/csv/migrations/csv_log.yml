@@ -16,6 +16,28 @@ process:
     callable: strtotime
     source: timestamp
 
+  # Asset reference lookup.
+  asset:
+    - plugin: skip_on_empty
+      method: process
+      source: assets
+    - plugin: explode
+      delimiter: ,
+    - plugin: callback
+      callable: trim
+    - plugin: asset_lookup
+
+  # Location asset reference lookup.
+  location:
+    - plugin: skip_on_empty
+      method: process
+      source: locations
+    - plugin: explode
+      delimiter: ,
+    - plugin: callback
+      callable: trim
+    - plugin: asset_lookup
+
   # Create a quantity, if necessary.
   # This will also create a new unit term, if necessary.
   _qty_units:
@@ -71,6 +93,10 @@ third_party_settings:
         description: Name of the log.
       - name: timestamp
         description: Timestamp of the log. Accepts most date/time formats.
+      - name: assets
+        description: Assets referenced by the log. Multiple assets can be separated by commas with the whole cell wrapped in quotes. Accepts asset names, ID tags, UUIDs, and IDs.
+      - name: locations
+        descriptions: Location assets where the log took place. Multiple assets can be separated by commas with the whole cell wrapped in quotes. Accepts asset names, ID tags, UUIDs, and IDs.
       - name: quantity
         description: Numeric quantity value. Accepts integers or decimals.
       - name: quantity measure
