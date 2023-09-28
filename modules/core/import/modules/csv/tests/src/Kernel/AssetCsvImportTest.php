@@ -15,7 +15,6 @@ class AssetCsvImportTest extends CsvImportTestBase {
    * {@inheritdoc}
    */
   protected static $modules = [
-    'entity_reference_validators',
     'farm_equipment',
     'farm_id_tag',
     'farm_parent',
