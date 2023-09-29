@@ -153,6 +153,7 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
     $supported_field_types = [
       'list_string',
       'string',
+      'timestamp',
     ];
 
     // Do not include hidden fields.
@@ -196,6 +197,19 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
           $description[] = $allowed_values_description;
         }
 
+        break;
+
+      // Timestamp.
+      case 'timestamp':
+
+        // Parse with strtotime().
+        $process[] = [
+          'plugin' => 'callback',
+          'callable' => 'strtotime',
+        ];
+
+        // Describe allowed values.
+        $description[] = $this->t('Accepts most date/time formats.');
         break;
     }
 
