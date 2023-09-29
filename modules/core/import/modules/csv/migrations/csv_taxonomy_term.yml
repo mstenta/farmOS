@@ -21,7 +21,7 @@ third_party_settings:
   farm_import_csv:
     columns:
       - name: name
-        description: Name of the term (required).
+        description: Name of the term. Required.
       - name: description
         description: Description of the term.
 
