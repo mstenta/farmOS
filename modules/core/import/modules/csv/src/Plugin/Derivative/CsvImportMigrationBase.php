@@ -181,7 +181,6 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
         // Map directly from source.
         $process[] = [
           'plugin' => 'get',
-          'source' => $column_name,
         ];
 
         // Add a list of allowed values to the column description.
@@ -200,9 +199,16 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
         break;
     }
 
-    // If a process pipeline has been defined, add it to the mapping, and add
-    // the column description.
+    // If the field supports multiple values, explode on comma delimiter
+    // as a first step.
+    if ($field_definition->getCardinality() === -1 || $field_definition->getCardinality() > 1) {
+      array_unshift($process, ['plugin' => 'explode', 'delimiter' => ',']);
+    }
+
+    // If a process pipeline has been defined, add the source to the first plugin,
+    // add the pipeline to the mapping, and add the column description.
     if (!empty($process)) {
+      $process[0]['source'] = $column_name;
       $mapping[$field_name] = $process;
       $columns[] = [
         'name' => $column_name,
