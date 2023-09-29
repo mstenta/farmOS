@@ -158,6 +158,9 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
       'string',
       'timestamp',
     ];
+    if (!in_array($field_definition->getType(), $supported_field_types)) {
+      return;
+    }
 
     // Do not include hidden fields.
     $form_display_options = $field_definition->getDisplayOptions('form');
@@ -261,8 +264,8 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
       $description[] = 'Required.';
     }
 
-    // If a process pipeline has been defined, add the source to the first plugin,
-    // add the pipeline to the mapping, and add the column description.
+    // If a process pipeline has been defined, add the source to the first
+    // plugin, add the pipeline to the mapping, and add the column description.
     if (!empty($process)) {
       $process[0]['source'] = $column_name;
       $mapping[$field_name] = $process;
