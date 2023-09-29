@@ -68,6 +68,14 @@ class AssetLookup extends EntityLookup {
    */
   protected function query($value) {
 
+    // Trim the value.
+    $value = trim($value);
+
+    // If the value is empty, return NULL.
+    if (empty($value)) {
+      return NULL;
+    }
+
     // We are going to attempt to look up the asset via multiple fields. If one
     // lookup fails, we will try the next, until all options are exhausted.
     $results = [];
