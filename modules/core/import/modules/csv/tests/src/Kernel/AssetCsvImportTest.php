@@ -15,6 +15,8 @@ class AssetCsvImportTest extends CsvImportTestBase {
    * {@inheritdoc}
    */
   protected static $modules = [
+    'entity',
+    'farm_entity',
     'farm_equipment',
     'farm_id_tag',
     'farm_parent',
@@ -47,6 +49,9 @@ class AssetCsvImportTest extends CsvImportTestBase {
     $expected_values = [
       2 => [
         'name' => 'Old tractor',
+        'manufacturer' => '',
+        'model' => '',
+        'serial_number' => '',
         'id_tag' => [
           'id' => '12345',
           'type' => '',
@@ -58,6 +63,9 @@ class AssetCsvImportTest extends CsvImportTestBase {
       ],
       3 => [
         'name' => 'New tractor',
+        'manufacturer' => '',
+        'model' => '',
+        'serial_number' => '',
         'id_tag' => [
           'id' => '67890',
           'type' => 'eid',
@@ -69,6 +77,9 @@ class AssetCsvImportTest extends CsvImportTestBase {
       ],
       4 => [
         'name' => 'Baler',
+        'manufacturer' => '',
+        'model' => '',
+        'serial_number' => '',
         'id_tag' => [
           'id' => '',
           'type' => '',
@@ -88,6 +99,9 @@ class AssetCsvImportTest extends CsvImportTestBase {
       }
       $this->assertEquals('equipment', $asset->bundle());
       $this->assertEquals($expected_values[$id]['name'], $asset->label());
+      $this->assertEquals($expected_values[$id]['manufacturer'], $asset->get('manufacturer')->value);
+      $this->assertEquals($expected_values[$id]['model'], $asset->get('model')->value);
+      $this->assertEquals($expected_values[$id]['serial_number'], $asset->get('serial_number')->value);
       $this->assertEquals($expected_values[$id]['id_tag']['id'], $asset->get('id_tag')->id);
       $this->assertEquals($expected_values[$id]['id_tag']['type'], $asset->get('id_tag')->type);
       $this->assertEquals($expected_values[$id]['id_tag']['location'], $asset->get('id_tag')->location);
