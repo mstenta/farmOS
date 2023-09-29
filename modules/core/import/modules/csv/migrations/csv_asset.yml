@@ -18,13 +18,9 @@ process:
 
   # Parent asset reference lookup.
   parent:
-    - plugin: skip_on_empty
-      method: process
-      source: parents
     - plugin: explode
       delimiter: ,
-    - plugin: callback
-      callable: trim
+      source: parents
     - plugin: asset_lookup
 
   # Asset status.
