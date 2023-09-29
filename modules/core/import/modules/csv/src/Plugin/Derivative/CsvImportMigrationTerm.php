@@ -38,6 +38,7 @@ class CsvImportMigrationTerm extends CsvImportMigrationBase {
     $mapping['parent'] = [
       'plugin' => 'term_lookup',
       'bundle' => $bundle,
+      'source' => 'parent',
     ];
   }
 
