@@ -24,6 +24,10 @@ class TermCsvImportTest extends CsvImportTestBase {
   public function setUp(): void {
     parent::setUp();
     $this->installConfig(['farm_animal_type']);
+
+    // Create parent term to test asset_lookup.
+    $term = Term::create(['name' => 'Sheep', 'vid' => 'animal_type']);
+    $term->save();
   }
 
   /**
@@ -34,21 +38,18 @@ class TermCsvImportTest extends CsvImportTestBase {
     // Run the CSV import.
     $this->importCsv('animal-types.csv', 'csv_taxonomy_term:animal_type');
 
-    // Confirm that terms have been created with the expected values.
+    // Confirm that terms have been created with the expected values
+    // (in addition to the one we created in setUp() above).
     $terms = Term::loadMultiple();
     $this->assertCount(4, $terms);
     $expected_values = [
-      1 => [
+      2 => [
         'name' => 'Cow',
         'description' => 'Cow description',
       ],
-      2 => [
+      3 => [
         'name' => 'Pig',
         'description' => 'Pig description',
-      ],
-      3 => [
-        'name' => 'Sheep',
-        'description' => 'Sheep description',
       ],
       4 => [
         'name' => 'Galway',
@@ -57,6 +58,10 @@ class TermCsvImportTest extends CsvImportTestBase {
       ],
     ];
     foreach ($terms as $id => $term) {
+      // Skip terms created in setup().
+      if ($id <= 1) {
+        continue;
+      }
       $this->assertEquals('animal_type', $term->bundle());
       $this->assertEquals($expected_values[$id]['name'], $term->label());
       $this->assertEquals($expected_values[$id]['description'], $term->getDescription());

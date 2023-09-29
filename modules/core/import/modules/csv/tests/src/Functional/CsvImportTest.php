@@ -87,8 +87,8 @@ class CsvImportTest extends FarmBrowserTestBase {
     $this->assertSession()->statusCodeEquals(200);
     $this->assertSession()->pageTextContains('Download template');
     $log_columns = [
-      'name: Name of the asset (required).',
-      'parents: Parents of the asset. Multiple assets can be separated by commas with the whole cell wrapped in quotes. Accepts asset names, ID tags, UUIDs, and IDs.',
+      'name: Name of the asset. Required.',
+      'Parents of the asset. Accepts asset names, ID tags, UUIDs, and IDs. Multiple assets can be separated by commas with the whole cell wrapped in quotes.',
       'notes: Notes about the asset.',
       'status: Status of the asset.',
     ];
@@ -100,9 +100,9 @@ class CsvImportTest extends FarmBrowserTestBase {
     $this->assertSession()->pageTextContains('Download template');
     $log_columns = [
       'name: Name of the log.',
-      'timestamp: Timestamp of the log. This can understand most date/time formats.',
-      'assets: Assets referenced by the log. Multiple assets can be separated by commas with the whole cell wrapped in quotes. Accepts asset names, ID tags, UUIDs, and IDs.',
-      'locations: Location assets where the log took place. Multiple assets can be separated by commas with the whole cell wrapped in quotes. Accepts asset names, ID tags, UUIDs, and IDs.',
+      'timestamp: Timestamp of the log. Accepts most date/time formats. Required.',
+      'Assets referenced by the log. Accepts asset names, ID tags, UUIDs, and IDs. Multiple assets can be separated by commas with the whole cell wrapped in quotes.',
+      'Location assets where the log took place. Accepts asset names, ID tags, UUIDs, and IDs. Multiple assets can be separated by commas with the whole cell wrapped in quotes.',
       'quantity: Numeric quantity value.',
       'quantity measure: Measure of the quantity. Allowed values: count, length, weight, area, volume, time, temperature, pressure, water_content, value, rate, rating, ratio, probability, speed',
       'quantity units: Units of measurement of the quantity. A new term in the units taxonomy will be created if necessary.',
@@ -117,7 +117,7 @@ class CsvImportTest extends FarmBrowserTestBase {
     $this->assertSession()->statusCodeEquals(200);
     $this->assertSession()->pageTextContains('Download template');
     $log_columns = [
-      'name: Name of the term (required).',
+      'name: Name of the term. Required.',
       'description: Description of the term.',
       'parent: Parent term in the taxonomy hierarchy.',
     ];

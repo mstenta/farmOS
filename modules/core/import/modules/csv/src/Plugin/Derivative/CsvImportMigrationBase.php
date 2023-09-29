@@ -114,6 +114,12 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
       $definition['id'] .= ':' . $bundle->id();
       $definition['label'] = $entity_type->getLabel() . ': ' . $bundle->label();
 
+      // Alter migration process mapping for this bundle.
+      $this->alterProcessMapping($definition['process'], $bundle->id());
+
+      // Alter column descriptions for this bundle.
+      $this->alterColumnDescriptions($definition['third_party_settings']['farm_import_csv']['columns'], $bundle->id());
+
       // If the entity type has a bundle_plugin manager, add column mappings
       // and descriptions for bundle fields.
       if ($this->entityTypeManager->hasHandler($this->entityType, 'bundle_plugin')) {
@@ -122,12 +128,6 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
           $this->addBundleField($field_definition, $definition['process'], $definition['third_party_settings']['farm_import_csv']['columns']);
         }
       }
-
-      // Alter migration process mapping for this bundle.
-      $this->alterProcessMapping($definition['process'], $bundle->id());
-
-      // Alter column descriptions for this bundle.
-      $this->alterColumnDescriptions($definition['third_party_settings']['farm_import_csv']['columns'], $bundle->id());
 
       // Add access control permissions to third party settings.
       $definition['third_party_settings']['farm_import_csv']['access']['permissions'][] = $this->getCreatePermission($bundle->id());
