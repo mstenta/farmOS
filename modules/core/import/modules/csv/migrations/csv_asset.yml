@@ -37,7 +37,7 @@ third_party_settings:
       - name: name
         description: Name of the asset. Required.
       - name: parents
-        description: Parents of the asset. Multiple assets can be separated by commas with the whole cell wrapped in quotes. Accepts asset names, ID tags, UUIDs, and IDs.
+        description: Parents of the asset. Accepts asset names, ID tags, UUIDs, and IDs. Multiple assets can be separated by commas with the whole cell wrapped in quotes.
       - name: notes
         description: Notes about the asset.
       - name: status
