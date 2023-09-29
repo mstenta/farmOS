@@ -200,7 +200,7 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
         elseif ($field_definition->getSetting('target_type') == 'taxonomy_term') {
           $process[] = [
             'plugin' => 'term_lookup',
-            'bundle' => $field_definition->getSetting('handler_settings')['target_bundles']
+            'bundle' => $field_definition->getSetting('handler_settings')['target_bundles'],
           ];
         }
 
