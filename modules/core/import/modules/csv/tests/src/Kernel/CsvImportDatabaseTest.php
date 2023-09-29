@@ -15,6 +15,8 @@ class CsvImportDatabaseTest extends CsvImportTestBase {
 
   /**
    * Define the CSV import entity table name.
+   *
+   * @var string
    */
   protected $tableName = 'farm_import_csv_entity';
 
