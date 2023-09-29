@@ -48,7 +48,7 @@ class CsvImportMigrationTerm extends CsvImportMigrationBase {
     parent::alterColumnDescriptions($columns, $bundle);
 
     // Describe the parent column.
-    $columns['parent'] = [
+    $columns[] = [
       'name' => 'parent',
       'description' => 'Parent term in the taxonomy hierarchy.',
     ];
