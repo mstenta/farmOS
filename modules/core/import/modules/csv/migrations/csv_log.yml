@@ -84,7 +84,7 @@ third_party_settings:
       - name: name
         description: Name of the log.
       - name: timestamp
-        description: Timestamp of the log. Accepts most date/time formats.
+        description: Timestamp of the log. Accepts most date/time formats. Required.
       - name: assets
         description: Assets referenced by the log. Multiple assets can be separated by commas with the whole cell wrapped in quotes. Accepts asset names, ID tags, UUIDs, and IDs.
       - name: locations
