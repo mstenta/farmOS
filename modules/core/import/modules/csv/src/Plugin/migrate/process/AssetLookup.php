@@ -107,7 +107,7 @@ class AssetLookup extends EntityLookup {
 
     // If there are still no results, throw an exception and skip the row.
     if (empty($results)) {
-      throw new MigrateSkipRowException($this->t('Asset not found: @asset', ['@asset' => $value]));
+      throw new MigrateSkipRowException('Asset not found: @asset', ['@asset' => $value]);
     }
 
     return $results;
