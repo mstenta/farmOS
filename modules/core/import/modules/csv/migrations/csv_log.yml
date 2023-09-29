@@ -86,9 +86,9 @@ third_party_settings:
       - name: timestamp
         description: Timestamp of the log. Accepts most date/time formats. Required.
       - name: assets
-        description: Assets referenced by the log. Multiple assets can be separated by commas with the whole cell wrapped in quotes. Accepts asset names, ID tags, UUIDs, and IDs.
+        description: Assets referenced by the log. Accepts asset names, ID tags, UUIDs, and IDs. Multiple assets can be separated by commas with the whole cell wrapped in quotes.
       - name: locations
-        descriptions: Location assets where the log took place. Multiple assets can be separated by commas with the whole cell wrapped in quotes. Accepts asset names, ID tags, UUIDs, and IDs.
+        description: Location assets where the log took place. Accepts asset names, ID tags, UUIDs, and IDs. Multiple assets can be separated by commas with the whole cell wrapped in quotes.
       - name: quantity
         description: Numeric quantity value. Accepts integers or decimals.
       - name: quantity measure
