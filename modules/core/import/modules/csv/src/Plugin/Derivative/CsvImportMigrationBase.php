@@ -228,6 +228,14 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
       // Timestamp.
       case 'timestamp':
 
+        // If this is not required, then skip the process if empty.
+        if (!$field_definition->isRequired()) {
+          $process[] = [
+            'plugin' => 'skip_on_empty',
+            'method' => 'process',
+          ];
+        }
+
         // Parse with strtotime().
         $process[] = [
           'plugin' => 'callback',
