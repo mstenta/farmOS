@@ -2,7 +2,6 @@
 
 namespace Drupal\farm_import_csv\Plugin\migrate\process;
 
-use Drupal\Component\Uuid\Uuid;
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\MigrateSkipRowException;
 use Drupal\migrate\Row;
@@ -65,7 +64,7 @@ class TermLookup extends EntityLookup {
 
     // If there are no results, throw an exception and skip the row.
     if (empty($results)) {
-      throw new MigrateSkipRowException($this->t('Term not found: @term', ['@term' => $value]));
+      throw new MigrateSkipRowException('Term not found: @term', ['@term' => $value]);
     }
 
     return $results;
