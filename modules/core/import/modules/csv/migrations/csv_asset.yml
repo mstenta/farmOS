@@ -35,7 +35,7 @@ third_party_settings:
   farm_import_csv:
     columns:
       - name: name
-        description: Name of the asset (required).
+        description: Name of the asset. Required.
       - name: parents
         description: Parents of the asset. Multiple assets can be separated by commas with the whole cell wrapped in quotes. Accepts asset names, ID tags, UUIDs, and IDs.
       - name: notes
