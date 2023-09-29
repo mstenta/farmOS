@@ -26,12 +26,15 @@ function farm_import_csv_views_data() {
     ],
   ];
 
-  // Provide a field for the row number.
+  // Provide a field and sort for the row number.
   $data['farm_import_csv_entity']['rownum'] = [
     'title' => t('Row number'),
     'help' => t('The CSV row number that this entity was imported from.'),
     'field' => [
       'id' => 'numeric',
+    ],
+    'sort' => [
+      'id' => 'standard',
     ],
   ];
 
