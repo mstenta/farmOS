@@ -48,7 +48,6 @@ class CsvImportMigrationAsset extends CsvImportMigrationBase {
     ];
   }
 
-
   /**
    * {@inheritdoc}
    */
