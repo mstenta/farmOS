@@ -24,6 +24,7 @@ class LogCsvImportTest extends CsvImportTestBase {
     'farm_location',
     'farm_log',
     'farm_log_asset',
+    'farm_log_category',
     'farm_map',
     'farm_plant',
     'farm_plant_type',
@@ -74,7 +75,6 @@ class LogCsvImportTest extends CsvImportTestBase {
 
     // Confirm that logs have been created with the expected values.
     $logs = Log::loadMultiple();
-    // @todo explode missing source somewhere
     $this->assertCount(3, $logs);
     $expected_values = [
       1 => [
@@ -93,6 +93,7 @@ class LogCsvImportTest extends CsvImportTestBase {
           'label' => 'total',
         ],
         'notes' => 'Great big bulbs',
+        'categories' => [],
         'status' => 'done',
       ],
       2 => [
@@ -113,6 +114,7 @@ class LogCsvImportTest extends CsvImportTestBase {
           'label' => '',
         ],
         'notes' => 'Heavy harvest',
+        'categories' => [],
         'status' => 'done',
       ],
       3 => [
@@ -127,6 +129,7 @@ class LogCsvImportTest extends CsvImportTestBase {
           'label' => '',
         ],
         'notes' => 'Small bulbs from weed pressure',
+        'categories' => [],
         'status' => 'pending',
       ],
     ];
@@ -150,6 +153,11 @@ class LogCsvImportTest extends CsvImportTestBase {
       $this->assertEquals($expected_values[$id]['timestamp'], $log->get('timestamp')->value);
       $this->assertEquals($expected_values[$id]['notes'], $log->get('notes')->value);
       $this->assertEquals('default', $log->get('notes')->format);
+      if (!empty($expected_values[$id]['categories'])) {
+        foreach ($log->get('category')->referencedEntities() as $category) {
+          $this->assertTRUE(in_array($category->label(), $expected_values[$id]['categories']));
+        }
+      }
       $this->assertEquals($expected_values[$id]['status'], $log->get('status')->value);
       $this->assertEquals('Imported via CSV.', $log->getRevisionLogMessage());
     }

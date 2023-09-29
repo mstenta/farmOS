@@ -47,18 +47,33 @@ class AssetCsvImportTest extends CsvImportTestBase {
     $expected_values = [
       2 => [
         'name' => 'Old tractor',
+        'id_tag' => [
+          'id' => '12345',
+          'type' => '',
+          'location' => '',
+        ],
         'parents' => [],
         'notes' => 'Inherited from Grandpa',
         'status' => 'archived',
       ],
       3 => [
         'name' => 'New tractor',
+        'id_tag' => [
+          'id' => '67890',
+          'type' => 'eid',
+          'location' => 'trunk',
+        ],
         'parents' => [],
         'notes' => 'Purchased recently',
         'status' => 'active',
       ],
       4 => [
         'name' => 'Baler',
+        'id_tag' => [
+          'id' => '',
+          'type' => '',
+          'location' => '',
+        ],
         'parents' => [
           'Test parent',
         ],
@@ -73,6 +88,9 @@ class AssetCsvImportTest extends CsvImportTestBase {
       }
       $this->assertEquals('equipment', $asset->bundle());
       $this->assertEquals($expected_values[$id]['name'], $asset->label());
+      $this->assertEquals($expected_values[$id]['id_tag']['id'], $asset->get('id_tag')->id);
+      $this->assertEquals($expected_values[$id]['id_tag']['type'], $asset->get('id_tag')->type);
+      $this->assertEquals($expected_values[$id]['id_tag']['location'], $asset->get('id_tag')->location);
       $parents = $asset->get('parent')->referencedEntities();
       $this->assertEquals(count($expected_values[$id]['parents']), count($parents));
       foreach ($parents as $parent) {
