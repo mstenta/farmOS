@@ -149,6 +149,12 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
    */
   protected function addBundleField($field_definition, &$mapping, &$columns): void {
 
+    // This only supports certain field types.
+    $supported_field_types = [
+      'list_string',
+      'string',
+    ];
+
     // Do not include hidden fields.
     $form_display_options = $field_definition->getDisplayOptions('form');
     if (isset($form_display_options['region']) && $form_display_options['region'] == 'hidden') {
@@ -161,91 +167,48 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
     // Generate column name (replace underscores with spaces).
     $column_name = str_replace('_', ' ', $field_name);
 
+    // Start a process pipeline and column descriptions array.
+    $process = [];
+    $description = [(string) $field_definition->getDescription()];
+
     // Add configuration based on field type.
     switch ($field_definition->getType()) {
 
-      // Boolean field.
-      case 'boolean':
-        // @todo Accept 1, 0, y, n, yes, no, true, false (convert to lowercase)
-        break;
-
-      // Entity reference field.
-      case 'entity_reference':
-        // @todo Support assets and terms.
-        break;
-
-      // List of strings field.
+      // String fields.
+      case 'string':
       case 'list_string':
+
+        // Map directly from source.
+        $process[] = [
+          'plugin' => 'get',
+          'source' => $column_name,
+        ];
+
+        // Add a list of allowed values to the column description.
         if (!empty($field_definition->getSetting('allowed_values'))) {
           $allowed_values = $field_definition->getSetting('allowed_values');
         }
         elseif (!empty($field_definition->getSetting('allowed_values_function'))) {
           $allowed_values = call_user_func($field_definition->getSetting('allowed_values_function'), $field_definition);
         }
-        else {
-          return;
+        if (!empty($allowed_values)) {
+          $allowed_values_description = $this->t('Allowed values');
+          $allowed_values_description .= ': ' . implode(', ', array_keys($allowed_values));
+          $description[] = $allowed_values_description;
         }
 
-        // Generate an "allowed values" message.
-        $allowed_values_message = $this->t('Allowed values');
-        $allowed_values_message .= ': ' . implode(', ', array_keys($allowed_values));
-
-        // Filter out values that are not allowed.
-        $values_map = array_combine(array_keys($allowed_values), array_keys($allowed_values));
-        $mapping[$field_name][] = [
-          'plugin' => 'static_map',
-          'source' => $column_name,
-          'map' => $values_map,
-          'default_value' => '',
-        ];
-
-        // If no value was mapped, skip the row.
-        $mapping[$field_name][] = [
-          'plugin' => 'skip_on_empty',
-          'method' => 'row',
-          'message' => $allowed_values_message,
-        ];
-
-        // Add allowed values message to the extra description.
-        $extra_description = $allowed_values_message;
-        break;
-
-      // String field.
-      case 'string':
-
-        // Map directly from source.
-        $mapping[$field_name] = [
-          'plugin' => 'get',
-          'source' => $column_name,
-        ];
-        break;
-
-      // Timestamp.
-      case 'timestamp':
-
-        // Parse with strtotime().
-        $mapping[$field_name] = [
-          'plugin' => 'callback',
-          'callable' => 'strtotime',
-          'source' => $column_name,
-        ];
-
-        // Describe allowed values.
-        $extra_description = $this->t('Accepts most date/time formats.');
         break;
     }
 
-    // @todo exclude hidden fields
-
-    // Add column description.
-    $description = (string) $field_definition->getDescription();
-    if (!empty($extra_description)) {
-      $description .= $extra_description;
+    // If a process pipeline has been defined, add it to the mapping, and add
+    // the column description.
+    if (!empty($process)) {
+      $mapping[$field_name] = $process;
+      $columns[] = [
+        'name' => $column_name,
+        'description' => implode(' ', $description),
+      ];
     }
-    $columns[] = [
-      'name' => $column_name,
-      'description' => $description,
-    ];
   }
 
 }
