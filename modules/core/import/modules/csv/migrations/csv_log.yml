@@ -18,24 +18,16 @@ process:
 
   # Asset reference lookup.
   asset:
-    - plugin: skip_on_empty
-      method: process
-      source: assets
     - plugin: explode
       delimiter: ,
-    - plugin: callback
-      callable: trim
+      source: assets
     - plugin: asset_lookup
 
   # Location asset reference lookup.
   location:
-    - plugin: skip_on_empty
-      method: process
-      source: locations
     - plugin: explode
       delimiter: ,
-    - plugin: callback
-      callable: trim
+      source: locations
     - plugin: asset_lookup
 
   # Create a quantity, if necessary.
