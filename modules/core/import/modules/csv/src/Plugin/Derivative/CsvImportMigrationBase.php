@@ -192,7 +192,7 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
         }
         if (!empty($allowed_values)) {
           $allowed_values_description = $this->t('Allowed values');
-          $allowed_values_description .= ': ' . implode(', ', array_keys($allowed_values));
+          $allowed_values_description .= ': ' . implode(', ', array_keys($allowed_values)) . '.';
           $description[] = $allowed_values_description;
         }
 
@@ -200,9 +200,15 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
     }
 
     // If the field supports multiple values, explode on comma delimiter
-    // as a first step.
+    // as a first step and describe how to format values.
     if ($field_definition->getCardinality() === -1 || $field_definition->getCardinality() > 1) {
       array_unshift($process, ['plugin' => 'explode', 'delimiter' => ',']);
+      $description[] = 'Multiple values can be separated by commas with the whole cell wrapped in quotes.';
+    }
+
+    // If the field is required, make note of that in the column description.
+    if ($field_definition->isRequired()) {
+      $description[] = 'Required.';
     }
 
     // If a process pipeline has been defined, add the source to the first plugin,
