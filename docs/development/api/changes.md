@@ -1,5 +1,11 @@
 # API Changes
 
+## 3.x vs 2.x
+
+- ...
+- multiple material terms
+- ...
+
 ## 2.x vs 1.x
 
 farmOS 1.x used the [RESTful Web Services](https://drupal.org/project/restws)
