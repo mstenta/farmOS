@@ -36,7 +36,7 @@ ARG PROJECT_VERSION=3.x
 # Set Apache ServerName directive globally to suppress AH00558 message.
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
-# Install and enable geos.
+# Enable PHP dependencies.
 COPY --from=php-dependencies /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
 RUN docker-php-ext-enable geos bcmath
 
