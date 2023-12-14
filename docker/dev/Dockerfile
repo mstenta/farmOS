@@ -24,40 +24,40 @@ COPY conf.d/ /usr/local/etc/php/conf.d
 ARG WWW_DATA_ID=1000
 RUN usermod -u ${WWW_DATA_ID} www-data && groupmod -g ${WWW_DATA_ID} www-data
 
-# Create a fresh /var/farmOS directory owned by www-data.
+# Create a fresh ${BUILD_PATH} directory owned by www-data.
 # We do this in two steps because of a known issue with Moby.
 # @see https://github.com/farmOS/farmOS/pull/440
-RUN rm -r /var/farmOS
-RUN mkdir /var/farmOS && chown www-data:www-data /var/farmOS
+RUN rm -r ${BUILD_PATH}
+RUN mkdir ${BUILD_PATH} && chown www-data:www-data ${BUILD_PATH}
 
 # Change to the www-data user.
 USER www-data
 
-# Build the farmOS codebase in /var/farmOS.
+# Build the farmOS codebase in ${BUILD_PATH}.
 RUN /usr/local/bin/build-farmOS.sh
 
 # Add Configurartions for PHP CodeSniffer, PHPStan.
-COPY --chown=www-data ./files/ /var/farmOS/
+COPY --chown=www-data ./files/ ${BUILD_PATH}/
 
 # Configure PHPUnit.
-RUN cp -p /var/farmOS/web/core/phpunit.xml.dist /var/farmOS/phpunit.xml \
-  && sed -i 's|bootstrap="tests/bootstrap.php"|bootstrap="web/core/tests/bootstrap.php"|g' /var/farmOS/phpunit.xml \
-  && sed -i '/failOnWarning="true"/a \         failOnIncomplete="true"' /var/farmOS/phpunit.xml \
-  && sed -i '/failOnWarning="true"/a \         failOnSkipped="true"' /var/farmOS/phpunit.xml \
-  && sed -i 's|name="SIMPLETEST_BASE_URL" value=""|name="SIMPLETEST_BASE_URL" value="http://www"|g' /var/farmOS/phpunit.xml \
-  && sed -i 's|name="SIMPLETEST_DB" value=""|name="SIMPLETEST_DB" value="pgsql://farm:farm@db/farm"|g' /var/farmOS/phpunit.xml \
-  && sed -i 's|name="BROWSERTEST_OUTPUT_DIRECTORY" value=""|name="BROWSERTEST_OUTPUT_DIRECTORY" value="/var/www/html/sites/simpletest/browser_output"|g' /var/farmOS/phpunit.xml \
-  && sed -i 's|name="MINK_DRIVER_ARGS_WEBDRIVER" value='\'''\''|name="MINK_DRIVER_ARGS_WEBDRIVER" value='\''["chrome", { "chromeOptions": { "w3c": false, "args": ["--disable-gpu","--headless", "--no-sandbox"] } }, "http://chrome:4444/wd/hub"]'\''|g' /var/farmOS/phpunit.xml \
-  && sed -i 's|\./|\./web/core/|g' /var/farmOS/phpunit.xml \
-  && sed -i 's|\.\./web/core/|\./web/|g' /var/farmOS/phpunit.xml \
-  && sed -i 's|  </php>|    <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>'"\n"'  </php>|g' /var/farmOS/phpunit.xml \
-  && mkdir -p /var/farmOS/web/sites/simpletest/browser_output
+RUN cp -p ${BUILD_PATH}/web/core/phpunit.xml.dist ${BUILD_PATH}/phpunit.xml \
+  && sed -i 's|bootstrap="tests/bootstrap.php"|bootstrap="web/core/tests/bootstrap.php"|g' ${BUILD_PATH}/phpunit.xml \
+  && sed -i '/failOnWarning="true"/a \         failOnIncomplete="true"' ${BUILD_PATH}/phpunit.xml \
+  && sed -i '/failOnWarning="true"/a \         failOnSkipped="true"' ${BUILD_PATH}/phpunit.xml \
+  && sed -i 's|name="SIMPLETEST_BASE_URL" value=""|name="SIMPLETEST_BASE_URL" value="http://www"|g' ${BUILD_PATH}/phpunit.xml \
+  && sed -i 's|name="SIMPLETEST_DB" value=""|name="SIMPLETEST_DB" value="pgsql://farm:farm@db/farm"|g' ${BUILD_PATH}/phpunit.xml \
+  && sed -i 's|name="BROWSERTEST_OUTPUT_DIRECTORY" value=""|name="BROWSERTEST_OUTPUT_DIRECTORY" value="/var/www/html/sites/simpletest/browser_output"|g' ${BUILD_PATH}/phpunit.xml \
+  && sed -i 's|name="MINK_DRIVER_ARGS_WEBDRIVER" value='\'''\''|name="MINK_DRIVER_ARGS_WEBDRIVER" value='\''["chrome", { "chromeOptions": { "w3c": false, "args": ["--disable-gpu","--headless", "--no-sandbox"] } }, "http://chrome:4444/wd/hub"]'\''|g' ${BUILD_PATH}/phpunit.xml \
+  && sed -i 's|\./|\./web/core/|g' ${BUILD_PATH}/phpunit.xml \
+  && sed -i 's|\.\./web/core/|\./web/|g' ${BUILD_PATH}/phpunit.xml \
+  && sed -i 's|  </php>|    <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>'"\n"'  </php>|g' ${BUILD_PATH}/phpunit.xml \
+  && mkdir -p ${BUILD_PATH}/web/sites/simpletest/browser_output
 
 # Change back to the root user.
 USER root
 
-# Copy the farmOS codebase into /opt/drupal.
-RUN rm -r /opt/drupal && cp -rp /var/farmOS /opt/drupal
+# Copy the farmOS codebase into ${DRUPAL_PATH}.
+RUN rm -r ${DRUPAL_PATH} && cp -rp ${BUILD_PATH} ${DRUPAL_PATH}
 
 # Create a Composer config directory for the www-data user.
 RUN mkdir /var/www/.composer && chown www-data:www-data /var/www/.composer

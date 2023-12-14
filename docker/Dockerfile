@@ -3,6 +3,16 @@
 # We do this so that the Drupal image version only needs to be updated here.
 FROM drupal:10.2 as baseimage
 
+# Define common paths.
+# BUILD_PATH is where the farmOS codebase will be built.
+# DRUPAL_PATH is where the farmOS codebase will be copied to after build.
+# We keep these separate to faciliate the docker-entrypoint.sh script's logic
+# for populating empty bind-mounted host directories.
+# The Drupal base image symlinks /var/www/html to /opt/drupal and configures
+# /opt/drupal/web as the DocumentRoot.
+ENV BUILD_PATH=/var/farmOS
+ENV DRUPAL_PATH=/opt/drupal
+
 ##
 # Build/install PHP extensions.
 FROM baseimage as php-dependencies
@@ -64,12 +74,12 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY build-farmOS.sh /usr/local/bin/
 RUN chmod a+x /usr/local/bin/build-farmOS.sh
 
-# Build the farmOS codebase in /var/farmoS with the --no-dev flag.
-# Change the ownership of the sites directory and copy the farmOS codebase into /opt/drupal.
-RUN mkdir /var/farmOS \
+# Build the farmOS codebase in ${BUILD_PATH} with the --no-dev flag.
+# Change the ownership of the sites directory and copy the farmOS codebase into ${DRUPAL_PATH}.
+RUN mkdir ${BUILD_PATH} \
   && /usr/local/bin/build-farmOS.sh --no-dev \
-  && chown -R www-data:www-data /var/farmOS/web/sites \
-  && rm -r /opt/drupal && cp -rp /var/farmOS /opt/drupal
+  && chown -R www-data:www-data ${BUILD_PATH}/web/sites \
+  && rm -r ${DRUPAL_PATH} && cp -rp ${BUILD_PATH} ${DRUPAL_PATH}
 
 # Set the entrypoint.
 COPY docker-entrypoint.sh /usr/local/bin/
