@@ -43,6 +43,31 @@ to create snapshots for easy rollback during development.
 
 ## Optional
 
+### Set up local repositories
+
+1. Stop running containers.
+2. Add a `./repos:/opt/repos` volume to the `www` service in
+   `docker-compose.yml`.
+3. Start containers.
+4. Change ownership of `./repos`: `sudo chown ${USER}:${USER} ./repos`
+5. Clone your fork of the farmOS Git repository:
+
+        git clone git@github.com:farmOS/farmOS.git repos/farmOS
+
+6. Tell Composer to use the local repository (see [Composer](./composer) for
+   how to run `composer` commands in the development environment):
+
+        composer config repositories.farmos path ../repos/farmOS
+        composer update
+        composer require farmos/farmos:*
+
+Additional repositories can be added similarly (eg: for contrib module
+development). For example, this will check out the `farm_bee` module repository:
+
+    git clone git@github.com:farmOS/farm_bee.git repos/farm_bee
+    composer config repositories.farm_bee path ../repos/farm_bee
+    composer require drupal/farm_bee:*
+
 ### Configure private filesystem
 
 In order to upload files, a private file path must be configured. The following
