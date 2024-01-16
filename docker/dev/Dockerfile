@@ -8,7 +8,7 @@ ARG PROJECT_REPO=https://github.com/farmOS/composer-project.git
 ARG PROJECT_VERSION=3.x
 
 # Install and enable XDebug extension.
-RUN yes | pecl install xdebug \
+RUN yes | pecl install xdebug-3.2.2 \
   && docker-php-ext-enable xdebug
 
 # Add opcache revalidation frequency configuration.
