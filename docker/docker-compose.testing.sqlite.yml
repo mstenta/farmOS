@@ -1,6 +1,3 @@
 # Inherits from docker-compose.testing.common.yml
 version: '3'
-services:
-  www:
-    environment:
-      XDEBUG_MODE: debug
+services: {  }
