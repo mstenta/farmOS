@@ -63,6 +63,24 @@ function farm_log_quantity_form_log_form_alter(&$form, FormStateInterface $form_
 }
 
 /**
+ * Implements hook_cron().
+ */
+function farm_log_quantity_cron() {
+
+//  // Search for orphaned quantities older than 30 days and delete them.
+//  $query = \Drupal::database()->select('quantity', 'q');
+//  $query->addField('q', 'id');
+//  $query->join('log_revision__quantity', 'lrq', 'q.id = lq. ')
+//  $results = $query->execute();
+//  foreach ($results as $row) {
+//    if (!empty($row->id)) {
+//      $quantity = \Drupal::entityTypeManager()->getStorage('quantity')->load($row->id);
+//      $quantity->delete();
+//    }
+//  }
+}
+
+/**
  * Returns the default quantity type.
  *
  * @param string|null $log_type
