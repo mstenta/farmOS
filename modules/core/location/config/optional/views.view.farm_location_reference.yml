@@ -3,6 +3,7 @@ status: true
 dependencies:
   module:
     - asset
+    - user
   enforced:
     module:
       - farm_location
@@ -114,8 +115,9 @@ display:
           sort_asc_label: Asc
           sort_desc_label: Desc
       access:
-        type: none
-        options: {  }
+        type: perm
+        options:
+          perm: 'view any asset'
       cache:
         type: tag
         options: {  }
@@ -210,6 +212,7 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url.query_args
+        - user.permissions
       tags: {  }
   entity_reference:
     id: entity_reference
@@ -235,4 +238,5 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - user.permissions
       tags: {  }

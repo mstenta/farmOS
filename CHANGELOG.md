@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Allow users with asset view access to see /asset/%id/locations.
+- Require "view any asset" permission on entity_reference Views.
 
 ### Fixed
 
