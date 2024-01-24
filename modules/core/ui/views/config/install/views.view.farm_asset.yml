@@ -8,6 +8,7 @@ dependencies:
     - asset
     - csv_serialization
     - entity_browser
+    - farm_entity_views
     - farm_location
     - farm_ui_views
     - image
@@ -725,7 +726,44 @@ display:
           content: 'No assets found.'
           tokenize: false
       sorts: {  }
-      arguments: {  }
+      arguments:
+        farm_entity_views_access:
+          id: farm_entity_views_access
+          table: asset_field_data
+          field: farm_entity_views_access
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: asset
+          plugin_id: farm_entity_views_access
+          default_action: default
+          exception:
+            value: all
+            title_enable: false
+            title: All
+          title_enable: false
+          title: ''
+          default_argument_type: current_user
+          default_argument_options: {  }
+          summary_options:
+            base_path: ''
+            count: true
+            override: false
+            items_per_page: 25
+          summary:
+            sort_order: asc
+            number_of_records: 0
+            format: default_summary
+          specify_validation: true
+          validate:
+            type: 'entity:user'
+            fail: 'access denied'
+          validate_options:
+            access: false
+            operation: view
+            multiple: 0
+            restrict_roles: false
+            roles: {  }
       filters:
         name:
           id: name
@@ -1153,6 +1191,7 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - user
         - user.permissions
       tags: {  }
   csv:
@@ -1208,6 +1247,7 @@ display:
         - 'languages:language_interface'
         - request_format
         - url
+        - user
         - user.permissions
       tags: {  }
   entity_browser:
@@ -1671,6 +1711,7 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - user
         - user.permissions
       tags: {  }
   page:
@@ -1724,6 +1765,7 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - user
         - user.permissions
       tags: {  }
   page_assigned_to:
