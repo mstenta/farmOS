@@ -25,6 +25,7 @@ use Drupal\Core\Field\FieldStorageDefinitionInterface;
  *   handlers = {
  *     "access" = "\Drupal\entity\UncacheableEntityAccessControlHandler",
  *     "permission_provider" = "\Drupal\entity\UncacheableEntityPermissionProvider",
+ *     "query_access" = "\Drupal\entity\QueryAccess\UncacheableQueryAccessHandler",
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "views_data" = "Drupal\entity\EntityViewsData",
  *     "form" = {

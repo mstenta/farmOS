@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [Announce new releases on farmOS.discourse.group #780](https://github.com/farmOS/farmOS/pull/780)
 
+### Changed
+
+- [Issue #3413263: Use Entity API query access handler to filter entity queries based on user permissions](https://www.drupal.org/project/farm/issues/3413263)
+
 ## [3.0.1] 2024-01-18
 
 ### Added
