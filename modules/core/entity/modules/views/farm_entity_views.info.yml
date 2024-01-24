@@ -3,3 +3,7 @@ description: Views integration support for farmOS entities and fields.
 type: module
 package: farmOS
 core_version_requirement: ^10
+dependencies:
+  - drupal:views
+  - entity:entity
+  - state_machine:state_machine
