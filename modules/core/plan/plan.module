@@ -5,6 +5,7 @@
  * Hooks and customizations for the plan module.
  */
 
+use Drupal\Core\Action\Plugin\Action\DeleteAction;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Routing\RouteMatchInterface;
 
@@ -69,5 +70,31 @@ function template_preprocess_plan(array &$variables) {
   // Helpful $content variable for templates.
   foreach (Element::children($variables['elements']) as $key) {
     $variables['content'][$key] = $variables['elements'][$key];
+  }
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function plan_module_implements_alter(&$implementations, $hook) {
+
+  // Ensure that our hook_action_info_alter() implementation runs last, so that
+  // it takes precedence over that of entity_reference_integrity_enforce().
+  if ($hook == 'action_info_alter') {
+    $group = $implementations['plan'];
+    unset($implementations['plan']);
+    $implementations['plan'] = $group;
+  }
+}
+
+/**
+ * Implements hook_action_info_alter().
+ */
+function plan_action_info_alter(&$definitions) {
+
+  // Reset the entity:delete_action:plan action class to the core class.
+  // This undoes the change made by entity_reference_integrity_enforce.
+  if (!empty($definitions['entity:delete_action:plan'])) {
+    $definitions['entity:delete_action:plan']['class'] = DeleteAction::class;
   }
 }
