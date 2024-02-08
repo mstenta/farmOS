@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [Do not trim whitespace from quantity field item content #820](https://github.com/farmOS/farmOS/pull/820)
 - [Do not install base modules when --existing-config is used #821](https://github.com/farmOS/farmOS/pull/821)
 - [Set the minimum value of maturity_days and transplant_days to 1 #794](https://github.com/farmOS/farmOS/pull/794)
+- [Move transplant_days field to farm_transplant module #795](https://github.com/farmOS/farmOS/pull/795)
 
 ## [3.1.2] 2024-02-26
 
