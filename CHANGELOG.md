@@ -34,6 +34,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [Do not trim whitespace from quantity field item content #820](https://github.com/farmOS/farmOS/pull/820)
 - [Do not install base modules when --existing-config is used #821](https://github.com/farmOS/farmOS/pull/821)
 
+### Removed
+
+- [Remove CSV export display from farm_plan View #809](https://github.com/farmOS/farmOS/pull/809)
+
 ## [3.1.2] 2024-02-26
 
 ### Fixed
