@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [Issue #3352183: Comments on farmOS records](https://www.drupal.org/project/farm/issues/3352183)
 - [Add a Notes filter to the logs views #825](https://github.com/farmOS/farmOS/pull/825)
+- [Add file and image base fields to all taxonomy terms #807](https://github.com/farmOS/farmOS/pull/807)
 
 ### Changed
 
