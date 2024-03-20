@@ -174,6 +174,10 @@ class FarmFieldFactory implements FarmFieldFactoryInterface {
         $this->modifyTimestampField($field, $options);
         break;
 
+      case 'uri':
+        $this->modifyUriField($field, $options);
+        break;
+
       default:
         throw new FieldException('Unsupported field type.');
 
@@ -933,6 +937,35 @@ class FarmFieldFactory implements FarmFieldFactoryInterface {
       ],
       'weight' => $options['weight']['view'] ?? 0,
     ]);
+  }
+
+  /**
+   * URI field modifier.
+   *
+   * @param \Drupal\Core\Field\BaseFieldDefinition &$field
+   *   A base field definition object.
+   * @param array $options
+   *   An array of options.
+   */
+  protected function modifyUriField(BaseFieldDefinition &$field, array $options = []) {
+
+    // Build form and view display settings.
+    $field->setDisplayOptions('form', [
+      'type' => 'uri_string',
+      'settings' => [
+        'size' => 60,
+        'placeholder' => '',
+      ],
+      'weight' => $options['weight']['form'] ?? 0,
+    ]);
+    $field->setDisplayOptions('view', [
+      'label' => 'inline',
+      'type' => 'url_link',
+      'weight' => $options['weight']['view'] ?? 0,
+    ]);
+
+    // Add URI validation constraint.
+    $field->addConstraint('Uri');
   }
 
 }
