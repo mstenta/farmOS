@@ -1,0 +1,4 @@
+farm.report.geometry:
+  title: Geometry
+  parent: farm.report
+  route_name: farm.report.geometry

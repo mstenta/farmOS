@@ -1,0 +1,7 @@
+farm.report.geometry:
+  path: '/report/geometry'
+  defaults:
+    _form: 'Drupal\farm_report_geometry\Form\GeometryReportForm'
+    _title: 'Geometry Report'
+  requirements:
+    _permission: 'access geometry report'

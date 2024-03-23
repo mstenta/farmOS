@@ -1,0 +1,3 @@
+farm_report_geometry:
+  config_permissions:
+    - access geometry report

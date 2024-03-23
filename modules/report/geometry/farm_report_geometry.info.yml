@@ -1,0 +1,8 @@
+name: Geometry Report
+description: Find all records across time that intersect with a geometry.
+type: module
+package: farmOS Reports
+core_version_requirement: ^10
+dependencies:
+  - farm:farm_location
+  - farm:farm_report

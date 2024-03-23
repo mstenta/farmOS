@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @file
+ * The farmOS Geometry Report module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function farm_report_geometry_help($route_name, RouteMatchInterface $route_match) {
+  $output = '';
+  if ($route_name == 'farm.report.geometry') {
+    $output .= '<p>' . t('Draw a geometry on the map below to find all assets and logs across time that intersect it.') . '</p>';
+  }
+  return $output;
+}
