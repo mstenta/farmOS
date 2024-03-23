@@ -29,6 +29,13 @@ class FarmSettingsModulesForm extends FormBase {
   const FARM_QUICK_PACKAGE = 'farmOS Quick Forms';
 
   /**
+   * The package name for farmOS report modules.
+   *
+   * @var string
+   */
+  const FARM_REPORT_PACKAGE = 'farmOS Reports';
+
+  /**
    * The module extension list.
    *
    * @var \Drupal\Core\Extension\ModuleExtensionList
@@ -91,6 +98,13 @@ class FarmSettingsModulesForm extends FormBase {
       '#open' => TRUE,
     ];
 
+    // Report modules.
+    $form['report'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Report modules'),
+      '#open' => TRUE,
+    ];
+
     // Submit button.
     $form['actions'] = ['#type' => 'actions'];
     $form['actions']['submit'] = [
@@ -145,22 +159,19 @@ class FarmSettingsModulesForm extends FormBase {
    * Helper function for building a list of modules to install.
    *
    * @return array
-   *   Returns an array with two sub-arrays: `core` and `contrib`. Each of
-   *   these includes three sub-arrays: 'options', 'default' and 'disabled'.
-   *   All modules should be included in the 'options' array. Default modules
-   *   will be selected for installation by default, and disabled modules
-   *   cannot have their checkbox changed by users.
+   *   Returns an array of modules by type.
    */
   protected function moduleOptions() {
 
     // Reload the module list.
     $this->moduleExtensionList->reset();
 
-    // Start an array of options for core and contrib modules.
+    // Start an array of options for modules by type.
     $options = [
       'core' => [],
       'contrib' => [],
       'quick' => [],
+      'report' => [],
     ];
 
     // Build core module options.
@@ -200,9 +211,20 @@ class FarmSettingsModulesForm extends FormBase {
       ];
     }, $quick_modules);
 
+    // Build report module options.
+    $report_modules = array_filter($all_module_info, function ($module_info) {
+      return isset($module_info['package']) && $module_info['package'] === static::FARM_REPORT_PACKAGE;
+    });
+    $options['report']['options'] = array_map(function ($module_info) {
+      return [
+        'name' => $module_info['name'],
+        'description' => $module_info['description'] ?? NULL,
+      ];
+    }, $report_modules);
+
     // Check and disable modules that are installed.
     $all_installed_modules = $this->moduleExtensionList->getAllInstalledInfo();
-    foreach (['core', 'contrib', 'quick'] as $option_key) {
+    foreach (['core', 'contrib', 'quick', 'report'] as $option_key) {
       $installed_modules = array_keys(array_intersect_key($options[$option_key]['options'], $all_installed_modules));
       $options[$option_key]['default'] = $installed_modules;
       $options[$option_key]['disabled'] = $installed_modules;
@@ -220,7 +242,8 @@ class FarmSettingsModulesForm extends FormBase {
     $core_modules = array_filter($form_state->getValue(['core', 'modules'], []));
     $contrib_modules = array_filter($form_state->getValue(['contrib', 'modules'], []));
     $quick_modules = array_filter($form_state->getValue(['quick', 'modules'], []));
-    $selected_modules = array_merge($core_modules, $contrib_modules, $quick_modules);
+    $report_modules = array_filter($form_state->getValue(['report', 'modules'], []));
+    $selected_modules = array_merge($core_modules, $contrib_modules, $quick_modules, $report_modules);
 
     // Filter out installed modules.
     $all_installed_modules = $this->moduleExtensionList->getAllInstalledInfo();
