@@ -17,6 +17,7 @@ class LogCsvImportTest extends CsvImportTestBase {
    * {@inheritdoc}
    */
   protected static $modules = [
+    'farm_activity',
     'farm_harvest',
     'farm_id_tag',
     'farm_land',
@@ -39,7 +40,14 @@ class LogCsvImportTest extends CsvImportTestBase {
    */
   public function setUp(): void {
     parent::setUp();
-    $this->installConfig(['farm_harvest', 'farm_plant', 'farm_land', 'farm_land_types', 'farm_location']);
+    $this->installConfig([
+      'farm_activity',
+      'farm_harvest',
+      'farm_plant',
+      'farm_land',
+      'farm_land_types',
+      'farm_location',
+    ]);
 
     // Create assets to test asset_lookup.
     $terms[] = Term::create(['name' => 'Garlic', 'vid' => 'plant_type']);
@@ -69,7 +77,7 @@ class LogCsvImportTest extends CsvImportTestBase {
    */
   public function testLogCsvImport() {
 
-    // Run the CSV import.
+    // Run the harvest CSV import.
     $this->importCsv('harvests.csv', 'csv_log:harvest');
 
     // Confirm that two taxonomy terms were created with the expected values
@@ -172,6 +180,20 @@ class LogCsvImportTest extends CsvImportTestBase {
       $this->assertEquals($expected_values[$id]['status'], $log->get('status')->value);
       $this->assertEquals('Imported via CSV.', $log->getRevisionLogMessage());
     }
+
+    // Run the movement (activity) CSV import.
+    $this->importCsv('movements.csv', 'csv_log:activity');
+
+    // Load the log that was created and confirm it has expected values.
+    $log = Log::load(4);
+    $this->assertEquals('activity', $log->bundle());
+    $this->assertEquals(1725890400, $log->get('timestamp')->value);
+    $this->assertEquals('Move Garlic to Field B', $log->label());
+    $this->assertEquals('Garlic', $log->get('asset')->referencedEntities()[0]->label());
+    $this->assertEquals('Field B', $log->get('location')->referencedEntities()[0]->label());
+    $this->assertEquals('POINT(1 2)', $log->get('geometry')->value);
+    $this->assertEquals(1, $log->get('is_movement')->value);
+    $this->assertEquals('done', $log->get('status')->value);
   }
 
 }

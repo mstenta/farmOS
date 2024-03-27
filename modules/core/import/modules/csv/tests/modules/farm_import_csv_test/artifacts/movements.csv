@@ -1,0 +1,2 @@
+timestamp,name,assets,locations,geometry,is movement,status
+2024-09-10,Move Garlic to Field B,Garlic,Field B,"POINT(1 2)",true,done

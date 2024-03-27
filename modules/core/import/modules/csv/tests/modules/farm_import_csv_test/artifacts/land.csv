@@ -1,0 +1,3 @@
+name,land type,is location,is fixed,intrinsic geometry,status
+Field A,field,true,true,"POINT(1 2)",active
+Field B,field,false,false,,active

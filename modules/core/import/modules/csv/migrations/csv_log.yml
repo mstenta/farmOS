@@ -84,6 +84,14 @@ process:
     - plugin: term_lookup
       bundle: log_category
 
+  # Geometry.
+  geometry: geometry
+
+  # Is movement boolean.
+  is_movement:
+    plugin: boolean
+    source: is movement
+
   # Log status.
   status:
     - plugin: get
@@ -115,6 +123,10 @@ third_party_settings:
         description: Notes about the log.
       - name: categories
         description: Log category taxonomy terms. Multiple terms can be separated by commas with the whole cell wrapped in quotes.
+      - name: geometry
+        description: The geometry of the log in WKT format.
+      - name: is movement
+        description: Whether this log represents an asset movement. Accepts most boolean values. Leave this blank to use the default for this log type.
       - name: status
         description: 'Status of the log. Allowed values: pending, done. Defaults to done.'
 

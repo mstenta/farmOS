@@ -19,7 +19,12 @@ class AssetCsvImportTest extends CsvImportTestBase {
     'farm_entity',
     'farm_equipment',
     'farm_id_tag',
+    'farm_land',
+    'farm_land_types',
+    'farm_location',
+    'farm_map',
     'farm_parent',
+    'geofield',
   ];
 
   /**
@@ -27,7 +32,12 @@ class AssetCsvImportTest extends CsvImportTestBase {
    */
   public function setUp(): void {
     parent::setUp();
-    $this->installConfig(['farm_id_tag', 'farm_equipment']);
+    $this->installConfig([
+      'farm_id_tag',
+      'farm_equipment',
+      'farm_land',
+      'farm_land_types',
+    ]);
 
     // Add an asset to test parent relationship.
     $asset = Asset::create(['name' => 'Test parent', 'type' => 'equipment', 'status' => 'active']);
@@ -115,6 +125,27 @@ class AssetCsvImportTest extends CsvImportTestBase {
       $this->assertEquals($expected_values[$id]['status'], $asset->get('status')->value);
       $this->assertEquals('Imported via CSV.', $asset->getRevisionLogMessage());
     }
+
+    // Run the land CSV import.
+    $this->importCsv('land.csv', 'csv_asset:land');
+
+    // Load the assets that were created and confirm they have expected values.
+    $asset = Asset::load(5);
+    $this->assertEquals('land', $asset->bundle());
+    $this->assertEquals('Field A', $asset->label());
+    $this->assertEquals('field', $asset->get('land_type')->value);
+    $this->assertEquals('POINT(1 2)', $asset->get('intrinsic_geometry')->value);
+    $this->assertEquals(1, $asset->get('is_location')->value);
+    $this->assertEquals(1, $asset->get('is_fixed')->value);
+    $this->assertEquals('active', $asset->get('status')->value);
+    $asset = Asset::load(6);
+    $this->assertEquals('land', $asset->bundle());
+    $this->assertEquals('Field B', $asset->label());
+    $this->assertEquals('field', $asset->get('land_type')->value);
+    $this->assertEquals('', $asset->get('intrinsic_geometry')->value);
+    $this->assertEquals(0, $asset->get('is_location')->value);
+    $this->assertEquals(0, $asset->get('is_fixed')->value);
+    $this->assertEquals('active', $asset->get('status')->value);
   }
 
 }
