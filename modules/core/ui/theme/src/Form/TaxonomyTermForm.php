@@ -16,6 +16,11 @@ class TaxonomyTermForm extends GinContentFormBase {
    */
   protected function getFieldGroups() {
     return parent::getFieldGroups() + [
+      'reference' => [
+        'location' => 'main',
+        'title' => $this->t('Reference'),
+        'weight' => 50,
+      ],
       'relations' => [
         'location' => 'sidebar',
         'title' => $this->t('Relations'),
