@@ -8,6 +8,7 @@ use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Entity\EntityChangedInterface;
 use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
+use Drupal\Core\Entity\RevisionLogInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element\RenderCallbackInterface;
@@ -187,8 +188,13 @@ class GinContentFormBase extends ContentEntityForm implements RenderCallbackInte
         $revision_items[] = $this->t('Created @timestamp by @author', ['@timestamp' => $date, '@author' => $author]);
       }
 
-      // Only add changed metadata if available.
-      if ($this->entity instanceof EntityChangedInterface) {
+      // Only add revision information if available.
+      if ($this->entity instanceof RevisionLogInterface && $user = $this->entity->getRevisionUser()) {
+        $changed = $this->dateFormatter->format($this->entity->getRevisionCreationTime(), 'short', '', $this->currentUser()->getTimeZone(), '');
+        $revision_items[] = $this->t('Last saved: @timestamp by @author', ['@timestamp' => $changed, '@author' => $user->label()]);
+      }
+      // Else only add changed metadata if available.
+      elseif ($this->entity instanceof EntityChangedInterface) {
         $changed = $this->dateFormatter->format($this->entity->getChangedTime(), 'short', '', $this->currentUser()->getTimeZone(), '');
         $revision_items[] = $this->t('Last saved: @timestamp', ['@timestamp' => $changed]);
       }
