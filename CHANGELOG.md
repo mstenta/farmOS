@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - [Fix Client error when passing asset parameter to forms #814](https://github.com/farmOS/farmOS/pull/814)
+- [Update patch for Issue #3397275 to fix boolean field JSON Schema #819](https://github.com/farmOS/farmOS/pull/819)
 
 ## [3.1.2] 2024-02-26
 
