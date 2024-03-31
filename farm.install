@@ -106,6 +106,16 @@ function farm_install_modules(array &$install_state) {
     $modules = array_merge(array_keys($all['base']), $modules);
   }
 
+  // If the --existing-config flag is set, do not install additional modules.
+  // We assume that a site that is using configuration management has made its
+  // own decisions about which modules should be installed. By installing any
+  // additional modules here we could end up with overridden configuration. For
+  // example, it is possible that some of the optional base modules have been
+  // uninstalled in these instances, and we should not reinstall them.
+  if (!empty($install_state['parameters']['existing_config']) && $install_state['parameters']['existing_config'] === TRUE) {
+    $modules = [];
+  }
+
   // If this is running in the context of a functional test, do not install any
   // additional modules. This is a temporary hack.
   // @see Drupal\Tests\farm_test\Functional\FarmBrowserTestBase::setUp()
