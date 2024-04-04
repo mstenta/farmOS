@@ -28,7 +28,10 @@ The basic template for a CSV importer is as follows (replace all
 ```yaml
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  enforced:
+    module:
+      - {{ MODULE_NAME }}
 id: {{ UNIQUE_ID }}
 label: '{{ LABEL }}'
 migration_group: farm_import_csv
@@ -49,6 +52,11 @@ third_party_settings:
       {{ COLUMN_DESCRIPTIONS }}
 ```
 
+- `{{ MODULE_NAME }}` is the machine-name of the contrib module. Self-dependency
+  is recommended so that configuration objects are removed upon module
+  uninstall. If the module is not enforced in `dependencies: {  }`, then
+  `drush config:delete migrate_plus.migration.{{ UNIQUE_ID }}` will need to be
+  run manually before reinstall.
 - `{{ UNIQUE_ID }}` must be a unique machine-name for the importer, consisting
   of only alphanumeric characters and underscores.
 - `{{ LABEL }}` will be the name of the importer shown in the farmOS UI.
