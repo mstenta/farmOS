@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [Issue #3390486: Add an Ontology URI field to all taxonomy terms](https://www.drupal.org/project/farm/issues/3390486)
 - [Add "Days of harvest" field to Plant type terms #794](https://github.com/farmOS/farmOS/pull/794)
 - [Plan record views integration #818](https://github.com/farmOS/farmOS/pull/818)
+- [Add min/max options to decimal fields in farm_field.factory #822](https://github.com/farmOS/farmOS/pull/822)
 
 ### Changed
 
