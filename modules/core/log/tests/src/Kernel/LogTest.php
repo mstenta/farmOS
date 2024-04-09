@@ -123,4 +123,21 @@ class LogTest extends KernelTestBase {
     $this->assertEquals(1, count($log_ids), 'Log query results can be limited.');
   }
 
+  /**
+   * Test log status workflow.
+   */
+  public function testLogStatusWorkflow() {
+
+    // Get log storage.
+    $log_storage = \Drupal::service('entity_type.manager')->getStorage('log');
+
+    // Confirm that the default status of foo logs is "pending".
+    $foo_log = $log_storage->create(['type' => 'foo']);
+    $this->assertEquals('pending', $foo_log->get('status')->value);
+
+    // Confirm that the default status of bar logs is "done".
+    $bar_log = $log_storage->create(['type' => 'bar']);
+    $this->assertEquals('done', $bar_log->get('status')->value);
+  }
+
 }

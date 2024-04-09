@@ -11,7 +11,7 @@ id: lab_test
 label: 'Lab test'
 description: ''
 name_pattern: 'Lab test log [log:id]'
-workflow: log_default
+workflow: farm_log_workflow
 new_revision: true
 third_party_settings:
   farm_log_quantity:

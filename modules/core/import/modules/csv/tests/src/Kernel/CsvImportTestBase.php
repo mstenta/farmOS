@@ -37,6 +37,7 @@ class CsvImportTestBase extends MigrateTestBase {
     'farm_import',
     'farm_import_csv',
     'farm_import_csv_test',
+    'farm_log',
     'farm_log_quantity',
     'farm_migrate',
     'farm_quantity_standard',

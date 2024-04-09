@@ -9,4 +9,4 @@ dependencies:
   - exif_orientation:exif_orientation
   - farm:farm_entity_fields
   - farm:farm_entity_views
-  - farm:farm_log_asset
+  - farm:farm_log

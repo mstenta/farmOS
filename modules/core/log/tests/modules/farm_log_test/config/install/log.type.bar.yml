@@ -4,5 +4,5 @@ id: bar
 label: Bar
 description: ''
 name_pattern: 'Bar log [log:id]'
-workflow: log_default
+workflow: farm_log_workflow
 new_revision: true

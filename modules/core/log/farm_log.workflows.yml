@@ -1,0 +1,18 @@
+farm_log_workflow:
+  id: farm_log_workflow
+  group: log
+  label: 'farmOS Log Workflow'
+  states:
+    done:
+      label: Done
+    pending:
+      label: Pending
+  transitions:
+    done:
+      label: 'Done'
+      from: [pending]
+      to: done
+    to_pending:
+      label: 'Move to Pending'
+      from: [done]
+      to: pending

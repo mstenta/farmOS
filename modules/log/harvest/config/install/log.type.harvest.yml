@@ -8,5 +8,5 @@ id: harvest
 label: Harvest
 description: ''
 name_pattern: 'Harvest log [log:id]'
-workflow: log_default
+workflow: farm_log_workflow
 new_revision: true

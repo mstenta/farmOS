@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - [Set plant_type fields form/view display settings via alter hook instead of config #806](https://github.com/farmOS/farmOS/pull/806)
+- [Make "done" the default log status #782](https://github.com/farmOS/farmOS/pull/782)
 
 ### Fixed
 

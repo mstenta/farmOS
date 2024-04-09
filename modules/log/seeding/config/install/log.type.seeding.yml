@@ -10,7 +10,7 @@ id: seeding
 label: Seeding
 description: ''
 name_pattern: 'Seeding log [log:id]'
-workflow: log_default
+workflow: farm_log_workflow
 new_revision: true
 third_party_settings:
   farm_location:

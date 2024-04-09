@@ -11,7 +11,7 @@ id: input
 label: Input
 description: ''
 name_pattern: 'Input log [log:id]'
-workflow: log_default
+workflow: farm_log_workflow
 new_revision: true
 third_party_settings:
   farm_log_quantity:

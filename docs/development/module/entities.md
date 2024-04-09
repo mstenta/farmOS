@@ -28,7 +28,7 @@ id: activity
 label: Activity
 description: ''
 name_pattern: 'Activity log [log:id]'
-workflow: log_default
+workflow: farm_log_workflow
 new_revision: true
 ```
 
