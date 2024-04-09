@@ -8,38 +8,8 @@
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
-use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Field\Entity\BaseFieldOverride;
 use Drupal\Core\Url;
-
-/**
- * Implements hook_form_BASE_FORM_ID_alter().
- */
-function farm_birth_form_log_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-
-  // Only proceed if the mother and asset fields exist.
-  if (empty($form['mother']) || empty($form['asset'])) {
-    return;
-  }
-
-  // Rename the asset field to Children.
-  $form['asset']['widget']['#title'] = t('Children');
-}
-
-/**
- * Implements hook_ENTITY_TYPE_view_alter().
- */
-function farm_birth_log_view_alter(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display) {
-
-  // Only alter birth logs.
-  if ($entity->bundle() != 'birth') {
-    return;
-  }
-
-  // Rename the asset field to Children.
-  if (!empty($build['asset'])) {
-    $build['asset']['#title'] = t('Children');
-  }
-}
 
 /**
  * Implements hook_ENTITY_TYPE_view_alter().
@@ -74,13 +44,21 @@ function farm_birth_asset_view_alter(array &$build, EntityInterface $entity, Ent
 }
 
 /**
- * Implements hook_entity_base_field_info_alter().
+ * Implements hook_entity_bundle_field_info().
  */
-function farm_birth_entity_base_field_info_alter(&$fields, EntityTypeInterface $entity_type) {
-  /** @var \Drupal\field\Entity\FieldConfig[] $fields */
+function farm_birth_entity_bundle_field_info(EntityTypeInterface $entity_type, $bundle, array $base_field_definitions) {
+  $fields = [];
 
-  // Validate that only one birth log references an asset.
-  if ($entity_type->id() == 'log' && !empty($fields['asset'])) {
+  // Add the UniqueBirthLog validation constraint to the asset field of birth
+  // logs. We need to do this via hook_entity_bundle_field_info() instead of
+  // hook_entity_field_info_alter() because this module also provides a
+  // BaseFieldOverride for the asset field, and there is a Drupal core issue
+  // that prevents these from working together normally.
+  // @see https://www.drupal.org/project/drupal/issues/3193351
+  if ($entity_type->id() == 'log' && $bundle == 'birth') {
+    $fields['asset'] = BaseFieldOverride::loadByName($entity_type->id(), $bundle, 'asset') ?: clone $base_field_definitions['asset'];
     $fields['asset']->addConstraint('UniqueBirthLog');
   }
+
+  return $fields;
 }
