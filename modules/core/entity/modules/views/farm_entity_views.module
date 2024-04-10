@@ -44,7 +44,7 @@ function farm_entity_views_entity_type_build(array &$entity_types) {
   /** @var \Drupal\Core\Entity\EntityTypeInterface[] $entity_types */
 
   // Set the views data handler class to FarmEntityViewsData.
-  foreach (['asset', 'log', 'plan', 'quantity'] as $entity_type) {
+  foreach (['asset', 'log', 'plan', 'plan_record', 'quantity'] as $entity_type) {
     if (!empty($entity_types[$entity_type])) {
 
       // Use the correct class for each entity type.

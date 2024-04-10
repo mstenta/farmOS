@@ -33,7 +33,6 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *     },
  *   },
  *   base_table = "plan_record",
- *   data_table = "plan_record_data",
  *   entity_keys = {
  *     "id" = "id",
  *     "uuid" = "uuid",
