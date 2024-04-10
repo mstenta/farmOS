@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.2.0] 2024-04-10
+
 ### Added
 
 - [Issue #3352183: Comments on farmOS records](https://www.drupal.org/project/farm/issues/3352183)
@@ -746,7 +748,8 @@ moving forward.
     Drupal 7, which required a complete refactor of the codebase. By comparison,
     updating from Drupal 9 to 10 will simply involve updating deprecated code.
 
-[Unreleased]: https://github.com/farmOS/farmOS/compare/3.1.2...HEAD
+[Unreleased]: https://github.com/farmOS/farmOS/compare/3.2.0...HEAD
+[3.1.2]: https://github.com/farmOS/farmOS/releases/tag/3.2.0
 [3.1.2]: https://github.com/farmOS/farmOS/releases/tag/3.1.2
 [3.1.1]: https://github.com/farmOS/farmOS/releases/tag/3.1.1
 [3.1.0]: https://github.com/farmOS/farmOS/releases/tag/3.1.0
