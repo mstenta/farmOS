@@ -5,11 +5,11 @@ namespace Drupal\Tests\farm_log\Kernel;
 use Drupal\KernelTests\KernelTestBase;
 
 /**
- * Tests for farmOS log query factory.
+ * Tests for farmOS log module.
  *
  * @group farm
  */
-class LogQueryTest extends KernelTestBase {
+class LogTest extends KernelTestBase {
 
   /**
    * Log query factory service.
@@ -27,7 +27,7 @@ class LogQueryTest extends KernelTestBase {
     'farm_field',
     'farm_log',
     'farm_log_asset',
-    'farm_log_query_test',
+    'farm_log_test',
     'state_machine',
     'user',
   ];
@@ -42,7 +42,7 @@ class LogQueryTest extends KernelTestBase {
     $this->installEntitySchema('log');
     $this->installEntitySchema('user');
     $this->installConfig([
-      'farm_log_query_test',
+      'farm_log_test',
     ]);
   }
 

@@ -1,5 +1,5 @@
-name: farmOS Log Query Tests
-description: 'Support module for log query factory testing.'
+name: farmOS Log Tests
+description: 'Support module for log testing.'
 type: module
 package: Testing
 core_version_requirement: ^10
