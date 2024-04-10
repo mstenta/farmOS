@@ -20,6 +20,30 @@ class LabTest extends FarmLogType {
   public function buildFieldDefinitions() {
     $fields = parent::buildFieldDefinitions();
 
+    // Date received.
+    $options = [
+      'type' => 'timestamp',
+      'label' => $this->t('Date received'),
+      'description' => $this->t('The date when the sample was received by the lab.'),
+      'weight' => [
+        'form' => -70,
+        'view' => -70,
+      ],
+    ];
+    $fields['lab_received_date'] = $this->farmFieldFactory->bundleFieldDefinition($options);
+
+    // Date processed.
+    $options = [
+      'type' => 'timestamp',
+      'label' => $this->t('Date processed'),
+      'description' => $this->t('The date when the sample was processed by the lab.'),
+      'weight' => [
+        'form' => -60,
+        'view' => -60,
+      ],
+    ];
+    $fields['lab_processed_date'] = $this->farmFieldFactory->bundleFieldDefinition($options);
+
     // Lab test type.
     $options = [
       'type' => 'list_string',
@@ -46,30 +70,6 @@ class LabTest extends FarmLogType {
       ],
     ];
     $fields['lab'] = $this->farmFieldFactory->bundleFieldDefinition($options);
-
-    // Date received.
-    $options = [
-      'type' => 'timestamp',
-      'label' => $this->t('Date received'),
-      'description' => $this->t('The date when the sample was received by the lab.'),
-      'weight' => [
-        'form' => -35,
-        'view' => -35,
-      ],
-    ];
-    $fields['lab_received_date'] = $this->farmFieldFactory->bundleFieldDefinition($options);
-
-    // Date processed.
-    $options = [
-      'type' => 'timestamp',
-      'label' => $this->t('Date processed'),
-      'description' => $this->t('The date when the sample was processed by the lab.'),
-      'weight' => [
-        'form' => -34,
-        'view' => -34,
-      ],
-    ];
-    $fields['lab_processed_date'] = $this->farmFieldFactory->bundleFieldDefinition($options);
 
     return $fields;
   }
