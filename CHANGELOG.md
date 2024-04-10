@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - [Issue #3352183: Comments on farmOS records](https://www.drupal.org/project/farm/issues/3352183)
+- [Add a Notes filter to the logs views #825](https://github.com/farmOS/farmOS/pull/825)
 
 ### Changed
 
