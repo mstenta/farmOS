@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [Make "done" the default log status #782](https://github.com/farmOS/farmOS/pull/782)
 - [Set the minimum value of maturity_days and transplant_days to 1 #794](https://github.com/farmOS/farmOS/pull/794)
 - [Move transplant_days field to farm_transplant module #795](https://github.com/farmOS/farmOS/pull/795)
+- [Use content form for taxonomy terms #810](https://github.com/farmOS/farmOS/pull/810)
 
 ### Fixed
 
