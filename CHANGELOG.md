@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Patch JSON:API Schema to fix [Issue #3390505: Error: uri is not a valid type for a JSON document](https://www.drupal.org/project/jsonapi_schema/issues/3390505)
+- [Fix FieldException: Attempted to create a configurable field of non-configurable field storage image during update.php #828](https://github.com/farmOS/farmOS/pull/828)
 
 ## [3.2.0] 2024-04-10
 
