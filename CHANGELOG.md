@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.2.1] 2024-04-12
+
 ### Fixed
 
 - Patch JSON:API Schema to fix [Issue #3390505: Error: uri is not a valid type for a JSON document](https://www.drupal.org/project/jsonapi_schema/issues/3390505)
@@ -753,7 +755,8 @@ moving forward.
     Drupal 7, which required a complete refactor of the codebase. By comparison,
     updating from Drupal 9 to 10 will simply involve updating deprecated code.
 
-[Unreleased]: https://github.com/farmOS/farmOS/compare/3.2.0...HEAD
+[Unreleased]: https://github.com/farmOS/farmOS/compare/3.2.1...HEAD
+[3.2.1]: https://github.com/farmOS/farmOS/releases/tag/3.2.1
 [3.2.0]: https://github.com/farmOS/farmOS/releases/tag/3.2.0
 [3.1.2]: https://github.com/farmOS/farmOS/releases/tag/3.1.2
 [3.1.1]: https://github.com/farmOS/farmOS/releases/tag/3.1.1
