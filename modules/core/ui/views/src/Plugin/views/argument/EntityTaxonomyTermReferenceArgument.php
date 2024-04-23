@@ -59,13 +59,15 @@ class EntityTaxonomyTermReferenceArgument extends Taxonomy {
    * @param \Drupal\Core\Entity\EntityFieldManagerInterface $entity_field_manager
    *   The entity field manager service.
    */
-  public function __construct(array $configuration,
-  $plugin_id,
-  $plugin_definition,
-  EntityStorageInterface $term_storage,
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    EntityStorageInterface $term_storage,
     EntityTypeManagerInterface $entity_type_manager,
-  EntityTypeBundleInfoInterface $entity_bundle_info,
-    EntityFieldManagerInterface $entity_field_manager) {
+    EntityTypeBundleInfoInterface $entity_bundle_info,
+    EntityFieldManagerInterface $entity_field_manager,
+  ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $term_storage);
     $this->entityTypeManager = $entity_type_manager;
     $this->entityTypeBundleInfo = $entity_bundle_info;
