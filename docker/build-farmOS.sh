@@ -8,6 +8,7 @@ set -e
 
 # If ${BUILD_PATH} is not empty, bail.
 if [ "$(ls -A ${BUILD_PATH})" ]; then
+  echo "The build path ${BUILD_PATH} is not empty, terminating."
   exit 1
 fi
 
