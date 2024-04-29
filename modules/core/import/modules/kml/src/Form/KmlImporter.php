@@ -179,6 +179,7 @@ class KmlImporter extends FormBase {
         '#type' => 'textfield',
         '#title' => $this->t('Name'),
         '#default_value' => $geometry->properties['name'] ?? '',
+        '#required' => TRUE,
       ];
 
       $form['output']['assets'][$index]['land_type'] = [
