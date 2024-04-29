@@ -1016,17 +1016,13 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: 'default:user'
+          handler: views
           widget: select
           handler_settings:
-            target_bundles: null
-            sort:
-              field: _none
-              direction: ASC
-            auto_create: false
-            filter:
-              type: _none
-            include_anonymous: false
+            view:
+              view_name: farm_people
+              display_name: entity_reference
+              arguments: {  }
       filter_groups:
         operator: AND
         groups:
