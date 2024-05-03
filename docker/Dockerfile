@@ -1,5 +1,5 @@
 # Use the official Drupal 10 image to build GEOS PHP extension.
-FROM drupal:10.1 as php-dependencies
+FROM drupal:10.2 as php-dependencies
 
 # Build and install the GEOS PHP extension.
 # See https://git.osgeo.org/gitea/geos/php-geos
@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y libgeos-dev \
 RUN docker-php-ext-install bcmath
 
 # Inherit from the official Drupal 10 image.
-FROM drupal:10.1
+FROM drupal:10.2
 
 # Set the farmOS and composer project repository URLs and versions.
 ARG FARMOS_REPO=https://github.com/farmOS/farmOS.git
