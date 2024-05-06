@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [Allow multiple locations to be referenced in the planting quick form #839](https://github.com/farmOS/farmOS/pull/839)
 
+### Removed
+
+- [Remove default country from farm settings form #840](https://github.com/farmOS/farmOS/pull/840)
+
 ### Fixed
 
 - [Remove data_table from existing plan_record entity type definition #829](https://github.com/farmOS/farmOS/pull/829)
