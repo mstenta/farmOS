@@ -84,7 +84,7 @@
                 "Issue #3390505: Error: uri is not a valid type for a JSON document": "https://www.drupal.org/files/issues/2024-04-11/3390505-3.patch"
             },
             "drupal/simple_oauth": {
-                "Issue #3322325: Cannot authorize clients with empty string set as secret": "https://www.drupal.org/files/issues/2023-10-31/3322325-8.patch"
+                "Issue #3322325: Cannot authorize clients with empty string set as secret": "https://www.drupal.org/files/issues/2024-05-07/3322325-13.patch"
             },
             "itamair/geophp": {
                 "Use BCMath (where available) for all float arithmetic #115": "https://patch-diff.githubusercontent.com/raw/phayes/geoPHP/pull/115.patch"
