@@ -22,11 +22,21 @@ email:
 
 There are two potential solutions to this:
 
-1. Install and configure the [SMTP](https://drupal.org/project/smtp) module.
-   This is a contributed Drupal module that allows emails to be relayed through
-   a third-party SMTP server. This module is not included with farmOS, but can
-   be downloaded into `[farmOS-codebase]/web/sites/all/modules` and enabled in
-   `https://[farmOS-hostname]/admin/modules`.
+1. Use a third-party SMTP server as a relay. This can be achieved by adding the
+   following code to your `settings.php` file. Replace the `host`, `port`,
+   `user`, and `password` values with your SMTP relay credentials.
+
+    ```php
+    $config['system.mail']['interface']['default'] = 'symfony_mailer';
+    $config['system.mail']['mailer_dsn'] = [
+      'scheme' => 'smtp',
+      'host' => 'smtp.example.com',
+      'port' => 587,
+      'user' => 'my-smtp-user',
+      'password' => 'my-smtp-password',
+    ];
+    ```
+
 2. Create your own Docker image which inherits from the farmOS image. This
    image can install an SMTP server like Postfix, which can be configured to
    send email directly, or relay it through another SMTP server.

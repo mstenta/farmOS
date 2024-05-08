@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [Allow multiple locations to be referenced in the planting quick form #839](https://github.com/farmOS/farmOS/pull/839)
 - [Update farmOS-map to v2.3.0 #841](https://github.com/farmOS/farmOS/pull/841) to [add the ability to use custom stroke colors #201](https://github.com/farmOS/farmOS-map/issues/201) (in custom map layers)
+- [Document how to use symfony/mailer for email SMTP relay #844](https://github.com/farmOS/farmOS/pull/844)
 
 ### Removed
 
