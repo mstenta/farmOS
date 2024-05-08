@@ -229,6 +229,26 @@ class EntityCsvActionForm extends ConfirmFormBase implements BaseFormIdInterface
       '#value' => $message,
     ];
 
+    // Determine which entity bundle(s) are represented.
+    $bundles = [];
+    foreach ($this->entities as $entity) {
+      if (!in_array($entity->bundle(), $bundles)) {
+        $bundles[] = $entity->bundle();
+      }
+    }
+
+    // If multiple bundles are included, mention that all columns will be
+    // included, and may appear in different order depending on the rows that
+    // are included.
+    if (count($bundles) > 1) {
+      $message = $this->t('Exports that include multiple types of records will include columns from all types. The order of these columns may change based on the order of the rows.');
+      $form['bundles_warning'] = [
+        '#type' => 'html_tag',
+        '#tag' => 'strong',
+        '#value' => $message,
+      ];
+    }
+
     // Delegate to the parent method.
     return parent::buildForm($form, $form_state);
   }
