@@ -249,6 +249,22 @@ class EntityCsvActionForm extends ConfirmFormBase implements BaseFormIdInterface
       ];
     }
 
+    // Allow columns to be selected for inclusion.
+    $form['columns'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Columns'),
+      '#tree' => TRUE,
+    ];
+    $column_options = $this->getIncludeColumns($bundles);
+    $form['columns']['include'] = [
+      '#type' => 'checkboxes',
+      '#title' => $this->t('Include columns'),
+      '#description' => $this->t('Which columns should be included in the CSV?'),
+      '#options' => array_combine($column_options, $column_options),
+      '#default_value' => $column_options,
+      '#required' => TRUE,
+    ];
+
     // Delegate to the parent method.
     return parent::buildForm($form, $form_state);
   }
@@ -273,7 +289,7 @@ class EntityCsvActionForm extends ConfirmFormBase implements BaseFormIdInterface
     $context = [
 
       // Define the columns to include.
-      'include_columns' => $this->getIncludeColumns(),
+      'include_columns' => $form_state->getValue(['columns', 'include']),
 
       // Return processed text from long text fields.
       'processed_text' => TRUE,
@@ -339,10 +355,13 @@ class EntityCsvActionForm extends ConfirmFormBase implements BaseFormIdInterface
   /**
    * Get a list of columns to include in CSV exports.
    *
+   * @param array|null $bundles
+   *   A list of bundles to include. If omitted, all bundles will be used.
+   *
    * @return string[]
    *   An array of column names.
    */
-  protected function getIncludeColumns() {
+  protected function getIncludeColumns(array $bundles = NULL) {
 
     // Start with ID and UUID.
     $columns = [
@@ -372,7 +391,7 @@ class EntityCsvActionForm extends ConfirmFormBase implements BaseFormIdInterface
     }
 
     // Add bundle fields for supported field types.
-    $bundles = $this->entityTypeManager->getStorage($this->entityType->getBundleEntityType())->loadMultiple();
+    $bundles = $this->entityTypeManager->getStorage($this->entityType->getBundleEntityType())->loadMultiple($bundles);
     foreach ($bundles as $bundle) {
       if ($this->entityTypeManager->hasHandler($this->entityType->id(), 'bundle_plugin')) {
         $bundle_fields = $this->entityTypeManager->getHandler($this->entityType->id(), 'bundle_plugin')->getFieldDefinitions($bundle->id());
