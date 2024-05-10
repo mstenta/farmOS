@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [Use farm_people entity_reference View for exposed Owner filter in farm_asset View #835](https://github.com/farmOS/farmOS/pull/835)
 - [Require asset name in bulk KML importer #836](https://github.com/farmOS/farmOS/pull/836)
 - Patch Drupal core to fix [Issue #3420372: Core Symfony Mailer throws error on transport shutdown](https://www.drupal.org/project/drupal/issues/3420372)
+- Patch Drupal core to fix [Issue #3446368: SymfonyMailer RfcComplianceException when sending to multiple comma-separated addresses](https://www.drupal.org/files/issues/2024-05-10/3446368-14.patch)
 
 ## [3.2.1] 2024-04-12
 
