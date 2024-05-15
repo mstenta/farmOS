@@ -15,7 +15,7 @@
  */
 
 /**
- * Allows modules to add field definitions to asset, log, and plan bundles.
+ * Allows modules to add fields to asset, log, organization, and plan bundles.
  *
  * @todo https://www.drupal.org/project/farm/issues/3194206
  *

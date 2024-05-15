@@ -55,7 +55,7 @@ function farm_entity_entity_type_build(array &$entity_types) {
   /** @var \Drupal\Core\Entity\EntityTypeInterface[] $entity_types */
 
   // Allow the "view label" operation on the bundle entity type.
-  foreach (['asset', 'log', 'plan', 'quantity', 'data_stream'] as $entity_type) {
+  foreach (['asset', 'log', 'organization', 'plan', 'quantity', 'data_stream'] as $entity_type) {
     if (!empty($entity_types[$entity_type])) {
       $bundle_entity_type = $entity_types[$entity_type]->getBundleEntityType();
       $entity_types[$bundle_entity_type]->setHandlerClass('access', EntityAccessControlHandler::class);
@@ -64,7 +64,7 @@ function farm_entity_entity_type_build(array &$entity_types) {
   }
 
   // Enable the use of bundle plugins on specific entity types.
-  foreach (['asset', 'log', 'plan', 'plan_record', 'quantity'] as $entity_type) {
+  foreach (['asset', 'log', 'organization', 'plan', 'plan_record', 'quantity'] as $entity_type) {
     if (!empty($entity_types[$entity_type])) {
       $entity_types[$entity_type]->set('bundle_plugin_type', $entity_type . '_type');
       $entity_types[$entity_type]->setHandlerClass('bundle_plugin', FarmEntityBundlePluginHandler::class);
@@ -88,7 +88,7 @@ function farm_entity_entity_type_build(array &$entity_types) {
 function farm_entity_entity_field_storage_info_alter(&$fields, EntityTypeInterface $entity_type) {
 
   // Bail if not a farm entity type that allows bundle plugins.
-  if (!in_array($entity_type->id(), ['log', 'asset', 'plan', 'quantity'])) {
+  if (!in_array($entity_type->id(), ['log', 'asset', 'organization', 'plan', 'quantity'])) {
     return;
   }
 
@@ -130,6 +130,7 @@ function farm_entity_entity_presave(EntityInterface $entity) {
   $entity_types = [
     'asset',
     'log',
+    'organization',
     'plan',
     'quantity',
   ];
@@ -180,6 +181,7 @@ function farm_entity_form_alter(&$form, FormStateInterface $form_state, $form_id
   $entity_types = [
     'asset',
     'log',
+    'organization',
     'plan',
     'quantity',
   ];

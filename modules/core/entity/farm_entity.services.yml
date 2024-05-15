@@ -9,6 +9,9 @@ services:
   plugin.manager.log_type:
     class: Drupal\farm_entity\LogTypeManager
     parent: default_plugin_manager
+  plugin.manager.organization_type:
+    class: Drupal\farm_entity\OrganizationTypeManager
+    parent: default_plugin_manager
   plugin.manager.plan_type:
     class: Drupal\farm_entity\PlanTypeManager
     parent: default_plugin_manager

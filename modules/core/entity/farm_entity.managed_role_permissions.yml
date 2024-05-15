@@ -3,5 +3,6 @@ farm_entity:
     - view asset_type
     - view data_stream_type
     - view log_type
+    - view organization_type
     - view plan_type
     - view quantity_type
