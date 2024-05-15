@@ -2,9 +2,9 @@
 
 namespace Drupal\organization\Plugin\Action;
 
-use Drupal\organization\Entity\OrganizationInterface;
 use Drupal\Core\Action\Plugin\Action\EntityActionBase;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\organization\Entity\OrganizationInterface;
 
 /**
  * Action that clones an organization.

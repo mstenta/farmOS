@@ -5,10 +5,10 @@
  * Hooks and customizations for the organization module.
  */
 
-use Drupal\organization\Entity\OrganizationInterface;
-use Drupal\organization\Event\OrganizationEvent;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\organization\Entity\OrganizationInterface;
+use Drupal\organization\Event\OrganizationEvent;
 
 /**
  * Implements hook_help().
@@ -109,9 +109,10 @@ function organization_theme_suggestions_organization(array $variables) {
  *
  * @param array $variables
  *   An associative array containing:
- *   - elements: An associative array containing the organization information and any
- *     fields attached to the organization. Properties used:
- *     - #organization: A \Drupal\organization\Entity\Organization object. The organization entity.
+ *   - elements: An associative array containing the organization information
+ *     and any fields attached to the organization. Properties used:
+ *     - #organization: A \Drupal\organization\Entity\Organization object. The
+ *       organization entity.
  *   - attributes: HTML attributes for the containing element.
  */
 function template_preprocess_organization(array &$variables) {

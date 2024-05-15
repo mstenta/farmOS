@@ -85,7 +85,7 @@ class OrganizationType extends ConfigEntityBundleBase implements OrganizationTyp
   protected $workflow;
 
   /**
-   * Default value of the 'Create new revision' checkbox of the organization type.
+   * Default value of the 'Create new revision' checkbox.
    *
    * @var bool
    */
@@ -111,7 +111,8 @@ class OrganizationType extends ConfigEntityBundleBase implements OrganizationTyp
   public function postSave(EntityStorageInterface $storage, $update = TRUE) {
     parent::postSave($storage, $update);
 
-    // If the organization type id changed, update all existing organizations of that type.
+    // If the organization type id changed, update all existing organizations of
+    // that type.
     if ($update && $this->getOriginalId() != $this->id()) {
       $update_count = $this->entityTypeManager()->getStorage('organization')->updateType($this->getOriginalId(), $this->id());
       if ($update_count) {
@@ -153,7 +154,8 @@ class OrganizationType extends ConfigEntityBundleBase implements OrganizationTyp
   public function calculateDependencies() {
     parent::calculateDependencies();
 
-    // The organization type must depend on the module that provides the workflow.
+    // The organization type must depend on the module that provides the
+    // workflow.
     $workflow_manager = \Drupal::service('plugin.manager.workflow');
     $workflow = $workflow_manager->createInstance($this->getWorkflowId());
     $this->calculatePluginDependencies($workflow);

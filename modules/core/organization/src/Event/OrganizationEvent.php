@@ -2,8 +2,8 @@
 
 namespace Drupal\organization\Event;
 
-use Drupal\organization\Entity\OrganizationInterface;
 use Drupal\Component\EventDispatcher\Event;
+use Drupal\organization\Entity\OrganizationInterface;
 
 /**
  * Event that is fired by organization save, delete and clone operations.

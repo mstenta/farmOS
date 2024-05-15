@@ -2,8 +2,8 @@
 
 namespace Drupal\Tests\organization\Functional;
 
-use Drupal\organization\Entity\Organization;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\organization\Entity\Organization;
 
 /**
  * Tests the organization CRUD.
