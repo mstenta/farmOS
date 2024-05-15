@@ -465,6 +465,32 @@ class FarmFieldFactory implements FarmFieldFactoryInterface {
         ];
         break;
 
+      // Organization reference.
+      case 'organization':
+        $handler = 'default:organization';
+        $handler_settings = [
+          'target_bundles' => NULL,
+          'sort' => [
+            'field' => 'name',
+            'direction' => 'asc',
+          ],
+          'auto_create' => FALSE,
+          'auto_create_bundle' => '',
+        ];
+        $form_display_options = [
+          'type' => 'options_select',
+          'weight' => $options['weight']['form'] ?? 0,
+        ];
+        $view_display_options = [
+          'label' => 'inline',
+          'type' => 'entity_reference_label',
+          'weight' => $options['weight']['view'] ?? 0,
+          'settings' => [
+            'link' => TRUE,
+          ],
+        ];
+        break;
+
       // Data stream reference.
       case 'data_stream':
         $handler = 'default:data_stream';
