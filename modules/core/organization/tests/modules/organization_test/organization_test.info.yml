@@ -1,0 +1,7 @@
+name: Organization module tests
+description: Support module for organization testing.
+type: module
+package: Testing
+core_version_requirement: ^10
+dependencies:
+  - farm:organization

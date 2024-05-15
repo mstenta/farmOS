@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - organization
+id: organization_clone_action
+label: 'Clone organization'
+type: organization
+plugin: 'organization_clone_action'
+configuration: {  }

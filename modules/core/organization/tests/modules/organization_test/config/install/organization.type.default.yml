@@ -1,0 +1,6 @@
+id: default
+label: default
+description: 'Test organization type'
+langcode: en
+workflow: organization_default
+new_revision: TRUE

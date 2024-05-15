@@ -1,0 +1,19 @@
+administer organizations:
+  title: 'Administer organizations'
+  description: 'Admin access to all organization entities.'
+  restrict access: true
+
+administer organization types:
+  title: 'Administer organization types'
+  description: 'Maintain the types of content available and the fields that are associated with those types.'
+  restrict access: true
+
+view all organization revisions:
+  title: 'View all organization revisions'
+  description: 'Allow viewing organization entity revisions.'
+  restrict access: true
+
+revert all organization revisions:
+  title: 'Revert all organization revisions'
+  description: 'Allow reverting to a previous organization entity revision.'
+  restrict access: true

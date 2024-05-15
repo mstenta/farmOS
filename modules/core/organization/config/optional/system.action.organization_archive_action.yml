@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - organization
+id: organization_archive_action
+label: 'Archive organization'
+type: organization
+plugin: 'organization_archive_action'
+configuration: {  }

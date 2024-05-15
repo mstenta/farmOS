@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - organization
+id: organization_delete_action
+label: 'Delete organization'
+type: organization
+plugin: entity:delete_action:organization
+configuration: {  }

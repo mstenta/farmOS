@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - organization
+id: organization_activate_action
+label: 'Unarchive organization'
+type: organization
+plugin: 'organization_activate_action'
+configuration: {  }

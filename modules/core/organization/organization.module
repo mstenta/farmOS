@@ -1,0 +1,123 @@
+<?php
+
+/**
+ * @file
+ * Hooks and customizations for the organization module.
+ */
+
+use Drupal\organization\Entity\OrganizationInterface;
+use Drupal\organization\Event\OrganizationEvent;
+use Drupal\Core\Render\Element;
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function organization_help($route_name, RouteMatchInterface $route_match) {
+  $output = '';
+
+  // Main module help for the organization module.
+  if ($route_name == 'help.page.organization') {
+    $output = '';
+    $output .= '<h3>' . t('About') . '</h3>';
+    $output .= '<p>' . t('Provides organization entity') . '</p>';
+  }
+
+  return $output;
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave().
+ */
+function organization_organization_presave(OrganizationInterface $organization) {
+
+  // Dispatch an event on organization presave.
+  // @todo Replace this with core event via https://www.drupal.org/node/2551893.
+  $event = new OrganizationEvent($organization);
+  $event_dispatcher = \Drupal::service('event_dispatcher');
+  $event_dispatcher->dispatch($event, OrganizationEvent::PRESAVE);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ */
+function organization_organization_insert(OrganizationInterface $organization) {
+
+  // Dispatch an event on organization insert.
+  // @todo Replace this with core event via https://www.drupal.org/node/2551893.
+  $event = new OrganizationEvent($organization);
+  $event_dispatcher = \Drupal::service('event_dispatcher');
+  $event_dispatcher->dispatch($event, OrganizationEvent::INSERT);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_update().
+ */
+function organization_organization_update(OrganizationInterface $organization) {
+
+  // Dispatch an event on organization update.
+  // @todo Replace this with core event via https://www.drupal.org/node/2551893.
+  $event = new OrganizationEvent($organization);
+  $event_dispatcher = \Drupal::service('event_dispatcher');
+  $event_dispatcher->dispatch($event, OrganizationEvent::UPDATE);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ */
+function organization_organization_delete(OrganizationInterface $organization) {
+
+  // Dispatch an event on organization delete.
+  // @todo Replace this with core event via https://www.drupal.org/node/2551893.
+  $event = new OrganizationEvent($organization);
+  $event_dispatcher = \Drupal::service('event_dispatcher');
+  $event_dispatcher->dispatch($event, OrganizationEvent::DELETE);
+}
+
+/**
+ * Implements hook_theme().
+ */
+function organization_theme() {
+  return [
+    'organization' => [
+      'render element' => 'elements',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK().
+ */
+function organization_theme_suggestions_organization(array $variables) {
+  $suggestions = [];
+  $organization = $variables['elements']['#organization'];
+  $sanitized_view_mode = strtr($variables['elements']['#view_mode'], '.', '_');
+
+  $suggestions[] = 'organization__' . $sanitized_view_mode;
+  $suggestions[] = 'organization__' . $organization->bundle();
+  $suggestions[] = 'organization__' . $organization->bundle() . '__' . $sanitized_view_mode;
+  $suggestions[] = 'organization__' . $organization->id();
+  $suggestions[] = 'organization__' . $organization->id() . '__' . $sanitized_view_mode;
+
+  return $suggestions;
+}
+
+/**
+ * Prepares variables for organization templates.
+ *
+ * Default template: organization.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An associative array containing the organization information and any
+ *     fields attached to the organization. Properties used:
+ *     - #organization: A \Drupal\organization\Entity\Organization object. The organization entity.
+ *   - attributes: HTML attributes for the containing element.
+ */
+function template_preprocess_organization(array &$variables) {
+  $variables['organization'] = $variables['elements']['#organization'];
+  // Helpful $content variable for templates.
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
+}
