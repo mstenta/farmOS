@@ -1,0 +1,34 @@
+<?php
+
+/**
+ * @file
+ * Contains farm_farm.module.
+ */
+
+use Drupal\Core\Entity\EntityTypeInterface;
+
+/**
+ * Implements hook_farm_entity_bundle_field_info().
+ */
+function farm_farm_farm_entity_bundle_field_info(EntityTypeInterface $entity_type, string $bundle) {
+  $fields = [];
+
+  // Add a Farm reference field to assets and logs.
+  if (in_array($entity_type->id(), ['asset', 'log'])) {
+    $options = [
+      'type' => 'entity_reference',
+      'label' => t('Farm'),
+      'description' => t('What farm is this associated with?'),
+      'target_type' => 'organization',
+      'target_bundle' => 'farm',
+      'multiple' => TRUE,
+      'weight' => [
+        'form' => 55,
+        'view' => -5,
+      ],
+    ];
+    $fields['farm'] = \Drupal::service('farm_field.factory')->bundleFieldDefinition($options);
+  }
+
+  return $fields;
+}
