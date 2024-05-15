@@ -215,7 +215,15 @@ Shapefiles, PDFs, CSVs, or other files associated with the Asset.
 
 Assets *may* contain additional relationships:
 
+- Farm
 - Group membership
+
+#### Farm
+
+Assets can specify which Farm they are associated with.
+
+This field is added to all Asset types by default only if the Farm organization
+module is enabled.
 
 #### Group membership
 

@@ -1,14 +1,15 @@
 # Entity types
 
-Assets, logs, plans, taxonomy terms, users, etc are all types of "entities" in
-farmOS/Drupal terminology. Entities can have sub-types called "bundles", which
-represent "bundles of fields". Some fields may be common across all bundles of
-a given entity type, and some fields may be bundle-specific.
+Assets, logs, plans, taxonomy terms, users, organizations, etc are all types of
+"entities" in farmOS/Drupal terminology. Entities can have sub-types called
+"bundles", which represent "bundles of fields". Some fields may be common
+across all bundles of a given entity type, and some fields may be
+bundle-specific.
 
-## Adding asset, log, and plan types
+## Adding asset, log, organization, and plan types
 
-Asset types, log types, and plan types can be provided by adding two files to a
-module:
+Asset types, log types, organization types, and plan types can be provided by
+adding two files to a module:
 
 1. An entity type config file (YAML), and:
 2. A bundle plugin class (PHP).

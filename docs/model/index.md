@@ -24,6 +24,7 @@ keeping data types are **Assets** and **Logs**. Other types include
 - [Terms](/model/type/term)
 - [Plans](/model/type/plan)
 - [Users](/model/type/user)
+- [Organizations](/model/type/organization)
 
 ## Logic
 
