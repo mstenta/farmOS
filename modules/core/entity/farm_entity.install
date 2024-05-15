@@ -16,6 +16,7 @@ function farm_entity_install() {
     'data_stream',
     'file',
     'log',
+    'organization',
     'plan',
     'quantity',
     'taxonomy_term',
