@@ -4,7 +4,7 @@ type: module
 package: Plan
 core_version_requirement: ^10
 dependencies:
-  - drupal:system (>=8.8.0)
+  - drupal:system
   - drupal:user
   - drupal:views
   - entity:entity
