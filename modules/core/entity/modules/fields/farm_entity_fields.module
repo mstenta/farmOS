@@ -25,6 +25,11 @@ function farm_entity_fields_entity_base_field_info(EntityTypeInterface $entity_t
     return farm_entity_fields_log_base_fields();
   }
 
+  // Add common base fields to all organization types.
+  elseif ($entity_type->id() == 'organization') {
+    return farm_entity_fields_organization_base_fields();
+  }
+
   // Add common base fields to all plan types.
   elseif ($entity_type->id() == 'plan') {
     return farm_entity_fields_plan_base_fields();
@@ -43,8 +48,8 @@ function farm_entity_fields_entity_base_field_info(EntityTypeInterface $entity_t
  */
 function farm_entity_fields_entity_base_field_info_alter(&$fields, EntityTypeInterface $entity_type) {
 
-  // Only alter asset, log, and plan fields.
-  if (!in_array($entity_type->id(), ['asset', 'log', 'plan'])) {
+  // Only alter asset, log, organization, and plan fields.
+  if (!in_array($entity_type->id(), ['asset', 'log', 'organization', 'plan'])) {
     return;
   }
 

@@ -30,6 +30,7 @@ class FarmEntityFieldTest extends KernelTestBase {
     'entity',
     'asset',
     'log',
+    'organization',
     'plan',
     'farm_field',
     'farm_entity',
@@ -112,6 +113,18 @@ class FarmEntityFieldTest extends KernelTestBase {
     ];
     foreach ($field_names as $field_name) {
       $this->assertArrayHasKey($field_name, $fields, "The plan $field_name field exists.");
+    }
+
+    // Test organization field storage definitions.
+    $fields = $this->entityFieldManager->getFieldStorageDefinitions('organization');
+    $field_names = [
+      'data',
+      'file',
+      'image',
+      'notes',
+    ];
+    foreach ($field_names as $field_name) {
+      $this->assertArrayHasKey($field_name, $fields, "The organization $field_name field exists.");
     }
 
     // Test taxonomy term field storage definitions.
