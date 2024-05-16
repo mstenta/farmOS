@@ -40,7 +40,7 @@ function farm_entity_fields_asset_base_fields() {
       'label' => t('Notes'),
       'weight' => [
         'form' => 95,
-        'view' => 10,
+        'view' => 95,
       ],
     ],
   ];
@@ -88,7 +88,7 @@ function farm_entity_fields_log_base_fields() {
       'label' => t('Notes'),
       'weight' => [
         'form' => 95,
-        'view' => 10,
+        'view' => 95,
       ],
     ],
   ];
@@ -134,7 +134,7 @@ function farm_entity_fields_plan_base_fields() {
       'label' => t('Notes'),
       'weight' => [
         'form' => 95,
-        'view' => 10,
+        'view' => 95,
       ],
     ],
   ];
