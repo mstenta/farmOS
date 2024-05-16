@@ -28,7 +28,7 @@ function farm_log_quantity_entity_base_field_info(EntityTypeInterface $entity_ty
       'multiple' => TRUE,
       'weight' => [
         'form' => 0,
-        'view' => 0,
+        'view' => 50,
       ],
     ],
   ];
