@@ -53,15 +53,15 @@ function farm_entity_fields_entity_base_field_info_alter(&$fields, EntityTypeInt
       'label' => 'hidden',
       'weight' => -100,
     ],
+    'status' => [
+      'weight' => -95,
+    ],
     'timestamp' => [
       'weight' => -90,
     ],
     'type' => [
       'weight' => -85,
       'hidden' => 'form',
-    ],
-    'status' => [
-      'weight' => -80,
     ],
     'created' => [
       'hidden' => TRUE,
