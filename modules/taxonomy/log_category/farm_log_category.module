@@ -34,3 +34,23 @@ function farm_log_category_entity_base_field_info(EntityTypeInterface $entity_ty
   }
   return $fields;
 }
+
+/**
+ * Implements hook_farm_ui_theme_region_items().
+ */
+function farm_log_category_farm_ui_theme_region_items(string $entity_type) {
+
+  // Define common asset, log, and plan region items on behalf of core modules.
+  switch ($entity_type) {
+
+    case 'log':
+      return [
+        'second' => [
+          'category',
+        ],
+      ];
+
+    default:
+      return [];
+  }
+}
