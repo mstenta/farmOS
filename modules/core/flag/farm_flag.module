@@ -126,6 +126,28 @@ function farm_flag_field_allowed_values(FieldStorageDefinitionInterface $definit
 }
 
 /**
+ * Implements hook_farm_ui_theme_region_items().
+ */
+function farm_flag_farm_ui_theme_region_items(string $entity_type) {
+
+  // Define common asset, log, and plan region items on behalf of core modules.
+  switch ($entity_type) {
+
+    case 'asset':
+    case 'log':
+    case 'plan':
+      return [
+        'second' => [
+          'flag',
+        ],
+      ];
+
+    default:
+      return [];
+  }
+}
+
+/**
  * Implements hook_theme().
  */
 function farm_flag_theme() {
