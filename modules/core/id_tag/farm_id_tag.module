@@ -21,8 +21,8 @@ function farm_id_tag_entity_base_field_info(EntityTypeInterface $entity_type) {
       'description' => t('List any identification tags that this asset has. Use the fields below to describe the type, location, and ID of each.'),
       'multiple' => TRUE,
       'weight' => [
-        'form' => 50,
-        'view' => 0,
+        'form' => 20,
+        'view' => 20,
       ],
     ];
     $fields['id_tag'] = \Drupal::service('farm_field.factory')->baseFieldDefinition($field_info);
