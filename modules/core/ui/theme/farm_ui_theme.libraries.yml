@@ -26,6 +26,10 @@ help:
   css:
     theme:
       css/help.css: { }
+image:
+  css:
+    theme:
+      css/image.css: { }
 layout:
   css:
     theme:

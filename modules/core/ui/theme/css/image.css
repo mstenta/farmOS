@@ -1,0 +1,6 @@
+div.field--name-image.field--type-image div.field__items {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  gap: var(--gin-spacing-m);
+}
