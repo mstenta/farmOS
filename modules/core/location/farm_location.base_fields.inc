@@ -127,8 +127,8 @@ function farm_location_log_base_fields() {
     'target_type' => 'asset',
     'multiple' => TRUE,
     'weight' => [
-      'form' => 90,
-      'view' => 90,
+      'form' => 20,
+      'view' => 20,
     ],
   ];
   $field = \Drupal::service('farm_field.factory')->baseFieldDefinition($options);
@@ -150,8 +150,8 @@ function farm_location_log_base_fields() {
     'label' => t('Geometry'),
     'description' => t('Add geometry data to this log to describe where it took place.'),
     'weight' => [
-      'form' => 95,
-      'view' => 95,
+      'form' => 20,
+      'view' => 20,
     ],
     'populate_file_field' => 'file',
   ];
@@ -164,7 +164,7 @@ function farm_location_log_base_fields() {
     'description' => t('If this log is a movement, then all assets referenced by it will be located in the referenced locations and/or geometry at the time the log takes place. The log must be complete in order for the movement to take effect.'),
     'default_value_callback' => 'farm_location_is_movement_default_value',
     'weight' => [
-      'form' => 95,
+      'form' => 20,
     ],
     'view_display_options' => [
       'label' => 'inline',
@@ -175,7 +175,7 @@ function farm_location_log_base_fields() {
         'format_custom_true' => '',
         'hide_if_false' => TRUE,
       ],
-      'weight' => 95,
+      'weight' => 20,
     ],
   ];
   $fields['is_movement'] = \Drupal::service('farm_field.factory')->baseFieldDefinition($options);
