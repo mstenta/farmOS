@@ -108,7 +108,7 @@ class GinContentFormBase extends ContentEntityForm implements RenderCallbackInte
       'revision' => [
         'location' => 'sidebar',
         'title' => $this->t('Revision information'),
-        'weight' => 200,
+        'weight' => 500,
       ],
     ] + $this->moduleHandler->invokeAll('farm_ui_theme_field_groups', [$entity_type, $bundle]);
     return $field_groups;
@@ -163,7 +163,7 @@ class GinContentFormBase extends ContentEntityForm implements RenderCallbackInte
           '#group' => $tab_group,
           '#optional' => TRUE,
           '#weight' => $tab_info['weight'],
-          '#open' => $tab_id === 'default_field_group' || $tab_group === 'advanced',
+          '#open' => $tab_id === 'default_field_group' || $tab_id === 'meta_field_group',
         ];
       }
 
@@ -174,6 +174,12 @@ class GinContentFormBase extends ContentEntityForm implements RenderCallbackInte
           $form[$field_id]['#group'] = "{$tab_id}_field_group";
         }
       }
+    }
+
+    // Comments are a special case because the CommentWidget sets the #group
+    // for the widget to advanced but this weight is never set.
+    if (isset($form['comment']['widget'][0])) {
+      $form['comment']['widget'][0]['#weight'] = $form['comment']['#weight'];
     }
 
     // Add authoring information for existing entities.
