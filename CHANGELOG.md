@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- [Allow columns to be selected for inclusion in CSV exports #842](https://github.com/farmOS/farmOS/pull/842)
+
 ### Changed
 
 - [Allow multiple locations to be referenced in the planting quick form #839](https://github.com/farmOS/farmOS/pull/839)
@@ -21,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [Remove data_table from existing plan_record entity type definition #829](https://github.com/farmOS/farmOS/pull/829)
 - [Use farm_people entity_reference View for exposed Owner filter in farm_asset View #835](https://github.com/farmOS/farmOS/pull/835)
 - [Require asset name in bulk KML importer #836](https://github.com/farmOS/farmOS/pull/836)
+- [Fix incorrect CSV headers when exporting multiple record types #842](https://github.com/farmOS/farmOS/pull/842)
 
 ## [3.2.1] 2024-04-12
 

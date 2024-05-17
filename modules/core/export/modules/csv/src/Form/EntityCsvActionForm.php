@@ -229,6 +229,43 @@ class EntityCsvActionForm extends ConfirmFormBase implements BaseFormIdInterface
       '#value' => $message,
     ];
 
+    // Determine which entity bundle(s) are represented.
+    $bundles = [];
+    foreach ($this->entities as $entity) {
+      if (!in_array($entity->bundle(), $bundles)) {
+        $bundles[] = $entity->bundle();
+      }
+    }
+
+    // If multiple bundles are included, mention that only shared (base field)
+    // columns will be included.
+    if (count($bundles) > 1) {
+      $message = $this->t('Exports that include multiple types of records will only include columns that are shared across all types. To include type-specific columns, limit the export to records of one type.');
+      $form['bundles_warning'] = [
+        '#type' => 'html_tag',
+        '#tag' => 'strong',
+        '#value' => $message,
+      ];
+    }
+
+    // Allow columns to be selected for inclusion.
+    // If all records are the same bundle, then include bundle fields.
+    $bundle = count($bundles) === 1 ? reset($bundles) : NULL;
+    $column_options = $this->getIncludeColumns($bundle);
+    $form['columns'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Columns'),
+      '#tree' => TRUE,
+    ];
+    $form['columns']['include'] = [
+      '#type' => 'checkboxes',
+      '#title' => $this->t('Include columns'),
+      '#description' => $this->t('Which columns should be included in the CSV?'),
+      '#options' => array_combine($column_options, $column_options),
+      '#default_value' => $column_options,
+      '#required' => TRUE,
+    ];
+
     // Delegate to the parent method.
     return parent::buildForm($form, $form_state);
   }
@@ -253,7 +290,7 @@ class EntityCsvActionForm extends ConfirmFormBase implements BaseFormIdInterface
     $context = [
 
       // Define the columns to include.
-      'include_columns' => $this->getIncludeColumns(),
+      'include_columns' => $form_state->getValue(['columns', 'include']),
 
       // Return processed text from long text fields.
       'processed_text' => TRUE,
@@ -319,10 +356,13 @@ class EntityCsvActionForm extends ConfirmFormBase implements BaseFormIdInterface
   /**
    * Get a list of columns to include in CSV exports.
    *
+   * @param string|null $bundle
+   *   If specified, columns that are specific to this bundle will be included.
+   *
    * @return string[]
    *   An array of column names.
    */
-  protected function getIncludeColumns() {
+  protected function getIncludeColumns(string $bundle = NULL) {
 
     // Start with ID and UUID.
     $columns = [
@@ -352,10 +392,9 @@ class EntityCsvActionForm extends ConfirmFormBase implements BaseFormIdInterface
     }
 
     // Add bundle fields for supported field types.
-    $bundles = $this->entityTypeManager->getStorage($this->entityType->getBundleEntityType())->loadMultiple();
-    foreach ($bundles as $bundle) {
+    if ($bundle) {
       if ($this->entityTypeManager->hasHandler($this->entityType->id(), 'bundle_plugin')) {
-        $bundle_fields = $this->entityTypeManager->getHandler($this->entityType->id(), 'bundle_plugin')->getFieldDefinitions($bundle->id());
+        $bundle_fields = $this->entityTypeManager->getHandler($this->entityType->id(), 'bundle_plugin')->getFieldDefinitions($bundle);
         foreach ($bundle_fields as $field_name => $field_definition) {
           if (!in_array($field_name, $columns) && in_array($field_definition->getType(), $supported_field_types)) {
             $columns[] = $field_name;
