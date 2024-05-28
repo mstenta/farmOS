@@ -10,6 +10,7 @@ use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\farm_ui_theme\Form\AssetForm;
 use Drupal\farm_ui_theme\Form\LogForm;
+use Drupal\farm_ui_theme\Form\OrganizationForm;
 use Drupal\farm_ui_theme\Form\PlanForm;
 use Drupal\farm_ui_theme\Form\TaxonomyTermForm;
 
@@ -70,7 +71,7 @@ function farm_ui_theme_theme_suggestions_menu_local_tasks(array $variables) {
 function farm_ui_theme_entity_form_display_alter(EntityFormDisplayInterface $form_display, array $context) {
 
   // Only alter farm entity types.
-  $entity_types = ['asset', 'log', 'plan', 'taxonomy_term'];
+  $entity_types = ['asset', 'log', 'organization', 'plan', 'taxonomy_term'];
   if (!in_array($context['entity_type'], $entity_types)) {
     return;
   }
@@ -125,6 +126,9 @@ function farm_ui_theme_farm_ui_theme_field_group_items(string $entity_type, stri
       $fields['quantity'] = 'quantity';
       break;
 
+    case 'organization':
+      break;
+
     case 'plan':
       break;
 
@@ -143,7 +147,7 @@ function farm_ui_theme_farm_ui_theme_field_group_items(string $entity_type, stri
  */
 function farm_ui_theme_gin_content_form_routes() {
   $routes = [];
-  $entity_types = ['asset', 'log', 'plan', 'taxonomy_term'];
+  $entity_types = ['asset', 'log', 'organization', 'plan', 'taxonomy_term'];
   foreach ($entity_types as $entity_type) {
     $routes[] = "entity.$entity_type.add_form";
     $routes[] = "entity.$entity_type.edit_form";
@@ -159,6 +163,7 @@ function farm_ui_theme_entity_type_build(array &$entity_types) {
   $target_entity_types = [
     'asset' => AssetForm::class,
     'log' => LogForm::class,
+    'organization' => OrganizationForm::class,
     'plan' => PlanForm::class,
     'taxonomy_term' => TaxonomyTermForm::class,
   ];
