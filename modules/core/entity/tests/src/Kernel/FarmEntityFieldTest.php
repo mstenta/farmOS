@@ -122,6 +122,7 @@ class FarmEntityFieldTest extends KernelTestBase {
       'file',
       'image',
       'notes',
+      'user',
     ];
     foreach ($field_names as $field_name) {
       $this->assertArrayHasKey($field_name, $fields, "The organization $field_name field exists.");

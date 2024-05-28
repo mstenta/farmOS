@@ -79,6 +79,7 @@ Relationships that are common to all Organization types include:
 
 - Images
 - Files
+- Users
 
 #### Images
 
@@ -89,3 +90,8 @@ of the Organization.
 
 Files can be attached to Organizations. This provides a place to put documents
 such as Shapefiles, PDFs, CSVs, or other files associated with the Organization.
+
+#### Users
+
+Users can be assigned to Organizations. This provides a way to group users based
+on the Organization(s) they are associated with.

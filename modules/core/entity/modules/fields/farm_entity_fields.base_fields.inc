@@ -137,6 +137,16 @@ function farm_entity_fields_organization_base_fields() {
         'view' => 10,
       ],
     ],
+    'user' => [
+      'type' => 'entity_reference',
+      'label' => t('Users'),
+      'target_type' => 'user',
+      'multiple' => TRUE,
+      'weight' => [
+        'form' => 100,
+        'view' => 100,
+      ],
+    ],
   ];
   /** @var \Drupal\Core\Field\BaseFieldDefinition[] $fields */
   $fields = [];
