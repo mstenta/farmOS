@@ -83,7 +83,7 @@ function farm_ui_views_entity_type_build(array &$entity_types) {
 function farm_ui_views_local_tasks_alter(&$local_tasks) {
 
   // Remove the local task plugin definition for farm entity collection links.
-  $entity_types = ['asset', 'log', 'plan'];
+  $entity_types = ['asset', 'log', 'organization', 'plan'];
   foreach ($entity_types as $type) {
     if (!empty($local_tasks["entity.$type.collection"])) {
       unset($local_tasks["entity.$type.collection"]);
