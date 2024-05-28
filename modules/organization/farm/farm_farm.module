@@ -44,3 +44,17 @@ function farm_farm_farm_ui_theme_field_group_items(string $entity_type, string $
   }
   return [];
 }
+
+/**
+ * Implements hook_farm_ui_theme_region_items().
+ */
+function farm_farm_farm_ui_theme_region_items(string $entity_type) {
+  if ($entity_type == 'asset') {
+    return [
+      'second' => [
+        'farm',
+      ],
+    ];
+  }
+  return [];
+}
