@@ -241,16 +241,8 @@ Shapefiles, PDFs, CSVs, or other files associated with the task.
 
 Logs *may* contain additional relationships:
 
-- Farm
 - Equipment used
 - Groups
-
-#### Farm
-
-Logs can specify which Farm they are associated with.
-
-This field is added to all Log types by default only if the Farm organization
-module is enabled.
 
 #### Equipment used
 

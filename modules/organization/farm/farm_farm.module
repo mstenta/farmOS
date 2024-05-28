@@ -13,8 +13,8 @@ use Drupal\Core\Entity\EntityTypeInterface;
 function farm_farm_farm_entity_bundle_field_info(EntityTypeInterface $entity_type, string $bundle) {
   $fields = [];
 
-  // Add a Farm reference field to assets and logs.
-  if (in_array($entity_type->id(), ['asset', 'log'])) {
+  // Add a Farm reference field to assets.
+  if ($entity_type->id() == 'asset') {
     $options = [
       'type' => 'entity_reference',
       'label' => t('Farm'),
