@@ -63,7 +63,7 @@ function farm_ui_menu_toolbar_alter(&$items) {
 function farm_ui_menu_entity_type_build(array &$entity_types) {
 
   // Override the default local task provider to use secondary tasks.
-  $target_entity_types = ['asset', 'data_stream', 'log', 'plan', 'taxonomy_term'];
+  $target_entity_types = ['asset', 'data_stream', 'log', 'organization', 'plan', 'taxonomy_term'];
   foreach ($target_entity_types as $entity_type) {
     if (isset($entity_types[$entity_type])) {
 
@@ -80,7 +80,7 @@ function farm_ui_menu_entity_type_build(array &$entity_types) {
 function farm_ui_menu_local_tasks_alter(&$local_tasks) {
 
   // Disable Drupal core revisions local tasks.
-  $target_entity_types = ['asset', 'data_stream', 'log', 'plan', 'taxonomy_term'];
+  $target_entity_types = ['asset', 'data_stream', 'log', 'organization', 'plan', 'taxonomy_term'];
   foreach ($target_entity_types as $entity_type) {
     unset($local_tasks['entity.version_history:' . $entity_type . '.version_history']);
   }
