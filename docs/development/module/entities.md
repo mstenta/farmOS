@@ -55,6 +55,13 @@ class Activity extends FarmLogType {
 }
 ```
 
+For more examples, refer to the modules that come with farmOS in the
+`modules/[type]/[bundle]` directories of the repository. Each bundle of each
+type is declared in a separate module. Note that these modules may also contain
+other features and logic related to the bundle, but only the two files described
+above (in addition to the basic [module files](/development/module)) are
+necessary for declaring a new bundle.
+
 ## Bundle fields
 
 Bundles can declare field definitions in their plugin class via the
