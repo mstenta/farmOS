@@ -13,6 +13,7 @@ dependencies:
   - farm:farm_ui_menu
   - farm:farm_ui_metrics
   - farm:farm_ui_term
+  - farm:farm_ui_timeline
   - farm:farm_ui_theme
   - farm:farm_ui_user
   - farm:farm_ui_views

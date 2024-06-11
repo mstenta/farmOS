@@ -15,3 +15,12 @@ function farm_ui_post_update_install_farm_ui_term() {
     \Drupal::service('module_installer')->install(['farm_ui_term']);
   }
 }
+
+/**
+ * Install the farmOS UI Timeline module.
+ */
+function farm_ui_post_update_install_farm_ui_timeline(&$sandbox = NULL) {
+  if (!\Drupal::service('module_handler')->moduleExists('farm_ui_timeline')) {
+    \Drupal::service('module_installer')->install(['farm_ui_timeline']);
+  }
+}
