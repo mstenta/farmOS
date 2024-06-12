@@ -23,7 +23,7 @@ class Plant extends FarmAssetType {
       'plant_type' => [
         'type' => 'entity_reference',
         'label' => $this->t('Crop/variety'),
-        'description' => "Enter this plant asset's crop/variety.",
+        'description' => $this->t("Enter this plant asset's crop/variety."),
         'target_type' => 'taxonomy_term',
         'target_bundle' => 'plant_type',
         'auto_create' => TRUE,

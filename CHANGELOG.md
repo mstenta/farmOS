@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- [Issue #3454144: Fix untranslated plant_type descriptions in plant and seed asset types](https://www.drupal.org/project/farm/issues/3454144)
+
 ## [3.2.2] 2024-05-17
 
 ### Added
