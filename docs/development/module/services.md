@@ -21,19 +21,20 @@ controls are respected.
 
 `isFixed($asset)` - Check if an asset is fixed. Returns a boolean.
 
-`hasLocation($asset, $timestamp = NULL)` - Check if an asset is located within other
-location assets, optionally at a given timestamp (defaults to current time).
-Returns a boolean.
+`hasLocation($asset, $timestamp = NULL)` - Check if an asset is located within
+other location assets, optionally at a given timestamp (defaults to current
+time). Returns a boolean.
 
-`hasGeometry($asset, $timestamp = NULL)` - Check if an asset has geometry, optionally
-at a given timestamp (defaults to current time). Returns a boolean.
+`hasGeometry($asset, $timestamp = NULL)` - Check if an asset has geometry,
+optionally at a given timestamp (defaults to current time). Returns a boolean.
 
 `getLocation($asset, $timestamp = NULL)` - Get location assets that an asset is
 located within, optionally at a given timestamp (defaults to current time).
 Returns an array of asset entities.
 
-`getGeometry($asset, $timestamp = NULL)` - Get an asset's geometry, optionally at a
-given timestamp (defaults to current time). Returns a Well-Known Text string.
+`getGeometry($asset, $timestamp = NULL)` - Get an asset's geometry, optionally
+at a given timestamp (defaults to current time). Returns a Well-Known Text
+string.
 
 `getMovementLog($asset, $timestamp = NULL)` - Find the latest movement log that
 references an asset, optionally at a given timestamp (defaults to current
@@ -185,12 +186,13 @@ access controls are respected.
 
 **Methods**:
 
-`hasGroup($asset, $timestamp = NULL)` - Check if an asset is a member of a group,
-optionally at a given timestamp (defaults to current time). Returns a boolean.
+`hasGroup($asset, $timestamp = NULL)` - Check if an asset is a member of a
+group, optionally at a given timestamp (defaults to current time). Returns a
+boolean.
 
-`getGroup($asset, $timestamp = NULL)` - Get group assets that an asset is a member
-of, optionally at a given timestamp (defaults to current time). Returns an
-array of asset entities.
+`getGroup($asset, $timestamp = NULL)` - Get group assets that an asset is a
+member of, optionally at a given timestamp (defaults to current time). Returns
+an array of asset entities.
 
 `getGroupAssignmentLog($asset, $timestamp = NULL)` - Find the latest group
 assignment log that references an asset, optionally at a given timestamp
