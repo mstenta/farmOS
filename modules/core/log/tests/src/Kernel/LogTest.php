@@ -19,6 +19,13 @@ class LogTest extends KernelTestBase {
   protected $logQueryFactory;
 
   /**
+   * The asset logs service.
+   *
+   * @var \Drupal\farm_log\AssetLogsInterface
+   */
+  protected $assetLogs;
+
+  /**
    * {@inheritdoc}
    */
   protected static $modules = [
@@ -38,6 +45,7 @@ class LogTest extends KernelTestBase {
   protected function setUp(): void {
     parent::setUp();
     $this->logQueryFactory = \Drupal::service('farm.log_query');
+    $this->assetLogs = \Drupal::service('asset.logs');
     $this->installEntitySchema('asset');
     $this->installEntitySchema('log');
     $this->installEntitySchema('user');
@@ -121,6 +129,46 @@ class LogTest extends KernelTestBase {
     // Test that results can be limited.
     $log_ids = $this->logQueryFactory->getQuery(['limit' => 1])->accessCheck(FALSE)->execute();
     $this->assertEquals(1, count($log_ids), 'Log query results can be limited.');
+  }
+
+  /**
+   * Test asset.logs service.
+   */
+  public function testAssetLogsService() {
+
+    // Get asset and log storage.
+    $asset_storage = \Drupal::service('entity_type.manager')->getStorage('asset');
+    $log_storage = \Drupal::service('entity_type.manager')->getStorage('log');
+
+    // Create one asset and two logs of different types that reference it.
+    $asset = $asset_storage->create(['type' => 'test']);
+    $asset->save();
+    $timestamp = time();
+    $foo_log = $log_storage->create([
+      'timestamp' => $timestamp + 1,
+      'type' => 'foo',
+      'asset' => [$asset],
+    ]);
+    $foo_log->save();
+    $bar_log = $log_storage->create([
+      'timestamp' => $timestamp,
+      'type' => 'bar',
+      'asset' => [$asset],
+    ]);
+    $bar_log->save();
+
+    // Test that the asset.logs service returns both logs.
+    $logs = $this->assetLogs->getLogs($asset);
+    $this->assertCount(2, $logs);
+
+    // Test that logs can be filtered by type.
+    $logs = $this->assetLogs->getLogs($asset, 'bar');
+    $this->assertCount(1, $logs);
+    $this->assertEquals($bar_log->id(), reset($logs)->id());
+
+    // Test that we can get the first log.
+    $first_log = $this->assetLogs->getFirstLog($asset);
+    $this->assertEquals($bar_log->id(), $first_log->id());
   }
 
   /**

@@ -1,4 +1,8 @@
 services:
+  asset.logs:
+    class: Drupal\farm_log\AssetLogs
+    arguments:
+      [ '@entity_type.manager', '@farm.log_query' ]
   farm.log_query:
     class: Drupal\farm_log\LogQueryFactory
     arguments:

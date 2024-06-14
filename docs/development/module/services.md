@@ -4,6 +4,32 @@ farmOS provides some [services](https://symfony.com/doc/current/service_containe
 that encapsulate common logic like querying logs and getting an asset's current
 location. Some of these services are documented here.
 
+## Asset logs service
+
+**Service name**: `asset.logs`
+
+The asset logs service provides methods for retrieving logs that reference
+assets.
+
+**Methods**:
+
+`getLogs($asset, $log_type = NULL, $access_check = TRUE)` - Load a list of logs
+that reference an asset, optionally filtered by log type. Access checking is
+performed by default but can be optionally disabled. Returns a list of log
+entities.
+
+`getFirstLog($asset, $log_type = NULL, $access_check = TRUE)` - Load the first
+log that references an asset, optionally filtered by log type. Access checking
+is performed by default but can be optionally disabled. Returns a log entity, or
+`NULL` if no logs were found.
+
+**Example usage**:
+
+```php
+// Get all observation logs that reference an asset.
+$observation_logs = \Drupal::service('asset.logs')->getLogs($asset, 'observation');
+```
+
 ## Asset location service
 
 **Service name**: `asset.location`

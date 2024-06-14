@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [Add an "Export Quantity CSV" bulk action to Log Views](https://github.com/farmOS/farmOS/pull/861)
 - [Allow modules to alter dashboard panes #868](https://github.com/farmOS/farmOS/pull/868)
 - [Add geometry/location fields to CSV importers #815](https://github.com/farmOS/farmOS/pull/815)
+- [Add an asset.logs service for retrieving logs that reference an asset #850](https://github.com/farmOS/farmOS/pull/850)
 
 ### Changed
 
