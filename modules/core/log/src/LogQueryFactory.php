@@ -61,9 +61,11 @@ class LogQueryFactory implements LogQueryFactoryInterface {
       $query->condition('asset.entity.id', $options['asset']->id());
     }
 
-    // Sort by timestamp and then log ID, descending.
-    $query->sort('timestamp', 'DESC');
-    $query->sort('id', 'DESC');
+    // Sort by timestamp and then log ID. Optionally accept a sort direction.
+    // Default to timestamp+id descending.
+    $direction = $options['direction'] ?? 'DESC';
+    $query->sort('timestamp', $direction);
+    $query->sort('id', $direction);
 
     // If a limit is specified, limit the results.
     if (isset($options['limit'])) {
