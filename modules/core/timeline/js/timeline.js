@@ -1,50 +1,42 @@
-(function (Drupal, drupalSettings, once) {
+(function (Drupal, drupalSettings, once, farmOS) {
   Drupal.behaviors.farm_timeline_gantt = {
     attach: function (context, settings) {
       once('timelineGantt', '#timeline', context).forEach(function (element) {
-        var gantt = new SvelteGantt({
-          target: element,
-          props: {
-            target: element,
-            from: Date.now()-86400,
-            to: Date.now(),
-            fitWidth: true,
-            columnUnit: 'day',
-            columnOffset: 7,
-            rowHeight: 34,
-            rowPadding: 8,
-            reflectOnParentRows: false,
-            tableHeaders: [{ title: element.dataset.tableHeader, property: 'label', type: 'tree' }],
-            tableWidth: 240,
-            ganttTableModules: [SvelteGanttTable],
-            headers: [
-              {unit: 'year', format: 'YYYY'},
-              {unit: 'month', format: 'MM'},
-            ],
-            rows: [
-              {id: 'first', label: 'Loading...'}
-            ],
-            taskElementHook: (node, task) => {
-              let popup;
-              function onHover() {
-                popup = createPopup(task, node);
+        const opts = {
+          columnUnit: 'day',
+          columnOffset: 7,
+          rowHeight: 34,
+          rowPadding: 8,
+          reflectOnParentRows: false,
+          headers: [
+            {unit: 'year', format: 'YYYY'},
+            {unit: 'month', format: 'MMMM'},
+          ],
+          rows: [
+            {id: 'first', label: 'Loading...'}
+          ],
+          taskElementHook: (node, task) => {
+            let popup;
+            function onHover() {
+              popup = createPopup(task, node);
+            }
+            function onLeave() {
+              if(popup) {
+                popup.remove();
               }
-              function onLeave() {
-                if(popup) {
-                  popup.remove();
-                }
+            }
+            node.addEventListener('mouseenter', onHover);
+            node.addEventListener('mouseleave', onLeave);
+            return {
+              destroy() {
+                node.removeEventListener('mouseenter', onHover);
+                node.removeEventListener('mouseleave', onLeave);
               }
-              node.addEventListener('mouseenter', onHover);
-              node.addEventListener('mouseleave', onLeave);
-              return {
-                destroy() {
-                  node.removeEventListener('mouseenter', onHover);
-                  node.removeEventListener('mouseleave', onLeave);
-                }
-              }
-            },
-          }
-        });
+            }
+          },
+        };
+
+        const gantt = farmOS.timeline.create(element, opts);
 
         function createPopup(task, node) {
           const rect = node.getBoundingClientRect();
@@ -209,4 +201,4 @@
       });
     },
   };
-}(Drupal, drupalSettings, once));
+}(Drupal, drupalSettings, once, farmOS));
