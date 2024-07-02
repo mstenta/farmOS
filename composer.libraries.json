@@ -1,6 +1,7 @@
 {
     "require": {
-        "farmos/farmos-map": "*"
+        "farmos/farmos-map": "*",
+        "farmos/farmos-timeline": "*"
     },
     "repositories": {
         "farmos-map": {
@@ -15,6 +16,21 @@
                 },
                 "extra": {
                   "installer-name": "farmOS-map"
+                }
+            }
+        },
+        "farmos-timeline": {
+            "type": "package",
+            "package": {
+                "name": "farmos/farmos-timeline",
+                "version": "0.0.1",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://github.com/farmOS/farmOS-timeline/releases/download/v0.0.1/v0.0.1-dist.zip",
+                    "type": "zip"
+                },
+                "extra": {
+                    "installer-name": "farmOS-timeline"
                 }
             }
         }
