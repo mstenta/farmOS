@@ -466,7 +466,7 @@ display:
             name: name
             type: type
             status: status
-          default: '-1'
+          default: name
           info:
             organization_bulk_form:
               align: ''
