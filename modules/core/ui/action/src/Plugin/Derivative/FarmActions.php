@@ -77,6 +77,7 @@ class FarmActions extends DeriverBase implements ContainerDeriverInterface {
     $farm_types = [
       'asset',
       'log',
+      'organization',
       'plan',
     ];
 
