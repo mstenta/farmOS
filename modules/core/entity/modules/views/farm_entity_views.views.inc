@@ -24,6 +24,8 @@ function farm_entity_views_views_data_alter(array &$data) {
     'asset_field_revision',
     'log_field_data',
     'log_field_revision',
+    'organization_field_data',
+    'organization_field_revision',
     'plan_field_data',
     'plan_field_revision',
   ];
