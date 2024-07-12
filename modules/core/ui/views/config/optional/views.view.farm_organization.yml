@@ -438,10 +438,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              farm_manager: '0'
-              farm_viewer: '0'
-              farm_worker: '0'
             reduce: false
           is_grouped: false
           group_info:
