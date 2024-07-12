@@ -542,7 +542,7 @@ display:
       menu:
         type: normal
         title: Organizations
-        description: ''
+        description: Manage the organizations that records can be associated with.
         weight: 0
         expanded: true
         menu_name: admin
