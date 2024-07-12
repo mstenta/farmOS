@@ -8,9 +8,9 @@
 use Drupal\Core\Entity\EntityTypeInterface;
 
 /**
- * Implements hook_farm_entity_bundle_field_info().
+ * Implements hook_entity_base_field_info().
  */
-function farm_farm_farm_entity_bundle_field_info(EntityTypeInterface $entity_type, string $bundle) {
+function farm_farm_entity_base_field_info(EntityTypeInterface $entity_type) {
   $fields = [];
 
   // Add a Farm reference field to assets.
@@ -27,7 +27,7 @@ function farm_farm_farm_entity_bundle_field_info(EntityTypeInterface $entity_typ
         'view' => -5,
       ],
     ];
-    $fields['farm'] = \Drupal::service('farm_field.factory')->bundleFieldDefinition($options);
+    $fields['farm'] = \Drupal::service('farm_field.factory')->baseFieldDefinition($options);
   }
 
   return $fields;
