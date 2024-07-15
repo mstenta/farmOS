@@ -1,7 +1,7 @@
 ##
 # Alias the Drupal base image for use in other build stages.
 # We do this so that the Drupal image version only needs to be updated here.
-FROM drupal:10.2 as baseimage
+FROM drupal:10.3 as baseimage
 
 # Define common paths.
 # BUILD_PATH is where the farmOS codebase will be built.
