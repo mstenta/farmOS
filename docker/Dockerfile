@@ -34,8 +34,8 @@ RUN apt-get update && apt-get install -y libgeos-dev \
 RUN docker-php-ext-install bcmath
 
 ##
-# Build the final image.
-FROM baseimage
+# Build common requirements.
+FROM baseimage as common
 
 # Set the farmOS and composer project repository URLs and versions.
 ARG FARMOS_REPO=https://github.com/farmOS/farmOS.git
@@ -74,6 +74,15 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY build-farmOS.sh /usr/local/bin/
 RUN chmod a+x /usr/local/bin/build-farmOS.sh
 
+# Set the entrypoint.
+COPY docker-entrypoint.sh /usr/local/bin/
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["apache2-foreground"]
+
+##
+# Build the production image.
+FROM common as production
+
 # Build the farmOS codebase in ${BUILD_PATH} with the --no-dev flag.
 # Change the ownership of the sites directory and copy the farmOS codebase into ${DRUPAL_PATH}.
 RUN mkdir ${BUILD_PATH} \
@@ -81,7 +90,3 @@ RUN mkdir ${BUILD_PATH} \
   && chown -R www-data:www-data ${BUILD_PATH}/web/sites \
   && rm -r ${DRUPAL_PATH} && cp -rp ${BUILD_PATH} ${DRUPAL_PATH}
 
-# Set the entrypoint.
-COPY docker-entrypoint.sh /usr/local/bin/
-ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["apache2-foreground"]
