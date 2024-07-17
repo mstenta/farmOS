@@ -36,7 +36,7 @@ jobs:
           echo "FARMOS_REPO=${{ github.event.pull_request.head.repo.full_name }}" >> $GITHUB_ENV
       - name: Build and save farmOS Docker image
         run: |
-          docker build --build-arg FARMOS_REPO=https://github.com/${FARMOS_REPO} --build-arg FARMOS_VERSION=${FARMOS_VERSION} -t farmos/farmos:3.x docker
+          docker build --build-arg FARMOS_REPO=https://github.com/${FARMOS_REPO} --build-arg FARMOS_VERSION=${FARMOS_VERSION} -t farmos/farmos:3.x --target production docker
           docker save farmos/farmos:3.x > /tmp/farmos.tar
       - name: Cache farmOS Docker image
         uses: actions/cache@v3
@@ -48,7 +48,7 @@ jobs:
       # farmOS Composer project 3.x branch is always used.
       - name: Build and save farmOS dev Docker image
         run: |
-          docker build --build-arg FARMOS_REPO=https://github.com/${FARMOS_REPO} --build-arg FARMOS_VERSION=${FARMOS_VERSION} -t farmos/farmos:3.x-dev docker/dev
+          docker build --build-arg FARMOS_REPO=https://github.com/${FARMOS_REPO} --build-arg FARMOS_VERSION=${FARMOS_VERSION} -t farmos/farmos:3.x-dev --target development docker
           docker save farmos/farmos:3.x-dev > /tmp/farmos-dev.tar
       - name: Cache farmOS dev Docker image
         uses: actions/cache@v3
