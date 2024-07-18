@@ -144,3 +144,7 @@ RUN rm -r ${DRUPAL_PATH} && cp -rp ${BUILD_PATH} ${DRUPAL_PATH}
 
 # Create a Composer config directory for the www-data user.
 RUN mkdir /var/www/.composer && chown www-data:www-data /var/www/.composer
+
+##
+# Build the final production image.
+FROM production
