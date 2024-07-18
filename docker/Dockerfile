@@ -91,7 +91,7 @@ RUN mkdir ${BUILD_PATH} \
   && rm -r ${DRUPAL_PATH} && cp -rp ${BUILD_PATH} ${DRUPAL_PATH}
 
 ## Build the development image.
-FROM common as development
+FROM common as dev
 
 # Install and enable XDebug extension.
 RUN yes | pecl install xdebug \
