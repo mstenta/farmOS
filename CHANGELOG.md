@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- [Update drupal/consumers to ^1.19 and fix kernel API tests](https://github.com/farmOS/farmOS/pull/857)
+
 ## [3.2.3] 2024-07-21
 
 ### Fixed

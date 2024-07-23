@@ -56,6 +56,7 @@ class FarmApiTest extends KernelTestBase {
    */
   public function setUp(): void {
     parent::setUp();
+    $this->installEntitySchema('consumer');
     $this->installEntitySchema('asset');
     $this->installEntitySchema('log');
     $this->installConfig([
