@@ -1,0 +1,6 @@
+langcode: en
+status: true
+id: test
+label: Test
+description: 'Test quantity type.'
+new_revision: true
