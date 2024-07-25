@@ -1,42 +1,35 @@
 (function (Drupal, drupalSettings, once, farmOS) {
   Drupal.behaviors.farm_timeline_gantt = {
     attach: function (context, settings) {
-      once('timelineGantt', '#timeline', context).forEach(function (element) {
+      once('timelineGantt', '.farm-timeline', context).forEach(function (element) {
         const opts = {
-          columnUnit: 'day',
-          columnOffset: 7,
-          rowHeight: 34,
-          rowPadding: 8,
-          reflectOnParentRows: false,
-          headers: [
-            {unit: 'year', format: 'YYYY'},
-            {unit: 'month', format: 'MMMM'},
-          ],
-          rows: [
-            {id: 'first', label: 'Loading...'}
-          ],
-          taskElementHook: (node, task) => {
-            let popup;
-            function onHover() {
-              popup = createPopup(task, node);
-            }
-            function onLeave() {
-              if(popup) {
-                popup.remove();
+          props: {
+            taskElementHook: (node, task) => {
+              let popup;
+
+              function onHover() {
+                popup = createPopup(task, node);
               }
-            }
-            node.addEventListener('mouseenter', onHover);
-            node.addEventListener('mouseleave', onLeave);
-            return {
-              destroy() {
-                node.removeEventListener('mouseenter', onHover);
-                node.removeEventListener('mouseleave', onLeave);
+
+              function onLeave() {
+                if (popup) {
+                  popup.remove();
+                }
+              }
+
+              node.addEventListener('mouseenter', onHover);
+              node.addEventListener('mouseleave', onLeave);
+              return {
+                destroy() {
+                  node.removeEventListener('mouseenter', onHover);
+                  node.removeEventListener('mouseleave', onLeave);
+                }
               }
             }
           },
         };
 
-        const gantt = farmOS.timeline.create(element, opts);
+        const timeline = farmOS.timeline.create(element, opts);
 
         function createPopup(task, node) {
           const rect = node.getBoundingClientRect();
@@ -72,7 +65,7 @@
         }
 
         // Open entity page on click.
-        gantt.api.tasks.on.select((task) => {
+        timeline.timeline.api.tasks.on.select((task) => {
           task = task[0];
           if (task.model?.editUrl) {
             var ajaxSettings = {
@@ -105,9 +98,9 @@
           return {
             id: task.id,
             resourceId: task.resource_id,
-            from: new Date(task.start),
-            to: new Date(task.end),
-            label: ' ', //task.label,
+            from: task.start,
+            to: task.end,
+            label: task.label,
             editUrl: task.edit_url,
             enableDragging: task.enable_dragging,
             meta: task?.meta,
@@ -145,58 +138,12 @@
           .then(res => res.json())
           .then(data => {
 
-            // Build new list of rows/tasks.
-            const rows = [];
-            const tasks = [];
-
             // Process each row.
             for (let i in data.rows) {
-              let row = processRow(data.rows[i]);
-              rows.push(row.row);
-              tasks.push(...row.tasks)
+              const {row, tasks} = processRow(data.rows[i]);
+              timeline.addRows([row]);
+              timeline.addTasks(tasks);
             }
-
-            // Keep track of first/last timestamps.
-            let first = null;
-            let last = null;
-
-            // Update the first and last from each task.
-            for (let i in tasks) {
-              if (!first || tasks[i].from < first) {
-                first = tasks[i].from;
-              }
-              if (!last || tasks[i].to > last) {
-                last = tasks[i].to;
-              }
-            }
-
-            // Define the start, end, and now timestamps.
-            // Start and end are padded by a week.
-            const start = first.getTime() - (86400 * 7 * 1000);
-            const end = last.getTime() + (86400 * 7 * 1000);
-            const now = new Date().getTime();
-
-            // If the start of this timeline is in the past, build a time range to
-            // represent "the past".
-            let timeRanges = [];
-            if (start < now) {
-              timeRanges.push({
-                id: 'past',
-                from: start,
-                to: now,
-                label: 'Past',
-                resizable: false,
-              });
-            }
-
-            // Update gantt.
-            gantt.$set({
-              rows: rows,
-              tasks: tasks,
-              timeRanges: timeRanges,
-              from: start,
-              to: end,
-            });
           });
       });
     },
