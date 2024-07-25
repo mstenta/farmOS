@@ -1,0 +1,7 @@
+farm_ui_views.quantities_redirect:
+  path: '/quantities'
+  defaults:
+    _controller: \Drupal\farm_ui_views\Controller\RedirectController::quantities
+  requirements:
+    # This controller redirects to a View, where access will be checked.
+    _access: 'TRUE'
