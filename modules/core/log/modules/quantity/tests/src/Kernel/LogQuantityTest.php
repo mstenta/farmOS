@@ -104,6 +104,11 @@ class LogQuantityTest extends KernelTestBase {
     $quantities = $this->quantityStorage->loadMultiple();
     $this->assertCount(1, $logs);
     $this->assertCount(1, $quantities);
+
+    // Test that deleting a quantity cleans up the log's reference to it.
+    $quantity->delete();
+    $logs = $this->logStorage->loadMultiple();
+    $this->assertEmpty($logs[1]->get('quantity')->getValue());
   }
 
 }

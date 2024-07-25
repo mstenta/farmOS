@@ -3,13 +3,17 @@
 namespace Drupal\farm_log_quantity\EventSubscriber;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\log\Event\LogEvent;
+use Drupal\quantity\Event\QuantityEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Subscribe to events related to log quantities.
  */
 class LogQuantityEventSubscriber implements EventSubscriberInterface {
+
+  use StringTranslationTrait;
 
   /**
    * Entity type manager.
@@ -35,6 +39,7 @@ class LogQuantityEventSubscriber implements EventSubscriberInterface {
     return [
       LogEvent::CLONE => 'logClone',
       LogEvent::DELETE => 'logDelete',
+      QuantityEvent::DELETE => 'quantityDelete',
     ];
   }
 
@@ -88,6 +93,43 @@ class LogQuantityEventSubscriber implements EventSubscriberInterface {
     // Delete quantity entities.
     if (!empty($quantities)) {
       $this->entityTypeManager->getStorage('quantity')->delete($quantities);
+    }
+  }
+
+  /**
+   * Perform actions on quantity delete.
+   *
+   * @param \Drupal\quantity\Event\QuantityEvent $event
+   *   The quantity event.
+   */
+  public function quantityDelete(QuantityEvent $event) {
+
+    // Get the quantity entity from the event.
+    $quantity = $event->quantity;
+
+    // Look up logs that reference the quantity.
+    $log_storage = $this->entityTypeManager->getStorage('log');
+    $query = $log_storage->getQuery();
+    $query->condition('quantity.target_id', $quantity->id());
+    $query->accessCheck(FALSE);
+    $log_ids = $query->execute();
+    /** @var \Drupal\log\Entity\LogInterface[] $logs */
+    $logs = [];
+    if (!empty($log_ids)) {
+      $logs = $log_storage->loadMultiple($log_ids);
+    }
+
+    // Remove references to the quantity from the log and save a revision.
+    foreach ($logs as $log) {
+      $log->set('quantity', array_filter($log->get('quantity')->getValue(), function ($value) use ($quantity) {
+        if (!empty($value['target_id']) && $value['target_id'] == $quantity->id()) {
+          return FALSE;
+        }
+        return TRUE;
+      }));
+      $log->setNewRevision(TRUE);
+      $log->setRevisionLogMessage($this->t('Removed reference to deleted quantity %uuid.', ['%uuid' => $quantity->uuid()]));
+      $log->save();
     }
   }
 

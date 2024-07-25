@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - [Update drupal/consumers to ^1.19 and fix kernel API tests](https://github.com/farmOS/farmOS/pull/857)
+- [When a quantity is deleted, clean up log references to it #859](https://github.com/farmOS/farmOS/pull/859)
 
 ## [3.2.3] 2024-07-21
 
