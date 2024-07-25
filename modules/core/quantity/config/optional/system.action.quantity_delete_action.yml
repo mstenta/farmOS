@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - quantity
+id: quantity_delete_action
+label: 'Delete quantity'
+type: quantity
+plugin: entity:delete_action:quantity
+configuration: {  }

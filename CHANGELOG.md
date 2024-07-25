@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- [Add bulk delete action to farm_log_quantity View #860](https://github.com/farmOS/farmOS/pull/860)
+
 ### Changed
 
 - [Update Drupal core to 10.3 #872](https://github.com/farmOS/farmOS/pull/872)

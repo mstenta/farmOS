@@ -64,6 +64,9 @@ use Drupal\user\EntityOwnerTrait;
  *   },
  *   bundle_entity_type = "quantity_type",
  *   common_reference_target = TRUE,
+ *   links = {
+ *     "delete-multiple-form" = "/quantity/delete",
+ *   },
  *   revision_metadata_keys = {
  *     "revision_user" = "revision_user",
  *     "revision_created" = "revision_created",
