@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- [Single Dockerfile using multi-stages for production and dev image #855](https://github.com/farmOS/farmOS/pull/855)
+
 ### Fixed
 
 - [Update drupal/consumers to ^1.19 and fix kernel API tests](https://github.com/farmOS/farmOS/pull/857)
