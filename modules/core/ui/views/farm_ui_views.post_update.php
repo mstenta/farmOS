@@ -5,6 +5,8 @@
  * Post update functions for farm_ui_views module.
  */
 
+use Drupal\views\Entity\View;
+
 /**
  * Enable collapsible_filter views display extender.
  */
@@ -29,4 +31,16 @@ function farm_ui_views_post_update_install_farm_export_csv(&$sandbox) {
   if (!\Drupal::service('module_handler')->moduleExists('farm_export_csv')) {
     \Drupal::service('module_installer')->install(['farm_export_csv']);
   }
+}
+
+/**
+ * Move farm_quantity View to farm_log_quantity.
+ */
+function farm_ui_views_post_update_farm_log_quantity(&$sandbox) {
+  $view = View::load('farm_quantity');
+  if (empty($view)) {
+    return;
+  }
+  $view->set('id', 'farm_log_quantity');
+  $view->save();
 }

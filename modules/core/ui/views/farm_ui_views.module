@@ -21,7 +21,7 @@ function farm_ui_views_help($route_name, RouteMatchInterface $route_match) {
   $entity_routes = [
     'asset' => 'entity.asset.collection',
     'log' => 'entity.log.collection',
-    'quantity' => 'view.farm_quantity.page',
+    'quantity' => 'view.farm_log_quantity.page',
     'people' => 'view.farm_people.page',
   ];
   $entity_urls = [

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - [Update Drupal core to 10.3 #872](https://github.com/farmOS/farmOS/pull/872)
+- [Move farm_quantity View to farm_log_quantities and require log relationship #858](https://github.com/farmOS/farmOS/pull/858)
 
 ### Security
 

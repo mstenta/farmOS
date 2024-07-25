@@ -18,8 +18,8 @@ dependencies:
   enforced:
     module:
       - farm_ui_views
-id: farm_quantity
-label: 'Farm Quantities'
+id: farm_log_quantity
+label: 'Farm Log Quantities'
 module: views
 description: ''
 tag: ''
@@ -32,7 +32,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: Quantities
+      title: 'Log Quantities'
       fields:
         id:
           id: id
@@ -1527,7 +1527,7 @@ display:
           admin_label: Log
           entity_type: quantity
           plugin_id: entity_reverse
-          required: false
+          required: true
       header: {  }
       footer:
         result:
@@ -1603,7 +1603,7 @@ display:
       tags: {  }
   page:
     id: page
-    display_title: 'All quantities (page)'
+    display_title: 'All log quantities (page)'
     display_plugin: page
     position: 1
     display_options:
@@ -1635,12 +1635,12 @@ display:
       display_extenders:
         collapsible_filter:
           collapsible: true
-      path: quantities
+      path: log-quantities
       menu:
         type: normal
-        title: Quantities
+        title: 'Log Quantities'
         description: ''
-        weight: 0
+        weight: 10
         expanded: true
         menu_name: admin
         parent: farm.records
@@ -1735,7 +1735,7 @@ display:
       display_extenders:
         collapsible_filter:
           collapsible: true
-      path: quantities/%
+      path: log-quantities/%
     cache_metadata:
       max-age: -1
       contexts:

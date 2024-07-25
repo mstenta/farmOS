@@ -15,6 +15,6 @@ class FarmQuantityViewsMenuLink extends FarmViewsMenuLink {
   /**
    * {@inheritdoc}
    */
-  protected string $viewId = 'farm_quantity';
+  protected string $viewId = 'farm_log_quantity';
 
 }
