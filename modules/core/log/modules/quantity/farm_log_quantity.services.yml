@@ -1,6 +1,6 @@
 services:
-  farm_log_quantity.log_delete:
-    class: Drupal\farm_log_quantity\EventSubscriber\LogEventSubscriber
+  farm_log_quantity.event_subscriber:
+    class: Drupal\farm_log_quantity\EventSubscriber\LogQuantityEventSubscriber
     arguments:
       [ '@entity_type.manager' ]
     tags:

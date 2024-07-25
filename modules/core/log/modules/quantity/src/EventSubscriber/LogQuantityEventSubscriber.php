@@ -7,9 +7,9 @@ use Drupal\log\Event\LogEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Perform actions on log presave.
+ * Subscribe to events related to log quantities.
  */
-class LogEventSubscriber implements EventSubscriberInterface {
+class LogQuantityEventSubscriber implements EventSubscriberInterface {
 
   /**
    * Entity type manager.
@@ -70,7 +70,7 @@ class LogEventSubscriber implements EventSubscriberInterface {
    * Perform actions on log delete.
    *
    * @param \Drupal\log\Event\LogEvent $event
-   *   Config crud event.
+   *   The log event.
    */
   public function logDelete(LogEvent $event) {
 
