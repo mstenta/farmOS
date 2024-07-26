@@ -405,6 +405,7 @@ class EntityCsvActionForm extends ConfirmFormBase implements BaseFormIdInterface
       'created',
       'changed',
       'entity_reference',
+      'fraction',
       'list_string',
       'state',
       'string',

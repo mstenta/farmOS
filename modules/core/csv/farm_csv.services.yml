@@ -8,6 +8,10 @@ services:
     tags:
       - { name: normalizer, priority: 10 }
     arguments: ['@entity_type.manager', '@entity_type.repository', '@entity_field.manager']
+  farm_csv.normalizer.fraction_field_item:
+    class: Drupal\farm_csv\Normalizer\FractionFieldItemNormalizer
+    tags:
+      - { name: normalizer, priority: 10 }
   farm_csv.normalizer.text_long_field_item:
     class: Drupal\farm_csv\Normalizer\TextLongFieldItemNormalizer
     tags:
