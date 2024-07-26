@@ -15,12 +15,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class FarmViewsMenuLink extends ViewsMenuLink {
 
   /**
-   * Set this in child classes.
+   * Specify the entity type ID. This should be set in child classes.
    *
    * @var string
    *
    * @see \Drupal\farm_ui_views\Plugin\Derivative\FarmAssetViewsMenuLink
    * @see \Drupal\farm_ui_views\Plugin\Derivative\FarmLogViewsMenuLink
+   * @see \Drupal\farm_ui_views\Plugin\Derivative\FarmPlanViewsMenuLink
    * @see \Drupal\farm_ui_views\Plugin\Derivative\FarmQuantityViewsMenuLink
    */
   protected string $entityType;
