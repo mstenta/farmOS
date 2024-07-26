@@ -27,6 +27,18 @@ class FarmViewsMenuLink extends ViewsMenuLink {
   protected string $entityType;
 
   /**
+   * Specify the View ID. This should be set in child classes.
+   *
+   * @var string
+   *
+   * @see \Drupal\farm_ui_views\Plugin\Derivative\FarmAssetViewsMenuLink
+   * @see \Drupal\farm_ui_views\Plugin\Derivative\FarmLogViewsMenuLink
+   * @see \Drupal\farm_ui_views\Plugin\Derivative\FarmPlanViewsMenuLink
+   * @see \Drupal\farm_ui_views\Plugin\Derivative\FarmQuantityViewsMenuLink
+   */
+  protected string $viewId;
+
+  /**
    * The entity type manager service.
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
@@ -78,8 +90,8 @@ class FarmViewsMenuLink extends ViewsMenuLink {
     foreach ($bundles as $type => $bundle) {
       $links['farm.' . $this->entityType . '.' . $type] = [
         'title' => $bundle->label(),
-        'parent' => 'views_view:views.farm_' . $this->entityType . '.page',
-        'route_name' => 'view.farm_' . $this->entityType . '.page_type',
+        'parent' => 'views_view:views.' . $this->viewId . '.page',
+        'route_name' => 'view.' . $this->viewId . '.page_type',
         'route_parameters' => ['arg_0' => $type],
       ] + $base_plugin_definition;
     }

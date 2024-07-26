@@ -12,4 +12,9 @@ class FarmAssetViewsMenuLink extends FarmViewsMenuLink {
    */
   protected string $entityType = 'asset';
 
+  /**
+   * {@inheritdoc}
+   */
+  protected string $viewId = 'farm_asset';
+
 }

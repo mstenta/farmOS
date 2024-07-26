@@ -12,4 +12,9 @@ class FarmQuantityViewsMenuLink extends FarmViewsMenuLink {
    */
   protected string $entityType = 'quantity';
 
+  /**
+   * {@inheritdoc}
+   */
+  protected string $viewId = 'farm_quantity';
+
 }
