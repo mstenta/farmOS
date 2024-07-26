@@ -2,6 +2,7 @@
 
 namespace Drupal\farm_timeline\Element;
 
+use Drupal\Component\Serialization\Json;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Render\Element\RenderElementBase;
 
@@ -21,6 +22,7 @@ class FarmTimeline extends RenderElementBase {
       '#pre_render' => [
         [get_class($this), 'preRenderTimeline'],
       ],
+      '#rows' => [],
     ];
   }
 
@@ -39,6 +41,9 @@ class FarmTimeline extends RenderElementBase {
     if (empty($element['#attributes']['id'])) {
       $element['#attributes']['id'] = Html::getUniqueId('timeline');
     }
+
+    // Add timeline rows.
+    $element['#attributes']['data-timeline-rows'] = Json::encode($element['#rows'] ?? []);
 
     // Add the farm-timeline class.
     $element['#attributes']['class'][] = 'farm-timeline';
