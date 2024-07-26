@@ -36,7 +36,7 @@ class EntityCsvDeriver extends EntityActionDeriverBase {
    * {@inheritdoc}
    */
   protected function isApplicable(EntityTypeInterface $entity_type) {
-    return in_array($entity_type->id(), ['log', 'asset']);
+    return in_array($entity_type->id(), ['log', 'asset', 'quantity']);
   }
 
 }
