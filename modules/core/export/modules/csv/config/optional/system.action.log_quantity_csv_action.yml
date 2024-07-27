@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - farm_export_csv
+    - farm_log_quantity
+  enforced:
+    module:
+      - farm_export_csv
+id: log_quantity_csv_action
+label: 'Export Quantities CSV'
+type: log
+plugin: farm_export_csv:log_quantity
+configuration: {  }

@@ -25,4 +25,18 @@ function farm_export_csv_post_update_quantity_csv_action(&$sandbox) {
     ],
   ]);
   $action->save();
+  $action = Action::create([
+    'id' => 'log_quantity_csv_action',
+    'label' => t('Export Quantities CSV'),
+    'type' => 'log',
+    'plugin' => 'farm_export_csv:log_quantity',
+    'configuration' => [],
+    'dependencies' => [
+      'module' => [
+        'farm_export_csv',
+        'log_quantity',
+      ],
+    ],
+  ]);
+  $action->save();
 }
