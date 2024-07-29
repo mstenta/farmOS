@@ -8,12 +8,12 @@ farmOS-timeline:
     /libraries/farmOS-timeline/farmOS-timeline.js:
       preprocess: false
       minified: true
-timeline:
+farm_timeline:
   js:
-    js/timeline.js: {}
+    js/farm_timeline.js: { }
   css:
     theme:
-      css/timeline.css: { }
+      css/farm_timeline.css: { }
   dependencies:
     - core/drupal.dialog
     - core/drupal.dialog.ajax
