@@ -18,11 +18,6 @@ class FarmViewsMenuLink extends ViewsMenuLink {
    * Specify the entity type ID. This should be set in child classes.
    *
    * @var string
-   *
-   * @see \Drupal\farm_ui_views\Plugin\Derivative\FarmAssetViewsMenuLink
-   * @see \Drupal\farm_ui_views\Plugin\Derivative\FarmLogViewsMenuLink
-   * @see \Drupal\farm_ui_views\Plugin\Derivative\FarmPlanViewsMenuLink
-   * @see \Drupal\farm_ui_views\Plugin\Derivative\FarmQuantityViewsMenuLink
    */
   protected string $entityType;
 
@@ -30,11 +25,6 @@ class FarmViewsMenuLink extends ViewsMenuLink {
    * Specify the View ID. This should be set in child classes.
    *
    * @var string
-   *
-   * @see \Drupal\farm_ui_views\Plugin\Derivative\FarmAssetViewsMenuLink
-   * @see \Drupal\farm_ui_views\Plugin\Derivative\FarmLogViewsMenuLink
-   * @see \Drupal\farm_ui_views\Plugin\Derivative\FarmPlanViewsMenuLink
-   * @see \Drupal\farm_ui_views\Plugin\Derivative\FarmQuantityViewsMenuLink
    */
   protected string $viewId;
 
