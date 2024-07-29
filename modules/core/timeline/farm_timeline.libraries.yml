@@ -6,7 +6,6 @@ farmOS-timeline:
     gpl-compatible: true
   js:
     /libraries/farmOS-timeline/farmOS-timeline.js:
-      preprocess: false
       minified: true
 farm_timeline:
   js:
