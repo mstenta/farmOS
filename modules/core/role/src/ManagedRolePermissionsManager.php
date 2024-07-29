@@ -201,6 +201,7 @@ class ManagedRolePermissionsManager extends DefaultPluginManager implements Mana
       'asset',
       'data_stream',
       'log',
+      'organization',
       'plan',
       'taxonomy_term',
       'quantity',
@@ -231,6 +232,7 @@ class ManagedRolePermissionsManager extends DefaultPluginManager implements Mana
         // Revision adds "operation all bundle revisions".
         case 'asset':
         case 'log':
+        case 'organization':
         case 'plan':
         case 'quantity':
 
@@ -343,6 +345,7 @@ class ManagedRolePermissionsManager extends DefaultPluginManager implements Mana
 
             case 'asset':
             case 'log':
+            case 'organization':
             case 'plan':
             case 'quantity':
             case 'data_stream':
