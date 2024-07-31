@@ -48,8 +48,8 @@ class FarmTimeline extends RenderElementBase {
     // Add the farm-timeline class.
     $element['#attributes']['class'][] = 'farm-timeline';
 
-    // Attach the farmOS-timeline library.
-    $element['#attached']['library'][] = 'farm_timeline/farmOS-timeline';
+    // Attach the farm_timeline library.
+    $element['#attached']['library'][] = 'farm_timeline/farm_timeline';
 
     return $element;
   }
