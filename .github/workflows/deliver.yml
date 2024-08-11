@@ -12,6 +12,9 @@ on:
     branches:
       - '3.x'
 
+env:
+  DOCKER_IMG_PREFIX: farmos/farmos
+
 jobs:
   build:
     name: Build Docker images
@@ -19,26 +22,26 @@ jobs:
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
-      - name: Set default FARMOS_REPO and FARMOS_VERSION.
+      - name: Set default FARMOS_REPO and FARMOS_VERSION
         run: |
           echo "FARMOS_REPO=${GITHUB_REPOSITORY}" >> $GITHUB_ENV
           echo "FARMOS_VERSION=3.x" >> $GITHUB_ENV
-      - name: Set FARMOS_VERSION for branch push event.
+      - name: Set FARMOS_VERSION for branch push event
         if: github.event_name == 'push' && github.ref_type == 'branch'
         run: echo "FARMOS_VERSION=${GITHUB_REF:11}" >> $GITHUB_ENV
-      - name: Set FARMOS_VERSION for tag push event.
+      - name: Set FARMOS_VERSION for tag push event
         if: github.event_name == 'push' && github.ref_type == 'tag'
         run: echo "FARMOS_VERSION=${GITHUB_REF:10}" >> $GITHUB_ENV
-      - name: Set FARMOS_VERSION and FARMOS_REPO for pull request event.
+      - name: Set FARMOS_VERSION and FARMOS_REPO for pull request event
         if: github.event_name == 'pull_request'
         run: |
           echo "FARMOS_VERSION=${GITHUB_HEAD_REF}" >> $GITHUB_ENV
           echo "FARMOS_REPO=${{ github.event.pull_request.head.repo.full_name }}" >> $GITHUB_ENV
-      - name: Build and save farmOS Docker image
+      - name: Build and save the farmOS Docker image
         run: |
-          docker build --build-arg FARMOS_REPO=https://github.com/${FARMOS_REPO} --build-arg FARMOS_VERSION=${FARMOS_VERSION} -t farmos/farmos:3.x docker
-          docker save farmos/farmos:3.x > /tmp/farmos.tar
-      - name: Cache farmOS Docker image
+          docker build --build-arg FARMOS_REPO=https://github.com/${FARMOS_REPO} --build-arg FARMOS_VERSION=${FARMOS_VERSION} -t $DOCKER_IMG_PREFIX:3.x docker
+          docker save $DOCKER_IMG_PREFIX:3.x > /tmp/farmos.tar
+      - name: Cache the farmOS Docker image
         uses: actions/cache@v4
         with:
           path: /tmp/farmos.tar
@@ -46,11 +49,11 @@ jobs:
       # This builds the dev Docker image using the specified FARMOS_VERSION,
       # but notably it does NOT override the default PROJECT_VERSION, so the
       # farmOS Composer project 3.x branch is always used.
-      - name: Build and save farmOS dev Docker image
+      - name: Build and save the farmOS dev Docker image
         run: |
-          docker build --build-arg FARMOS_REPO=https://github.com/${FARMOS_REPO} --build-arg FARMOS_VERSION=${FARMOS_VERSION} -t farmos/farmos:3.x-dev --target dev docker
-          docker save farmos/farmos:3.x-dev > /tmp/farmos-dev.tar
-      - name: Cache farmOS dev Docker image
+          docker build --build-arg FARMOS_REPO=https://github.com/${FARMOS_REPO} --build-arg FARMOS_VERSION=${FARMOS_VERSION} -t $DOCKER_IMG_PREFIX:3.x-dev --target dev docker
+          docker save $DOCKER_IMG_PREFIX:3.x-dev > /tmp/farmos-dev.tar
+      - name: Cache the farmOS dev Docker image
         uses: actions/cache@v4
         with:
           path: /tmp/farmos-dev.tar
@@ -64,21 +67,21 @@ jobs:
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
-      - name: Restore farmOS dev Docker image from cache
+      - name: Restore the farmOS dev Docker image from cache
         uses: actions/cache@v4
         with:
           path: /tmp/farmos-dev.tar
           key: farmos-dev-${{ github.run_id }}
-      - name: Load farmos/farmos:3.x-dev image
+      - name: Load the Docker dev image
         run: docker load < /tmp/farmos-dev.tar
       - name: Run PHP CodeSniffer
-        run: docker run farmos/farmos:3.x-dev phpcs /opt/drupal/web/profiles/farm
+        run: docker run $DOCKER_IMG_PREFIX:3.x-dev phpcs /opt/drupal/web/profiles/farm
       - name: Run PHPStan
-        run: docker run farmos/farmos:3.x-dev phpstan analyze --memory-limit 1G /opt/drupal/web/profiles/farm
-      - name: Check PHP compatibility of contrib modules and themes (ignore warnings).
+        run: docker run $DOCKER_IMG_PREFIX:3.x-dev phpstan analyze --memory-limit 1G /opt/drupal/web/profiles/farm
+      - name: Check PHP compatibility of contrib modules and themes (ignore warnings)
         run: |
-          docker run farmos/farmos:3.x-dev phpcs --standard=PHPCompatibility --runtime-set testVersion 8.2- --warning-severity=0 /opt/drupal/web/modules
-          docker run farmos/farmos:3.x-dev phpcs --standard=PHPCompatibility --runtime-set testVersion 8.2- --warning-severity=0 /opt/drupal/web/themes
+          docker run $DOCKER_IMG_PREFIX:3.x-dev phpcs --standard=PHPCompatibility --runtime-set testVersion 8.2- --warning-severity=0 /opt/drupal/web/modules
+          docker run $DOCKER_IMG_PREFIX:3.x-dev phpcs --standard=PHPCompatibility --runtime-set testVersion 8.2- --warning-severity=0 /opt/drupal/web/themes
   test:
     name: Run PHPUnit tests
     runs-on: ubuntu-latest
@@ -104,12 +107,12 @@ jobs:
         run: echo "matrix.dbms=${{ matrix.dbms }}, matrix.DB_URL=${{ matrix.DB_URL }}"
       - name: Checkout the repository
         uses: actions/checkout@v4
-      - name: Restore farmOS dev Docker image from cache
+      - name: Restore the farmOS dev Docker image from cache
         uses: actions/cache@v4
         with:
           path: /tmp/farmos-dev.tar
           key: farmos-dev-${{ github.run_id }}
-      - name: Load farmos/farmos:3.x-dev image
+      - name: Load the Docker dev image
         run: docker load < /tmp/farmos-dev.tar
       # Build a new docker-compose.yml file from docker-compose.testing.common + docker-compose.testing.{dbms}.yml.
       # Copy to the current directory so that farmOS volume mounts don't change to the docker/www folder.
@@ -119,6 +122,8 @@ jobs:
         run: |
           cp docker/docker-compose.testing.* .
           docker compose -f docker-compose.testing.common.yml -f docker-compose.testing.${{ matrix.dbms }}.yml config > docker-compose.yml
+          # Replace the generic 'farmos/farmos:3.x-dev' image name/tag with the reference to our local platform-specific tagged image
+          sed -i 's%farmos/farmos:3.x-dev%'$DOCKER_IMG_PREFIX:3.x-dev'%g' docker-compose.yml
       - name: Start containers
         run: docker compose up -d
       - name: Wait until www container is ready
@@ -144,17 +149,17 @@ jobs:
       - sniff
       - test
     steps:
-      - name: Set FARMOS_VERSION from previous output.
+      - name: Set FARMOS_VERSION from previous output
         run: echo "FARMOS_VERSION=${{ needs.build.outputs.farmos_version }}" >> $GITHUB_ENV
-      - name: Restore farmOS Docker image from cache
+      - name: Restore the farmOS Docker image from cache
         uses: actions/cache@v4
         with:
           path: /tmp/farmos.tar
           key: farmos-${{ github.run_id }}
-      - name: Load farmos/farmos:3.x image
+      - name: Load the Docker image
         run: docker load < /tmp/farmos.tar
-      - name: Run farmOS Docker container
-        run: docker run --rm -v /tmp/farmOS:/opt/drupal farmos/farmos:3.x true
+      - name: Run the farmOS Docker container
+        run: docker run --rm -v /tmp/farmOS:/opt/drupal $DOCKER_IMG_PREFIX:3.x true
       - name: Create artifact
         run: cd /tmp && tar -czf farmOS-${FARMOS_VERSION}.tar.gz farmOS
       - name: Create GitHub release
@@ -176,46 +181,46 @@ jobs:
       - sniff
       - test
     steps:
-      - name: Set FARMOS_VERSION from previous output.
+      - name: Set FARMOS_VERSION from previous output
         run: echo "FARMOS_VERSION=${{ needs.build.outputs.farmos_version }}" >> $GITHUB_ENV
-      - name: Restore farmOS Docker image from cache
+      - name: Restore the farmOS Docker image from cache
         uses: actions/cache@v4
         with:
           path: /tmp/farmos.tar
           key: farmos-${{ github.run_id }}
-      - name: Load farmos/farmos:3.x image
+      - name: Load the Docker image
         run: docker load < /tmp/farmos.tar
-      - name: Restore farmOS dev Docker image from cache
+      - name: Restore the farmOS dev Docker image from cache
         uses: actions/cache@v4
         with:
           path: /tmp/farmos-dev.tar
           key: farmos-dev-${{ github.run_id }}
-      - name: Load farmos/farmos:3.x-dev image
+      - name: Load the Docker dev image
         run: docker load < /tmp/farmos-dev.tar
-      - name: Login to Docker Hub.
+      - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       # If the 3.x branch was pushed...
-      - name: Publish farmos/farmos:3.x image to Docker Hub.
+      - name: Publish the farmOS image to Docker Hub
         if: github.ref_type == 'branch' && env.FARMOS_VERSION == '3.x'
-        run: docker push farmos/farmos:3.x
-      - name: Publish farmos/farmos:3.x-dev image to Docker Hub.
+        run: docker push $DOCKER_IMG_PREFIX:3.x
+      - name: Publish the farmOS dev Docker image to Docker Hub
         if: github.ref_type == 'branch' && env.FARMOS_VERSION == '3.x'
-        run: docker push farmos/farmos:3.x-dev
+        run: docker push $DOCKER_IMG_PREFIX:3.x-dev
       # If a tag was pushed, tag the Docker image and push to Docker Hub.
       # If the tag is a valid semantic versioning string, also tag "latest".
       # Semver regex from https://github.com/semver/semver/issues/199#issuecomment-43640395
       # If "latest" is tagged, we will also announce the release in a followup job.
-      - name: Tag and publish farmos/farmos:{tag} image to Docker Hub.
+      - name: Tag and publish {DOCKER_IMG_PREFIX}:{tag} image to Docker Hub
         if: github.ref_type == 'tag'
         run: |
-          docker tag farmos/farmos:3.x farmos/farmos:${{ env.FARMOS_VERSION }}
-          docker push farmos/farmos:${{ env.FARMOS_VERSION }}
+          docker tag $DOCKER_IMG_PREFIX:3.x $DOCKER_IMG_PREFIX:${{ env.FARMOS_VERSION }}
+          docker push $DOCKER_IMG_PREFIX:${{ env.FARMOS_VERSION }}
           if echo ${{ env.FARMOS_VERSION }} | grep -Pq '^(?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)\.(?P<patch>0|[1-9]\d*)(?:-(?P<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'; then
-            docker tag farmos/farmos:3.x farmos/farmos:latest
-            docker push farmos/farmos:latest
+            docker tag $DOCKER_IMG_PREFIX:3.x $DOCKER_IMG_PREFIX:latest
+            docker push $DOCKER_IMG_PREFIX:latest
             echo "ANNOUNCE_RELEASE=1" >> $GITHUB_ENV
           else
             echo "ANNOUNCE_RELEASE=0" >> $GITHUB_ENV
