@@ -58,6 +58,21 @@ function hook_farm_dashboard_panes() {
 }
 
 /**
+ * Alter farm dashboard panes.
+ *
+ * @param array $panes
+ *   An array of farm dashboard pane configurations to alter.
+ */
+function hook_farm_dashboard_panes_alter(array &$panes) {
+  // Remove all panes not provide by my_module.
+  foreach (array_keys($panes) as $pane) {
+    if (!str_contains($pane, 'my_module')) {
+      unset($panes[$pane]);
+    }
+  }
+}
+
+/**
  * Defines farm dashboard groups.
  *
  * @return array

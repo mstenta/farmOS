@@ -74,6 +74,7 @@ class DashboardController extends ControllerBase {
 
     // Ask modules for dashboard panes.
     $panes = $this->moduleHandler()->invokeAll('farm_dashboard_panes');
+    $this->moduleHandler()->alter('farm_dashboard_panes', $panes);
 
     // Add each pane to the dashboard.
     foreach ($panes as $id => $pane) {

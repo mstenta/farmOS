@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [Add bulk delete action to farm_log_quantity View #860](https://github.com/farmOS/farmOS/pull/860)
 - [Add an "Export Quantity CSV" bulk action to Log Views](https://github.com/farmOS/farmOS/pull/861)
+- [Allow modules to alter dashboard panes #868](https://github.com/farmOS/farmOS/pull/868)
 
 ### Changed
 
