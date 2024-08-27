@@ -319,6 +319,7 @@ class EntityCsvActionForm extends ConfirmFormBase implements BaseFormIdInterface
       // CSV encoder settings.
       'csv_settings' => [
         'sanitize' => $form_state->getValue('sanitize'),
+        'strip_tags' => FALSE,
       ],
     ];
     $output = $this->serializer->serialize($accessible_entities, 'csv', $context);
