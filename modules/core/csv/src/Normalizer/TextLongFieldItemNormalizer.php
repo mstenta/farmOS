@@ -21,9 +21,9 @@ class TextLongFieldItemNormalizer extends FieldItemNormalizer {
   public function normalize($field_item, $format = NULL, array $context = []): array|string|int|float|bool|\ArrayObject|NULL {
     /** @var \Drupal\text\Plugin\Field\FieldType\TextLongItem $field_item */
 
-    // Return processed text, if desired.
-    if (isset($context['processed_text']) && $context['processed_text'] === TRUE) {
-      return $field_item->get('processed')->getValue();
+    // Return raw text, if desired.
+    if (isset($context['raw_text']) && $context['raw_text'] === TRUE) {
+      return $field_item->get('value')->getValue();
     }
 
     // Delegate to the parent method.

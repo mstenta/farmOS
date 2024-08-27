@@ -306,8 +306,8 @@ class EntityCsvActionForm extends ConfirmFormBase implements BaseFormIdInterface
       // Define the columns to include.
       'include_columns' => $form_state->getValue(['columns', 'include']),
 
-      // Return processed text from long text fields.
-      'processed_text' => TRUE,
+      // Return raw text from long text fields.
+      'raw_text' => TRUE,
 
       // Return content entity labels and config entity IDs.
       'content_entity_labels' => TRUE,
