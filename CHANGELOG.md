@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - [Single Dockerfile using multi-stages for production and dev image #855](https://github.com/farmOS/farmOS/pull/855)
+- [Simplify recommendation for XDEBUG_CONFIG in local development environments #870](https://github.com/farmOS/farmOS/pull/870)
 
 ### Fixed
 
