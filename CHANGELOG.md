@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [Update Drupal core to 10.3 #872](https://github.com/farmOS/farmOS/pull/872)
 
+### Security
+
+- [Sanitize CSV exports against formula injection #871](https://github.com/farmOS/farmOS/pull/871)
+
 ## [3.2.4] 2024-09-18
 
 ### Changed

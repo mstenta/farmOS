@@ -1,4 +1,8 @@
 services:
+  farm_csv.encoder.csv:
+    class: Drupal\farm_csv\Encoder\CsvEncoder
+    tags:
+      - { name: encoder, format: csv, priority: 10 }
   farm_csv.normalizer.content_entity_normalizer:
     class: Drupal\farm_csv\Normalizer\ContentEntityNormalizer
     tags:

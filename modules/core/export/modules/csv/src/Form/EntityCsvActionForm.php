@@ -266,6 +266,20 @@ class EntityCsvActionForm extends ConfirmFormBase implements BaseFormIdInterface
       '#required' => TRUE,
     ];
 
+    // Add a section for advanced options.
+    $form['advanced'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Advanced'),
+    ];
+
+    // Sanitize against CSV formula injection.
+    $form['advanced']['sanitize'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Sanitize against formula injection'),
+      '#description' => $this->t('Prepend cells that start with @, =, +, or - characters with a tab to prevent them from being interpreted as a formula. <strong>Warning: Opening unsanitized CSV files with spreadsheet applications may expose you to <a href=":link">formula injection</a> or other security vulnerabilities.</strong>', [':link' => 'https://owasp.org/www-community/attacks/CSV_Injection']),
+      '#default_value' => TRUE,
+    ];
+
     // Delegate to the parent method.
     return parent::buildForm($form, $form_state);
   }
@@ -301,6 +315,11 @@ class EntityCsvActionForm extends ConfirmFormBase implements BaseFormIdInterface
 
       // Return RFC3339 dates.
       'rfc3339_dates' => TRUE,
+
+      // CSV encoder settings.
+      'csv_settings' => [
+        'sanitize' => $form_state->getValue('sanitize'),
+      ],
     ];
     $output = $this->serializer->serialize($accessible_entities, 'csv', $context);
 
