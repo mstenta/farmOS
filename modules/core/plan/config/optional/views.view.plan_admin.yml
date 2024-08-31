@@ -65,6 +65,7 @@ display:
             first: '« First'
             last: 'Last »'
           quantity: 9
+          pagination_heading_level: h4
       style:
         type: table
         options:
@@ -664,7 +665,7 @@ display:
           entity_type: plan
           entity_field: created
           plugin_id: date
-      title: 'Plans'
+      title: Plans
       header: {  }
       footer: {  }
       empty:
@@ -705,7 +706,7 @@ display:
       path: admin/content/plan
       menu:
         type: tab
-        title: 'Plans'
+        title: Plans
         description: ''
         expanded: false
         parent: ''
