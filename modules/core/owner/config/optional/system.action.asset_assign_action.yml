@@ -2,10 +2,10 @@ langcode: en
 status: true
 dependencies:
   module:
-    - farm_owner
     - asset
+    - farm_owner
 id: asset_assign_action
 label: 'Assign owners'
 type: asset
-plugin: 'asset_assign_action'
+plugin: asset_assign_action
 configuration: {  }
