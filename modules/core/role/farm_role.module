@@ -8,18 +8,6 @@
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Implements hook_entity_type_alter().
- */
-function farm_role_entity_type_alter(array &$entity_types) {
-
-  /** @var \Drupal\Core\Entity\EntityTypeInterface[] $entity_types */
-
-  // Replace the storage handler class for Roles.
-  $entity_types['user_role']
-    ->setHandlerClass('storage', 'Drupal\farm_role\FarmRoleStorage');
-}
-
-/**
  * Implements hook_form_BASE_FORM_ID_alter().
  */
 function farm_role_form_user_admin_permissions_alter(&$form, FormStateInterface $form_state, $form_id) {
