@@ -1,6 +1,8 @@
 langcode: en
 status: true
 dependencies:
+  module:
+    - farm_log
   enforced:
     module:
       - farm_birth

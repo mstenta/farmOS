@@ -1,18 +1,18 @@
 langcode: en
 status: true
 dependencies:
+  module:
+    - farm_log
+    - farm_log_quantity
   enforced:
     module:
       - farm_lab_test
-  module:
-    - farm_log_quantity
-    - farm_quantity_test
+third_party_settings:
+  farm_log_quantity:
+    default_quantity_type: test
 id: lab_test
 label: 'Lab test'
 description: ''
 name_pattern: 'Lab test log [log:id]'
 workflow: farm_log_workflow
 new_revision: true
-third_party_settings:
-  farm_log_quantity:
-    default_quantity_type: test
