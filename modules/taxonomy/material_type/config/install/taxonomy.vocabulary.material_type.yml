@@ -4,7 +4,8 @@ dependencies:
   enforced:
     module:
       - farm_material_type
-name: Material type
+name: 'Material type'
 vid: material_type
 description: 'A list of material types.'
 weight: 0
+new_revision: false

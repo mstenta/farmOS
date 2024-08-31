@@ -4,7 +4,8 @@ dependencies:
   enforced:
     module:
       - farm_animal_type
-name: Animal type
+name: 'Animal type'
 vid: animal_type
 description: 'A list of animal species/breeds.'
 weight: 0
+new_revision: false

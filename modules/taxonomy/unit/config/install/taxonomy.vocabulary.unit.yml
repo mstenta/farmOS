@@ -8,3 +8,4 @@ name: Unit
 vid: unit
 description: 'A list of units for measurement purposes.'
 weight: 0
+new_revision: false
