@@ -131,7 +131,7 @@ class TaxonomyTermTasksTest extends FarmBrowserTestBase {
 
     $this->assertCount(3, $secondary_tab_links, 'Only 3 secondary tabs appear.');
 
-    $assert_has_link($secondary_tab_links, "/$fava_term_url/assets", 'All(active tab)');
+    $assert_has_link($secondary_tab_links, "/$fava_term_url/assets", 'All');
     $assert_has_link($secondary_tab_links, "/$fava_term_url/assets/plant", 'Plant');
     $assert_has_link($secondary_tab_links, "/$fava_term_url/assets/seed", 'Seed');
   }
