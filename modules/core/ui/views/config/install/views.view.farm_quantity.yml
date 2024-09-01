@@ -1381,9 +1381,9 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: true
-          handler: 'default:asset'
+          sub_handler: 'default:asset'
           widget: autocomplete
-          handler_settings: {  }
+          sub_handler_settings: {  }
       filter_groups:
         operator: AND
         groups:

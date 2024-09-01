@@ -1227,9 +1227,9 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: true
-          handler: views
+          sub_handler: views
           widget: select
-          handler_settings:
+          sub_handler_settings:
             view:
               view_name: farm_people
               display_name: entity_reference
@@ -1276,9 +1276,9 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: true
-          handler: views
+          sub_handler: views
           widget: autocomplete
-          handler_settings:
+          sub_handler_settings:
             view:
               view_name: farm_asset_reference
               display_name: entity_reference
@@ -1325,9 +1325,9 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: true
-          handler: views
+          sub_handler: views
           widget: autocomplete
-          handler_settings:
+          sub_handler_settings:
             view:
               view_name: farm_location_reference
               display_name: entity_reference

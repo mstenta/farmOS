@@ -379,8 +379,8 @@ function farm_ui_views_add_bundle_handlers(ViewExecutable $view, string $display
               $handler = $field_definition->getSetting('handler');
               $handler_settings = $field_definition->getSetting('handler_settings');
               if ($handler === 'views' || !empty($handler_settings['target_bundles'])) {
-                $filter_options['handler'] = $handler;
-                $filter_options['handler_settings'] = $handler_settings;
+                $filter_options['sub_handler'] = $handler;
+                $filter_options['sub_handler_settings'] = $handler_settings;
               }
             }
 
