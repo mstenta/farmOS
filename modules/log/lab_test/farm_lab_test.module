@@ -7,6 +7,7 @@
 
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Lab test type options helper.
@@ -39,4 +40,15 @@ function farm_lab_test_type_options() {
  */
 function farm_lab_test_type_field_allowed_values(FieldStorageDefinitionInterface $definition, ?ContentEntityInterface $entity = NULL, bool &$cacheable = TRUE) {
   return farm_lab_test_type_options();
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function farm_lab_test_form_log_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  // Only show the "Soil texture" field if the lab test type is "soil".
+  if (isset($form['lab_test_type']) && isset($form['soil_texture'])) {
+    $form['soil_texture']['#states']['visible'] = [':input[name="lab_test_type"]' => ['value' => 'soil']];
+  }
 }
