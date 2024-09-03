@@ -193,3 +193,19 @@ function farm_lab_test_post_update_override_lab_test_timestamp_label_description
     $config->save();
   }
 }
+
+/**
+ * Add "Soil texture" field to lab test logs.
+ */
+function farm_lab_test_post_update_soil_texture(&$sandbox) {
+  $options = [
+    'type' => 'string',
+    'label' => t('Soil texture'),
+    'weight' => [
+      'form' => -45,
+      'view' => -45,
+    ],
+  ];
+  $field_definition = \Drupal::service('farm_field.factory')->bundleFieldDefinition($options);
+  \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition('soil_texture', 'log', 'farm_lab_test', $field_definition);
+}

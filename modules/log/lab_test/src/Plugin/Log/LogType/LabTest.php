@@ -56,6 +56,17 @@ class LabTest extends FarmLogType {
     ];
     $fields['lab_test_type'] = $this->farmFieldFactory->bundleFieldDefinition($options);
 
+    // Soil texture.
+    $options = [
+      'type' => 'string',
+      'label' => $this->t('Soil texture'),
+      'weight' => [
+        'form' => -45,
+        'view' => -45,
+      ],
+    ];
+    $fields['soil_texture'] = $this->farmFieldFactory->bundleFieldDefinition($options);
+
     // Lab.
     $options = [
       'type' => 'entity_reference',
