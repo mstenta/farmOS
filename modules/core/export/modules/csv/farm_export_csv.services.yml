@@ -1,0 +1,6 @@
+services:
+  farm_export_csv.normalizer.quantity_csv_normalizer:
+    class: Drupal\farm_export_csv\Normalizer\QuantityCsvNormalizer
+    tags:
+      - { name: normalizer, priority: 15 }
+    arguments: [ '@entity_type.manager', '@entity_type.repository', '@entity_field.manager' ]

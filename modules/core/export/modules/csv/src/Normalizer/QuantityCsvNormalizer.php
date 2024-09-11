@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\farm_log_quantity\Normalizer;
+namespace Drupal\farm_export_csv\Normalizer;
 
 use Drupal\farm_csv\Normalizer\ContentEntityNormalizer;
 use Drupal\quantity\Entity\QuantityInterface;
@@ -8,7 +8,7 @@ use Drupal\quantity\Entity\QuantityInterface;
 /**
  * Normalizes quantity entities for CSV exports.
  */
-class QuantityNormalizer extends ContentEntityNormalizer {
+class QuantityCsvNormalizer extends ContentEntityNormalizer {
 
   /**
    * {@inheritdoc}
