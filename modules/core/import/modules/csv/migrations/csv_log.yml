@@ -18,16 +18,20 @@ process:
 
   # Asset reference lookup.
   asset:
+    - plugin: skip_on_empty
+      method: process
+      source: assets
     - plugin: explode
       delimiter: ,
-      source: assets
     - plugin: asset_lookup
 
   # Location asset reference lookup.
   location:
+    - plugin: skip_on_empty
+      method: process
+      source: locations
     - plugin: explode
       delimiter: ,
-      source: locations
     - plugin: asset_lookup
 
   # Create a quantity, if necessary.
@@ -72,9 +76,11 @@ process:
 
   # Log category.
   category:
+    - plugin: skip_on_empty
+      method: process
+      source: categories
     - plugin: explode
       delimiter: ,
-      source: categories
     - plugin: term_lookup
       bundle: log_category
 
