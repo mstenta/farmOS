@@ -176,7 +176,7 @@
         resourceId: task.resource_id,
         from: task.start,
         to: task.end,
-        label: task.label,
+        label: task.label ?? '',
         editUrl: task.edit_url,
         enableDragging: task.enable_dragging,
         meta: task?.meta,
