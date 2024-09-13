@@ -1,7 +1,7 @@
 (function (Drupal, drupalSettings, once, farmOS) {
   Drupal.behaviors.farm_timeline = {
     attach: function (context, settings) {
-      once('timelineGantt', '.farm-timeline', context).forEach(function (element) {
+      once('timelineGantt', '.farm-timeline', context).forEach(async function (element) {
         const opts = {
           props: {
             taskElementHook: (node, task) => {
@@ -32,38 +32,77 @@
         // Create the timeline instance.
         const timeline = farmOS.timeline.create(element, opts);
 
-        // Helper function to process a row data object and
-        // add the row and its tasks to the timeline.
-        const processRowData = function(row) {
-          // Map to a row object.
-          let mappedRow = Drupal.behaviors.farm_timeline.mapRow(row);
-          timeline.addRows([mappedRow]);
+        // Helper function to process a single row and its children recursively.
+        const processRow = async function(row) {
 
-          // Collect all tasks for the row.
-          let tasks = row?.tasks?.map(Drupal.behaviors.farm_timeline.mapTask) ?? [];
-          timeline.addTasks(tasks);
+          // Handle URL string to fetch row data dynamically.
+          if (typeof row === "string") {
 
-          // Process children rows.
-          row?.children?.forEach(processRow) ?? [];
-        };
-
-        // Helper function to process a row provided to the timeline element.
-        // Rows may be objects or URL strings to request dynamic row data.
-        const processRow = function(row) {
-          if (typeof row === "object") {
-            processRowData(row);
-          }
-          else if (typeof row === "string") {
-            const response = fetch(row)
+            // Fetch and process the array of returned rows.
+            const data = await fetch(row)
               .then(res => res.json())
-              .then(data => data.rows ?? [])
-              .then(rows => rows.forEach(processRowData));
+              .then(data => data?.rows ?? []);
+            const awaitedRows = await Promise.all(data.map(processRow));
+
+            // Aggregate all rows and tasks from processed rows.
+            return awaitedRows.reduce((accumulator, current) => {
+              return {
+                rows: [...accumulator.rows, ...current.rows],
+                tasks: [...accumulator.tasks, ...current.tasks],
+              };
+            }, {
+              rows: [],
+              tasks: []
+            });
+          } else if (!row) {
+            // Handle potential null/undefined rows
+            return { rows: [], tasks: [] };
           }
+
+          // Begin processing a single parent row.
+          // First process all child rows.
+          const awaitedChildren = await Promise.all((row.children ?? []).map(processRow));
+
+          // Aggregate child rows and tasks.
+          const aggregatedChildren = awaitedChildren.reduce((accumulator, current) => {
+            return {
+              rows: [...accumulator.rows, ...current.rows],
+              tasks: [...accumulator.tasks, ...current.tasks],
+            };
+          }, {
+            rows: [],
+            tasks: []
+          });
+
+          // Map the parent row to a row object and include children rows.
+          row.children = aggregatedChildren.rows;
+          const mappedRow = Drupal.behaviors.farm_timeline.mapRow(row);
+
+          // Collect all tasks from the parent row and add all child tasks.
+          const tasks = [
+            ...(row.tasks?.map(Drupal.behaviors.farm_timeline.mapTask) ?? []),
+            ...aggregatedChildren.tasks,
+          ];
+
+          // Return the final processed parent row and all tasks.
+          return {
+            rows: [mappedRow],
+            tasks: tasks,
+          };
         };
 
-        // Process timeline rows.
+        // Helper function to add row to timeline after processing.
+        const addRow = async function(row) {
+          return processRow(row)
+            .then(data => {
+              timeline.addRows(data.rows);
+              timeline.addTasks(data.tasks);
+            })
+        }
+
+        // Add all provided timeline rows to the timeline.
         const timelineRows = JSON.parse(element.dataset?.timelineRows) ?? [];
-        timelineRows.forEach(processRow);
+        await Promise.all(timelineRows.map(addRow));
 
         function createPopup(task, node) {
           const rect = node.getBoundingClientRect();
@@ -124,7 +163,10 @@
         id: row.id,
         label: row.label,
         headerHtml: row.link,
-        expanded: row.expanded,
+        expanded: row.expanded ?? false,
+        // Only provide a children array if there are children
+        // otherwise an expanded icon will appear for rows without children.
+        children: row.children.length ? row.children : null,
       };
     },
     // Helper function to map task properties.
