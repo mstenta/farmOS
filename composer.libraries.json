@@ -23,10 +23,10 @@
             "type": "package",
             "package": {
                 "name": "farmos/farmos-timeline",
-                "version": "0.0.1",
+                "version": "0.0.2",
                 "type": "drupal-library",
                 "dist": {
-                    "url": "https://github.com/farmOS/farmOS-timeline/releases/download/v0.0.1/v0.0.1-dist.zip",
+                    "url": "https://github.com/farmOS/farmOS-timeline/releases/download/v0.0.2/v0.0.2-dist.zip",
                     "type": "zip"
                 },
                 "extra": {
