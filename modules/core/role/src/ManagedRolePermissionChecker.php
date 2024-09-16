@@ -50,8 +50,8 @@ class ManagedRolePermissionChecker extends PermissionChecker {
 
     // Check if the permission is included via farm_role rules.
     if (!$has_permission) {
+      $managed_roles = $this->managedRolePermissionsManager->getMangedRoles();
       foreach ($account->getRoles() as $role_id) {
-        $managed_roles = $this->managedRolePermissionsManager->getMangedRoles();
         if (in_array($role_id, array_keys($managed_roles))) {
           /** @var \Drupal\user\RoleInterface $role */
           $role = $this->entityTypeManager->getStorage('user_role')->load($role_id);
