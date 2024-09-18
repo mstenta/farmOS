@@ -3,14 +3,12 @@ status: true
 dependencies:
   config:
     - system.menu.admin
-    - taxonomy.vocabulary.log_category
   module:
     - entity_reference_revisions
     - farm_ui_views
     - log
     - options
     - state_machine
-    - taxonomy
     - user
   enforced:
     module:
@@ -212,6 +210,15 @@ display:
             date_format: html_date
             custom_date_format: ''
             timezone: ''
+            tooltip:
+              date_format: ''
+              custom_date_format: ''
+            time_diff:
+              enabled: false
+              future_format: '@interval hence'
+              past_format: '@interval ago'
+              granularity: 2
+              refresh: 60
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -745,6 +752,7 @@ display:
         type: full
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 50
           total_pages: null
           id: 0
@@ -1227,9 +1235,9 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: true
-          handler: views
+          sub_handler: views
           widget: select
-          handler_settings:
+          sub_handler_settings:
             view:
               view_name: farm_people
               display_name: entity_reference
@@ -1276,9 +1284,9 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: true
-          handler: views
+          sub_handler: views
           widget: autocomplete
-          handler_settings:
+          sub_handler_settings:
             view:
               view_name: farm_asset_reference
               display_name: entity_reference
@@ -1325,9 +1333,9 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: true
-          handler: views
+          sub_handler: views
           widget: autocomplete
-          handler_settings:
+          sub_handler_settings:
             view:
               view_name: farm_location_reference
               display_name: entity_reference
@@ -1472,7 +1480,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user
         - user.permissions
       tags: {  }
   block_late:
@@ -1659,6 +1666,15 @@ display:
             date_format: html_date
             custom_date_format: ''
             timezone: ''
+            tooltip:
+              date_format: ''
+              custom_date_format: ''
+            time_diff:
+              enabled: false
+              future_format: '@interval hence'
+              past_format: '@interval ago'
+              granularity: 2
+              refresh: 60
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -2092,6 +2108,15 @@ display:
             date_format: html_date
             custom_date_format: ''
             timezone: ''
+            tooltip:
+              date_format: ''
+              custom_date_format: ''
+            time_diff:
+              enabled: false
+              future_format: '@interval hence'
+              past_format: '@interval ago'
+              granularity: 2
+              refresh: 60
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -2381,7 +2406,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user
         - user.permissions
       tags: {  }
   page_asset:
@@ -2410,7 +2434,6 @@ display:
           default_argument_type: fixed
           default_argument_options:
             argument: ''
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -2449,7 +2472,6 @@ display:
           default_argument_type: fixed
           default_argument_options:
             argument: all
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -2488,7 +2510,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user
         - user.permissions
       tags: {  }
   page_term:
@@ -2517,7 +2538,6 @@ display:
           default_argument_type: fixed
           default_argument_options:
             argument: ''
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -2557,7 +2577,6 @@ display:
           default_argument_type: fixed
           default_argument_options:
             argument: all
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -2596,7 +2615,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user
         - user.permissions
       tags: {  }
   page_type:
@@ -2626,7 +2644,6 @@ display:
           default_argument_type: fixed
           default_argument_options:
             argument: ''
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -2679,7 +2696,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user
         - user.permissions
       tags: {  }
   page_user:
@@ -2699,7 +2715,7 @@ display:
           admin_label: ''
           entity_type: log
           entity_field: owner
-          plugin_id: numeric
+          plugin_id: entity_target_id
           default_action: 'not found'
           exception:
             value: all
@@ -2710,7 +2726,6 @@ display:
           default_argument_type: fixed
           default_argument_options:
             argument: ''
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -2732,6 +2747,7 @@ display:
             roles: {  }
           break_phrase: false
           not: false
+          target_entity_type_id: user
       defaults:
         title: false
         relationships: true
@@ -2757,6 +2773,5 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user
         - user.permissions
       tags: {  }

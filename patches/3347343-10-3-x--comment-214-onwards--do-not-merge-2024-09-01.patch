@@ -1,0 +1,2217 @@
+diff --git a/core/lib/Drupal/Core/Entity/Plugin/EntityReferenceSelection/DefaultSelection.php b/core/lib/Drupal/Core/Entity/Plugin/EntityReferenceSelection/DefaultSelection.php
+index 17dcac0a90e9ba1132cf4a4ab685fed40bfe1a5a..afe418450ae4a321f77d67b6dac161f2f71813a1 100644
+--- a/core/lib/Drupal/Core/Entity/Plugin/EntityReferenceSelection/DefaultSelection.php
++++ b/core/lib/Drupal/Core/Entity/Plugin/EntityReferenceSelection/DefaultSelection.php
+@@ -164,6 +164,7 @@ public function buildConfigurationForm(array $form, FormStateInterface $form_sta
+     $entity_type_id = $configuration['target_type'];
+     $entity_type = $this->entityTypeManager->getDefinition($entity_type_id);
+     $bundles = $this->entityTypeBundleInfo->getBundleInfo($entity_type_id);
++    $selected_bundles = [];
+
+     if ($entity_type->hasKey('bundle')) {
+       $bundle_options = [];
+@@ -200,6 +201,7 @@ public function buildConfigurationForm(array $form, FormStateInterface $form_sta
+           'class' => ['js-hide'],
+         ],
+         '#submit' => [[EntityReferenceItem::class, 'settingsAjaxSubmit']],
++        '#element_validate' => [[static::class, 'validateTargetBundlesUpdate']],
+       ];
+     }
+     else {
+@@ -208,6 +210,7 @@ public function buildConfigurationForm(array $form, FormStateInterface $form_sta
+         '#value' => [],
+       ];
+     }
++    $form['target_bundles']['#element_validate'][] = [static::class, 'validateTargetBundles'];
+
+     if ($entity_type->entityClassImplements(FieldableEntityInterface::class)) {
+       $options = $entity_type->hasKey('bundle') ? $selected_bundles : $bundles;
+@@ -224,7 +227,11 @@ public function buildConfigurationForm(array $form, FormStateInterface $form_sta
+           // @todo Use property labels instead of the column name.
+           if (count($columns) > 1) {
+             foreach ($columns as $column_name => $column_info) {
+-              $fields[$field_name . '.' . $column_name] = $this->t('@label (@column)', ['@label' => $field_definition->getLabel(), '@column' => $column_name]);
++              $fields[$field_name . '.' . $column_name] = $this->t('@label (@column)',
++               [
++                 '@label' => $field_definition->getLabel(),
++                 '@column' => $column_name,
++               ]);
+             }
+           }
+           else {
+@@ -314,22 +321,25 @@ public function buildConfigurationForm(array $form, FormStateInterface $form_sta
+   }
+
+   /**
+-   * {@inheritdoc}
++   * Validates a target_bundles element.
+    */
+-  public function validateConfigurationForm(array &$form, FormStateInterface $form_state) {
+-    parent::validateConfigurationForm($form, $form_state);
+-
++  public static function validateTargetBundles($element, FormStateInterface $form_state, $form) {
+     // If no checkboxes were checked for 'target_bundles', store NULL ("all
+     // bundles are referenceable") rather than empty array ("no bundle is
+     // referenceable" - typically happens when all referenceable bundles have
+     // been deleted).
+-    if ($form_state->getValue(['settings', 'handler_settings', 'target_bundles']) === []) {
+-      $form_state->setValue(['settings', 'handler_settings', 'target_bundles'], NULL);
++    if ($form_state->getValue($element['#parents']) === []) {
++      $form_state->setValueForElement($element, NULL);
+     }
++  }
+
++  /**
++   * Validates a target_bundles_update element.
++   */
++  public static function validateTargetBundlesUpdate($element, FormStateInterface $form_state, $form) {
+     // Don't store the 'target_bundles_update' button value into the field
+     // config settings.
+-    $form_state->unsetValue(['settings', 'handler_settings', 'target_bundles_update']);
++    $form_state->unsetValue($element['#parents']);
+   }
+
+   /**
+diff --git a/core/modules/views/config/schema/views.filter.schema.yml b/core/modules/views/config/schema/views.filter.schema.yml
+index 1eb09007aef9132ece61fb2ae58e25090ad5eb4f..6eb22b82f996175cba2ba2c1aad00048cc11019b 100644
+--- a/core/modules/views/config/schema/views.filter.schema.yml
++++ b/core/modules/views/config/schema/views.filter.schema.yml
+@@ -128,6 +128,26 @@ views.filter.many_to_one:
+       type: boolean
+       label: 'Reduce duplicate'
+
++views.filter.entity_reference:
++  type: views.filter.many_to_one
++  label: 'Entity reference'
++  constraints:
++    FullyValidatable: ~
++  mapping:
++    sub_handler:
++      type: string
++      label: 'Selection handler'
++      constraints:
++        PluginExists:
++          manager: plugin.manager.entity_reference_selection
++          interface: 'Drupal\Core\Entity\EntityReferenceSelection\SelectionInterface'
++    widget:
++      type: string
++      label: 'Selection type'
++    sub_handler_settings:
++      type: entity_reference_selection.[%parent.sub_handler]
++      label: 'Selection handler settings'
++
+ views.filter.standard:
+   type: views_filter
+   label: 'Standard'
+diff --git a/core/modules/views/src/Plugin/views/filter/EntityReference.php b/core/modules/views/src/Plugin/views/filter/EntityReference.php
+new file mode 100644
+index 0000000000000000000000000000000000000000..83e9f95ce163cb381d77e1e4af0fdfe200143f77
+--- /dev/null
++++ b/core/modules/views/src/Plugin/views/filter/EntityReference.php
+@@ -0,0 +1,704 @@
++<?php
++
++namespace Drupal\views\Plugin\views\filter;
++
++use Drupal\Component\Plugin\DependentPluginInterface;
++use Drupal\Component\Utility\NestedArray;
++use Drupal\Core\Entity\Element\EntityAutocomplete;
++use Drupal\Core\Entity\EntityReferenceSelection\SelectionInterface;
++use Drupal\Core\Entity\EntityReferenceSelection\SelectionPluginManagerInterface;
++use Drupal\Core\Entity\EntityTypeInterface;
++use Drupal\Core\Entity\EntityTypeManagerInterface;
++use Drupal\Core\Form\FormStateInterface;
++use Drupal\Core\Form\SubformState;
++use Drupal\Core\Messenger\MessengerInterface;
++use Drupal\Core\Render\Element;
++use Drupal\views\FieldAPIHandlerTrait;
++use Drupal\views\Plugin\EntityReferenceSelection\ViewsSelection;
++use Drupal\views\Plugin\views\display\DisplayPluginBase;
++use Drupal\views\ViewExecutable;
++use Symfony\Component\DependencyInjection\ContainerInterface;
++
++/**
++ * Filters a view by entity references.
++ *
++ * @ingroup views_filter_handlers
++ *
++ * @ViewsFilter("entity_reference")
++ */
++class EntityReference extends ManyToOne {
++
++  use FieldAPIHandlerTrait;
++
++  /**
++   * Type for the autocomplete filter format.
++   */
++  const WIDGET_AUTOCOMPLETE = 'autocomplete';
++
++  /**
++   * Type for the select list filter format.
++   */
++  const WIDGET_SELECT = 'select';
++
++  /**
++   * Max number of entities in the select widget.
++   */
++  const WIDGET_SELECT_LIMIT = 100;
++
++  /**
++   * The subform prefix.
++   */
++  const SUBFORM_PREFIX = 'reference_';
++
++  /**
++   * The all value.
++   */
++  const ALL_VALUE = 'All';
++
++  /**
++   * The selection handlers available for the target entity ID of the filter.
++   *
++   * @var array|null
++   */
++  protected ?array $handlerOptions = NULL;
++
++  /**
++   * Validated exposed input that will be set as the input value.
++   *
++   * If the select list widget is chosen.
++   *
++   * @var array
++   */
++  protected array $validatedExposedInput;
++
++  /**
++   * {@inheritdoc}
++   */
++  public function init(ViewExecutable $view, DisplayPluginBase $display, ?array &$options = NULL): void {
++    parent::init($view, $display, $options);
++    if (empty($this->definition['field_name'])) {
++      $this->definition['field_name'] = $options['field'];
++    }
++
++    $this->definition['options callback'] = [$this, 'getValueOptionsCallback'];
++    $this->definition['options arguments'] = [$this->getSelectionHandler($this->options['sub_handler'])];
++  }
++
++  /**
++   * Constructs an EntityReference object.
++   */
++  public function __construct(
++    array $configuration,
++    $plugin_id,
++    $plugin_definition,
++    protected SelectionPluginManagerInterface $selectionPluginManager,
++    protected EntityTypeManagerInterface $entityTypeManager,
++    MessengerInterface $messenger,
++  ) {
++    parent::__construct($configuration, $plugin_id, $plugin_definition);
++    $this->setMessenger($messenger);
++
++    // @todo Unify 'entity field'/'field_name' instead of converting back and
++    // forth. https://www.drupal.org/node/2410779
++    if (isset($this->definition['entity field'])) {
++      $this->definition['field_name'] = $this->definition['entity field'];
++    }
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition): EntityReference {
++    return new static(
++      $configuration,
++      $plugin_id,
++      $plugin_definition,
++      $container->get('plugin.manager.entity_reference_selection'),
++      $container->get('entity_type.manager'),
++      $container->get('messenger'),
++    );
++  }
++
++  /**
++   * Gets the entity reference selection handler.
++   *
++   * @param string|null $sub_handler
++   *   The sub handler to get an instance of or NULL for the current selection.
++   *
++   * @return \Drupal\Core\Entity\EntityReferenceSelection\SelectionInterface
++   *   The selection handler plugin instance.
++   */
++  protected function getSelectionHandler(?string $sub_handler = NULL): SelectionInterface {
++    // Default values for the handler.
++    $handler_settings = $this->options['sub_handler_settings'] ?? [];
++    $handler_settings['handler'] = $sub_handler;
++    $handler_settings['target_type'] = $this->getReferencedEntityType()->id();
++    /** @var \Drupal\Core\Entity\EntityReferenceSelection\SelectionInterface */
++    return $this->selectionPluginManager->getInstance($handler_settings);
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function defineOptions(): array {
++    $options = parent::defineOptions();
++    $options['sub_handler'] = [
++      'default' => 'default:' . $this->getReferencedEntityType()->id(),
++    ];
++    $options['sub_handler_settings'] = ['default' => []];
++    $options['widget'] = ['default' => static::WIDGET_AUTOCOMPLETE];
++    return $options;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function hasExtraOptions(): bool {
++    return TRUE;
++  }
++
++  /**
++   * Get all selection plugins for this entity type.
++   *
++   * @return string[]
++   *   The selection handlers available for the target entity ID of the filter.
++   */
++  protected function getSubHandlerOptions(): array {
++    if ($this->handlerOptions) {
++      return $this->handlerOptions;
++    }
++    $entity_type = $this->getReferencedEntityType();
++    $selection_plugins = $this->selectionPluginManager->getSelectionGroups($entity_type->id());
++    $this->handlerOptions = [];
++    foreach (array_keys($selection_plugins) as $selection_group_id) {
++      // We only display base plugins (e.g. 'default', 'views', ...).
++      if (array_key_exists($selection_group_id, $selection_plugins[$selection_group_id])) {
++        $this->handlerOptions[$selection_group_id] = (string) $selection_plugins[$selection_group_id][$selection_group_id]['label'];
++      }
++      elseif (array_key_exists($selection_group_id . ':' . $entity_type->id(), $selection_plugins[$selection_group_id])) {
++        $selection_group_plugin = $selection_group_id . ':' . $entity_type->id();
++        $this->handlerOptions[$selection_group_plugin] = (string) $selection_plugins[$selection_group_id][$selection_group_plugin]['base_plugin_label'];
++      }
++    }
++    return $this->handlerOptions;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function buildExtraOptionsForm(&$form, FormStateInterface $form_state): void {
++    $form['sub_handler'] = [
++      '#type' => 'select',
++      '#title' => $this->t('Reference method'),
++      '#options' => $this->getSubHandlerOptions(),
++      '#default_value' => $this->options['sub_handler'],
++      '#required' => TRUE,
++    ];
++
++    // We store the settings from any sub handler in sub_handler_settings, but
++    // in this form, we have multiple sub handlers conditionally displayed.
++    // Copy the active sub_handler_settings into the handler specific settings
++    // to set the defaults to match the saved options on build.
++    if (!empty($this->options['sub_handler']) && !empty($this->options['sub_handler_settings'])) {
++      $this->options[static::SUBFORM_PREFIX . $this->options['sub_handler']] = $this->options['sub_handler_settings'];
++    }
++
++    foreach ($this->getSubHandlerOptions() as $sub_handler => $sub_handler_label) {
++      $subform_key = static::SUBFORM_PREFIX . $sub_handler;
++      $subform = [
++        '#type' => 'fieldset',
++        '#title' => $this->t('Reference type "@type"', [
++          '@type' => $sub_handler_label,
++        ]),
++        '#tree' => TRUE,
++        '#parents' => [
++          'options',
++          $subform_key,
++        ],
++        // Make the sub handler settings conditional on the selected selection
++        // handler.
++        '#states' => [
++          'visible' => [
++            'select[name="options[sub_handler]"]' => ['value' => $sub_handler],
++          ],
++        ],
++      ];
++
++      // Build the sub form and sub for state.
++      $selection_handler = $this->getSelectionHandler($sub_handler);
++      if (!empty($this->options[$subform_key])) {
++        $selection_config = $selection_handler->getConfiguration();
++        $selection_config = NestedArray::mergeDeepArray([
++          $selection_config,
++          $this->options[$subform_key],
++        ], TRUE);
++        $selection_handler->setConfiguration($selection_config);
++      }
++      $subform_state = SubformState::createForSubform($subform, $form, $form_state);
++      $sub_handler_settings = $selection_handler->buildConfigurationForm($subform, $subform_state);
++
++      if ($selection_handler instanceof ViewsSelection) {
++        if (isset($sub_handler_settings['view']['no_view_help'])) {
++          // If there are no views with entity reference displays,
++          // ViewsSelection still validates the view.
++          // This will prevent form config extra form submission,
++          // so we remove it here.
++          unset($sub_handler_settings['view']['#element_validate']);
++        }
++      }
++      else {
++        // Remove unnecessary and inappropriate handler settings from the
++        // filter config form.
++        $sub_handler_settings['target_bundles_update']['#access'] = FALSE;
++        $sub_handler_settings['auto_create']['#access'] = FALSE;
++        $sub_handler_settings['auto_create_bundle']['#access'] = FALSE;
++      }
++
++      $subform = NestedArray::mergeDeepArray([
++        $subform,
++        $sub_handler_settings,
++      ], TRUE);
++
++      $form[$subform_key] = $subform;
++      $this->cleanUpSubformChildren($form[$subform_key]);
++    }
++
++    $form['widget'] = [
++      '#type' => 'radios',
++      '#title' => $this->t('Selection type'),
++      '#default_value' => $this->options['widget'],
++      '#options' => [
++        static::WIDGET_SELECT => $this->t('Select list'),
++        static::WIDGET_AUTOCOMPLETE => $this->t('Autocomplete'),
++      ],
++      '#description' => $this->t('For performance and UX reasons, the maximum count of selectable entities for the "Select list" selection type is limited to @count. If more is expected, select "Autocomplete" instead.', [
++        '@count' => static::WIDGET_SELECT_LIMIT,
++      ]),
++    ];
++  }
++
++  /**
++   * Clean up subform children for properties that could cause problems.
++   *
++   * Views modal forms do not work with required or ajax elements.
++   *
++   * @param array $element
++   *   The form element.
++   */
++  protected function cleanUpSubformChildren(array &$element): void {
++    // Remove the required property to prevent focus errors.
++    if (isset($element['#required']) && $element['#required']) {
++      $element['#required'] = FALSE;
++      $element['#element_validate'][] = [static::class, 'validateRequired'];
++    }
++
++    // Remove the ajax property as it does not work.
++    if (!empty($element['#ajax'])) {
++      unset($element['#ajax']);
++    }
++
++    // Recursively apply to nested fields within the handler sub form.
++    foreach (Element::children($element) as $delta) {
++      $this->cleanUpSubformChildren($element[$delta]);
++    }
++  }
++
++  /**
++   * Validates that a required field for a sub handler has a value.
++   *
++   * @param array $element
++   *   The cardinality form render array.
++   * @param \Drupal\Core\Form\FormStateInterface $form_state
++   *   The form state.
++   */
++  public static function validateRequired(array &$element, FormStateInterface $form_state): void {
++    if (!empty($element['value'])) {
++      return;
++    }
++
++    // Config extra handler does not output validation messages and
++    // closes the modal with no feedback to the user.
++    // @todo https://www.drupal.org/project/drupal/issues/3163740.
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function validateExtraOptionsForm($form, FormStateInterface $form_state): void {
++    $options = $form_state->getValue('options');
++    $sub_handler = $options['sub_handler'];
++    $subform = $form[static::SUBFORM_PREFIX . $sub_handler];
++    $subform_state = SubformState::createForSubform($subform, $form, $form_state);
++
++    // Copy handler_settings from options to settings to be compatible with
++    // selection plugins.
++    $subform_options = $form_state->getValue([
++      'options',
++      static::SUBFORM_PREFIX . $sub_handler,
++    ]);
++    $subform_state->setValue([
++      'settings',
++    ], $subform_options);
++    $this->getSelectionHandler($sub_handler)
++      ->validateConfigurationForm($subform, $subform_state);
++
++    // Store the sub handler options in sub_handler_settings.
++    $form_state->setValue(['options', 'sub_handler_settings'], $subform_options);
++
++    // Remove options that are not from the selected sub_handler.
++    foreach (array_keys($this->getSubHandlerOptions()) as $sub_handler_option) {
++      if (isset($options[static::SUBFORM_PREFIX . $sub_handler_option])) {
++        $form_state->unsetValue(['options', static::SUBFORM_PREFIX . $sub_handler_option]);
++      }
++    }
++
++    parent::validateExtraOptionsForm($form, $form_state);
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function submitExtraOptionsForm($form, FormStateInterface $form_state): void {
++    $sub_handler = $form_state->getValue('options')['sub_handler'];
++
++    // Ensure that only the select sub handler option is saved.
++    foreach (array_keys($this->getSubHandlerOptions()) as $sub_handler_option) {
++      if ($sub_handler_option == $sub_handler) {
++        $this->options['sub_handler_settings'] = $this->options[static::SUBFORM_PREFIX . $sub_handler_option];
++      }
++      if (isset($this->options[static::SUBFORM_PREFIX . $sub_handler_option])) {
++        unset($this->options[static::SUBFORM_PREFIX . $sub_handler_option]);
++      }
++    }
++  }
++
++  /**
++   * Fixes the issue with switching between the widgets in the view editor.
++   *
++   * @param array $form
++   *   Associative array containing the structure of the form, passed by
++   *   reference.
++   * @param \Drupal\Core\Form\FormStateInterface $form_state
++   *   The current state of the form.
++   */
++  protected function alternateWidgetsDefaultNormalize(array &$form, FormStateInterface $form_state): void {
++    $field_id = '_' . $this->getFieldDefinition()->getName() . '-widget';
++    $form[$field_id] = [
++      '#type' => 'hidden',
++      '#value' => $this->options['widget'],
++    ];
++
++    $previous_widget = $form_state->getUserInput()[$field_id] ?? NULL;
++    if ($previous_widget && $previous_widget !== $this->options['widget']) {
++      $form['value']['#value_callback'] = function ($element) {
++        return $element['#default_value'] ?? '';
++      };
++    }
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function valueForm(&$form, FormStateInterface $form_state) {
++    if (!isset($this->options['sub_handler'])) {
++      return;
++    }
++    switch ($this->options['widget']) {
++      case static::WIDGET_SELECT:
++        $this->valueFormAddSelect($form, $form_state);
++        break;
++
++      case static::WIDGET_AUTOCOMPLETE:
++        $this->valueFormAddAutocomplete($form, $form_state);
++        break;
++    }
++
++    if (!empty($this->view->live_preview)) {
++      $this->alternateWidgetsDefaultNormalize($form, $form_state);
++    }
++
++    // Show or hide the value field depending on the operator field.
++    $is_exposed = $this->options['exposed'];
++
++    $visible = [];
++    if ($is_exposed) {
++      $operator_field = ($this->options['expose']['use_operator'] && $this->options['expose']['operator_id']) ? $this->options['expose']['operator_id'] : NULL;
++    }
++    else {
++      $operator_field = 'options[operator]';
++      $visible[] = [
++        ':input[name="options[expose_button][checkbox][checkbox]"]' => ['checked' => TRUE],
++        ':input[name="options[expose][use_operator]"]' => ['checked' => TRUE],
++        ':input[name="options[expose][operator_id]"]' => ['empty' => FALSE],
++      ];
++    }
++    if ($operator_field) {
++      foreach ($this->operatorValues(1) as $operator) {
++        $visible[] = [
++          ':input[name="' . $operator_field . '"]' => ['value' => $operator],
++        ];
++      }
++      $form['value']['#states'] = ['visible' => $visible];
++    }
++
++    if (!$is_exposed) {
++      // Retain the helper option.
++      $this->helper->buildOptionsForm($form, $form_state);
++
++      // Show help text if not exposed to end users.
++      $form['value']['#description'] = $this->t('Leave blank for all. Otherwise, the first selected item will be the default instead of "Any".');
++    }
++  }
++
++  /**
++   * Adds an autocomplete element to the form.
++   *
++   * @param array $form
++   *   Associative array containing the structure of the form, passed by
++   *   reference.
++   * @param \Drupal\Core\Form\FormStateInterface $form_state
++   *   The current state of the form.
++   */
++  protected function valueFormAddAutocomplete(array &$form, FormStateInterface $form_state): void {
++    $referenced_type = $this->getReferencedEntityType();
++    $form['value'] = [
++      '#title' => $this->t('Select %entity_types', ['%entity_types' => $referenced_type->getPluralLabel()]),
++      '#type' => 'entity_autocomplete',
++      '#default_value' => EntityAutocomplete::getEntityLabels($this->getDefaultSelectedEntities()),
++      '#tags' => TRUE,
++      '#process_default_value' => FALSE,
++      '#target_type' => $referenced_type->id(),
++      '#selection_handler' => $this->options['sub_handler'],
++      '#selection_settings' => $this->options['sub_handler_settings'],
++      // Validation is done by validateExposed().
++      '#validate_reference' => FALSE,
++    ];
++  }
++
++  /**
++   * Adds a select element to the form.
++   *
++   * @param array $form
++   *   Associative array containing the structure of the form, passed by
++   *   reference.
++   * @param \Drupal\Core\Form\FormStateInterface $form_state
++   *   The current state of the form.
++   */
++  protected function valueFormAddSelect(array &$form, FormStateInterface $form_state): void {
++    $is_exposed = $form_state->get('exposed');
++
++    $options = $this->getValueOptions();
++    $default_value = (array) $this->value;
++
++    if ($is_exposed) {
++      $identifier = $this->options['expose']['identifier'];
++
++      if (!empty($this->options['expose']['reduce'])) {
++        $options = $this->reduceValueOptions($options);
++
++        if (!empty($this->options['expose']['multiple']) && empty($this->options['expose']['required'])) {
++          $default_value = [];
++        }
++      }
++
++      if (empty($this->options['expose']['multiple'])) {
++        if (empty($this->options['expose']['required']) && (empty($default_value) || !empty($this->options['expose']['reduce']))) {
++          $default_value = static::ALL_VALUE;
++        }
++        elseif (empty($default_value)) {
++          $keys = array_keys($options);
++          $default_value = array_shift($keys);
++        }
++        else {
++          // Set the default value to be the first element of the array.
++          $default_value = reset($default_value);
++        }
++      }
++    }
++
++    $referenced_type = $this->getReferencedEntityType();
++    $form['value'] = [
++      '#type' => 'select',
++      '#title' => $this->t('Select @entity_types', ['@entity_types' => $referenced_type->getPluralLabel()]),
++      '#multiple' => TRUE,
++      '#options' => $options,
++      // Set a minimum size to facilitate easier selection of entities.
++      '#size' => min(8, count($options)),
++      '#default_value' => $default_value,
++    ];
++
++    $user_input = $form_state->getUserInput();
++    if ($is_exposed && isset($identifier) && !isset($user_input[$identifier])) {
++      $user_input[$identifier] = $default_value;
++      $form_state->setUserInput($user_input);
++    }
++  }
++
++  /**
++   * Gets all entities selected by default.
++   *
++   * @return \Drupal\Core\Entity\EntityInterface[]
++   *   All entities selected by default, or an empty array, if none.
++   */
++  protected function getDefaultSelectedEntities(): array {
++    $referenced_type_id = $this->getReferencedEntityType()->id();
++    $entity_storage = $this->entityTypeManager->getStorage($referenced_type_id);
++
++    return !empty($this->value) && !isset($this->value[static::ALL_VALUE]) ? $entity_storage->loadMultiple($this->value) : [];
++  }
++
++  /**
++   * Returns the value options for a select widget.
++   *
++   * @param \Drupal\Core\Entity\EntityReferenceSelection\SelectionInterface $selection_handler
++   *   The selection handler.
++   *
++   * @return string[]
++   *   The options.
++   *
++   * @see \Drupal\views\Plugin\views\filter\InOperator::getValueOptions()
++   */
++  protected function getValueOptionsCallback(SelectionInterface $selection_handler): array {
++    $entity_data = [];
++    if ($this->options['widget'] === static::WIDGET_SELECT) {
++      $entity_data = $selection_handler->getReferenceableEntities(NULL, 'CONTAINS', static::WIDGET_SELECT_LIMIT);
++    }
++
++    $options = [];
++    foreach ($entity_data as $bundle) {
++      foreach ($bundle as $id => $entity_label) {
++        $options[$id] = $entity_label;
++      }
++    }
++
++    return $options;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function validate(): array {
++    // InOperator validation logic is not appropriate for entity reference
++    // autocomplete or select, so prevent parent class validation from
++    // occurring.
++    return [];
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function acceptExposedInput($input): bool {
++    if (empty($this->options['exposed'])) {
++      return TRUE;
++    }
++
++    // We need to know the operator, which is normally set in
++    // \Drupal\views\Plugin\views\filter\FilterPluginBase::acceptExposedInput(),
++    // before we actually call the parent version of ourselves.
++    if (!empty($this->options['expose']['use_operator']) && !empty($this->options['expose']['operator_id']) && isset($input[$this->options['expose']['operator_id']])) {
++      $this->operator = $input[$this->options['expose']['operator_id']];
++    }
++
++    // If view is an attachment and is inheriting exposed filters, then assume
++    // exposed input has already been validated.
++    if (!empty($this->view->is_attachment) && $this->view->display_handler->usesExposed()) {
++      $this->validatedExposedInput = (array) $this->view->exposed_raw_input[$this->options['expose']['identifier']];
++    }
++
++    // If we're checking for EMPTY or NOT, we don't need any input, and we can
++    // say that our input conditions are met by just having the right operator.
++    if ($this->operator == 'empty' || $this->operator == 'not empty') {
++      return TRUE;
++    }
++
++    // If it's non-required and there's no value don't bother filtering.
++    if (!$this->options['expose']['required'] && empty($this->validatedExposedInput)) {
++      return FALSE;
++    }
++
++    $accept_exposed_input = parent::acceptExposedInput($input);
++    if ($accept_exposed_input) {
++      // If we have previously validated input, override.
++      if (isset($this->validatedExposedInput)) {
++        $this->value = $this->validatedExposedInput;
++      }
++    }
++
++    return $accept_exposed_input;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function validateExposed(&$form, FormStateInterface $form_state): void {
++    if (empty($this->options['exposed'])) {
++      return;
++    }
++
++    $identifier = $this->options['expose']['identifier'];
++
++    // Set the validated exposed input from the select list when not the all
++    // value option.
++    if ($this->options['widget'] == static::WIDGET_SELECT) {
++      if ($form_state->getValue($identifier) != static::ALL_VALUE) {
++        $this->validatedExposedInput = (array) $form_state->getValue($identifier);
++      }
++      return;
++    }
++
++    if (empty($identifier)) {
++      return;
++    }
++
++    $values = $form_state->getValue($identifier);
++    if (!is_array($values)) {
++      return;
++    }
++
++    foreach ($values as $value) {
++      $this->validatedExposedInput[] = $value['target_id'];
++    }
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function valueSubmit($form, FormStateInterface $form_state): void {
++    // Prevent the parent class InOperator from altering the array.
++    // @see \Drupal\views\Plugin\views\filter\InOperator::valueSubmit().
++  }
++
++  /**
++   * Gets the target entity type referenced by this field.
++   *
++   * @return \Drupal\Core\Entity\EntityTypeInterface
++   *   The entity type definition.
++   */
++  protected function getReferencedEntityType(): EntityTypeInterface {
++    $field_def = $this->getFieldDefinition();
++    $entity_type_id = $field_def->getItemDefinition()
++      ->getSetting('target_type');
++    return $this->entityTypeManager->getDefinition($entity_type_id);
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function calculateDependencies(): array {
++    $dependencies = parent::calculateDependencies();
++
++    $sub_handler = $this->options['sub_handler'];
++    $selection_handler = $this->getSelectionHandler($sub_handler);
++    if ($selection_handler instanceof DependentPluginInterface) {
++      $dependencies += $selection_handler->calculateDependencies();
++    }
++
++    foreach ($this->getDefaultSelectedEntities() as $entity) {
++      $dependencies[$entity->getConfigDependencyKey()][] = $entity->getConfigDependencyName();
++    }
++
++    return $dependencies;
++  }
++
++}
++
+diff --git a/core/modules/views/tests/modules/views_test_config/test_views/views.view.test_filter_entity_reference.yml b/core/modules/views/tests/modules/views_test_config/test_views/views.view.test_filter_entity_reference.yml
+new file mode 100644
+index 0000000000000000000000000000000000000000..5a15e68ed0c8c48c9c9b5cff9bcf32789e9a8b78
+--- /dev/null
++++ b/core/modules/views/tests/modules/views_test_config/test_views/views.view.test_filter_entity_reference.yml
+@@ -0,0 +1,268 @@
++langcode: en
++status: true
++dependencies:
++  config:
++    - node.type.page
++  module:
++    - node
++    - user
++id: test_filter_entity_reference
++label: test_filter_entity_reference
++module: views
++description: ''
++tag: ''
++base_table: node_field_data
++base_field: nid
++display:
++  default:
++    display_plugin: default
++    id: default
++    display_title: Master
++    position: 0
++    display_options:
++      access:
++        type: perm
++        options:
++          perm: 'access content'
++      cache:
++        type: none
++        options: {  }
++      query:
++        type: views_query
++        options:
++          disable_sql_rewrite: false
++          distinct: false
++          replica: false
++          query_comment: ''
++          query_tags: {  }
++      exposed_form:
++        type: basic
++        options:
++          submit_button: Apply
++          reset_button: false
++          reset_button_label: Reset
++          exposed_sorts_label: 'Sort by'
++          expose_sort_order: true
++          sort_asc_label: Asc
++          sort_desc_label: Desc
++      pager:
++        type: mini
++        options:
++          items_per_page: 10
++          offset: 0
++          id: 0
++          total_pages: null
++          expose:
++            items_per_page: false
++            items_per_page_label: 'Items per page'
++            items_per_page_options: '5, 10, 25, 50'
++            items_per_page_options_all: false
++            items_per_page_options_all_label: '- All -'
++            offset: false
++            offset_label: Offset
++          tags:
++            previous: Ã¢â‚¬Â¹Ã¢â‚¬Â¹
++            next: Ã¢â‚¬ÂºÃ¢â‚¬Âº
++      style:
++        type: default
++        options:
++          grouping: {  }
++          row_class: ''
++          default_row_class: true
++          uses_fields: false
++      row:
++        type: fields
++        options:
++          inline: {  }
++          separator: ''
++          hide_empty: false
++          default_field_elements: true
++      fields:
++        title:
++          id: title
++          table: node_field_data
++          field: title
++          entity_type: node
++          entity_field: title
++          label: ''
++          alter:
++            alter_text: false
++            make_link: false
++            absolute: false
++            trim: false
++            word_boundary: false
++            ellipsis: false
++            strip_tags: false
++            html: false
++          hide_empty: false
++          empty_zero: false
++          settings:
++            link_to_entity: true
++          plugin_id: field
++          relationship: none
++          group_type: group
++          admin_label: ''
++          exclude: false
++          element_type: ''
++          element_class: ''
++          element_label_type: ''
++          element_label_class: ''
++          element_label_colon: true
++          element_wrapper_type: ''
++          element_wrapper_class: ''
++          element_default_classes: true
++          empty: ''
++          hide_alter_empty: true
++          click_sort_column: value
++          type: string
++          group_column: value
++          group_columns: {  }
++          group_rows: true
++          delta_limit: 0
++          delta_offset: 0
++          delta_reversed: false
++          delta_first_last: false
++          multi_type: separator
++          separator: ', '
++          field_api_classes: false
++      filters:
++        status:
++          value: '1'
++          table: node_field_data
++          field: status
++          plugin_id: boolean
++          entity_type: node
++          entity_field: status
++          id: status
++          expose:
++            operator: ''
++          group: 1
++        type:
++          id: type
++          table: node_field_data
++          field: type
++          value:
++            page: page
++          entity_type: node
++          entity_field: type
++          plugin_id: bundle
++        field_test_target_id:
++          id: field_test_target_id
++          table: node__field_test
++          field: field_test_target_id
++          relationship: none
++          group_type: group
++          admin_label: ''
++          operator: or
++          value: {  }
++          group: 1
++          exposed: true
++          expose:
++            operator_id: field_test_target_id_op
++            label: 'Test (field_test)'
++            description: ''
++            use_operator: false
++            operator: field_test_target_id_op
++            identifier: field_test_target_id
++            required: false
++            remember: false
++            multiple: true
++            remember_roles:
++              authenticated: authenticated
++              anonymous: '0'
++              administrator: '0'
++            reduce: false
++          is_grouped: false
++          group_info:
++            label: ''
++            description: ''
++            identifier: ''
++            optional: true
++            widget: select
++            multiple: false
++            remember: false
++            default_group: All
++            default_group_multiple: {  }
++            group_items: {  }
++          reduce_duplicates: false
++          sub_handler: 'default:node'
++          sub_handler_settings:
++            target_bundles:
++              article: article
++            sort:
++              field: title
++              direction: ASC
++            auto_create: false
++            auto_create_bundle: ''
++          widget: select
++          plugin_id: entity_reference
++        field_test_config_target_id:
++          id: field_test_config_target_id
++          table: node__field_test_config
++          field: field_test_config_target_id
++          relationship: none
++          group_type: group
++          admin_label: ''
++          plugin_id: entity_reference
++          operator: or
++          value: { }
++          group: 1
++          exposed: true
++          expose:
++            operator_id: field_test_config_target_id_op
++            label: 'Test config (field_test_config)'
++            description: ''
++            use_operator: false
++            operator: field_test_config_target_id_op
++            operator_limit_selection: false
++            operator_list: { }
++            identifier: field_test_config_target_id
++            required: false
++            remember: false
++            multiple: false
++            remember_roles:
++              authenticated: authenticated
++              anonymous: '0'
++              content_editor: '0'
++              administrator: '0'
++            reduce: false
++          is_grouped: false
++          group_info:
++            label: ''
++            description: ''
++            identifier: ''
++            optional: true
++            widget: select
++            multiple: false
++            remember: false
++            default_group: All
++            default_group_multiple: { }
++            group_items: { }
++          reduce_duplicates: false
++          sub_handler: 'default:node_type'
++          widget: select
++          sub_handler_settings:
++            target_bundles: null
++            auto_create: false
++      sorts:
++        created:
++          id: created
++          table: node_field_data
++          field: created
++          order: DESC
++          entity_type: node
++          entity_field: created
++          plugin_id: date
++          relationship: none
++          group_type: group
++          admin_label: ''
++          exposed: false
++          expose:
++            label: ''
++          granularity: second
++      header: {  }
++      footer: {  }
++      empty: {  }
++      relationships: {  }
++      arguments: {  }
++      display_extenders: {  }
+diff --git a/core/modules/views/tests/modules/views_test_entity_reference/config/install/views.view.test_entity_reference.yml b/core/modules/views/tests/modules/views_test_entity_reference/config/install/views.view.test_entity_reference.yml
+new file mode 100644
+index 0000000000000000000000000000000000000000..4b37d55d492dcbcffeb88357b6cac472eca7bf45
+--- /dev/null
++++ b/core/modules/views/tests/modules/views_test_entity_reference/config/install/views.view.test_entity_reference.yml
+@@ -0,0 +1,269 @@
++langcode: en
++status: true
++dependencies:
++  module:
++    - node
++    - user
++id: test_entity_reference
++label: 'Test Entity Reference'
++module: views
++description: ''
++tag: ''
++base_table: node_field_data
++base_field: nid
++display:
++  default:
++    id: default
++    display_title: Default
++    display_plugin: default
++    position: 0
++    display_options:
++      fields:
++        title:
++          id: title
++          table: node_field_data
++          field: title
++          relationship: none
++          group_type: group
++          admin_label: ''
++          entity_type: node
++          entity_field: title
++          plugin_id: field
++          label: ''
++          exclude: false
++          alter:
++            alter_text: false
++            text: ''
++            make_link: false
++            path: ''
++            absolute: false
++            external: false
++            replace_spaces: false
++            path_case: none
++            trim_whitespace: false
++            alt: ''
++            rel: ''
++            link_class: ''
++            prefix: ''
++            suffix: ''
++            target: ''
++            nl2br: false
++            max_length: 0
++            word_boundary: false
++            ellipsis: false
++            more_link: false
++            more_link_text: ''
++            more_link_path: ''
++            strip_tags: false
++            trim: false
++            preserve_tags: ''
++            html: false
++          element_type: ''
++          element_class: ''
++          element_label_type: ''
++          element_label_class: ''
++          element_label_colon: false
++          element_wrapper_type: ''
++          element_wrapper_class: ''
++          element_default_classes: true
++          empty: ''
++          hide_empty: false
++          empty_zero: false
++          hide_alter_empty: true
++          click_sort_column: value
++          type: string
++          settings:
++            link_to_entity: true
++          group_column: value
++          group_columns: {  }
++          group_rows: true
++          delta_limit: 0
++          delta_offset: 0
++          delta_reversed: false
++          delta_first_last: false
++          multi_type: separator
++          separator: ', '
++          field_api_classes: false
++      pager:
++        type: mini
++        options:
++          offset: 0
++          items_per_page: 10
++          total_pages: null
++          id: 0
++          tags:
++            next: Ã¢â‚¬ÂºÃ¢â‚¬Âº
++            previous: Ã¢â‚¬Â¹Ã¢â‚¬Â¹
++          expose:
++            items_per_page: false
++            items_per_page_label: 'Items per page'
++            items_per_page_options: '5, 10, 25, 50'
++            items_per_page_options_all: false
++            items_per_page_options_all_label: '- All -'
++            offset: false
++            offset_label: Offset
++      exposed_form:
++        type: basic
++        options:
++          submit_button: Apply
++          reset_button: false
++          reset_button_label: Reset
++          exposed_sorts_label: 'Sort by'
++          expose_sort_order: true
++          sort_asc_label: Asc
++          sort_desc_label: Desc
++      access:
++        type: perm
++        options:
++          perm: 'access content'
++      cache:
++        type: tag
++        options: {  }
++      empty: {  }
++      sorts:
++        created:
++          id: created
++          table: node_field_data
++          field: created
++          relationship: none
++          group_type: group
++          admin_label: ''
++          entity_type: node
++          entity_field: created
++          plugin_id: date
++          order: DESC
++          expose:
++            label: ''
++            field_identifier: ''
++          exposed: false
++          granularity: second
++      arguments: {  }
++      filters:
++        status:
++          id: status
++          table: node_field_data
++          field: status
++          entity_type: node
++          entity_field: status
++          plugin_id: boolean
++          value: '1'
++          group: 1
++          expose:
++            operator: ''
++            operator_limit_selection: false
++            operator_list: {  }
++        type:
++          id: type
++          table: node_field_data
++          field: type
++          entity_type: node
++          entity_field: type
++          plugin_id: bundle
++          value:
++            article: article
++          expose:
++            operator_limit_selection: false
++            operator_list: {  }
++        title:
++          id: title
++          table: node_field_data
++          field: title
++          relationship: none
++          group_type: group
++          admin_label: ''
++          entity_type: node
++          entity_field: title
++          plugin_id: string
++          operator: '='
++          value: 'Article 0'
++          group: 1
++          exposed: false
++          expose:
++            operator_id: ''
++            label: ''
++            description: ''
++            use_operator: false
++            operator: ''
++            operator_limit_selection: false
++            operator_list: {  }
++            identifier: ''
++            required: false
++            remember: false
++            multiple: false
++            remember_roles:
++              authenticated: authenticated
++            placeholder: ''
++          is_grouped: false
++          group_info:
++            label: ''
++            description: ''
++            identifier: ''
++            optional: true
++            widget: select
++            multiple: false
++            remember: false
++            default_group: All
++            default_group_multiple: {  }
++            group_items: {  }
++      style:
++        type: default
++        options:
++          grouping: {  }
++          row_class: ''
++          default_row_class: true
++          uses_fields: false
++      row:
++        type: fields
++        options:
++          default_field_elements: true
++          inline: {  }
++          separator: ''
++          hide_empty: false
++      query:
++        type: views_query
++        options:
++          query_comment: ''
++          disable_sql_rewrite: false
++          distinct: false
++          replica: false
++          query_tags: {  }
++      relationships: {  }
++      header: {  }
++      footer: {  }
++      display_extenders: {  }
++    cache_metadata:
++      max-age: -1
++      contexts:
++        - 'languages:language_content'
++        - 'languages:language_interface'
++        - url.query_args
++        - 'user.node_grants:view'
++        - user.permissions
++      tags: {  }
++  entity_reference:
++    id: entity_reference
++    display_title: 'Entity Reference'
++    display_plugin: entity_reference
++    position: 1
++    display_options:
++      style:
++        type: entity_reference
++        options:
++          search_fields:
++            title: title
++      row:
++        type: entity_reference
++        options:
++          default_field_elements: true
++          inline: {  }
++          separator: '-'
++          hide_empty: false
++      display_extenders: {  }
++    cache_metadata:
++      max-age: -1
++      contexts:
++        - 'languages:language_content'
++        - 'languages:language_interface'
++        - 'user.node_grants:view'
++        - user.permissions
++      tags: {  }
+diff --git a/core/modules/views/tests/modules/views_test_entity_reference/views_test_entity_reference.info.yml b/core/modules/views/tests/modules/views_test_entity_reference/views_test_entity_reference.info.yml
+new file mode 100644
+index 0000000000000000000000000000000000000000..3bc975ea74781039f3cdb9bfe5395688c89387d3
+--- /dev/null
++++ b/core/modules/views/tests/modules/views_test_entity_reference/views_test_entity_reference.info.yml
+@@ -0,0 +1,8 @@
++name: 'Views Test Entity Reference'
++type: module
++description: 'Provides an entity reference view for use in a selection handler.'
++package: Testing
++version: VERSION
++dependencies:
++  - drupal:views
++  - drupal:field
+diff --git a/core/modules/views/tests/modules/views_test_entity_reference/views_test_entity_reference.module b/core/modules/views/tests/modules/views_test_entity_reference/views_test_entity_reference.module
+new file mode 100644
+index 0000000000000000000000000000000000000000..248a96757537291d4bbe6213f4c0cd6ffe5903d5
+--- /dev/null
++++ b/core/modules/views/tests/modules/views_test_entity_reference/views_test_entity_reference.module
+@@ -0,0 +1,28 @@
++<?php
++
++/**
++ * @file
++ * Views data altering to test use of the entity reference plugin.
++ */
++
++/**
++ * Implements hook_views_data_alter().
++ */
++function views_test_entity_reference_views_data_alter(&$data) {
++  $manager = \Drupal::entityTypeManager();
++  $field_config_storage = $manager->getStorage('field_config');
++  /** @var \Drupal\field\FieldConfigInterface[] $field_configs */
++  $field_configs = $field_config_storage->loadByProperties([
++    'field_type' => 'entity_reference',
++  ]);
++  foreach ($field_configs as $field_config) {
++    $table_name = $field_config->getTargetEntityTypeId() . '__' . $field_config->getName();
++    $column_name = $field_config->getName() . '_target_id';
++    if (
++      isset($data[$table_name][$column_name]['filter']['id'])
++      && in_array($data[$table_name][$column_name]['filter']['id'], ['numeric', 'string'])
++    ) {
++      $data[$table_name][$column_name]['filter']['id'] = 'entity_reference';
++    }
++  }
++}
+diff --git a/core/modules/views/tests/src/Kernel/Handler/FilterEntityReferenceTest.php b/core/modules/views/tests/src/Kernel/Handler/FilterEntityReferenceTest.php
+new file mode 100644
+index 0000000000000000000000000000000000000000..1fbf7cf3a9b46e42dff79927e309e56ec129d2aa
+--- /dev/null
++++ b/core/modules/views/tests/src/Kernel/Handler/FilterEntityReferenceTest.php
+@@ -0,0 +1,256 @@
++<?php
++
++declare(strict_types=1);
++
++namespace Drupal\Tests\views\Kernel\Handler;
++
++use Drupal\Core\Field\FieldStorageDefinitionInterface;
++use Drupal\Tests\field\Traits\EntityReferenceFieldCreationTrait;
++use Drupal\Tests\node\Traits\ContentTypeCreationTrait;
++use Drupal\Tests\node\Traits\NodeCreationTrait;
++use Drupal\Tests\user\Traits\UserCreationTrait;
++use Drupal\Tests\views\Kernel\ViewsKernelTestBase;
++use Drupal\user\UserInterface;
++use Drupal\views\Plugin\views\filter\EntityReference;
++use Drupal\views\Tests\ViewTestData;
++use Drupal\views\Views;
++
++/**
++ * Tests the core Drupal\views\Plugin\views\filter\EntityReference handler.
++ *
++ * @group views
++ */
++class FilterEntityReferenceTest extends ViewsKernelTestBase {
++
++  use ContentTypeCreationTrait;
++  use EntityReferenceFieldCreationTrait;
++  use NodeCreationTrait;
++  use UserCreationTrait;
++
++  /**
++   * {@inheritdoc}
++   */
++  public static $testViews = ['test_filter_entity_reference'];
++
++  /**
++   * {@inheritdoc}
++   */
++  protected static $modules = [
++    'system',
++    'node',
++    'user',
++    'field',
++    'text',
++    'filter',
++    'views',
++    'views_test_entity_reference',
++  ];
++
++  /**
++   * Test host nodes containing the entity reference.
++   *
++   * @var \Drupal\node\NodeInterface[]
++   */
++  protected array $hostNodes;
++
++  /**
++   * Test target nodes referenced by the entity reference.
++   *
++   * @var \Drupal\node\NodeInterface[]
++   */
++  protected array $targetNodes;
++
++  /**
++   * First test user as node author.
++   *
++   * @var \Drupal\user\UserInterface
++   */
++  protected UserInterface $user1;
++
++  /**
++   * Second test user as node author.
++   *
++   * @var \Drupal\user\UserInterface
++   */
++  protected UserInterface $user2;
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function setUp($import_test_views = TRUE): void {
++    parent::setUp(FALSE);
++    $this->installEntitySchema('node');
++    $this->installEntitySchema('user');
++    $this->installConfig(['node', 'user', 'filter']);
++
++    ViewTestData::createTestViews(static::class, ['views_test_config']);
++    // Create two node types.
++    $this->createContentType(['type' => 'page']);
++    $this->createContentType(['type' => 'article']);
++
++    // Add an entity reference field to the page type referencing the article
++    // type.
++    $selection_handler_settings = [
++      'target_bundles' => [
++        'article' => 'article',
++      ],
++    ];
++    $this->createEntityReferenceField('node', 'page', 'field_test', 'Test reference', 'node', $selection_handler = 'default', $selection_handler_settings, FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED);
++
++    // Create user 1.
++    $this->user1 = $this->createUser();
++    $this->user2 = $this->createUser();
++
++    // Create target nodes to be referenced.
++    foreach (range(0, 5) as $count) {
++      $this->targetNodes[$count] = $this->createNode([
++        'type' => 'article',
++        'title' => 'Article ' . $count,
++        'status' => 1,
++        'uid' => $this->user1,
++      ]);
++    }
++
++    // Create a page referencing Article 0 and Article 1.
++    $this->hostNodes[0] = $this->createNode([
++      'type' => 'page',
++      'title' => 'Page 0',
++      'status' => 1,
++      'created' => time(),
++      'field_test' => [
++        $this->targetNodes[0]->id(),
++        $this->targetNodes[1]->id(),
++      ],
++      'uid' => $this->user2,
++    ]);
++
++    // Create a page referencing Article 1, Article 2, and Article 3.
++    $this->hostNodes[1] = $this->createNode([
++      'type' => 'page',
++      'title' => 'Page 1',
++      'status' => 1,
++      'created' => time() - 100,
++      'field_test' => [
++        $this->targetNodes[1]->id(),
++        $this->targetNodes[2]->id(),
++        $this->targetNodes[3]->id(),
++      ],
++      'uid' => $this->user2,
++    ]);
++
++    // Create a page referencing nothing.
++    $this->hostNodes[2] = $this->createNode([
++      'type' => 'page',
++      'title' => 'Page 2',
++      'status' => 1,
++      'created' => time() - 200,
++      'uid' => $this->user2,
++    ]);
++  }
++
++  /**
++   * Tests that results are successfully filtered by the select list widget.
++   */
++  public function testViewEntityReferenceAsSelectList(): void {
++    $view = Views::getView('test_filter_entity_reference');
++    $view->setDisplay();
++    $view->preExecute([]);
++    $view->setExposedInput([
++      'field_test_target_id' => [$this->targetNodes[0]->id()],
++    ]);
++    $this->executeView($view);
++
++    // Expect to have only Page 0, with Article 0 referenced.
++    $expected = [
++      ['title' => 'Page 0'],
++    ];
++    $this->assertIdenticalResultset($view, $expected, [
++      'title' => 'title',
++    ]);
++
++    // Change to both Article 0 and Article 3.
++    $view = Views::getView('test_filter_entity_reference');
++    $view->setDisplay();
++    $view->setExposedInput([
++      'field_test_target_id' => [
++        $this->targetNodes[0]->id(),
++        $this->targetNodes[3]->id(),
++      ],
++    ]);
++    $this->executeView($view);
++
++    // Expect to have Page 0 and 1, with Article 0 and 3 referenced.
++    $expected = [
++      ['title' => 'Page 0'],
++      ['title' => 'Page 1'],
++    ];
++    $this->assertIdenticalResultset($view, $expected, [
++      'title' => 'title',
++    ]);
++  }
++
++  /**
++   * Tests that results are successfully filtered by the autocomplete widget.
++   */
++  public function testViewEntityReferenceAsAutocomplete(): void {
++    // Change the widget to autocomplete.
++    $view = Views::getView('test_filter_entity_reference');
++    $view->setDisplay();
++    $filters = $view->displayHandlers->get('default')->getOption('filters');
++    $filters['field_test_target_id']['widget'] = EntityReference::WIDGET_AUTOCOMPLETE;
++    $view->displayHandlers->get('default')->overrideOption('filters', $filters);
++    $view->setExposedInput([
++      'field_test_target_id' => [
++        ['target_id' => $this->targetNodes[0]->id()],
++        ['target_id' => $this->targetNodes[3]->id()],
++      ],
++    ]);
++    $this->executeView($view);
++
++    // Expect to have Page 0 and 1, with Article 0 and 3 referenced.
++    $expected = [
++      ['title' => 'Page 0'],
++      ['title' => 'Page 1'],
++    ];
++    $this->assertIdenticalResultset($view, $expected, [
++      'title' => 'title',
++    ]);
++  }
++
++  /**
++   * Tests that content dependencies are added to the view.
++   */
++  public function testViewContentDependencies(): void {
++    $view = Views::getView('test_filter_entity_reference');
++    $value = [
++      $this->targetNodes[0]->id(),
++      $this->targetNodes[3]->id(),
++    ];
++    $view->setHandlerOption(
++      'default',
++      'filter',
++      'field_test_target_id',
++      'value',
++      $value
++    );
++
++    // Dependencies are sorted.
++    $content_dependencies = [
++      $this->targetNodes[0]->getConfigDependencyName(),
++      $this->targetNodes[3]->getConfigDependencyName(),
++    ];
++    sort($content_dependencies);
++
++    $this->assertEquals([
++      'config' => [
++        'node.type.page',
++      ],
++      'content' => $content_dependencies,
++      'module' => [
++        'node',
++        'user',
++      ],
++    ], $view->getDependencies());
++  }
++
++}
+diff --git a/core/modules/views_ui/tests/src/Functional/FilterEntityReferenceWebTest.php b/core/modules/views_ui/tests/src/Functional/FilterEntityReferenceWebTest.php
+new file mode 100644
+index 0000000000000000000000000000000000000000..74cadc64d628f51169ed6f4fb2ab825badf7f12c
+--- /dev/null
++++ b/core/modules/views_ui/tests/src/Functional/FilterEntityReferenceWebTest.php
+@@ -0,0 +1,138 @@
++<?php
++
++declare(strict_types=1);
++
++namespace Drupal\Tests\views_ui\Functional;
++
++use Drupal\Component\Render\FormattableMarkup;
++use Drupal\Core\Entity\EntityInterface;
++use Drupal\Tests\views_ui\Traits\FilterEntityReferenceTrait;
++
++/**
++ * Tests the entity reference filter UI.
++ *
++ * @group views_ui
++ * @see \Drupal\views\Plugin\views\filter\EntityReference
++ */
++class FilterEntityReferenceWebTest extends UITestBase {
++
++  use FilterEntityReferenceTrait;
++
++  /**
++   * {@inheritdoc}
++   */
++  protected $defaultTheme = 'stark';
++
++  /**
++   * {@inheritdoc}
++   */
++  public static $testViews = ['test_filter_entity_reference'];
++
++  /**
++   * {@inheritdoc}
++   */
++  protected static $modules = [
++    'node',
++    'views_ui',
++    'block',
++    'taxonomy',
++    'views_test_entity_reference',
++  ];
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function setUp($import_test_views = TRUE, $modules = []): void {
++    parent::setUp($import_test_views);
++    $this->setUpEntityTypes();
++  }
++
++  /**
++   * Tests the filter UI.
++   */
++  public function testFilterUi(): void {
++    $this->drupalGet('admin/structure/views/nojs/handler/test_filter_entity_reference/default/filter/field_test_target_id');
++
++    $options = $this->getUiOptions();
++    // Should be sorted by title ASC.
++    uasort($this->targetEntities, function (EntityInterface $a, EntityInterface $b) {
++      return strnatcasecmp($a->getTitle(), $b->getTitle());
++    });
++    $i = 0;
++    foreach ($this->targetEntities as $id => $entity) {
++      $message = (string) new FormattableMarkup('Expected target entity label found for option :option', [':option' => $i]);
++      $this->assertEquals($options[$i]['label'], $entity->label(), $message);
++      $i++;
++    }
++
++    // Change the sort field and direction.
++    $this->drupalGet('admin/structure/views/nojs/handler-extra/test_filter_entity_reference/default/filter/field_test_target_id');
++    $edit = [
++      'options[reference_default:node][sort][field]' => 'nid',
++      'options[reference_default:node][sort][direction]' => 'DESC',
++    ];
++    $this->submitForm($edit, 'Apply');
++
++    $this->drupalGet('admin/structure/views/nojs/handler/test_filter_entity_reference/default/filter/field_test_target_id');
++    // Items should now be in reverse id order.
++    krsort($this->targetEntities);
++    $options = $this->getUiOptions();
++    $i = 0;
++    foreach ($this->targetEntities as $entity) {
++      $message = (string) new FormattableMarkup('Expected target entity label found for option :option', [':option' => $i]);
++      $this->assertEquals($options[$i]['label'], $entity->label(), $message);
++      $i++;
++    }
++
++    // Change bundle types.
++    $this->drupalGet('admin/structure/views/nojs/handler-extra/test_filter_entity_reference/default/filter/field_test_target_id');
++    $edit = [
++      "options[reference_default:node][target_bundles][{$this->hostBundle->id()}]" => TRUE,
++      "options[reference_default:node][target_bundles][{$this->targetBundle->id()}]" => TRUE,
++    ];
++    $this->submitForm($edit, 'Apply');
++
++    $this->drupalGet('admin/structure/views/nojs/handler/test_filter_entity_reference/default/filter/field_test_target_id');
++    $options = $this->getUiOptions();
++    $i = 0;
++    foreach ($this->hostEntities + $this->targetEntities as $entity) {
++      $message = (string) new FormattableMarkup('Expected target entity label found for option :option', [':option' => $i]);
++      $this->assertEquals($options[$i]['label'], $entity->label(), $message);
++      $i++;
++    }
++  }
++
++  /**
++   * Tests the filter UI for config reference.
++   */
++  public function testFilterConfigUi(): void {
++    $this->drupalGet('admin/structure/views/nojs/handler/test_filter_entity_reference/default/filter/field_test_config_target_id');
++
++    $options = $this->getUiOptions();
++    // We should expect the content types defined as options.
++    $this->assertEquals(['article', 'page'], array_column($options, 'label'));
++  }
++
++  /**
++   * Helper method to parse options from the UI.
++   *
++   * @return array
++   *   Array of keyed arrays containing the id and label of each option.
++   */
++  protected function getUiOptions(): array {
++    /** @var \Behat\Mink\Element\TraversableElement[] $result */
++    $result = $this->xpath('//select[@name="options[value][]"]/option');
++    $this->assertNotEmpty($result, 'Options found');
++
++    $options = [];
++    foreach ($result as $option) {
++      $options[] = [
++        'id' => (int) $option->getValue(),
++        'label' => $option->getText(),
++      ];
++    }
++
++    return $options;
++  }
++
++}
+diff --git a/core/modules/views_ui/tests/src/FunctionalJavascript/FilterEntityReferenceTest.php b/core/modules/views_ui/tests/src/FunctionalJavascript/FilterEntityReferenceTest.php
+new file mode 100644
+index 0000000000000000000000000000000000000000..b0621fccd0f1f6502a93808ae4f5bbc687150d44
+--- /dev/null
++++ b/core/modules/views_ui/tests/src/FunctionalJavascript/FilterEntityReferenceTest.php
+@@ -0,0 +1,252 @@
++<?php
++
++declare(strict_types=1);
++
++namespace Drupal\Tests\views_ui\FunctionalJavascript;
++
++use Drupal\Core\Url;
++use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
++use Drupal\Tests\views_ui\Traits\FilterEntityReferenceTrait;
++
++/**
++ * Tests views creation wizard.
++ *
++ * @group views_ui
++ * @see \Drupal\views\Plugin\views\filter\EntityReference
++ */
++class FilterEntityReferenceTest extends WebDriverTestBase {
++
++  use FilterEntityReferenceTrait;
++
++  /**
++   * {@inheritdoc}
++   */
++  protected static $modules = [
++    'node',
++    'views',
++    'views_ui',
++    'views_test_entity_reference',
++  ];
++
++  /**
++   * {@inheritdoc}
++   */
++  protected $defaultTheme = 'stark';
++
++  /**
++   * Views used by this test.
++   *
++   * @var array
++   */
++  public static $testViews = ['test_entity_reference'];
++
++  /**
++   * {@inheritdoc}
++   */
++  public function setUp(): void {
++    parent::setUp();
++
++    $admin_user = $this->drupalCreateUser([
++      'administer views',
++    ]);
++    $this->drupalLogin($admin_user);
++
++    $this->setUpEntityTypes();
++  }
++
++  /**
++   * Tests end to end creation of a Content Entity Reference filter.
++   */
++  public function testAddEntityReferenceFieldWithDefaultSelectionHandler(): void {
++    $this->drupalGet('admin/structure/views/view/content');
++    $assert = $this->assertSession();
++    $page = $this->getSession()->getPage();
++
++    // Open the dialog.
++    $page->clickLink('views-add-filter');
++
++    // Wait for the popup to open and the search field to be available.
++    $assert->waitForField('override[controls][options_search]');
++
++    // Test that the both entity_reference and numeric options are visible.
++    $this->assertTrue($page->findField('name[node__field_test.field_test_target_id]')
++      ->isVisible());
++    $this->assertTrue($page->findField('name[node__field_test.field_test_target_id]')
++      ->isVisible());
++    $page->findField('name[node__field_test.field_test_target_id]')
++      ->click();
++    $this->assertTrue($page->find('css', 'button.button.button--primary.form-submit.ui-button')
++      ->isVisible());
++    $page->find('css', 'button.button.button--primary.form-submit.ui-button')
++      ->click();
++
++    // Wait for the selection handler to show up.
++    $assert->waitForField('options[sub_handler]');
++    $page->selectFieldOption('options[sub_handler]', 'default:node');
++
++    // Check that that default handler target bundles are available.
++    $this->assertTrue($page->findField('options[reference_default:node][target_bundles][article]')
++      ->isVisible());
++    $this->assertTrue($page->findField('options[reference_default:node][target_bundles][page]')
++      ->isVisible());
++    $this->assertTrue($page->findField('options[widget]')->isVisible());
++
++    // Ensure that disabled form elements from selection handler do not show up
++    // @see \Drupal\views\Plugin\views\filter\EntityReference method
++    // buildExtraOptionsForm.
++    $this->assertFalse($page->hasField('options[reference_default:node][target_bundles_update]'));
++    $this->assertFalse($page->hasField('options[reference_default:node][auto_create]'));
++    $this->assertFalse($page->hasField('options[reference_default:node][auto_create_bundle]'));
++
++    // Choose the default handler using the select widget with article type
++    // checked.
++    $page->checkField('options[reference_default:node][target_bundles][article]');
++    $page->selectFieldOption('options[widget]', 'select');
++    $this->assertSame($page->findField('options[widget]')
++      ->getValue(), 'select');
++    $page->find('xpath', "//*[contains(text(), 'Apply and continue')]")
++      ->press();
++
++    // Test the exposed filter options show up correctly.
++    // Test the exposed filter options show up correctly.
++    $assert->waitForField('options[expose_button][checkbox][checkbox]');
++    $page->findField('options[expose_button][checkbox][checkbox]')->click();
++    $this->assertTrue($page->hasCheckedField('options[expose_button][checkbox][checkbox]'));
++
++    // Check the exposed filters multiple option.
++    $assert->waitForField('options[expose][multiple]');
++    $page->findField('options[expose][multiple]')->click();
++    $this->assertTrue($page->hasCheckedField('options[expose][multiple]'));
++    $page->find('css', '.ui-dialog .ui-dialog-buttonpane')->pressButton('Apply');
++    $assert->waitForElementRemoved('css', '.ui-dialog');
++
++    // Wait for the Views Preview to show up with the new reference field.
++    $assert->waitForField('field_test_config_target_id[]');
++    $this->assertTrue($page->findField('field_test_target_id[]')
++      ->isVisible());
++    $this->assertTrue($page->find('css', 'select[name="field_test_target_id[]"]')
++      ->hasAttribute('multiple'));
++
++    // Opening the settings form and change the handler to use an Entity
++    // Reference view.
++    // @see views.view.test_entity_reference.yml
++    $base_url = Url::fromRoute('entity.view.collection')->toString();
++    $url = $base_url . '/nojs/handler-extra/content/page_1/filter/field_test_target_id';
++    $extra_settings_selector = 'a[href="' . $url . '"]';
++    $element = $this->assertSession()->waitForElementVisible('css', $extra_settings_selector);
++    $this->assertNotNull($element);
++    $element->click();
++    $assert->waitForField('options[sub_handler]');
++    $page->selectFieldOption('options[sub_handler]', 'views');
++    $page->selectFieldOption('options[reference_views][view][view_and_display]', 'test_entity_reference:entity_reference');
++    $page->find('xpath', "//*[contains(text(), 'Apply')]")
++      ->press();
++    $assert->assertWaitOnAjaxRequest();
++
++    // The Views Reference filter has a title Filter to a single result, so
++    // ensure only that result is available as an option.
++    $assert->waitForElementRemoved('css', '.ui-dialog');
++
++    $this->assertCount(1, $page->findAll('css', 'select[name="field_test_target_id[]"] option'));
++
++    // Change to an autocomplete filter.
++    // Opening the settings form and change the handler to use an Entity
++    // Reference view.
++    // @see views.view.test_entity_reference.yml
++    $page->find('css', $extra_settings_selector)
++      ->click();
++    $assert->waitForElementVisible('named', [
++      'radio',
++      'options[widget]',
++    ]);
++    $page->selectFieldOption('options[widget]', 'autocomplete');
++    $this->assertSame($page->findField('options[widget]')
++      ->getValue(), 'autocomplete');
++    $this->getSession()
++      ->getPage()
++      ->find('xpath', "//*[contains(text(), 'Apply')]")
++      ->press();
++
++    // Check that it is now an autocomplete.
++    $assert->waitForField('field_test_target_id');
++    $page = $this->getSession()->getPage();
++    $this->assertTrue($page->findField('field_test_target_id')
++      ->isVisible());
++    $this->assertTrue($page->find('css', 'input[name="field_test_target_id"]')
++      ->hasAttribute('data-autocomplete-path'));
++  }
++
++  /**
++   * Tests end to end creation of a Config Entity Reference filter.
++   */
++  public function testAddConfigEntityReferenceFieldWithDefaultSelectionHandler(): void {
++    $this->drupalGet('admin/structure/views/view/content');
++    $assert = $this->assertSession();
++    $page = $this->getSession()->getPage();
++
++    // Open the 'Add filter dialog'.
++    $page->clickLink('views-add-filter');
++
++    // Wait for the popup to open and the search field to be available.
++    $assert->waitForField('override[controls][group]');
++
++    // Test that the entity_reference option is visible.
++    $this->assertTrue($page->findField('name[node__field_test_config.field_test_config_target_id]')->isVisible());
++    $page->findField('name[node__field_test_config.field_test_config_target_id]')->click();
++    $submitButton = $page->find('css', 'button.button.button--primary.form-submit.ui-button');
++    $this->assertTrue($submitButton->isVisible());
++    $submitButton->click();
++
++    // Wait for the selection handler to show up.
++    $assert->waitForField('options[sub_handler]');
++
++    $page->selectFieldOption('options[sub_handler]', 'default:node_type');
++
++    // Choose the default handler using the select widget with article type
++    // checked.
++    $page->selectFieldOption('options[widget]', 'select');
++    $this->assertSame('select', $page->findField('options[widget]')->getValue());
++    $page->find('xpath', "//*[contains(text(), 'Apply and continue')]")->press();
++
++    // Test the exposed filter options show up correctly.
++    $assert->waitForField('options[expose_button][checkbox][checkbox]');
++    $page->findField('options[expose_button][checkbox][checkbox]')->click();
++    $this->assertTrue($page->hasCheckedField('options[expose_button][checkbox][checkbox]'));
++
++    // Check the exposed filters multiple option.
++    $assert->waitForField('options[expose][multiple]');
++    $page->findField('options[expose][multiple]')->click();
++    $this->assertTrue($page->hasCheckedField('options[expose][multiple]'));
++    $page->find('css', '.ui-dialog .ui-dialog-buttonpane')->pressButton('Apply');
++    $assert->waitForElementRemoved('css', '.ui-dialog');
++
++    // Wait for the Views Preview to show up with the reference field.
++    $assert->waitForField('field_test_config_target_id[]');
++    $this->assertTrue($page->findField('field_test_config_target_id[]')->isVisible());
++    $this->assertTrue($page->find('css', 'select[name="field_test_config_target_id[]"]')->hasAttribute('multiple'));
++
++    // Check references config options.
++    $options = $page->findAll('css', 'select[name="field_test_config_target_id[]"] option');
++    $this->assertCount(2, $options);
++    $this->assertSame('article', $options[0]->getValue());
++    $this->assertSame('page', $options[1]->getValue());
++
++    $base_url = Url::fromRoute('entity.view.collection')->toString();
++    $url = $base_url . '/nojs/handler-extra/content/page_1/filter/field_test_config_target_id';
++    $extra_settings_selector = 'a[href="' . $url . '"]';
++
++    // Change to an autocomplete filter.
++    $page->find('css', $extra_settings_selector)->click();
++    $assert->waitForField('options[widget]');
++    $page->selectFieldOption('options[widget]', 'autocomplete');
++    $this->assertSame('autocomplete', $page->findField('options[widget]')->getValue());
++    $page->find('css', '.ui-dialog .ui-dialog-buttonpane')->pressButton('Apply');
++    $this->assertSession()->assertWaitOnAjaxRequest();
++
++    // Check that it is now an autocomplete input.
++    $assert->waitForField('field_test_config_target_id');
++    $this->assertTrue($page->findField('field_test_config_target_id')->isVisible());
++    $this->assertTrue($page->find('css', 'input[name="field_test_config_target_id"]')->hasAttribute('data-autocomplete-path'));
++  }
++
++}
+diff --git a/core/modules/views_ui/tests/src/Traits/FilterEntityReferenceTrait.php b/core/modules/views_ui/tests/src/Traits/FilterEntityReferenceTrait.php
+new file mode 100644
+index 0000000000000000000000000000000000000000..83e58fbaf49b5b8a92ee0c95447ff1ac17e63eae
+--- /dev/null
++++ b/core/modules/views_ui/tests/src/Traits/FilterEntityReferenceTrait.php
+@@ -0,0 +1,135 @@
++<?php
++
++declare(strict_types=1);
++
++namespace Drupal\Tests\views_ui\Traits;
++
++use Drupal\Core\Field\FieldStorageDefinitionInterface;
++use Drupal\field\Entity\FieldConfig;
++use Drupal\field\Entity\FieldStorageConfig;
++use Drupal\node\NodeTypeInterface;
++use Drupal\Tests\node\Traits\ContentTypeCreationTrait;
++use Drupal\Tests\node\Traits\NodeCreationTrait;
++
++/**
++ * Sets up the entity types and relationships for entity reference tests.
++ *
++ * This trait is meant to be used only by test classes.
++ */
++trait FilterEntityReferenceTrait {
++
++  use ContentTypeCreationTrait {
++    createContentType as drupalCreateContentType;
++  }
++  use NodeCreationTrait {
++    getNodeByTitle as drupalGetNodeByTitle;
++    createNode as drupalCreateNode;
++  }
++
++  /**
++   * The host content type to add the entity reference field to.
++   *
++   * @var \Drupal\node\NodeTypeInterface
++   */
++  protected NodeTypeInterface $hostBundle;
++
++  /**
++   * The content type to be referenced by the host content type.
++   *
++   * @var \Drupal\node\NodeTypeInterface
++   */
++  protected NodeTypeInterface $targetBundle;
++
++  /**
++   * Entities to be used as reference targets.
++   *
++   * @var \Drupal\node\NodeInterface[]
++   */
++  protected array $targetEntities;
++
++  /**
++   * Host entities which contain the reference fields to the target entities.
++   *
++   * @var \Drupal\node\NodeInterface[]
++   */
++  protected array $hostEntities;
++
++  /**
++   * Sets up the entity types and relationships.
++   */
++  protected function setUpEntityTypes(): void {
++    // Create an entity type, and a referenceable type. Since these are coded
++    // into the test view, they are not randomly named.
++    $this->hostBundle = $this->drupalCreateContentType(['type' => 'page']);
++    $this->targetBundle = $this->drupalCreateContentType(['type' => 'article']);
++
++    $field_storage = FieldStorageConfig::create([
++      'entity_type' => 'node',
++      'field_name' => 'field_test',
++      'type' => 'entity_reference',
++      'settings' => [
++        'target_type' => 'node',
++      ],
++      'cardinality' => FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED,
++    ]);
++    $field_storage->save();
++
++    $field = FieldConfig::create([
++      'entity_type' => 'node',
++      'field_name' => 'field_test',
++      'bundle' => $this->hostBundle->id(),
++      'settings' => [
++        'handler' => 'default',
++        'handler_settings' => [
++          'target_bundles' => [
++            $this->targetBundle->id() => $this->targetBundle->label(),
++          ],
++        ],
++      ],
++    ]);
++    $field->save();
++
++    // Create 10 nodes for use as target entities.
++    for ($i = 0; $i < 10; $i++) {
++      $node = $this->drupalCreateNode([
++        'type' => $this->targetBundle->id(),
++        'title' => ucfirst($this->targetBundle->id()) . ' ' . $i,
++      ]);
++      $this->targetEntities[$node->id()] = $node;
++    }
++
++    // Create 1 host entity to reference target entities from.
++    $node = $this->drupalCreateNode([
++      'type' => $this->hostBundle->id(),
++      'title' => ucfirst($this->hostBundle->id()) . ' 0',
++    ]);
++    $this->hostEntities = [
++      $node->id() => $node,
++    ];
++
++    $field_storage = FieldStorageConfig::create([
++      'entity_type' => 'node',
++      'field_name' => 'field_test_config',
++      'type' => 'entity_reference',
++      'settings' => [
++        'target_type' => 'node_type',
++      ],
++      'cardinality' => FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED,
++    ]);
++    $field_storage->save();
++
++    $field = FieldConfig::create([
++      'entity_type' => 'node',
++      'field_name' => 'field_test_config',
++      'bundle' => $this->hostBundle->id(),
++      'settings' => [
++        'handler' => 'default',
++        'handler_settings' => [
++          'sort' => ['field' => '_none'],
++        ],
++      ],
++    ]);
++    $field->save();
++  }
++
++}

@@ -1,11 +1,21 @@
 langcode: en
 status: true
 dependencies:
+  module:
+    - farm_role
+    - farm_settings
   enforced:
     module:
       - farm_role_account_admin
-  module:
-    - farm_role
+third_party_settings:
+  farm_role:
+    access:
+      config: true
+      entity:
+        'view all': false
+        'create all': false
+        'update all': false
+        'delete all': false
 id: farm_account_admin
 label: 'Account Admin'
 weight: 1
@@ -13,12 +23,3 @@ is_admin: false
 permissions:
   - 'administer farm settings'
   - 'administer users'
-third_party_settings:
-  farm_role:
-    access:
-      config: true
-      entity:
-        view all: false
-        create all: false
-        update all: false
-        delete all: false

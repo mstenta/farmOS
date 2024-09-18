@@ -7,15 +7,17 @@ dependencies:
 id: farm_import_csv
 label: 'farmOS CSV Importers'
 description: 'Common configuration for farmOS CSV importers.'
+source_type: null
+module: null
 shared_configuration:
   source:
     plugin: csv_file
-    path: tmp://
+    path: 'tmp://'
   destination:
     validate: true
   migration_dependencies: {  }
   third_party_settings:
     farm_import_csv:
-      columns: []
+      columns: {  }
       access:
-        permissions: []
+        permissions: {  }

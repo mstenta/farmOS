@@ -675,6 +675,7 @@ display:
         type: full
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 50
           total_pages: null
           id: 0
@@ -1016,9 +1017,9 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: views
+          sub_handler: views
           widget: select
-          handler_settings:
+          sub_handler_settings:
             view:
               view_name: farm_people
               display_name: entity_reference
@@ -1670,7 +1671,7 @@ display:
           admin_label: ''
           entity_type: asset
           entity_field: owner
-          plugin_id: numeric
+          plugin_id: entity_target_id
           default_action: 'not found'
           exception:
             value: all
@@ -1681,7 +1682,6 @@ display:
           default_argument_type: fixed
           default_argument_options:
             argument: ''
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -1703,6 +1703,7 @@ display:
             roles: {  }
           break_phrase: false
           not: false
+          target_entity_type_id: user
       defaults:
         title: false
         arguments: false
@@ -1744,7 +1745,7 @@ display:
           admin_label: ''
           entity_type: asset
           entity_field: parent
-          plugin_id: numeric
+          plugin_id: entity_target_id
           default_action: 'not found'
           exception:
             value: all
@@ -1756,7 +1757,6 @@ display:
           default_argument_options:
             index: 1
             use_alias: false
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -1777,6 +1777,7 @@ display:
             multiple: 0
           break_phrase: false
           not: false
+          target_entity_type_id: asset
       defaults:
         title: false
         use_ajax: false
@@ -1831,7 +1832,6 @@ display:
           default_argument_type: fixed
           default_argument_options:
             argument: ''
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -1897,7 +1897,6 @@ display:
           default_argument_type: fixed
           default_argument_options:
             argument: ''
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -1937,7 +1936,6 @@ display:
           default_argument_type: fixed
           default_argument_options:
             argument: all
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -2005,7 +2003,6 @@ display:
           default_argument_type: fixed
           default_argument_options:
             argument: ''
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true

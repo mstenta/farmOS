@@ -3,7 +3,7 @@
 namespace Drupal\farm_map\Element;
 
 use Drupal\Component\Utility\Html;
-use Drupal\Core\Render\Element\RenderElement;
+use Drupal\Core\Render\Element\RenderElementBase;
 use Drupal\Core\Url;
 use Drupal\farm_map\Event\MapRenderEvent;
 
@@ -12,7 +12,7 @@ use Drupal\farm_map\Event\MapRenderEvent;
  *
  * @RenderElement("farm_map")
  */
-class FarmMap extends RenderElement {
+class FarmMap extends RenderElementBase {
 
   /**
    * {@inheritdoc}

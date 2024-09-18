@@ -3,15 +3,16 @@ status: true
 dependencies:
   module:
     - farm_location
+    - farm_log
   enforced:
     module:
       - farm_seeding
+third_party_settings:
+  farm_location:
+    is_movement: true
 id: seeding
 label: Seeding
 description: ''
 name_pattern: 'Seeding log [log:id]'
 workflow: farm_log_workflow
 new_revision: true
-third_party_settings:
-  farm_location:
-    is_movement: true

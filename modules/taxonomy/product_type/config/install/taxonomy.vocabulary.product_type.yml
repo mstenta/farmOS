@@ -4,7 +4,8 @@ dependencies:
   enforced:
     module:
       - farm_product_type
-name: Product type
+name: 'Product type'
 vid: product_type
 description: 'A list of product types.'
 weight: 0
+new_revision: false

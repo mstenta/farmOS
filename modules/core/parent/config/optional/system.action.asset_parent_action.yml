@@ -3,11 +3,12 @@ status: true
 dependencies:
   module:
     - asset
+    - farm_parent
   enforced:
     module:
       - farm_parent
 id: asset_parent_action
 label: 'Assign asset parent'
 type: asset
-plugin: 'asset_parent_action'
+plugin: asset_parent_action
 configuration: {  }

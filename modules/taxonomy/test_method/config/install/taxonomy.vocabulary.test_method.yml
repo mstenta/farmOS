@@ -4,7 +4,8 @@ dependencies:
   enforced:
     module:
       - farm_test_method
-name: Test method
+name: 'Test method'
 vid: test_method
 description: 'A list of test methods.'
 weight: 0
+new_revision: false

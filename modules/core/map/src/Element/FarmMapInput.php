@@ -3,7 +3,7 @@
 namespace Drupal\farm_map\Element;
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Render\Element\FormElement;
+use Drupal\Core\Render\Element\FormElementBase;
 use Drupal\geofield\GeoPHP\GeoPHPWrapper;
 
 /**
@@ -11,7 +11,7 @@ use Drupal\geofield\GeoPHP\GeoPHPWrapper;
  *
  * @FormElement("farm_map_input")
  */
-class FarmMapInput extends FormElement {
+class FarmMapInput extends FormElementBase {
 
   /**
    * {@inheritdoc}

@@ -55,6 +55,7 @@ class EntryPointTest extends FarmBrowserTestBase {
     $response = $this->request('GET', Url::fromUri('base://api'), $request_options);
     $document = Json::decode((string) $response->getBody());
     $expected_cache_contexts = [
+      'url.query_args',
       'url.site',
       'user.roles:authenticated',
     ];

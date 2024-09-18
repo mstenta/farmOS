@@ -7,7 +7,7 @@ use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\Sql\SqlContentEntityStorage;
-use Drupal\taxonomy\Plugin\views\argument\Taxonomy;
+use Drupal\views\Plugin\views\argument\NumericArgument;
 use Drupal\views\Views;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -18,7 +18,14 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @ViewsArgument("entity_taxonomy_term_reference")
  */
-class EntityTaxonomyTermReferenceArgument extends Taxonomy {
+class EntityTaxonomyTermReferenceArgument extends NumericArgument {
+
+  /**
+   * The taxonomy term storage.
+   *
+   * @var \Drupal\taxonomy\TermStorageInterface
+   */
+  protected $termStorage;
 
   /**
    * The entity type manager service.
@@ -68,7 +75,8 @@ class EntityTaxonomyTermReferenceArgument extends Taxonomy {
     EntityTypeBundleInfoInterface $entity_bundle_info,
     EntityFieldManagerInterface $entity_field_manager,
   ) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition, $term_storage);
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->termStorage = $term_storage;
     $this->entityTypeManager = $entity_type_manager;
     $this->entityTypeBundleInfo = $entity_bundle_info;
     $this->entityFieldManager = $entity_field_manager;
