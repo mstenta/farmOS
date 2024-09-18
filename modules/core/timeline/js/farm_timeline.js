@@ -164,6 +164,8 @@
         label: row.label,
         headerHtml: row.link,
         expanded: row.expanded ?? false,
+        draggable: row.draggable ?? false,
+        resizable: row.resizable ?? false,
         // Only provide a children array if there are children
         // otherwise an expanded icon will appear for rows without children.
         children: row.children.length ? row.children : null,
@@ -178,7 +180,8 @@
         to: task.end,
         label: task.label ?? '',
         editUrl: task.edit_url,
-        enableDragging: task.enable_dragging,
+        draggable: task.draggable ?? false,
+        resizable: task.resizable ?? false,
         meta: task?.meta,
         classes: task.classes,
       };

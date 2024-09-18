@@ -42,8 +42,13 @@ class TimelineTaskDefinition extends ComplexDataDefinitionBase {
         ->setLabel($this->t('End Time'))
         ->setRequired(TRUE);
 
-      $this->propertyDefinitions['enable_dragging'] = DataDefinition::create('boolean')
-        ->setLabel($this->t('Enable dragging'));
+      $this->propertyDefinitions['draggable'] = DataDefinition::create('boolean')
+        ->setLabel($this->t('Enable dragging'))
+        ->addConstraint('NotNull');
+
+      $this->propertyDefinitions['resizable'] = DataDefinition::create('boolean')
+        ->setLabel($this->t('Enable resizing'))
+        ->addConstraint('NotNull');
 
       $this->propertyDefinitions['meta'] = DataDefinition::create('any')
         ->setLabel($this->t('Meta'));

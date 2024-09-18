@@ -27,7 +27,8 @@ class TimelineRow extends Map implements ComplexDataInterface {
 
     // Set default values.
     $values += [
-      'enable_dragging' => FALSE,
+      'draggable' => FALSE,
+      'resizable' => FALSE,
       'expanded' => FALSE,
     ];
     parent::setValue($values);

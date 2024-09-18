@@ -32,7 +32,8 @@ class TimelineTask extends Map implements ComplexDataInterface {
 
     // Set default values.
     $values += [
-      'enable_dragging' => FALSE,
+      'draggable' => FALSE,
+      'resizable' => FALSE,
     ];
     parent::setValue($values);
   }

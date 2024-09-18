@@ -31,8 +31,12 @@ class TimelineRowDefinition extends ComplexDataDefinitionBase {
       $this->propertyDefinitions['link'] = DataDefinition::create('uri')
         ->setLabel($this->t('Link'));
 
-      $this->propertyDefinitions['enable_dragging'] = DataDefinition::create('boolean')
+      $this->propertyDefinitions['draggable'] = DataDefinition::create('boolean')
         ->setLabel($this->t('Enable dragging'))
+        ->addConstraint('NotNull');
+
+      $this->propertyDefinitions['resizable'] = DataDefinition::create('boolean')
+        ->setLabel($this->t('Enable resizing'))
         ->addConstraint('NotNull');
 
       $this->propertyDefinitions['classes'] = ListDataDefinition::create('string')
