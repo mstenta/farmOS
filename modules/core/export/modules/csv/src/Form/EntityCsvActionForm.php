@@ -272,6 +272,14 @@ class EntityCsvActionForm extends ConfirmFormBase implements BaseFormIdInterface
       '#title' => $this->t('Advanced'),
     ];
 
+    // Export unprocessed text.
+    $form['advanced']['processed_text'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Export processed text'),
+      '#description' => $this->t('Some long text fields can be passed through processing filters to remove disallowed HTML tags, convert line breaks into HTML, etc. This processing is disabled by default in CSV exports so that the raw user input is exported. Enable processing if you plan to embed CSV data directly in HTML documents.'),
+      '#default_value' => FALSE,
+    ];
+
     // Sanitize against CSV formula injection.
     $form['advanced']['sanitize'] = [
       '#type' => 'checkbox',
@@ -306,8 +314,9 @@ class EntityCsvActionForm extends ConfirmFormBase implements BaseFormIdInterface
       // Define the columns to include.
       'include_columns' => $form_state->getValue(['columns', 'include']),
 
-      // Return processed text from long text fields.
-      'processed_text' => TRUE,
+      // Return processed text, if desired. Otherwise, raw user input will be
+      // exported.
+      'processed_text' => $form_state->getValue('processed_text'),
 
       // Return content entity labels and config entity IDs.
       'content_entity_labels' => TRUE,
@@ -319,6 +328,7 @@ class EntityCsvActionForm extends ConfirmFormBase implements BaseFormIdInterface
       // CSV encoder settings.
       'csv_settings' => [
         'sanitize' => $form_state->getValue('sanitize'),
+        'strip_tags' => FALSE,
       ],
     ];
     $output = $this->serializer->serialize($accessible_entities, 'csv', $context);
