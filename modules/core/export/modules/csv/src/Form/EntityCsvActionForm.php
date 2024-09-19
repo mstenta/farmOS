@@ -405,6 +405,7 @@ class EntityCsvActionForm extends ConfirmFormBase implements BaseFormIdInterface
       'created',
       'changed',
       'entity_reference',
+      'fraction',
       'list_string',
       'state',
       'string',
@@ -438,6 +439,7 @@ class EntityCsvActionForm extends ConfirmFormBase implements BaseFormIdInterface
       'revision_translation_affected',
       'revision_created',
       'revision_user',
+      'revision_default',
     ];
     $columns = array_filter($columns, function ($name) use ($remove_columns) {
       return !in_array($name, $remove_columns);

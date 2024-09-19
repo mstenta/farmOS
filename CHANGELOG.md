@@ -10,11 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - [Add bulk delete action to farm_log_quantity View #860](https://github.com/farmOS/farmOS/pull/860)
+- [Add an "Export Quantity CSV" bulk action to Log Views](https://github.com/farmOS/farmOS/pull/861)
 
 ### Changed
 
 - [Update Drupal core to 10.3 #872](https://github.com/farmOS/farmOS/pull/872)
 - [Move farm_quantity View to farm_log_quantities and require log relationship #858](https://github.com/farmOS/farmOS/pull/858)
+- [Quantity CSV export improvements #861](https://github.com/farmOS/farmOS/pull/861)
 
 ### Security
 
