@@ -1,0 +1,20 @@
+farmOS-timeline:
+  remote: https://github.com/farmOS/farmOS-timeline
+  license:
+    name: MIT
+    url: https://github.com/farmOS/farmOS-timeline/blob/main/LICENSE
+    gpl-compatible: true
+  js:
+    /libraries/farmOS-timeline/farmOS-timeline.js:
+      minified: true
+farm_timeline:
+  js:
+    js/farm_timeline.js: { }
+  css:
+    theme:
+      css/farm_timeline.css: { }
+  dependencies:
+    - core/drupal.dialog
+    - core/drupal.dialog.ajax
+    - core/once
+    - farm_timeline/farmOS-timeline
