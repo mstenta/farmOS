@@ -136,6 +136,8 @@ class AssetLocation implements AssetLocationInterface {
       return !$asset->get(static::ASSET_FIELD_GEOMETRY)->isEmpty();
     }
 
+    // @todo this needs similar logic
+
     // Load the movement log. Bail if empty.
     $log = $this->getMovementLog($asset, $timestamp);
     if (empty($log)) {
@@ -175,6 +177,18 @@ class AssetLocation implements AssetLocationInterface {
     if ($this->isFixed($asset)) {
       return $asset->get(static::ASSET_FIELD_GEOMETRY)->value ?? '';
     }
+
+    // @todo
+    // If this asset is located in a non-fixed location asset, we want the
+    // geometry to be the current geometry of that non-fixed location asset,
+    // NOT the geometry of this asset's most recent movement log.
+
+    // Load the asset's location (asset), check to see if it's fixed or not.
+    // There might be multiple. Could be a mix of fixed and non-fixed.
+    // @todo
+
+    // What if this is a group being moved? How does the GroupAssetLocation
+    // logic play into this?
 
     // Load the movement log. Bail if empty.
     $log = $this->getMovementLog($asset, $timestamp);
