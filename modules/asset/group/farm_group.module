@@ -69,6 +69,16 @@ function farm_group_farm_ui_theme_region_items(string $entity_type) {
       'bottom' => [],
     ];
   }
+  elseif ($entity_type == 'log') {
+    $region_items = [
+      'top' => [],
+      'first' => [],
+      'second' => [
+        'is_group_assignment',
+      ],
+      'bottom' => [],
+    ];
+  }
   return $region_items;
 }
 
