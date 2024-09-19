@@ -27,8 +27,8 @@ class Structure extends FarmAssetType {
       'allowed_values_function' => 'farm_structure_type_field_allowed_values',
       'required' => TRUE,
       'weight' => [
-        'form' => -90,
-        'view' => -50,
+        'form' => -80,
+        'view' => -80,
       ],
     ];
     $fields['structure_type'] = $this->farmFieldFactory->bundleFieldDefinition($options);

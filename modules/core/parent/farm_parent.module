@@ -22,7 +22,7 @@ function farm_parent_entity_base_field_info(EntityTypeInterface $entity_type) {
       'target_type' => 'asset',
       'multiple' => TRUE,
       'weight' => [
-        'form' => 40,
+        'form' => 0,
         'view' => 0,
       ],
     ];

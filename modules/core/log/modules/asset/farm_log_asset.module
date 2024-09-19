@@ -25,8 +25,8 @@ function farm_log_asset_entity_base_field_info(EntityTypeInterface $entity_type)
     'target_type' => 'asset',
     'multiple' => TRUE,
     'weight' => [
-      'form' => 50,
-      'view' => -10,
+      'form' => 0,
+      'view' => 0,
     ],
   ];
   $fields['asset'] = \Drupal::service('farm_field.factory')->baseFieldDefinition($field_info);

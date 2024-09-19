@@ -23,8 +23,8 @@ function farm_equipment_farm_entity_bundle_field_info(EntityTypeInterface $entit
       'target_bundle' => 'equipment',
       'multiple' => TRUE,
       'weight' => [
-        'form' => 55,
-        'view' => -5,
+        'form' => 40,
+        'view' => 40,
       ],
     ];
     $fields['equipment'] = \Drupal::service('farm_field.factory')->bundleFieldDefinition($options);

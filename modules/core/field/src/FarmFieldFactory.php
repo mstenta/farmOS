@@ -659,7 +659,7 @@ class FarmFieldFactory implements FarmFieldFactoryInterface {
         ];
         $view_display_options = [
           'type' => 'file_table',
-          'label' => 'visually_hidden',
+          'label' => 'above',
           'settings' => [
             'use_description_as_link_text' => TRUE,
           ],
@@ -678,7 +678,7 @@ class FarmFieldFactory implements FarmFieldFactoryInterface {
         ];
         $view_display_options = [
           'type' => 'image',
-          'label' => 'visually_hidden',
+          'label' => 'above',
           'settings' => [
             'image_style' => 'large',
             'image_link' => 'file',

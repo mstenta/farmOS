@@ -44,7 +44,7 @@ function farm_group_log_base_fields() {
     'label' => t('Is group assignment'),
     'description' => t('If this log is a group assignment, any referenced assets will become members of the groups referenced below.'),
     'weight' => [
-      'form' => 96,
+      'form' => 30,
     ],
     'view_display_options' => [
       'label' => 'inline',
@@ -55,7 +55,7 @@ function farm_group_log_base_fields() {
         'format_custom_true' => '',
         'hide_if_false' => TRUE,
       ],
-      'weight' => 96,
+      'weight' => 30,
     ],
   ];
   $fields['is_group_assignment'] = \Drupal::service('farm_field.factory')->baseFieldDefinition($options);
@@ -69,8 +69,8 @@ function farm_group_log_base_fields() {
     'target_bundle' => 'group',
     'multiple' => TRUE,
     'weight' => [
-      'form' => 97,
-      'view' => 97,
+      'form' => 30,
+      'view' => 30,
     ],
   ];
   $fields['group'] = \Drupal::service('farm_field.factory')->baseFieldDefinition($options);

@@ -30,7 +30,7 @@ function farm_location_asset_base_fields() {
         'link' => TRUE,
         'render_without_location' => TRUE,
       ],
-      'weight' => 95,
+      'weight' => 50,
     ],
   ];
   $fields['location'] = \Drupal::service('farm_field.factory')->baseFieldDefinition($options);
@@ -43,7 +43,7 @@ function farm_location_asset_base_fields() {
     'computed' => AssetGeometryItemList::class,
     'hidden' => 'form',
     'weight' => [
-      'view' => 95,
+      'view' => 40,
     ],
   ];
   $fields['geometry'] = \Drupal::service('farm_field.factory')->baseFieldDefinition($options);
@@ -57,7 +57,7 @@ function farm_location_asset_base_fields() {
     'label' => t('Intrinsic geometry'),
     'description' => t('Add geometry data to this asset to describe its intrinsic location. This will only be used if the asset is fixed.'),
     'weight' => [
-      'form' => 96,
+      'form' => 50,
     ],
     'hidden' => 'view',
     'populate_file_field' => 'file',
@@ -71,7 +71,7 @@ function farm_location_asset_base_fields() {
     'description' => t('If this asset is a location, then other assets can be moved to it.'),
     'default_value_callback' => 'farm_location_is_location_default_value',
     'weight' => [
-      'form' => 95,
+      'form' => 0,
     ],
     'view_display_options' => [
       'label' => 'inline',
@@ -82,7 +82,7 @@ function farm_location_asset_base_fields() {
         'format_custom_true' => '',
         'hide_if_false' => TRUE,
       ],
-      'weight' => 95,
+      'weight' => 0,
     ],
   ];
   $fields['is_location'] = \Drupal::service('farm_field.factory')->baseFieldDefinition($options);
@@ -94,7 +94,7 @@ function farm_location_asset_base_fields() {
     'description' => t('If this asset is fixed, then it can have an intrinsic geometry. If the asset will move around, then it is not fixed and geometry will be determined by movement logs.'),
     'default_value_callback' => 'farm_location_is_fixed_default_value',
     'weight' => [
-      'form' => 95,
+      'form' => 10,
     ],
     'view_display_options' => [
       'label' => 'inline',
@@ -105,7 +105,7 @@ function farm_location_asset_base_fields() {
         'format_custom_true' => '',
         'hide_if_false' => TRUE,
       ],
-      'weight' => 96,
+      'weight' => 10,
     ],
   ];
   $fields['is_fixed'] = \Drupal::service('farm_field.factory')->baseFieldDefinition($options);
@@ -127,8 +127,8 @@ function farm_location_log_base_fields() {
     'target_type' => 'asset',
     'multiple' => TRUE,
     'weight' => [
-      'form' => 90,
-      'view' => 90,
+      'form' => 20,
+      'view' => 20,
     ],
   ];
   $field = \Drupal::service('farm_field.factory')->baseFieldDefinition($options);
@@ -150,8 +150,8 @@ function farm_location_log_base_fields() {
     'label' => t('Geometry'),
     'description' => t('Add geometry data to this log to describe where it took place.'),
     'weight' => [
-      'form' => 95,
-      'view' => 95,
+      'form' => 20,
+      'view' => 20,
     ],
     'populate_file_field' => 'file',
   ];
@@ -164,7 +164,7 @@ function farm_location_log_base_fields() {
     'description' => t('If this log is a movement, then all assets referenced by it will be located in the referenced locations and/or geometry at the time the log takes place. The log must be complete in order for the movement to take effect.'),
     'default_value_callback' => 'farm_location_is_movement_default_value',
     'weight' => [
-      'form' => 95,
+      'form' => 20,
     ],
     'view_display_options' => [
       'label' => 'inline',
@@ -175,7 +175,7 @@ function farm_location_log_base_fields() {
         'format_custom_true' => '',
         'hide_if_false' => TRUE,
       ],
-      'weight' => 95,
+      'weight' => 20,
     ],
   ];
   $fields['is_movement'] = \Drupal::service('farm_field.factory')->baseFieldDefinition($options);
