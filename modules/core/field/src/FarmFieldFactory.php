@@ -6,6 +6,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\FieldException;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\entity\BundleFieldDefinition;
+use Drupal\inline_entity_form\Plugin\Field\FieldWidget\InlineEntityFormComplex;
 
 /**
  * Factory for generating farmOS field definitions.
@@ -491,6 +492,7 @@ class FarmFieldFactory implements FarmFieldFactoryInterface {
             'allow_existing' => FALSE,
             'match_operator' => 'CONTAINS',
             'allow_duplicate' => FALSE,
+            'removed_reference' => InlineEntityFormComplex::REMOVED_DELETE,
           ],
           'weight' => $options['weight']['form'] ?? 0,
         ];
@@ -565,6 +567,7 @@ class FarmFieldFactory implements FarmFieldFactoryInterface {
             'allow_existing' => FALSE,
             'match_operator' => 'CONTAINS',
             'allow_duplicate' => FALSE,
+            'removed_reference' => InlineEntityFormComplex::REMOVED_DELETE,
           ],
           'weight' => $options['weight']['form'] ?? 0,
         ];
