@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [Update Drupal core to 10.3 #872](https://github.com/farmOS/farmOS/pull/872)
 - [Move farm_quantity View to farm_log_quantities and require log relationship #858](https://github.com/farmOS/farmOS/pull/858)
 - [Quantity CSV export improvements #861](https://github.com/farmOS/farmOS/pull/861)
+- [Reorder and improve entity field rendering #847](https://github.com/farmOS/farmOS/pull/847)
 
 ### Security
 
