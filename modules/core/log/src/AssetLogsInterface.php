@@ -22,7 +22,7 @@ interface AssetLogsInterface {
    * @return \Drupal\log\Entity\LogInterface[]
    *   Returns an array of Log entities.
    */
-  public function getLogs(AssetInterface $asset, string $log_type = NULL, bool $access_check = TRUE): array;
+  public function getLogs(AssetInterface $asset, ?string $log_type = NULL, bool $access_check = TRUE): array;
 
   /**
    * Get the first log of an asset.
@@ -37,6 +37,6 @@ interface AssetLogsInterface {
    * @return \Drupal\log\Entity\LogInterface|null
    *   Returns a log entity or NULL if no logs were found.
    */
-  public function getFirstLog(AssetInterface $asset, string $log_type = NULL, bool $access_check = TRUE);
+  public function getFirstLog(AssetInterface $asset, ?string $log_type = NULL, bool $access_check = TRUE);
 
 }

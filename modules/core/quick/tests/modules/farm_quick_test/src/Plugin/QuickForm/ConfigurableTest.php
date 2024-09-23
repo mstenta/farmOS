@@ -35,7 +35,7 @@ class ConfigurableTest extends Test implements ConfigurableQuickFormInterface {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, string $id = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, ?string $id = NULL) {
     $form = parent::buildForm($form, $form_state, $id);
 
     // Set a default value from configuration.

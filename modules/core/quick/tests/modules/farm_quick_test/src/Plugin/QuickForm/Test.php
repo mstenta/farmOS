@@ -32,7 +32,7 @@ class Test extends QuickFormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, string $id = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, ?string $id = NULL) {
 
     // Test field.
     $form['test'] = [

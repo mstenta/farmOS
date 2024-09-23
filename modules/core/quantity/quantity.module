@@ -103,7 +103,7 @@ function quantity_measure_options() {
  * @return array
  *   Returns an array of allowed values for use in form select options.
  */
-function quantity_measure_field_allowed_values(FieldStorageDefinitionInterface $definition, ContentEntityInterface $entity = NULL, bool &$cacheable = TRUE) {
+function quantity_measure_field_allowed_values(FieldStorageDefinitionInterface $definition, ?ContentEntityInterface $entity = NULL, bool &$cacheable = TRUE) {
   return quantity_measure_options();
 }
 

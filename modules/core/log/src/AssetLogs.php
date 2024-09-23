@@ -40,7 +40,7 @@ class AssetLogs implements AssetLogsInterface {
   /**
    * {@inheritdoc}
    */
-  public function getLogs(AssetInterface $asset, string $log_type = NULL, bool $access_check = TRUE): array {
+  public function getLogs(AssetInterface $asset, ?string $log_type = NULL, bool $access_check = TRUE): array {
     $log_ids = $this->query($asset, $log_type, $access_check)->execute();
     if (empty($log_ids)) {
       return [];
@@ -51,7 +51,7 @@ class AssetLogs implements AssetLogsInterface {
   /**
    * {@inheritdoc}
    */
-  public function getFirstLog(AssetInterface $asset, string $log_type = NULL, bool $access_check = TRUE) {
+  public function getFirstLog(AssetInterface $asset, ?string $log_type = NULL, bool $access_check = TRUE) {
     $log_ids = $this->query($asset, $log_type, $access_check, 1)->execute();
     if (empty($log_ids)) {
       return NULL;
@@ -74,7 +74,7 @@ class AssetLogs implements AssetLogsInterface {
    * @return \Drupal\Core\Entity\Query\QueryInterface
    *   A query object.
    */
-  protected function query(AssetInterface $asset, string $log_type = NULL, bool $access_check = TRUE, int $limit = NULL) {
+  protected function query(AssetInterface $asset, ?string $log_type = NULL, bool $access_check = TRUE, ?int $limit = NULL) {
     $options = [
       'asset' => $asset,
       'direction' => 'ASC',

@@ -137,7 +137,7 @@ class AssignActionForm extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, string $entity_type = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, ?string $entity_type = NULL) {
 
     // Only allow asset and log entities.
     if (!in_array($entity_type, ['asset', 'log'])) {

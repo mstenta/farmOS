@@ -39,7 +39,7 @@ class TextLongFieldItemNormalizer extends FieldItemNormalizer {
   /**
    * {@inheritdoc}
    */
-  public function supportsNormalization($data, string $format = NULL, array $context = []): bool {
+  public function supportsNormalization($data, ?string $format = NULL, array $context = []): bool {
     return $data instanceof TextLongItem && $format == static::FORMAT;
   }
 

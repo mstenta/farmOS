@@ -44,7 +44,7 @@ class EntityReferenceFieldItemNormalizer extends CoreEntityReferenceFieldItemNor
   /**
    * {@inheritdoc}
    */
-  public function supportsNormalization($data, string $format = NULL, array $context = []): bool {
+  public function supportsNormalization($data, ?string $format = NULL, array $context = []): bool {
     return $data instanceof EntityReferenceItemInterface && $format == static::FORMAT;
   }
 

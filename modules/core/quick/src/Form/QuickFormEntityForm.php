@@ -53,7 +53,7 @@ class QuickFormEntityForm extends EntityForm {
   /**
    * {@inheritdoc}
    */
-  public function form(array $form, FormStateInterface $form_state, string $plugin = NULL) {
+  public function form(array $form, FormStateInterface $form_state, ?string $plugin = NULL) {
     $form = parent::form($form, $form_state);
 
     // Add tabs if the quick form plugin is configurable.

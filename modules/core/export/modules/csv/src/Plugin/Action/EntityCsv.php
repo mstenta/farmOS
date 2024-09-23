@@ -87,7 +87,7 @@ class EntityCsv extends EntityActionBase {
   /**
    * {@inheritdoc}
    */
-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     return $object->access('view', $account, $return_as_object);
   }
 

@@ -36,7 +36,7 @@ class ContentEntityNormalizer extends CoreContentEntityNormalizer {
   /**
    * {@inheritdoc}
    */
-  public function supportsNormalization($data, string $format = NULL, array $context = []): bool {
+  public function supportsNormalization($data, ?string $format = NULL, array $context = []): bool {
     return $data instanceof ContentEntityInterface && $format == static::FORMAT;
   }
 

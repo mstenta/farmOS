@@ -61,7 +61,7 @@ class AssetClone extends EntityActionBase {
   /**
    * {@inheritdoc}
    */
-  public function execute(AssetInterface $asset = NULL) {
+  public function execute(?AssetInterface $asset = NULL) {
     if ($asset) {
       $cloned_asset = $asset->createDuplicate();
       $cloned_asset->setOwnerId($this->currentUser->id());
@@ -75,7 +75,7 @@ class AssetClone extends EntityActionBase {
   /**
    * {@inheritdoc}
    */
-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     /** @var \Drupal\asset\Entity\AssetInterface $object */
     $result = $object->access('view', $account, TRUE)
       ->andIf($object->access('create', $account, TRUE));

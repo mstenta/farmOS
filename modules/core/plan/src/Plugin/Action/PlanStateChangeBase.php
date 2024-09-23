@@ -22,7 +22,7 @@ abstract class PlanStateChangeBase extends EntityActionBase {
   /**
    * {@inheritdoc}
    */
-  public function execute(PlanInterface $plan = NULL) {
+  public function execute(?PlanInterface $plan = NULL) {
 
     // Bail if there is no plan.
     if (empty($plan)) {
@@ -57,7 +57,7 @@ abstract class PlanStateChangeBase extends EntityActionBase {
   /**
    * {@inheritdoc}
    */
-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     /** @var \Drupal\plan\Entity\PlanInterface $object */
     // First check entity and state field access.
     $result = $object->get('status')->access('edit', $account, TRUE)

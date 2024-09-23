@@ -88,7 +88,7 @@ class EntityFlag extends EntityActionBase {
   /**
    * {@inheritdoc}
    */
-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     $result = $object->get('flag')->access('edit', $account, TRUE)
       ->andIf($object->access('update', $account, TRUE));
 

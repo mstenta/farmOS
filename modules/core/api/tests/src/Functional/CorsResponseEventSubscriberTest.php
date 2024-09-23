@@ -100,7 +100,7 @@ class CorsResponseEventSubscriberTest extends FarmBrowserTestBase {
    *   An optional origin to check. If NULL, then the request should have no
    *   CORS headers.
    */
-  protected function assertValidCorsHeaders(ResponseInterface $response, string $origin = NULL) {
+  protected function assertValidCorsHeaders(ResponseInterface $response, ?string $origin = NULL) {
 
     // Cors headers to test.
     $cors_headers = [

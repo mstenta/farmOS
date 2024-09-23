@@ -105,7 +105,7 @@ class Movement extends QuickFormBase implements QuickFormInterface {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, string $id = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, ?string $id = NULL) {
 
     // Date.
     $form['date'] = [

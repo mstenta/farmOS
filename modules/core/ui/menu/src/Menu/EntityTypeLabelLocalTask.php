@@ -57,7 +57,7 @@ class EntityTypeLabelLocalTask extends LocalTaskDefault implements ContainerFact
   /**
    * {@inheritdoc}
    */
-  public function getTitle(Request $request = NULL) {
+  public function getTitle(?Request $request = NULL) {
 
     // Bail if no entity type option is provided.
     $entity_type = $this->pluginDefinition['options']['entity_type'] ?? NULL;

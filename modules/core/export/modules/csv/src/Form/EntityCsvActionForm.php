@@ -391,7 +391,7 @@ class EntityCsvActionForm extends ConfirmFormBase implements BaseFormIdInterface
    * @return string[]
    *   An array of column names.
    */
-  protected function getIncludeColumns(string $bundle = NULL) {
+  protected function getIncludeColumns(?string $bundle = NULL) {
 
     // Start with ID and UUID.
     $columns = [

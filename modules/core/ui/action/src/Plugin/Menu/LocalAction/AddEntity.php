@@ -64,7 +64,7 @@ class AddEntity extends LocalActionDefault {
   /**
    * {@inheritdoc}
    */
-  public function getTitle(Request $request = NULL) {
+  public function getTitle(?Request $request = NULL) {
 
     // Get the entity type.
     $entity_type = $this->entityTypeManager->getDefinition($this->pluginDefinition['entity_type']);
