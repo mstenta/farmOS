@@ -11,12 +11,10 @@ use Drupal\Core\Form\FormStateInterface;
  * Implements hook_entity_type_alter().
  */
 function farm_role_entity_type_alter(array &$entity_types) {
-
   /** @var \Drupal\Core\Entity\EntityTypeInterface[] $entity_types */
 
-  // Replace the storage handler class for Roles.
-  $entity_types['user_role']
-    ->setHandlerClass('storage', 'Drupal\farm_role\FarmRoleStorage');
+  // Replace the Role entity class.
+  $entity_types['user_role']->setClass('Drupal\farm_role\ManagedRole');
 }
 
 /**
