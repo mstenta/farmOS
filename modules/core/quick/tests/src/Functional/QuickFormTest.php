@@ -3,8 +3,8 @@
 namespace Drupal\Tests\farm_quick\Functional;
 
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\farm_quick\Entity\QuickFormInstance;
 use Drupal\Tests\farm_test\Functional\FarmBrowserTestBase;
+use Drupal\farm_quick\Entity\QuickFormInstance;
 
 /**
  * Tests the quick form framework.

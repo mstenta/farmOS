@@ -3,8 +3,8 @@
 namespace Drupal\Tests\farm_owner\Kernel;
 
 use Drupal\KernelTests\KernelTestBase;
-use Drupal\log\Entity\Log;
 use Drupal\Tests\user\Traits\UserCreationTrait;
+use Drupal\log\Entity\Log;
 
 /**
  * Tests for farmOS log owner logic.

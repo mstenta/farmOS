@@ -2,8 +2,8 @@
 
 namespace Drupal\Tests\farm_ui_menu\Kernel;
 
-use Drupal\farm_ui_menu\Menu\EntityTypeLabelLocalTask;
 use Drupal\KernelTests\KernelTestBase;
+use Drupal\farm_ui_menu\Menu\EntityTypeLabelLocalTask;
 
 /**
  * Tests farmOS secondary task links.

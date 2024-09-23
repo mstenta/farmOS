@@ -2,8 +2,8 @@
 
 namespace Drupal\Tests\farm_id_tag\Kernel;
 
-use Drupal\asset\Entity\Asset;
 use Drupal\KernelTests\KernelTestBase;
+use Drupal\asset\Entity\Asset;
 
 /**
  * Test ID tag field.

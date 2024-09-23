@@ -2,10 +2,10 @@
 
 namespace Drupal\Tests\farm_api\Functional;
 
-use Drupal\consumers\Entity\Consumer;
 use Drupal\Core\Url;
 use Drupal\Tests\farm_test\Functional\FarmBrowserTestBase;
 use Drupal\Tests\jsonapi\Functional\JsonApiRequestTestTrait;
+use Drupal\consumers\Entity\Consumer;
 use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 

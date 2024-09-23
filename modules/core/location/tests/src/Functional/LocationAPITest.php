@@ -4,9 +4,9 @@ namespace Drupal\Tests\farm_location\Functional;
 
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Url;
-use Drupal\farm_geo\Traits\WktTrait;
 use Drupal\Tests\farm_test\Functional\FarmBrowserTestBase;
 use Drupal\Tests\jsonapi\Functional\JsonApiRequestTestTrait;
+use Drupal\farm_geo\Traits\WktTrait;
 use GuzzleHttp\RequestOptions;
 
 /**

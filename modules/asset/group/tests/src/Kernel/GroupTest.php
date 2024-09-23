@@ -2,13 +2,13 @@
 
 namespace Drupal\Tests\farm_group\Kernel;
 
-use Drupal\asset\Entity\Asset;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\farm_geo\Traits\WktTrait;
 use Drupal\KernelTests\KernelTestBase;
-use Drupal\log\Entity\Log;
 use Drupal\Tests\farm_test\Kernel\FarmAssetTestTrait;
 use Drupal\Tests\farm_test\Kernel\FarmEntityCacheTestTrait;
+use Drupal\asset\Entity\Asset;
+use Drupal\farm_geo\Traits\WktTrait;
+use Drupal\log\Entity\Log;
 
 /**
  * Tests for farmOS group membership logic.

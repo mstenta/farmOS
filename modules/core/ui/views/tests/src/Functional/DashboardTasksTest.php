@@ -2,8 +2,8 @@
 
 namespace Drupal\Tests\farm_ui_views\Functional;
 
-use Drupal\log\Entity\Log;
 use Drupal\Tests\farm_test\Functional\FarmBrowserTestBase;
+use Drupal\log\Entity\Log;
 
 /**
  * Tests the farm_ui_views dashboard panes.

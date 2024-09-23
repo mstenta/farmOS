@@ -2,8 +2,8 @@
 
 namespace Drupal\Tests\farm_sensor_listener\Functional;
 
-use Drupal\asset\Entity\AssetInterface;
 use Drupal\Tests\farm_sensor\Functional\SensorDataApiTest;
+use Drupal\asset\Entity\AssetInterface;
 
 /**
  * Test the sensor listener (legacy) API.

@@ -3,9 +3,9 @@
 namespace Drupal\Tests\farm_import_csv\Kernel;
 
 use Drupal\Core\DependencyInjection\ContainerBuilder;
-use Drupal\file\Entity\File;
 use Drupal\Tests\migrate\Kernel\MigrateTestBase;
 use Drupal\Tests\user\Traits\UserCreationTrait;
+use Drupal\file\Entity\File;
 
 /**
  * Base class for farmOS CSV importer kernel tests.

@@ -2,14 +2,14 @@
 
 namespace Drupal\Tests\farm_inventory\Kernel;
 
+use Drupal\KernelTests\KernelTestBase;
+use Drupal\Tests\farm_test\Kernel\FarmEntityCacheTestTrait;
 use Drupal\asset\Entity\Asset;
 use Drupal\asset\Entity\AssetInterface;
 use Drupal\fraction\Fraction;
-use Drupal\KernelTests\KernelTestBase;
 use Drupal\log\Entity\Log;
 use Drupal\quantity\Entity\Quantity;
 use Drupal\taxonomy\Entity\Term;
-use Drupal\Tests\farm_test\Kernel\FarmEntityCacheTestTrait;
 
 /**
  * Tests for farmOS inventory logic.

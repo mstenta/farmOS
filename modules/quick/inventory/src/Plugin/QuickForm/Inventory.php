@@ -2,7 +2,6 @@
 
 namespace Drupal\farm_quick_inventory\Plugin\QuickForm;
 
-use Drupal\asset\Entity\AssetInterface;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -10,6 +9,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\asset\Entity\AssetInterface;
 use Drupal\farm_inventory\AssetInventoryInterface;
 use Drupal\farm_quick\Plugin\QuickForm\ConfigurableQuickFormInterface;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;

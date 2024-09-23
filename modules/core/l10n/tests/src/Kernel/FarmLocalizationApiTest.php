@@ -2,8 +2,8 @@
 
 namespace Drupal\Tests\farm_l10n\Kernel;
 
-use Drupal\language\Entity\ConfigurableLanguage;
 use Drupal\Tests\farm_api\Kernel\FarmApiTest;
+use Drupal\language\Entity\ConfigurableLanguage;
 
 /**
  * Tests farmOS API features.

@@ -2,8 +2,8 @@
 
 namespace Drupal\Tests\asset\Functional;
 
-use Drupal\asset\Entity\Asset;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\asset\Entity\Asset;
 
 /**
  * Tests the asset CRUD.

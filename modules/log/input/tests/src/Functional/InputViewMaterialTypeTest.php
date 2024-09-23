@@ -2,10 +2,10 @@
 
 namespace Drupal\Tests\farm_input\Functional;
 
+use Drupal\Tests\farm_test\Functional\FarmBrowserTestBase;
 use Drupal\log\Entity\Log;
 use Drupal\quantity\Entity\Quantity;
 use Drupal\taxonomy\Entity\Term;
-use Drupal\Tests\farm_test\Functional\FarmBrowserTestBase;
 
 /**
  * Test material type filter functionality.

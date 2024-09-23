@@ -2,9 +2,9 @@
 
 namespace Drupal\Tests\farm_quick_planting\Kernel;
 
+use Drupal\Tests\farm_quick\Kernel\QuickFormTestBase;
 use Drupal\asset\Entity\Asset;
 use Drupal\taxonomy\Entity\Term;
-use Drupal\Tests\farm_quick\Kernel\QuickFormTestBase;
 
 /**
  * Tests for farmOS planting quick form.

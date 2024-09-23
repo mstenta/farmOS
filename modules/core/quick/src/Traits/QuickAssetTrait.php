@@ -2,9 +2,9 @@
 
 namespace Drupal\farm_quick\Traits;
 
-use Drupal\asset\Entity\Asset;
 use Drupal\Core\Messenger\MessengerTrait;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\asset\Entity\Asset;
 
 /**
  * Provides methods for working with assets.

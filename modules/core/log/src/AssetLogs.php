@@ -2,8 +2,8 @@
 
 namespace Drupal\farm_log;
 
-use Drupal\asset\Entity\AssetInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\asset\Entity\AssetInterface;
 
 /**
  * Service for loading logs that reference assets.

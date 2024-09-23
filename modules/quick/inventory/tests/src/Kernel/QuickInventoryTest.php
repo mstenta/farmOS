@@ -2,10 +2,10 @@
 
 namespace Drupal\Tests\farm_quick_inventory\Kernel;
 
-use Drupal\asset\Entity\Asset;
 use Drupal\Core\Datetime\DrupalDateTime;
-use Drupal\taxonomy\Entity\Term;
 use Drupal\Tests\farm_quick\Kernel\QuickFormTestBase;
+use Drupal\asset\Entity\Asset;
+use Drupal\taxonomy\Entity\Term;
 
 /**
  * Tests for farmOS inventory quick form.

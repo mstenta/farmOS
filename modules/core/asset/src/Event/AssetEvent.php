@@ -2,8 +2,8 @@
 
 namespace Drupal\asset\Event;
 
-use Drupal\asset\Entity\AssetInterface;
 use Drupal\Component\EventDispatcher\Event;
+use Drupal\asset\Entity\AssetInterface;
 
 /**
  * Event that is fired by asset save, delete and clone operations.

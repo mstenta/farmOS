@@ -2,10 +2,10 @@
 
 namespace Drupal\Tests\farm_quick\Kernel;
 
+use Drupal\KernelTests\KernelTestBase;
 use Drupal\asset\Entity\Asset;
 use Drupal\asset\Entity\AssetType;
 use Drupal\farm_quick\Traits\QuickStringTrait;
-use Drupal\KernelTests\KernelTestBase;
 
 /**
  * Tests for quick string trait methods.

@@ -2,8 +2,8 @@
 
 namespace Drupal\farm_location\Plugin\Validation\Constraint;
 
-use Drupal\asset\Entity\AssetInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\asset\Entity\AssetInterface;
 use Drupal\farm_location\AssetLocationInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Validator\Constraint;

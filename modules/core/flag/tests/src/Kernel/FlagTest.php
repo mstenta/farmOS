@@ -2,8 +2,8 @@
 
 namespace Drupal\Tests\farm_flag\Kernel;
 
-use Drupal\farm_flag\Entity\FarmFlag;
 use Drupal\KernelTests\KernelTestBase;
+use Drupal\farm_flag\Entity\FarmFlag;
 
 /**
  * Tests for farm_flag logic.

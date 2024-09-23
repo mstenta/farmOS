@@ -3,8 +3,8 @@
 namespace Drupal\Tests\farm_quick\Kernel;
 
 use Drupal\Core\Form\FormState;
-use Drupal\farm_quick\Form\QuickFormEntityForm;
 use Drupal\KernelTests\KernelTestBase;
+use Drupal\farm_quick\Form\QuickFormEntityForm;
 
 /**
  * Tests for farmOS quick forms.

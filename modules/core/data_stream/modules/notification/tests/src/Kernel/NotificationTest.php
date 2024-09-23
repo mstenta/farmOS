@@ -3,9 +3,9 @@
 namespace Drupal\Tests\data_stream_notification\Kernel;
 
 use Drupal\Component\Serialization\Json;
-use Drupal\data_stream_notification\Entity\DataStreamNotification;
 use Drupal\Tests\data_stream\Kernel\DataStreamTestBase;
 use Drupal\Tests\data_stream\Traits\DataStreamCreationTrait;
+use Drupal\data_stream_notification\Entity\DataStreamNotification;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

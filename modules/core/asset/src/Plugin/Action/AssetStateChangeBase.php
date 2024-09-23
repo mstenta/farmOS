@@ -2,10 +2,10 @@
 
 namespace Drupal\asset\Plugin\Action;
 
-use Drupal\asset\Entity\AssetInterface;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Action\Plugin\Action\EntityActionBase;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\asset\Entity\AssetInterface;
 
 /**
  * Base class for actions that change the asset status state.

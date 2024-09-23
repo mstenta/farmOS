@@ -2,13 +2,13 @@
 
 namespace Drupal\farm_update;
 
-use Drupal\config_update\ConfigDiffer;
-use Drupal\config_update\ConfigListerWithProviders;
-use Drupal\config_update\ConfigReverter;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\config_update\ConfigDiffer;
+use Drupal\config_update\ConfigListerWithProviders;
+use Drupal\config_update\ConfigReverter;
 use Psr\Log\LoggerInterface;
 
 /**

@@ -3,10 +3,10 @@
 namespace Drupal\Tests\farm_map\Functional;
 
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Tests\field\Functional\FieldTestBase;
 use Drupal\entity_test\Entity\EntityTest;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
-use Drupal\Tests\field\Functional\FieldTestBase;
 
 /**
  * Tests the farmOS Geofield widget.
