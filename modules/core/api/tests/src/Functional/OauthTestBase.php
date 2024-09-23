@@ -41,7 +41,16 @@ class OauthTestBase extends TokenBearerFunctionalTestBase {
     // Add a client_id to the client.
     $this->client->set('client_id', 'farm_test');
     $this->client->set('confidential', FALSE);
+
+    // Add support for password grant and password scope consumer.
+    $this->client->get('grant_types')->appendItem('password');
+    $this->client->set('scopes', ['test:password']);
+
+    // Save the client.
     $this->client->save();
+
+    // Set the scope.
+    $this->scope = 'test:password';
   }
 
 }

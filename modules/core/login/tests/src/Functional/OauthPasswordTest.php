@@ -24,19 +24,6 @@ class OauthPasswordTest extends OauthTestBase {
   ];
 
   /**
-   * {@inheritdoc}
-   */
-  protected function setUp(): void {
-    parent::setUp();
-
-    // Add support for password grant and password scope consumer.
-    $this->client->get('grant_types')->appendItem('password');
-    $this->client->set('scopes', ['test:password']);
-    $this->client->save();
-    $this->scope = 'test:password';
-  }
-
-  /**
    * Run all tests.
    */
   public function testAll() {
