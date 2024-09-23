@@ -20,14 +20,6 @@ class OauthPasswordTest extends OauthTestBase {
    * {@inheritdoc}
    */
   protected static $modules = [
-    'image',
-    'node',
-    'serialization',
-    'simple_oauth',
-    'text',
-    'user',
-    'farm_api_default_consumer',
-    'farm_api_test',
     'farm_login',
   ];
 

@@ -27,6 +27,8 @@ class OauthTestBase extends TokenBearerFunctionalTestBase {
     'text',
     'user',
     'farm_api',
+    'farm_api_default_consumer',
+    'farm_api_test',
   ];
 
   /**
