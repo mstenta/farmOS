@@ -42,6 +42,9 @@ class FarmTimeline extends RenderElementBase {
       $element['#attributes']['id'] = Html::getUniqueId('timeline');
     }
 
+    // Set a blank header by default (otherwise it shows "undefined").
+    $element['#attributes']['data-table-header'] = '';
+
     // Add timeline rows.
     $element['#attributes']['data-timeline-rows'] = Json::encode($element['#rows'] ?? []);
 
