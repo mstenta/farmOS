@@ -45,9 +45,17 @@ class OauthPasswordTest extends OauthTestBase {
   }
 
   /**
+   * Run all tests.
+   */
+  public function testAll() {
+    $this->doTestPasswordGrant();
+    $this->doTestInvalidPasswordGrant();
+  }
+
+  /**
    * Test a valid Password grant using username and email.
    */
-  public function testPasswordGrant() {
+  public function doTestPasswordGrant() {
     $valid_payload = [
       'grant_type' => 'password',
       'client_id' => $this->client->get('client_id')->value,
@@ -71,7 +79,7 @@ class OauthPasswordTest extends OauthTestBase {
   /**
    * Test an invalid Password grant.
    */
-  public function testInvalidPasswordGrant() {
+  public function doTestInvalidPasswordGrant() {
     $valid_payload = [
       'grant_type' => 'password',
       'client_id' => $this->client->get('client_id')->value,
