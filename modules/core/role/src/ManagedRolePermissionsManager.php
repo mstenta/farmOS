@@ -139,15 +139,9 @@ class ManagedRolePermissionsManager extends DefaultPluginManager implements Mana
   }
 
   /**
-   * Helper function to build managed permissions for managed roles.
-   *
-   * @param \Drupal\user\RoleInterface $role
-   *   The role to load permissions for.
-   *
-   * @return array
-   *   Array of permissions for the managed role.
+   * {@inheritdoc}
    */
-  protected function getManagedPermissionsForRole(RoleInterface $role) {
+  public function getManagedPermissionsForRole(RoleInterface $role) {
 
     // Start list of permissions.
     $perms = [];
