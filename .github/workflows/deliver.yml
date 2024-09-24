@@ -126,10 +126,10 @@ jobs:
         include:
           - dbms: pgsql
             DB_URL: pgsql://farm:farm@db/farm
-            test_cmd: paratest -vv --processes=auto
+            test_cmd: paratest -vv
           - dbms: mariadb
             DB_URL: mysql://farm:farm@db/farm
-            test_cmd: paratest -vv --processes=auto
+            test_cmd: paratest -vv
           - dbms: sqlite
             DB_URL: sqlite://localhost/sites/default/files/db.sqlite
             test_cmd: phpunit --verbose --debug
