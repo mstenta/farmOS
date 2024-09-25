@@ -331,18 +331,18 @@ class Birth extends QuickFormBase {
     // Load the mother and father asset(s).
     /** @var \Drupal\asset\Entity\AssetInterface|null $birth_mother */
     $birth_mother = NULL;
-    if ($form_state->getValue('birth_mother')) {
-      $birth_mother = $this->entityTypeManager->getStorage('asset')->load($form_state->getValue('birth_mother'));
+    if ($form_state->getValue('birth_mother') && $assets = $this->loadReferencedAssets($form_state->getValue('birth_mother'))) {
+      $birth_mother = reset($assets);
     }
     /** @var \Drupal\asset\Entity\AssetInterface|null $genetic_mother */
     $genetic_mother = NULL;
-    if ($form_state->getValue('genetic_mother')) {
-      $genetic_mother = $this->entityTypeManager->getStorage('asset')->load($form_state->getValue('genetic_mother'));
+    if ($form_state->getValue('genetic_mother') && $assets = $this->loadReferencedAssets($form_state->getValue('genetic_mother'))) {
+      $genetic_mother = reset($assets);
     }
     /** @var \Drupal\asset\Entity\AssetInterface|null $genetic_father */
     $genetic_father = NULL;
-    if ($form_state->getValue('genetic_father')) {
-      $genetic_father = $this->entityTypeManager->getStorage('asset')->load($form_state->getValue('genetic_father'));
+    if ($form_state->getValue('genetic_father') && $assets = $this->loadReferencedAssets($form_state->getValue('genetic_father'))) {
+      $genetic_father = reset($assets);
     }
 
     // If there is no birth mother, assume that the genetic mother is the birth
@@ -448,7 +448,7 @@ class Birth extends QuickFormBase {
     if ($this->moduleHandler->moduleExists('farm_group')) {
       $group = $form_state->getValue('group');
       if (!empty($group)) {
-        $group = [$this->entityTypeManager->getStorage('asset')->load($group)];
+        $group = $this->loadReferencedAssets($group);
       }
       if (empty($group) && $this->groupMembership !== NULL) {
         $group = $this->groupMembership->getGroup($birth_mother, $birthdate->getTimestamp());

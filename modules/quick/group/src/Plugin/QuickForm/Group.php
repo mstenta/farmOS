@@ -156,8 +156,8 @@ class Group extends QuickFormBase implements QuickFormInterface {
     ];
 
     // Load assets and groups.
-    $assets = $this->loadEntityAutocompleteAssets($form_state->getValue('asset'));
-    $groups = $this->loadEntityAutocompleteAssets($form_state->getValue('group'));
+    $assets = $this->loadReferencedAssets($form_state->getValue('asset'));
+    $groups = $this->loadReferencedAssets($form_state->getValue('group'));
 
     // Generate a name for the log.
     $asset_names = $this->entityLabelsSummary($assets);
@@ -169,31 +169,6 @@ class Group extends QuickFormBase implements QuickFormInterface {
 
     // Create the log.
     $this->createLog($log);
-  }
-
-  /**
-   * Load assets from entity_autocomplete values.
-   *
-   * @param array|null $values
-   *   The value from $form_state->getValue().
-   *
-   * @return \Drupal\asset\Entity\AssetInterface[]
-   *   Returns an array of assets.
-   */
-  protected function loadEntityAutocompleteAssets($values) {
-    $entities = [];
-    if (empty($values)) {
-      return $entities;
-    }
-    foreach ($values as $value) {
-      if ($value instanceof EntityInterface) {
-        $entities[] = $value;
-      }
-      elseif (!empty($value['target_id'])) {
-        $entities[] = $this->entityTypeManager->getStorage('asset')->load($value['target_id']);
-      }
-    }
-    return $entities;
   }
 
 }

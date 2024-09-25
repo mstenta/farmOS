@@ -3,6 +3,7 @@
 namespace Drupal\farm_quick\Traits;
 
 use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 
@@ -19,6 +20,13 @@ trait QuickFormElementsTrait {
    * @var \Drupal\Core\Session\AccountInterface
    */
   protected $currentUser;
+
+  /**
+   * The entity type manager service.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
 
   /**
    * Build a standard timestamp element.
@@ -110,6 +118,43 @@ trait QuickFormElementsTrait {
       }
     }
     return $element;
+  }
+
+  /**
+   * Load assets from an asset reference field.
+   *
+   * @param array|null $values
+   *   The values from $form_state->getValue().
+   *
+   * @return \Drupal\asset\Entity\AssetInterface[]
+   *   Returns an array of assets.
+   */
+  public function loadReferencedAssets(?array $values) {
+    $entities = [];
+    if (empty($values)) {
+      return $entities;
+    }
+    if (!is_array($values)) {
+      $values = [$values];
+    }
+    foreach ($values as $value) {
+      if ($value instanceof EntityInterface) {
+        $entities[] = $value;
+      }
+      else {
+        $entity_id = NULL;
+        if (is_numeric($value)) {
+          $entity_id = $value;
+        }
+        elseif (!empty($value['target_id'])) {
+          $entity_id = $value['target_id'];
+        }
+        if (!is_null($entity_id)) {
+          $entities[] = $this->entityTypeManager->getStorage('asset')->load($entity_id);
+        }
+      }
+    }
+    return $entities;
   }
 
   /**

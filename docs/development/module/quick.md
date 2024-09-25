@@ -198,6 +198,11 @@ Available traits and the methods that they provide include:
     required (defaults to `FALSE`), whether multiple values are accepted
     (defaults to `FALSE`), an array of default asset entities, and a View to use
     for filtering allowed values (in the form `view_id:display_name`).
+  - `loadReferencedAssets($values)` - Load assets that were selected with an
+    asset reference element. Expects `$values` to be passed in directly from the
+    asset reference element's form state (eg:
+    `$values = $form_state->getValue('my_asset_element')`). This always returns
+    an array, even if the element does not allow multiple values.
   - `notesElement($title)` - Build a standard collapsible notes element.
     Optionally accepts a translatable title (defaults to "Notes").
   - `buildInlineContainer()` - Builds a container that renders child  elements

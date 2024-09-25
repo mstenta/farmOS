@@ -167,7 +167,7 @@ class Movement extends QuickFormBase implements QuickFormInterface {
       ],
       'asset_geometry' => [
         '#type' => 'hidden',
-        '#value' => $this->combinedAssetGeometries($this->loadEntityAutocompleteAssets($form_state->getValue('asset'))),
+        '#value' => $this->combinedAssetGeometries($this->loadReferencedAssets($form_state->getValue('asset'))),
       ],
     ];
     $form['location_geometry_wrapper'] = [
@@ -178,7 +178,7 @@ class Movement extends QuickFormBase implements QuickFormInterface {
       ],
       'location_geometry' => [
         '#type' => 'hidden',
-        '#value' => $this->combinedAssetGeometries($this->loadEntityAutocompleteAssets($form_state->getValue('location'))),
+        '#value' => $this->combinedAssetGeometries($this->loadReferencedAssets($form_state->getValue('location'))),
       ],
     ];
 
@@ -210,31 +210,6 @@ class Movement extends QuickFormBase implements QuickFormInterface {
    */
   public function locationGeometryCallback(array $form, FormStateInterface $form_state) {
     return $form['location_geometry_wrapper'];
-  }
-
-  /**
-   * Load assets from entity_autocomplete values.
-   *
-   * @param array|null $values
-   *   The value from $form_state->getValue().
-   *
-   * @return \Drupal\asset\Entity\AssetInterface[]
-   *   Returns an array of assets.
-   */
-  protected function loadEntityAutocompleteAssets($values) {
-    $entities = [];
-    if (empty($values)) {
-      return $entities;
-    }
-    foreach ($values as $value) {
-      if ($value instanceof EntityInterface) {
-        $entities[] = $value;
-      }
-      elseif (!empty($value['target_id'])) {
-        $entities[] = $this->entityTypeManager->getStorage('asset')->load($value['target_id']);
-      }
-    }
-    return $entities;
   }
 
   /**
@@ -288,8 +263,8 @@ class Movement extends QuickFormBase implements QuickFormInterface {
     ];
 
     // Load assets and locations.
-    $assets = $this->loadEntityAutocompleteAssets($form_state->getValue('asset'));
-    $locations = $this->loadEntityAutocompleteAssets($form_state->getValue('location'));
+    $assets = $this->loadReferencedAssets($form_state->getValue('asset'));
+    $locations = $this->loadReferencedAssets($form_state->getValue('location'));
 
     // Generate a name for the log.
     $asset_names = $this->entityLabelsSummary($assets);

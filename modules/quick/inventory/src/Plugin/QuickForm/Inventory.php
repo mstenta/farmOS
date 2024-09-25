@@ -278,9 +278,9 @@ class Inventory extends QuickFormBase implements ConfigurableQuickFormInterface 
     $log_name = '';
 
     // Get the asset name. If an asset has not been selected, bail.
-    $asset = $form_state->getValue('asset');
-    if (is_numeric($asset)) {
-      $asset = $this->entityTypeManager->getStorage('asset')->load($asset);
+    $asset = NULL;
+    if ($assets = $this->loadReferencedAssets($form_state->getValue('asset'))) {
+      $asset = reset($assets);
     }
     if (!($asset instanceof AssetInterface)) {
       return $log_name;
@@ -346,7 +346,10 @@ class Inventory extends QuickFormBase implements ConfigurableQuickFormInterface 
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
     // Load asset.
-    $asset = $this->entityTypeManager->getStorage('asset')->load($form_state->getValue('asset'));
+    $asset = NULL;
+    if ($assets = $this->loadReferencedAssets($form_state->getValue('asset'))) {
+      $asset = reset($assets);
+    }
 
     // Load units term (if specified).
     $units = $form_state->getValue(['quantity', 'units']);
