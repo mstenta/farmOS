@@ -71,7 +71,7 @@ class Planting extends QuickFormBase {
   protected $state;
 
   /**
-   * Constructs a QuickFormBase object.
+   * Constructs a Planting object.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.

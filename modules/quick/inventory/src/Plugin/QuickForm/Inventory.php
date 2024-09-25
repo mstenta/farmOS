@@ -61,7 +61,7 @@ class Inventory extends QuickFormBase implements ConfigurableQuickFormInterface 
   protected $currentUser;
 
   /**
-   * Constructs a QuickFormBase object.
+   * Constructs an Inventory object.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.

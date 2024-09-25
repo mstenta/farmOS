@@ -82,7 +82,7 @@ class Birth extends QuickFormBase {
   protected $groupMembership = NULL;
 
   /**
-   * Constructs a QuickFormBase object.
+   * Constructs a Birth object.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.

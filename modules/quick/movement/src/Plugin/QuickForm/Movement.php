@@ -62,7 +62,7 @@ class Movement extends QuickFormBase implements QuickFormInterface {
   protected $currentUser;
 
   /**
-   * Constructs a QuickFormBase object.
+   * Constructs a Movement object.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
