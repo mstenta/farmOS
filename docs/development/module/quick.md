@@ -191,6 +191,8 @@ Available traits and the methods that they provide include:
     "Date"), whether it should be required (defaults to `TRUE`), and a default
     value in the form of a `DrupalDateTime` object (defaults to midnight of
     today's date in the current user's timezone).
+  - `notesElement($title)` - Build a standard collapsible notes element.
+    Optionally accepts a translatable title (defaults to "Notes").
   - `buildInlineContainer()` - Builds a container that renders child  elements
     inline.
 - `QuickAssetTrait` - Provides standard methods for working with assets.

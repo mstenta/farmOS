@@ -51,6 +51,30 @@ trait QuickFormElementsTrait {
   }
 
   /**
+   * Build a standard collapsible notes element.
+   *
+   * @param \Drupal\Core\StringTranslation\TranslatableMarkup|null $title
+   *   The translated form element title string. Defaults to "Notes".
+   *
+   * @return array
+   *   Returns a form element array.
+   */
+  public function notesElement(?TranslatableMarkup $title = NULL) {
+    if (is_null($title)) {
+      $title = $this->t('Notes');
+    }
+    return [
+      '#type' => 'details',
+      '#title' => $title,
+      'notes' => [
+        '#type' => 'text_format',
+        '#title' => $title,
+        '#format' => 'default',
+      ],
+    ];
+  }
+
+  /**
    * Build an inline container element.
    *
    * @return array

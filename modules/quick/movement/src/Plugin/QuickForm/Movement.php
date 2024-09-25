@@ -199,16 +199,7 @@ class Movement extends QuickFormBase implements QuickFormInterface {
     ];
 
     // Notes.
-    $form['notes'] = [
-      '#type' => 'details',
-      '#title' => $this->t('Notes'),
-    ];
-    $form['notes']['notes'] = [
-      '#type' => 'text_format',
-      '#title' => $this->t('Notes'),
-      '#title_display' => 'invisible',
-      '#format' => 'default',
-    ];
+    $form['notes'] = $this->notesElement();
 
     // Done.
     $form['done'] = [

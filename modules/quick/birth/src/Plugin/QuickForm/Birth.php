@@ -319,16 +319,9 @@ class Birth extends QuickFormBase {
     }
 
     // Birth notes.
-    $form['notes'] = [
-      '#type' => 'details',
-      '#title' => $this->t('Notes'),
-      '#group' => 'tabs',
-    ];
-    $form['notes']['notes'] = [
-      '#type' => 'text_format',
-      '#title' => $this->t('Notes about the overall birth process'),
-      '#format' => 'default',
-    ];
+    $form['notes'] = $this->notesElement();
+    $form['notes']['#group'] = 'tabs';
+    $form['notes']['notes']['#title'] = $this->t('Notes about the overall birth process');
 
     return $form;
   }

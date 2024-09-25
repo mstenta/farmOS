@@ -200,16 +200,7 @@ class Inventory extends QuickFormBase implements ConfigurableQuickFormInterface 
     ];
 
     // Notes.
-    $form['notes'] = [
-      '#type' => 'details',
-      '#title' => $this->t('Notes'),
-    ];
-    $form['notes']['notes'] = [
-      '#type' => 'text_format',
-      '#title' => $this->t('Notes'),
-      '#title_display' => 'invisible',
-      '#format' => 'default',
-    ];
+    $form['notes'] = $this->notesElement();
 
     // Advanced.
     $form['advanced'] = [
