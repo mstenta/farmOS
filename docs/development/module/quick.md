@@ -186,6 +186,11 @@ Available traits and the methods that they provide include:
 
 - `QuickFormElementsTrait` - Provides methods for building common quick form
   elements.
+  - `timestampElement($title, $required, $default)` - Builds a standard
+    timestamp element. Optionally accepts a translatable title (defaults to
+    "Date"), whether it should be required (defaults to `TRUE`), and a default
+    value in the form of a `DrupalDateTime` object (defaults to midnight of
+    today's date in the current user's timezone).
   - `buildInlineContainer()` - Builds a container that renders child  elements
     inline.
 - `QuickAssetTrait` - Provides standard methods for working with assets.

@@ -2,7 +2,6 @@
 
 namespace Drupal\farm_quick_group\Plugin\QuickForm;
 
-use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -105,12 +104,7 @@ class Group extends QuickFormBase implements QuickFormInterface {
   public function buildForm(array $form, FormStateInterface $form_state, ?string $id = NULL) {
 
     // Date.
-    $form['date'] = [
-      '#type' => 'datetime',
-      '#title' => $this->t('Date'),
-      '#default_value' => new DrupalDateTime('midnight', $this->currentUser->getTimeZone()),
-      '#required' => TRUE,
-    ];
+    $form['date'] = $this->timestampElement();
 
     // Assets.
     $prepopulated_assets = $this->getPrepopulatedEntities('asset', $form_state);

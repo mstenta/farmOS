@@ -2,7 +2,6 @@
 
 namespace Drupal\farm_quick_planting\Plugin\QuickForm;
 
-use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -331,12 +330,7 @@ class Planting extends QuickFormBase {
 
     // Create log fields.
     $field_info = [];
-    $field_info['date'] = [
-      '#type' => 'datetime',
-      '#title' => $this->t('Date'),
-      '#default_value' => new DrupalDateTime('midnight', $this->currentUser->getTimeZone()),
-      '#required' => TRUE,
-    ];
+    $field_info['date'] = $this->timestampElement();
     $field_info['done'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Completed'),

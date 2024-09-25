@@ -3,7 +3,6 @@
 namespace Drupal\farm_quick_inventory\Plugin\QuickForm;
 
 use Drupal\Core\Access\AccessResult;
-use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
@@ -134,12 +133,7 @@ class Inventory extends QuickFormBase implements ConfigurableQuickFormInterface 
   public function buildForm(array $form, FormStateInterface $form_state, ?string $id = NULL) {
 
     // Date.
-    $form['date'] = [
-      '#type' => 'datetime',
-      '#title' => $this->t('Date'),
-      '#default_value' => new DrupalDateTime('midnight', $this->currentUser->getTimeZone()),
-      '#required' => TRUE,
-    ];
+    $form['date'] = $this->timestampElement();
 
     // Asset.
     $form['asset'] = [

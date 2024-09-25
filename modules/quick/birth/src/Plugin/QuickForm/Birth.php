@@ -3,7 +3,6 @@
 namespace Drupal\farm_quick_birth\Plugin\QuickForm;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -14,6 +13,7 @@ use Drupal\farm_group\GroupMembershipInterface;
 use Drupal\farm_location\AssetLocationInterface;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
 use Drupal\farm_quick\Traits\QuickAssetTrait;
+use Drupal\farm_quick\Traits\QuickFormElementsTrait;
 use Drupal\farm_quick\Traits\QuickLogTrait;
 use Drupal\farm_quick\Traits\QuickStringTrait;
 use Psr\Container\ContainerInterface;
@@ -36,6 +36,7 @@ use Psr\Container\ContainerInterface;
 class Birth extends QuickFormBase {
 
   use QuickAssetTrait;
+  use QuickFormElementsTrait;
   use QuickLogTrait;
   use QuickStringTrait;
 
@@ -139,12 +140,7 @@ class Birth extends QuickFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
 
     // Date of birth.
-    $form['date'] = [
-      '#type' => 'datetime',
-      '#title' => $this->t('Date of birth'),
-      '#default_value' => new DrupalDateTime('midnight', $this->currentUser->getTimeZone()),
-      '#required' => TRUE,
-    ];
+    $form['date'] = $this->timestampElement($this->t('Date of birth'));
 
     // Number of children.
     $range = range(1, 15);
