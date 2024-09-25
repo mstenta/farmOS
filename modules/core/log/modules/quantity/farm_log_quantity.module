@@ -40,6 +40,22 @@ function farm_log_quantity_entity_base_field_info(EntityTypeInterface $entity_ty
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function farm_log_quantity_form_quantity_delete_multiple_confirm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  // Add a warning to bulk quantity delete confirmation form, to emphasize that
+  // the quantity will be deleted from all log revisions.
+  $message = t('Warning: Deleting quantities will remove them from all revisions of records that reference them.');
+  $form['warning'] = [
+    '#type' => 'html_tag',
+    '#tag' => 'strong',
+    '#value' => $message,
+    '#weight' => -10,
+  ];
+}
+
+/**
  * Implements hook_form_BASE_FORM_ID_alter().
  */
 function farm_log_quantity_form_log_form_alter(&$form, FormStateInterface $form_state, $form_id) {
