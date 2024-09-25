@@ -184,25 +184,31 @@ farmOS provides some helpers for common quick form operations. These are
 available in the form of traits that can be added to the quick form class.
 Available traits and the methods that they provide include:
 
-- `QuickAssetTrait`
+- `QuickAssetTrait` - Provides standard methods for working with assets.
   - `createAsset($values)` - Creates and returns a new asset entity from
     an array of values. This also creates a link in the database between the
     entity and the quick form that created it, and displays a message to the
     user upon submission with a link to the entity.
-- `QuickLogTrait`
+- `QuickLogTrait` - Provides standard methods for working with logs.
   - `createLog($values)` - Creates and returns a new log entity from an
     array of values. This also creates a link in the database between the
     entity and the quick form that created it, and displays a message to the
     user upon submission with a link to the entity.
-- `QuickPrepopulateTrait`
+- `QuickQuantityTrait` - Provides standard methods for working with quantities.
+  - `createQuantity($values)` - Creates and returns a new quantity entity from
+    an array of values.
+- `QuickTermTrait` - Provides standard methods for working with taxonomy terms.
+  - `createTerm($values)` - Creates and returns a new term entity from an array
+    of values.
+  - `createOrLoadTerm($name, $vocabulary)` - Attempts to load an existing term,
+    given a name and vocabulary. If the term does not exist, a new term will be
+    created.
+- `QuickPrepopulateTrait` - Provides methods for prepopulating form elements.
   - `getPrepopulatedEntities($entity_type)` - Returns entities of the specified
     entity type that have been prepopulated for the quick form. Entities may
     be prepopulated by either a query param or a user specific tempstore that
     is populated by the quick form action.
-- `QuickQuantityTrait`
-  - `createQuantity($values)` - Creates and returns a new quantity entity from
-    an array of values.
-- `QuickStringTrait`
+- `QuickStringTrait` - Provides helper methods for working with strings.
   - `trimString($value, $max_length, $suffix)` - Trims a string down to the
     specified length, respecting word boundaries.
   - `prioritizedString($strings, $priority_keys, $max_length, $suffix)` -
@@ -215,12 +221,6 @@ Available traits and the methods that they provide include:
     labels. Example: "Asset 1, Asset 2, Asset 3 (+ 15 more)". Note that this
     does NOT sanitize the entity labels. It is the responsibility of downstream
     code to do so, if it is printing text to the page.
-- `QuickTermTrait`
-  - `createTerm($values)` - Creates and returns a new term entity from an array
-    of values.
-  - `createOrLoadTerm($name, $vocabulary)` - Attempts to load an existing term,
-    given a name and vocabulary. If the term does not exist, a new term will be
-    created.
 
 ## Configurable quick forms
 
