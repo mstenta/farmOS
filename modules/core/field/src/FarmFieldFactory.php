@@ -567,7 +567,7 @@ class FarmFieldFactory implements FarmFieldFactoryInterface {
             'allow_existing' => FALSE,
             'match_operator' => 'CONTAINS',
             'allow_duplicate' => FALSE,
-            'removed_reference' => InlineEntityFormComplex::REMOVED_DELETE,
+            'removed_reference' => InlineEntityFormComplex::REMOVED_KEEP,
           ],
           'weight' => $options['weight']['form'] ?? 0,
         ];
