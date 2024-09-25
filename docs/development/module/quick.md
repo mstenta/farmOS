@@ -184,6 +184,10 @@ farmOS provides some helpers for common quick form operations. These are
 available in the form of traits that can be added to the quick form class.
 Available traits and the methods that they provide include:
 
+- `QuickFormElementsTrait` - Provides methods for building common quick form
+  elements.
+  - `buildInlineContainer()` - Builds a container that renders child  elements
+    inline.
 - `QuickAssetTrait` - Provides standard methods for working with assets.
   - `createAsset($values)` - Creates and returns a new asset entity from
     an array of values. This also creates a link in the database between the
