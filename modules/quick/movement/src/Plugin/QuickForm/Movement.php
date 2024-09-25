@@ -81,7 +81,6 @@ class Movement extends QuickFormBase implements QuickFormInterface {
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, MessengerInterface $messenger, EntityTypeManagerInterface $entity_type_manager, AssetLocationInterface $asset_location, AccountInterface $current_user) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $messenger);
-    $this->messenger = $messenger;
     $this->entityTypeManager = $entity_type_manager;
     $this->assetLocation = $asset_location;
     $this->currentUser = $current_user;

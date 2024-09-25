@@ -80,7 +80,6 @@ class Inventory extends QuickFormBase implements ConfigurableQuickFormInterface 
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, MessengerInterface $messenger, EntityTypeManagerInterface $entity_type_manager, AssetInventoryInterface $asset_inventory, AccountInterface $current_user) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $messenger);
-    $this->messenger = $messenger;
     $this->entityTypeManager = $entity_type_manager;
     $this->assetInventory = $asset_inventory;
     $this->currentUser = $current_user;

@@ -79,7 +79,6 @@ class Group extends QuickFormBase implements QuickFormInterface {
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, MessengerInterface $messenger, EntityTypeManagerInterface $entity_type_manager, GroupMembershipInterface $group_membership, AccountInterface $current_user) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $messenger);
-    $this->messenger = $messenger;
     $this->entityTypeManager = $entity_type_manager;
     $this->groupMembership = $group_membership;
     $this->currentUser = $current_user;
