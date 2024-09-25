@@ -335,23 +335,13 @@ class Planting extends QuickFormBase {
       '#type' => 'checkbox',
       '#title' => $this->t('Completed'),
     ];
-    $field_info['location'] = [
-      '#type' => 'entity_autocomplete',
-      '#title' => $this->t('Location'),
-      '#description' => $this->t('Where does this take place?'),
-      '#target_type' => 'asset',
-      '#selection_handler' => 'views',
-      '#selection_settings' => [
-        'view' => [
-          'view_name' => 'farm_location_reference',
-          'display_name' => 'entity_reference',
-          'arguments' => [],
-        ],
-        'match_operator' => 'CONTAINS',
-      ],
-      '#tags' => TRUE,
-      '#required' => TRUE,
-    ];
+    $field_info['location'] = $this->assetReferenceElement(
+      title: $this->t('Location'),
+      description: $this->t('Where does this take place?'),
+      required: TRUE,
+      multiple: TRUE,
+      view: 'farm_location_reference:entity_reference',
+    );
     $field_info['quantity'] = $this->buildInlineContainer();
     $field_info['quantity']['value'] = [
       '#type' => 'textfield',

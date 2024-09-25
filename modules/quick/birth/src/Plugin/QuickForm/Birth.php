@@ -251,49 +251,22 @@ class Birth extends QuickFormBase {
     ];
 
     // Birth mother.
-    $form['lineage']['birth_mother'] = [
-      '#type' => 'entity_autocomplete',
-      '#title' => $this->t('Birth mother'),
-      '#description' => $this->t('This is the mother giving birth. She will be referenced on the Birth log that is created.'),
-      '#target_type' => 'asset',
-      '#selection_settings' => [
-        'target_bundles' => ['animal'],
-        'sort' => [
-          'field' => 'status',
-          'direction' => 'ASC',
-        ],
-      ],
-    ];
+    $form['lineage']['birth_mother'] = $this->assetReferenceElement(
+      title: $this->t('Birth mother'),
+      description: $this->t('This is the mother giving birth. She will be referenced on the Birth log that is created.'),
+    );
 
     // Genetic mother.
-    $form['lineage']['genetic_mother'] = [
-      '#type' => 'entity_autocomplete',
-      '#title' => $this->t('Genetic mother'),
-      '#description' => $this->t("If the genetic mother is different from the birth mother, she can be referenced here for lineage tracking. Otherwise, it will be assumed that the birth mother is the genetic mother. This will be referenced as the child's parent."),
-      '#target_type' => 'asset',
-      '#selection_settings' => [
-        'target_bundles' => ['animal'],
-        'sort' => [
-          'field' => 'status',
-          'direction' => 'ASC',
-        ],
-      ],
-    ];
+    $form['lineage']['genetic_mother'] = $this->assetReferenceElement(
+      title: $this->t('Genetic mother'),
+      description: $this->t("If the genetic mother is different from the birth mother, she can be referenced here for lineage tracking. Otherwise, it will be assumed that the birth mother is the genetic mother. This will be referenced as the child's parent."),
+    );
 
     // Genetic father.
-    $form['lineage']['genetic_father'] = [
-      '#type' => 'entity_autocomplete',
-      '#title' => $this->t('Genetic father'),
-      '#description' => $this->t("This will be referenced as the child's parent."),
-      '#target_type' => 'asset',
-      '#selection_settings' => [
-        'target_bundles' => ['animal'],
-        'sort' => [
-          'field' => 'status',
-          'direction' => 'ASC',
-        ],
-      ],
-    ];
+    $form['lineage']['genetic_father'] = $this->assetReferenceElement(
+      title: $this->t('Genetic father'),
+      description: $this->t("This will be referenced as the child's parent."),
+    );
 
     // If the group module is enabled, add an entity autocomplete field for
     // assigning the children to a group.

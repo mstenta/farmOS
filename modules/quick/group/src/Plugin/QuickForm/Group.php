@@ -108,41 +108,21 @@ class Group extends QuickFormBase implements QuickFormInterface {
 
     // Assets.
     $prepopulated_assets = $this->getPrepopulatedEntities('asset', $form_state);
-    $form['asset'] = [
-      '#type' => 'entity_autocomplete',
-      '#title' => $this->t('Assets'),
-      '#description' => $this->t('Which assets are changing group membership?'),
-      '#target_type' => 'asset',
-      '#selection_settings' => [
-        'sort' => [
-          'field' => 'status',
-          'direction' => 'ASC',
-        ],
-      ],
-      '#maxlength' => 1024,
-      '#tags' => TRUE,
-      '#required' => TRUE,
-      '#default_value' => $prepopulated_assets,
-    ];
+    $form['asset'] = $this->assetReferenceElement(
+      title: $this->t('Assets'),
+      description: $this->t('Which assets are changing group membership?'),
+      required: TRUE,
+      multiple: TRUE,
+      default: $prepopulated_assets,
+    );
 
     // Groups.
-    $form['group'] = [
-      '#type' => 'entity_autocomplete',
-      '#title' => $this->t('Groups'),
-      '#description' => $this->t('The groups to assign the assets to. Leave blank to un-assign assets from all groups.'),
-      '#target_type' => 'asset',
-      '#selection_handler' => 'views',
-      '#selection_settings' => [
-        'view' => [
-          'view_name' => 'farm_group_reference',
-          'display_name' => 'entity_reference',
-          'arguments' => [],
-        ],
-        'match_operator' => 'CONTAINS',
-      ],
-      '#maxlength' => 1024,
-      '#tags' => TRUE,
-    ];
+    $form['group'] = $this->assetReferenceElement(
+      title: $this->t('Groups'),
+      description: $this->t('The groups to assign the assets to. Leave blank to un-assign assets from all groups.'),
+      multiple: TRUE,
+      view: 'farm_group_reference:entity_reference',
+    );
 
     // Notes.
     $form['notes'] = $this->notesElement();

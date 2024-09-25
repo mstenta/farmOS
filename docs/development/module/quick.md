@@ -191,6 +191,13 @@ Available traits and the methods that they provide include:
     "Date"), whether it should be required (defaults to `TRUE`), and a default
     value in the form of a `DrupalDateTime` object (defaults to midnight of
     today's date in the current user's timezone).
+  - `assetReferenceElement($title, $description, $required, $multiple, $default, $view)` -
+    Build a standard asset reference element. Optionally accepts a translatable
+    title (defaults to "Asset" or "Assets", depending on the value of
+    `$multiple`), a translatable description (no default), whether it is
+    required (defaults to `FALSE`), whether multiple values are accepted
+    (defaults to `FALSE`), an array of default asset entities, and a View to use
+    for filtering allowed values (in the form `view_id:display_name`).
   - `notesElement($title)` - Build a standard collapsible notes element.
     Optionally accepts a translatable title (defaults to "Notes").
   - `buildInlineContainer()` - Builds a container that renders child  elements

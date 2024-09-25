@@ -51,6 +51,68 @@ trait QuickFormElementsTrait {
   }
 
   /**
+   * Build a standard asset reference element.
+   *
+   * @param \Drupal\Core\StringTranslation\TranslatableMarkup|null $title
+   *   The translated form element title string. Defaults to "Assets" if
+   *   $multiple is TRUE, and "Asset" if $multiple is FALSE.
+   * @param \Drupal\Core\StringTranslation\TranslatableMarkup|null $description
+   *   The translated form element description string.
+   * @param bool $required
+   *   Whether the timestamp is required. Defaults to FALSE.
+   * @param bool $multiple
+   *   Whether multiple values are allowed. Defaults to FALSE.
+   * @param array|null $default
+   *   The default value. This should be an array of asset entities.
+   * @param string|null $view
+   *   Use a View to filter allowed assets. This must be formatted as a string
+   *   containing the View ID and display name separated by a comma. For
+   *   example: my_view:my_display
+   *
+   * @return array
+   *   Returns a form element array.
+   */
+  public function assetReferenceElement(?TranslatableMarkup $title = NULL, ?TranslatableMarkup $description = NULL, bool $required = FALSE, bool $multiple = FALSE, ?array $default = NULL, ?string $view = NULL) {
+    if (is_null($title)) {
+      $count = $multiple ? 2 : 1;
+      $title = $this->formatPlural($count, 'Asset', 'Assets');
+    }
+    $element = [
+      '#type' => 'entity_autocomplete',
+      '#title' => $title,
+      '#description' => $description,
+      '#target_type' => 'asset',
+      '#selection_settings' => [
+        'sort' => [
+          'field' => 'status',
+          'direction' => 'ASC',
+        ],
+      ],
+      '#maxlength' => 1024,
+      '#tags' => $multiple,
+      '#required' => $required,
+      '#default_value' => $default,
+    ];
+    if (!is_null($view)) {
+      $view = explode(':', $view);
+      if (!empty($view[0]) && !empty($view[1])) {
+        $view_name = $view[0];
+        $display_name = $view[1];
+        $element['#selection_handler'] = 'views';
+        $element['#selection_settings'] = [
+          'view' => [
+            'view_name' => $view_name,
+            'display_name' => $display_name,
+            'arguments' => [],
+          ],
+          'match_operator' => 'CONTAINS',
+        ];
+      }
+    }
+    return $element;
+  }
+
+  /**
    * Build a standard collapsible notes element.
    *
    * @param \Drupal\Core\StringTranslation\TranslatableMarkup|null $title

@@ -110,50 +110,34 @@ class Movement extends QuickFormBase implements QuickFormInterface {
 
     // Assets.
     $prepopulated_assets = $this->getPrepopulatedEntities('asset', $form_state);
-    $form['asset'] = [
-      '#type' => 'entity_autocomplete',
-      '#title' => $this->t('Assets'),
-      '#description' => $this->t('Which assets are moving?'),
-      '#target_type' => 'asset',
-      '#selection_settings' => [
-        'sort' => [
-          'field' => 'status',
-          'direction' => 'ASC',
-        ],
-      ],
-      '#maxlength' => 1024,
-      '#tags' => TRUE,
-      '#required' => TRUE,
-      '#ajax' => [
-        'callback' => [$this, 'assetGeometryCallback'],
-        'wrapper' => 'asset-geometry',
-        'event' => 'autocompleteclose change',
-      ],
-      '#default_value' => $prepopulated_assets,
+    $form['asset'] = $this->assetReferenceElement(
+      title: $this->t('Assets'),
+      description: $this->t('Which assets are moving?'),
+      required: TRUE,
+      multiple: TRUE,
+      default: $prepopulated_assets,
+    );
+
+    // When assets are changed, update asset geometry.
+    $form['asset']['#ajax'] = [
+      'callback' => [$this, 'assetGeometryCallback'],
+      'wrapper' => 'asset-geometry',
+      'event' => 'autocompleteclose change',
     ];
 
     // Locations.
-    $form['location'] = [
-      '#type' => 'entity_autocomplete',
-      '#title' => $this->t('Locations'),
-      '#description' => $this->t('Where are the assets moving to?'),
-      '#target_type' => 'asset',
-      '#selection_handler' => 'views',
-      '#selection_settings' => [
-        'view' => [
-          'view_name' => 'farm_location_reference',
-          'display_name' => 'entity_reference',
-          'arguments' => [],
-        ],
-        'match_operator' => 'CONTAINS',
-      ],
-      '#maxlength' => 1024,
-      '#tags' => TRUE,
-      '#ajax' => [
-        'callback' => [$this, 'locationGeometryCallback'],
-        'wrapper' => 'location-geometry',
-        'event' => 'autocompleteclose change',
-      ],
+    $form['location'] = $this->assetReferenceElement(
+      title: $this->t('Locations'),
+      description: $this->t('Where are the assets moving to?'),
+      multiple: TRUE,
+      view: 'farm_location_reference:entity_reference',
+    );
+
+    // When locations are changed, update location geometry.
+    $form['location']['#ajax'] = [
+      'callback' => [$this, 'locationGeometryCallback'],
+      'wrapper' => 'location-geometry',
+      'event' => 'autocompleteclose change',
     ];
 
     // Geometry.

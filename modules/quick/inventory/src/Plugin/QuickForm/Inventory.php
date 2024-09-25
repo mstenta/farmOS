@@ -136,23 +136,16 @@ class Inventory extends QuickFormBase implements ConfigurableQuickFormInterface 
     $form['date'] = $this->timestampElement();
 
     // Asset.
-    $form['asset'] = [
-      '#type' => 'entity_autocomplete',
-      '#title' => $this->t('Asset'),
-      '#description' => $this->t("Which asset's inventory is being adjusted?"),
-      '#target_type' => 'asset',
-      '#selection_settings' => [
-        'sort' => [
-          'field' => 'status',
-          'direction' => 'ASC',
-        ],
-      ],
-      '#maxlength' => 1024,
-      '#required' => TRUE,
-    ];
     if (!empty($this->configuration['asset'])) {
-      $form['asset']['#default_value'] = $this->entityTypeManager->getStorage('asset')->load($this->configuration['asset']);
+      /** @var \Drupal\asset\Entity\AssetInterface $default_asset */
+      $default_asset = $this->entityTypeManager->getStorage('asset')->load($this->configuration['asset']);
     }
+    $form['asset'] = $this->assetReferenceElement(
+      title: $this->t('Asset'),
+      description: $this->t("Which asset's inventory is being adjusted?"),
+      required: TRUE,
+      default: [$default_asset],
+    );
 
     // Quantity.
     $form['quantity'] = $this->buildInlineContainer();
