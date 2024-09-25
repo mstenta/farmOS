@@ -404,22 +404,15 @@ class Inventory extends QuickFormBase implements ConfigurableQuickFormInterface 
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
 
     // Asset.
-    $form['asset'] = [
-      '#type' => 'entity_autocomplete',
-      '#title' => $this->t('Asset'),
-      '#description' => $this->t("Which asset's inventory is being adjusted?"),
-      '#target_type' => 'asset',
-      '#selection_settings' => [
-        'sort' => [
-          'field' => 'status',
-          'direction' => 'ASC',
-        ],
-      ],
-      '#maxlength' => 1024,
-    ];
+    $default_asset = NULL;
     if (!empty($this->configuration['asset'])) {
-      $form['asset']['#default_value'] = $this->entityTypeManager->getStorage('asset')->load($this->configuration['asset']);
+      $default_asset = $this->entityTypeManager->getStorage('asset')->load($this->configuration['asset']);
     }
+    $form['asset'] = $this->assetReferenceElement(
+      title: $this->t('Asset'),
+      description: $this->t("Which asset's inventory is being adjusted?"),
+      default: $default_asset,
+    );
 
     // Units.
     $form['units'] = [

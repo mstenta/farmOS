@@ -276,19 +276,12 @@ class Birth extends QuickFormBase {
         '#title' => $this->t('Group'),
         '#group' => 'tabs',
       ];
-      $form['group']['group'] = [
-        '#type' => 'entity_autocomplete',
-        '#title' => $this->t('Assign to group'),
-        '#description' => $this->t('This will make each child a member of the selected group.'),
-        '#target_type' => 'asset',
-        '#selection_settings' => [
-          'target_bundles' => ['group'],
-          'sort' => [
-            'field' => 'status',
-            'direction' => 'ASC',
-          ],
-        ],
-      ];
+      $form['group']['group'] = $this->assetReferenceElement(
+        title: $this->t('Assign to group'),
+        description: $this->t('This will make each child a member of the selected group.'),
+        multiple: TRUE,
+        view: 'farm_group_reference:entity_reference',
+      );
     }
 
     // Birth notes.
