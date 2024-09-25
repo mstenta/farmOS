@@ -410,7 +410,7 @@ class Planting extends QuickFormBase {
 
     // Get the season names.
     /** @var \Drupal\taxonomy\TermInterface[] $seasons */
-    $seasons = $form_state->getValue('seasons', []);
+    $seasons = $form_state->getValue('seasons') ?? [];
     $season_names = [];
     foreach ($seasons as $season) {
       if (!empty($season['target_id'])) {
@@ -426,7 +426,7 @@ class Planting extends QuickFormBase {
 
     // Get the crop/variety names.
     /** @var \Drupal\taxonomy\TermInterface[] $crops */
-    $crops = $form_state->getValue('crops', []);
+    $crops = $form_state->getValue('crops') ?? [];
     $crop_names = [];
     foreach ($crops as $crop) {
       if (is_numeric($crop)) {

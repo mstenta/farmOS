@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - [Remove dependency on admin_toolbar:admin_toolbar_links_access_filter #881](https://github.com/farmOS/farmOS/pull/881)
+- [Fix warning message when loading values from empty form state #880](https://github.com/farmOS/farmOS/pull/880)
 
 ## [3.3.0] 2024-09-24
 
