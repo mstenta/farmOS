@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- [Do not delete quantities when they are removed from a log #882](https://github.com/farmOS/farmOS/pull/882)
+
 ### Fixed
 
 - [Remove dependency on admin_toolbar:admin_toolbar_links_access_filter #881](https://github.com/farmOS/farmOS/pull/881)
