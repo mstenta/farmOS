@@ -203,6 +203,18 @@ Available traits and the methods that they provide include:
     asset reference element's form state (eg:
     `$values = $form_state->getValue('my_asset_element')`). This always returns
     an array, even if the element does not allow multiple values.
+  - `termRferenceElement($vocabulary, $title, $description, $required, $multiple, $default)` -
+    Build a standard taxonomy term reference element. Expects `$vocabulary` to
+    be a valid vocabulary ID. Optionally accepts a translatable title (defaults
+    to "Term" or "Terms", depending on the value of `$multiple`), a translatable
+    description (no default), whether it is required (defaults to `FALSE`),
+    whether multiple values are accepted (defaults to `FALSE`), and an array of
+    default term entities.
+  - `loadReferencedTerms($values)` - Load taxonomy terms that were selected with
+    a term reference element. Expects `$values` to be passed in directly from
+    the term reference element's form state (eg:
+    `$values = $form_state->getValue('my_term_element')`). This always returns
+    an array, even if the element does not allow multiple values.
   - `notesElement($title)` - Build a standard collapsible notes element.
     Optionally accepts a translatable title (defaults to "Notes").
   - `buildInlineContainer()` - Builds a container that renders child  elements

@@ -53,7 +53,6 @@ trait QuickFormElementsTrait {
       '#type' => 'datetime',
       '#title' => $title,
       '#required' => $required,
-
       '#default_value' => $default,
     ];
   }
@@ -117,6 +116,49 @@ trait QuickFormElementsTrait {
         ];
       }
     }
+    return $element;
+  }
+
+  /**
+   * Build a standard term reference element.
+   *
+   * @param string $vocabulary
+   *   The taxonomy vocabulary ID.
+   * @param \Drupal\Core\StringTranslation\TranslatableMarkup|null $title
+   *   The translated form element title string. Defaults to "Terms" if
+   *   $multiple is TRUE, and "Term" if $multiple is FALSE.
+   * @param \Drupal\Core\StringTranslation\TranslatableMarkup|null $description
+   *   The translated form element description string.
+   * @param bool $required
+   *   Whether the timestamp is required. Defaults to FALSE.
+   * @param bool $multiple
+   *   Whether multiple values are allowed. Defaults to FALSE.
+   * @param array|null $default
+   *   The default value. This should be an array of taxonomy term entities.
+   *
+   * @return array
+   *   Returns a form element array.
+   */
+  public function termReferenceElement(string $vocabulary, ?TranslatableMarkup $title = NULL, ?TranslatableMarkup $description = NULL, bool $required = FALSE, bool $multiple = FALSE, ?array $default = NULL) {
+    if (is_null($title)) {
+      $count = $multiple ? 2 : 1;
+      $title = $this->formatPlural($count, 'Term', 'Terms');
+    }
+    $element = [
+      '#type' => 'entity_autocomplete',
+      '#title' => $title,
+      '#description' => $description,
+      '#target_type' => 'taxonomy_term',
+      '#selection_settings' => [
+        'target_bundles' => [$vocabulary],
+      ],
+      '#autocreate' => [
+        'bundle' => $vocabulary,
+      ],
+      '#tags' => $multiple,
+      '#required' => $required,
+      '#default_value' => $default,
+    ];
     return $element;
   }
 

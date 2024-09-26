@@ -156,21 +156,16 @@ class Inventory extends QuickFormBase implements ConfigurableQuickFormInterface 
       '#size' => 16,
       '#required' => TRUE,
     ];
-    $form['quantity']['units'] = [
-      '#type' => 'entity_autocomplete',
-      '#title' => $this->t('Units'),
-      '#target_type' => 'taxonomy_term',
-      '#selection_settings' => [
-        'target_bundles' => ['unit'],
-      ],
-      '#autocreate' => [
-        'bundle' => 'unit',
-      ],
-      '#size' => 16,
-    ];
+    $default_units = NULL;
     if (!empty($this->configuration['units'])) {
-      $form['quantity']['units']['#default_value'] = $this->createOrLoadTerm($this->configuration['units'], 'unit');
+      $default_units = $this->createOrLoadTerm($this->configuration['units'], 'unit');
     }
+    $form['quantity']['units'] = $this->termReferenceElement(
+      vocabulary: 'unit',
+      title: $this->t('Units'),
+      default: $default_units,
+    );
+    $form['quantity']['units']['#size'] = 16;
     $form['quantity']['measure'] = [
       '#type' => 'select',
       '#title' => $this->t('Measure'),
@@ -415,21 +410,16 @@ class Inventory extends QuickFormBase implements ConfigurableQuickFormInterface 
     );
 
     // Units.
-    $form['units'] = [
-      '#type' => 'entity_autocomplete',
-      '#title' => $this->t('Units'),
-      '#target_type' => 'taxonomy_term',
-      '#selection_settings' => [
-        'target_bundles' => ['unit'],
-      ],
-      '#autocreate' => [
-        'bundle' => 'unit',
-      ],
-      '#size' => 16,
-    ];
+    $default_units = NULL;
     if (!empty($this->configuration['units'])) {
-      $form['units']['#default_value'] = $this->createOrLoadTerm($this->configuration['units'], 'unit');
+      $default_units = $this->createOrLoadTerm($this->configuration['units'], 'unit');
     }
+    $form['units'] = $this->termReferenceElement(
+      vocabulary: 'unit',
+      title: $this->t('Units'),
+      default: $default_units,
+    );
+    $form['units']['#size'] = 16;
 
     // Measure.
     $form['measure'] = [
