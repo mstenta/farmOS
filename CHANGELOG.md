@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.3.1] 2024-09-26
+
+This fixes a critical issue in the upgrade path from farmOS 3.2.x to 3.3.x. For
+more information, see https://github.com/farmOS/farmOS/pull/881.
+
 ### Changed
 
 - [Do not delete quantities when they are removed from a log #882](https://github.com/farmOS/farmOS/pull/882)
@@ -831,8 +836,9 @@ moving forward.
     Drupal 7, which required a complete refactor of the codebase. By comparison,
     updating from Drupal 9 to 10 will simply involve updating deprecated code.
 
-[Unreleased]: https://github.com/farmOS/farmOS/compare/3.3.0..HEAD
-[3.2.4]: https://github.com/farmOS/farmOS/releases/tag/3.3.0
+[Unreleased]: https://github.com/farmOS/farmOS/compare/3.3.1..HEAD
+[3.3.1]: https://github.com/farmOS/farmOS/releases/tag/3.3.1
+[3.3.0]: https://github.com/farmOS/farmOS/releases/tag/3.3.0
 [3.2.4]: https://github.com/farmOS/farmOS/releases/tag/3.2.4
 [3.2.3]: https://github.com/farmOS/farmOS/releases/tag/3.2.3
 [3.2.2]: https://github.com/farmOS/farmOS/releases/tag/3.2.2
