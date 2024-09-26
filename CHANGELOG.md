@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- [Remove dependency on admin_toolbar:admin_toolbar_links_access_filter #881](https://github.com/farmOS/farmOS/pull/881)
+
 ## [3.3.0] 2024-09-24
 
 ### Added

@@ -5,5 +5,4 @@ package: farmOS UI
 core_version_requirement: ^10
 dependencies:
   - admin_toolbar:admin_toolbar
-  - admin_toolbar:admin_toolbar_links_access_filter
   - drupal:toolbar
