@@ -20,6 +20,11 @@ function farm_import_csv_file_download($uri) {
   /** @var \Drupal\file\FileInterface|null $file */
   $file = reset($files) ?: NULL;
 
+  // If a file was not found, return NULL.
+  if (is_null($file)) {
+    return NULL;
+  }
+
   // Get file usage.
   /** @var \Drupal\file\FileUsage\FileUsageInterface $file_usage */
   $usage_service = \Drupal::service('file.usage');

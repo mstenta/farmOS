@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- [Fix config export via UI #883](https://github.com/farmOS/farmOS/pull/883)
+
 ## [3.3.1] 2024-09-26
 
 This fixes a critical issue in the upgrade path from farmOS 3.2.x to 3.3.x. For
