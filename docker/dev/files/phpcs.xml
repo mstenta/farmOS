@@ -16,6 +16,6 @@
     <exclude name="DrupalPractice.Commenting.CommentEmptyLine.SpacingAfter"/>
   </rule>
   <rule ref="PHPCompatibility"/>
-  <config name="testVersion" value="8.2-"/>
+  <config name="testVersion" value="8.3-"/>
   <rule ref="Internal.Tokenizer.Exception"><severity>0</severity></rule>
 </ruleset>
