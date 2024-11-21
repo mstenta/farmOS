@@ -13,6 +13,7 @@ on:
       - '3.x'
 
 env:
+  FARMOS_DEV_BRANCH: 3.x
   DOCKER_IMG_PREFIX: farmos/farmos
 
 jobs:
@@ -45,7 +46,7 @@ jobs:
       - name: Set default FARMOS_REPO and FARMOS_VERSION
         run: |
           echo "FARMOS_REPO=${GITHUB_REPOSITORY}" >> $GITHUB_ENV
-          echo "FARMOS_VERSION=3.x" >> $GITHUB_ENV
+          echo "FARMOS_VERSION=${FARMOS_DEV_BRANCH}" >> $GITHUB_ENV
       - name: Set FARMOS_VERSION for branch push event
         if: github.event_name == 'push' && github.ref_type == 'branch'
         run: echo "FARMOS_VERSION=${GITHUB_REF:11}" >> $GITHUB_ENV
@@ -59,12 +60,12 @@ jobs:
           echo "FARMOS_REPO=${{ github.event.pull_request.head.repo.full_name }}" >> $GITHUB_ENV
       # This builds the production/dev Docker images using the specified FARMOS_VERSION,
       # but notably it does NOT override the default PROJECT_VERSION, so the
-      # farmOS Composer project 3.x branch is always used.
+      # farmOS Composer project dev branch is always used.
       - name: Build and save the farmOS Docker image
         run: |
           COMMON_BUILD_ARGS="--load --build-arg FARMOS_REPO=https://github.com/${FARMOS_REPO} --build-arg FARMOS_VERSION=${FARMOS_VERSION} --platform ${{ matrix.DOCKER_PLATFORM_NAME }}"
-          PROD_IMG_NAME=$DOCKER_IMG_PREFIX:3.x-${{ matrix.platform }}
-          DEV_IMG_NAME=$DOCKER_IMG_PREFIX:3.x-dev-${{ matrix.platform }}
+          PROD_IMG_NAME=$DOCKER_IMG_PREFIX:${FARMOS_DEV_BRANCH}-${{ matrix.platform }}
+          DEV_IMG_NAME=$DOCKER_IMG_PREFIX:${FARMOS_DEV_BRANCH}-dev-${{ matrix.platform }}
           docker buildx build $COMMON_BUILD_ARGS -t $PROD_IMG_NAME docker
           docker buildx build $COMMON_BUILD_ARGS -t $DEV_IMG_NAME --target dev docker
           docker save $PROD_IMG_NAME > /tmp/farmos-${{ matrix.platform }}.tar
@@ -103,13 +104,13 @@ jobs:
       - name: Load the Docker dev image
         run: docker load < /tmp/farmos-dev-${{ matrix.platform }}.tar
       - name: Run PHP CodeSniffer
-        run: docker run $DOCKER_IMG_PREFIX:3.x-dev-${{ matrix.platform }} phpcs /opt/drupal/web/profiles/farm
+        run: docker run $DOCKER_IMG_PREFIX:${FARMOS_DEV_BRANCH}-dev-${{ matrix.platform }} phpcs /opt/drupal/web/profiles/farm
       - name: Run PHPStan
-        run: docker run $DOCKER_IMG_PREFIX:3.x-dev-${{ matrix.platform }} phpstan analyze --memory-limit 1G /opt/drupal/web/profiles/farm
+        run: docker run $DOCKER_IMG_PREFIX:${FARMOS_DEV_BRANCH}-dev-${{ matrix.platform }} phpstan analyze --memory-limit 1G /opt/drupal/web/profiles/farm
       - name: Check PHP compatibility of contrib modules and themes (ignore warnings)
         run: |
-          docker run $DOCKER_IMG_PREFIX:3.x-dev-${{ matrix.platform }} phpcs --standard=PHPCompatibility --runtime-set testVersion 8.2- --warning-severity=0 /opt/drupal/web/modules
-          docker run $DOCKER_IMG_PREFIX:3.x-dev-${{ matrix.platform }} phpcs --standard=PHPCompatibility --runtime-set testVersion 8.2- --warning-severity=0 /opt/drupal/web/themes
+          docker run $DOCKER_IMG_PREFIX:${FARMOS_DEV_BRANCH}-dev-${{ matrix.platform }} phpcs --standard=PHPCompatibility --runtime-set testVersion 8.2- --warning-severity=0 /opt/drupal/web/modules
+          docker run $DOCKER_IMG_PREFIX:${FARMOS_DEV_BRANCH}-dev-${{ matrix.platform }} phpcs --standard=PHPCompatibility --runtime-set testVersion 8.2- --warning-severity=0 /opt/drupal/web/themes
 
   test:
     name: Run PHPUnit tests
@@ -156,8 +157,8 @@ jobs:
         run: |
           cp docker/docker-compose.testing.* .
           docker compose -f docker-compose.testing.common.yml -f docker-compose.testing.${{ matrix.dbms }}.yml config > docker-compose.yml
-          # Replace the generic 'farmos/farmos:3.x-dev' image name/tag with the reference to our local platform-specific tagged image
-          sed -i 's%farmos/farmos:3.x-dev%'$DOCKER_IMG_PREFIX:3.x-dev-${{ matrix.platform }}'%g' docker-compose.yml
+          # Replace the generic 'farmos/farmos:${FARMOS_DEV_BRANCH}-dev' image name/tag with the reference to our local platform-specific tagged image
+          sed -i 's%farmos/farmos:${FARMOS_DEV_BRANCH}-dev%'$DOCKER_IMG_PREFIX:${FARMOS_DEV_BRANCH}-dev-${{ matrix.platform }}'%g' docker-compose.yml
       - name: Start containers
         run: docker compose up -d
       - name: Wait until www container is ready
@@ -200,7 +201,7 @@ jobs:
       - name: Load the Docker image
         run: docker load < /tmp/farmos-${{ matrix.platform }}.tar
       - name: Run the farmOS Docker container
-        run: docker run --rm -v /tmp/farmOS:/opt/drupal $DOCKER_IMG_PREFIX:3.x-${{ matrix.platform }} true
+        run: docker run --rm -v /tmp/farmOS:/opt/drupal $DOCKER_IMG_PREFIX:${FARMOS_DEV_BRANCH}-${{ matrix.platform }} true
       - name: Create artifact
         run: cd /tmp && tar -czf farmOS-${FARMOS_VERSION}.tar.gz farmOS
       - name: Create GitHub release
@@ -214,9 +215,9 @@ jobs:
 
   publish-multi-arch-images:
     name: Publish to Docker Hub
-    # We only publish to Docker Hub if this is a tag or 3.x branch push event
+    # We only publish to Docker Hub if this is a tag or dev branch push event
     # to the official repository.
-    if: github.repository == 'farmOS/farmOS' && github.event_name == 'push' && (github.ref_type == 'tag' || (github.ref_type == 'branch' && needs.build.outputs.farmos_version == '3.x'))
+    if: github.repository == 'farmOS/farmOS' && github.event_name == 'push' && (github.ref_type == 'tag' || (github.ref_type == 'branch' && needs.build.outputs.farmos_version == '${FARMOS_DEV_BRANCH}'))
     runs-on: ubuntu-latest
     needs:
       - build
@@ -250,31 +251,31 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      # If the 3.x branch was pushed...
+      # If the dev branch was pushed...
       - name: Publish the farmOS image to Docker Hub
-        if: github.ref_type == 'branch' && env.FARMOS_VERSION == '3.x'
-        run: docker push $DOCKER_IMG_PREFIX:3.x-${{ matrix.platform }}
+        if: github.ref_type == 'branch' && env.FARMOS_VERSION == '${FARMOS_DEV_BRANCH}'
+        run: docker push $DOCKER_IMG_PREFIX:${FARMOS_DEV_BRANCH}-${{ matrix.platform }}
       - name: Publish the farmOS dev Docker image to Docker Hub
-        if: github.ref_type == 'branch' && env.FARMOS_VERSION == '3.x'
-        run: docker push $DOCKER_IMG_PREFIX:3.x-dev-${{ matrix.platform }}
+        if: github.ref_type == 'branch' && env.FARMOS_VERSION == '${FARMOS_DEV_BRANCH}'
+        run: docker push $DOCKER_IMG_PREFIX:${FARMOS_DEV_BRANCH}-dev-${{ matrix.platform }}
       # If a tag was pushed, tag the Docker image and push to Docker Hub.
       # If the tag is a valid semantic versioning string, also tag "latest".
       # Semver regex from https://github.com/semver/semver/issues/199#issuecomment-43640395
       - name: Tag and publish {DOCKER_IMG_PREFIX}:{tag} image to Docker Hub
         if: github.ref_type == 'tag'
         run: |
-          docker tag $DOCKER_IMG_PREFIX:3.x-${{ matrix.platform }} $DOCKER_IMG_PREFIX:${{ env.FARMOS_VERSION }}-${{ matrix.platform }}
+          docker tag $DOCKER_IMG_PREFIX:${FARMOS_DEV_BRANCH}-${{ matrix.platform }} $DOCKER_IMG_PREFIX:${{ env.FARMOS_VERSION }}-${{ matrix.platform }}
           docker push $DOCKER_IMG_PREFIX:${{ env.FARMOS_VERSION }}-${{ matrix.platform }}
           if echo ${{ env.FARMOS_VERSION }} | grep -Pq '^(?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)\.(?P<patch>0|[1-9]\d*)(?:-(?P<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'; then
-            docker tag $DOCKER_IMG_PREFIX:3.x-${{ matrix.platform }} $DOCKER_IMG_PREFIX:latest-${{ matrix.platform }}
+            docker tag $DOCKER_IMG_PREFIX:${FARMOS_DEV_BRANCH}-${{ matrix.platform }} $DOCKER_IMG_PREFIX:latest-${{ matrix.platform }}
             docker push $DOCKER_IMG_PREFIX:latest-${{ matrix.platform }}
           fi
 
   publish-manifest:
     name: Publish a multi-arch manifest to Docker Hub
-    # We only publish to Docker Hub if this is a tag or 3.x branch push event
+    # We only publish to Docker Hub if this is a tag or dev branch push event
     # to the official repository.
-    if: github.repository == 'farmOS/farmOS' && github.event_name == 'push' && (github.ref_type == 'tag' || (github.ref_type == 'branch' && needs.build.outputs.farmos_version == '3.x'))
+    if: github.repository == 'farmOS/farmOS' && github.event_name == 'push' && (github.ref_type == 'tag' || (github.ref_type == 'branch' && needs.build.outputs.farmos_version == '4.x'))
     runs-on: ubuntu-latest
     needs:
       - build
@@ -287,17 +288,17 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      # If the 3.x branch was pushed...
-      - name: Create and publish the {DOCKER_IMG_PREFIX}:3.x manifest to Docker Hub
-        if: github.ref_type == 'branch' && env.FARMOS_VERSION == '3.x'
+      # If the dev branch was pushed...
+      - name: Create and publish the {DOCKER_IMG_PREFIX}:${FARMOS_DEV_BRANCH} manifest to Docker Hub
+        if: github.ref_type == 'branch' && env.FARMOS_VERSION == '${FARMOS_DEV_BRANCH}'
         run: |
-          docker manifest create $DOCKER_IMG_PREFIX:3.x --amend $DOCKER_IMG_PREFIX:3.x-amd64 --amend $DOCKER_IMG_PREFIX:3.x-arm32v7 --amend $DOCKER_IMG_PREFIX:3.x-arm64v8
-          docker manifest push $DOCKER_IMG_PREFIX:3.x
-      - name: Create and publish the {DOCKER_IMG_PREFIX}:3.x-dev manifest to Docker Hub
-        if: github.ref_type == 'branch' && env.FARMOS_VERSION == '3.x'
+          docker manifest create $DOCKER_IMG_PREFIX:${FARMOS_DEV_BRANCH} --amend $DOCKER_IMG_PREFIX:${FARMOS_DEV_BRANCH}-amd64 --amend $DOCKER_IMG_PREFIX:${FARMOS_DEV_BRANCH}-arm32v7 --amend $DOCKER_IMG_PREFIX:${FARMOS_DEV_BRANCH}-arm64v8
+          docker manifest push $DOCKER_IMG_PREFIX:${FARMOS_DEV_BRANCH}
+      - name: Create and publish the {DOCKER_IMG_PREFIX}:${FARMOS_DEV_BRANCH}-dev manifest to Docker Hub
+        if: github.ref_type == 'branch' && env.FARMOS_VERSION == '${FARMOS_DEV_BRANCH}'
         run: |
-          docker manifest create $DOCKER_IMG_PREFIX:3.x-dev --amend $DOCKER_IMG_PREFIX:3.x-dev-amd64 --amend $DOCKER_IMG_PREFIX:3.x-dev-arm32v7 --amend $DOCKER_IMG_PREFIX:3.x-dev-arm64v8
-          docker manifest push $DOCKER_IMG_PREFIX:3.x-dev
+          docker manifest create $DOCKER_IMG_PREFIX:${FARMOS_DEV_BRANCH}-dev --amend $DOCKER_IMG_PREFIX:${FARMOS_DEV_BRANCH}-dev-amd64 --amend $DOCKER_IMG_PREFIX:${FARMOS_DEV_BRANCH}-dev-arm32v7 --amend $DOCKER_IMG_PREFIX:${FARMOS_DEV_BRANCH}-dev-arm64v8
+          docker manifest push $DOCKER_IMG_PREFIX:${FARMOS_DEV_BRANCH}-dev
       # Same conditional logic as in the publish-multi-arch-images step, except here we
       # are creating the multi-arch manifest pointing at the previously pushed image tags.
       # If "latest" is tagged, we will also announce the release in a followup job.
