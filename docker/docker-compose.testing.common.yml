@@ -1,6 +1,6 @@
 services:
   www:
-    image: farmos/farmos:4.x-dev
+    image: mstenta/farmos:4.x-dev
     volumes:
       - './www:/opt/drupal'
     environment:

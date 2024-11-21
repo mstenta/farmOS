@@ -14,7 +14,7 @@ on:
 
 env:
   FARMOS_DEV_BRANCH: 4.x
-  DOCKER_IMG_PREFIX: farmos/farmos
+  DOCKER_IMG_PREFIX: mstenta/farmos
 
 jobs:
 
@@ -63,7 +63,7 @@ jobs:
       # farmOS Composer project dev branch is always used.
       - name: Build and save the farmOS Docker image
         run: |
-          COMMON_BUILD_ARGS="--load --build-arg FARMOS_REPO=https://github.com/${FARMOS_REPO} --build-arg FARMOS_VERSION=${FARMOS_VERSION} --platform ${{ matrix.DOCKER_PLATFORM_NAME }}"
+          COMMON_BUILD_ARGS="--load --build-arg PROJECT_REPO=https://github.com/mstenta/farmOS-composer-project --build-arg FARMOS_PROJECT=${FARMOS_VERSION} --build-arg FARMOS_REPO=https://github.com/${FARMOS_REPO} --build-arg FARMOS_VERSION=${FARMOS_VERSION} --platform ${{ matrix.DOCKER_PLATFORM_NAME }}"
           PROD_IMG_NAME=${DOCKER_IMG_PREFIX}:${FARMOS_DEV_BRANCH}-${{ matrix.platform }}
           DEV_IMG_NAME=${DOCKER_IMG_PREFIX}:${FARMOS_DEV_BRANCH}-dev-${{ matrix.platform }}
           docker buildx build $COMMON_BUILD_ARGS -t $PROD_IMG_NAME docker
@@ -217,7 +217,7 @@ jobs:
     name: Publish to Docker Hub
     # We only publish to Docker Hub if this is a tag or dev branch push event
     # to the official repository.
-    if: github.repository == 'farmOS/farmOS' && github.event_name == 'push' && (github.ref_type == 'tag' || (github.ref_type == 'branch' && needs.build.outputs.farmos_version == '${FARMOS_DEV_BRANCH}'))
+    if: github.repository == 'mstenta/farmOS' && github.event_name == 'push' && (github.ref_type == 'tag' || (github.ref_type == 'branch' && needs.build.outputs.farmos_version == '${FARMOS_DEV_BRANCH}'))
     runs-on: ubuntu-latest
     needs:
       - build
@@ -275,7 +275,7 @@ jobs:
     name: Publish a multi-arch manifest to Docker Hub
     # We only publish to Docker Hub if this is a tag or dev branch push event
     # to the official repository.
-    if: github.repository == 'farmOS/farmOS' && github.event_name == 'push' && (github.ref_type == 'tag' || (github.ref_type == 'branch' && needs.build.outputs.farmos_version == '4.x'))
+    if: github.repository == 'mstenta/farmOS' && github.event_name == 'push' && (github.ref_type == 'tag' || (github.ref_type == 'branch' && needs.build.outputs.farmos_version == '4.x'))
     runs-on: ubuntu-latest
     needs:
       - build
