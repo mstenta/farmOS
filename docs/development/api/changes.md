@@ -1,5 +1,9 @@
 # API Changes
 
+## 4.x vs 3.x
+
+... (@todo)
+
 ## 3.x vs 2.x
 
 The [Simple OAuth](https://www.drupal.org/project/simple_oauth) module has been
