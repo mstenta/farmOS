@@ -1,7 +1,7 @@
 # Inherits from docker-compose.testing.common.yml
 services:
   db:
-    image: postgres:13
+    image: postgres:16
     volumes:
       - './db:/var/lib/postgresql/data'
     ports:

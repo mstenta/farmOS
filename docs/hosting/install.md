@@ -36,13 +36,12 @@ PostgreSQL is recommended. MySQL/MariaDB and SQLite are also supported.
 This can be installed on the same server as farmOS (either directly or in a
 Docker container), or it can be on a separate server.
 
-If PostgreSQL is used, it must be version 12 or higher, and the `pg_trgm`
-extension must be installed and enabled on the farmOS database. On PostgreSQL
-13+ this will be enabled automatically by farmOS. On PostgreSQL 12, the
-following SQL query must be run on the farmOS database by a PostgreSQL
-superuser to enable the extension:
+Minimum version requirements:
 
-    CREATE EXTENSION pg_trgm;
+- PostgreSQL 16+
+- MariaDB 10.6+
+- MySQL/Percona 8.0+
+- SQLite 3.45+
 
 ### SSL
 
