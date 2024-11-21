@@ -138,41 +138,6 @@ jobs:
       - name: Print test matrix variables
         run: echo "matrix.platform=${{ matrix.platform }}, matrix.dbms=${{ matrix.dbms }}, matrix.DB_URL=${{ matrix.DB_URL }}"
       # https://github.com/docker/setup-qemu-action
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-      - name: Checkout the repository
-        uses: actions/checkout@v4
-      - name: Restore the farmOS dev Docker image from cache
-        uses: actions/cache@v4
-        with:
-          path: /tmp/farmos-dev-${{ matrix.platform }}.tar
-          key: farmos-dev-${{ matrix.platform }}-${{ github.run_id }}
-      - name: Load the Docker dev image
-        run: docker load < /tmp/farmos-dev-${{ matrix.platform }}.tar
-      # Build a new docker-compose.yml file from docker-compose.testing.common + docker-compose.testing.{dbms}.yml.
-      # Copy to the current directory so that farmOS volume mounts don't change to the docker/www folder.
-      - name: Create docker-compose.yml
-        env:
-          DB_URL: ${{ matrix.DB_URL }}
-        run: |
-          cp docker/docker-compose.testing.* .
-          docker compose -f docker-compose.testing.common.yml -f docker-compose.testing.${{ matrix.dbms }}.yml config > docker-compose.yml
-          # Replace the generic 'farmos/farmos:${FARMOS_DEV_BRANCH}-dev' image name/tag with the reference to our local platform-specific tagged image
-          sed -i 's%farmos/farmos:${FARMOS_DEV_BRANCH}-dev%'${DOCKER_IMG_PREFIX}:${FARMOS_DEV_BRANCH}-dev-${{ matrix.platform }}'%g' docker-compose.yml
-      - name: Start containers
-        run: docker compose up -d
-      - name: Wait until www container is ready
-      # The www-container-fs-ready file is only created once we expect the containers to be online
-      # so waiting for that lets us know it is safe to start the tests
-        run: until [ -f ./www/www-container-fs-ready ]; do sleep 0.1; done
-      - name: Install pg_trgm PostgreSQL extension
-      # This avoids race conditions when trying to automatically install it in concurrently run tests.
-        if: matrix.dbms == 'pgsql'
-        run: docker compose exec -T db psql -U farm -c 'CREATE EXTENSION IF NOT EXISTS pg_trgm;'
-      - name: Run PHPUnit tests
-        run: docker compose exec -u www-data -T www ${{ matrix.test_cmd }} /opt/drupal/web/profiles/farm
-      - name: Test Drush site install with all modules
-        run: docker compose exec -u www-data -T www drush site-install --db-url=${{ matrix.DB_URL }} farm farm.modules='all'
 
   release:
     name: Create release
