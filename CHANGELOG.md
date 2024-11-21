@@ -7,6 +7,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.0.0] ... (draft)
+
+This is the first release of the farmOS 4.x branch, following
+[semantic versioning](https://semver.org/). This means changes have been made
+which may be incompatible with existing integrations. These "breaking" changes
+are described below, with links to specific issues/pull requests for more
+details.
+
+farmOS v4 updates Drupal to version 11. If you have built any add-on modules for
+farmOS, you will need to check that they are compatible with Drupal 11, and
+declare support in your `*.info.yml` file by changing `core_version_requirement`
+from `^10` to `^10 || ^11` (to indicate that it works on both versions), or just
+`^11` (to indicate that it only works on Drupal 11). The PHPStan tool that is
+included with the farmOS `4.x-dev` Docker image can be used to perform static
+analysis of your module code to see if there are deprecations that need to be
+fixed. See
+[farmOS coding standards](https://farmos.org/development/environment/code/) for
+more information.
+
+Drupal 11 requires PHP 8.3+, and has the following minimum database version
+requirements:
+
+- PostgreSQL 16+
+- MariaDB 10.6+
+- MySQL/Percona 8.0+
+- SQLite 3.45+
+
 ## [3.3.2] 2024-11-20
 
 ### Fixed
