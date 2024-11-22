@@ -182,7 +182,7 @@ jobs:
     name: Publish to Docker Hub
     # We only publish to Docker Hub if this is a tag or dev branch push event
     # to the official repository.
-    if: github.repository == 'mstenta/farmOS' && github.event_name == 'push' && (github.ref_type == 'tag' || (github.ref_type == 'branch' && needs.build.outputs.farmos_version == '${FARMOS_DEV_BRANCH}'))
+    if: github.repository == 'mstenta/farmOS' && github.event_name == 'push' && (github.ref_type == 'tag' || (github.ref_type == 'branch' && needs.build.outputs.farmos_version == env.FARMOS_DEV_BRANCH))
     runs-on: ubuntu-latest
     needs:
       - build
@@ -218,10 +218,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       # If the dev branch was pushed...
       - name: Publish the farmOS image to Docker Hub
-        if: github.ref_type == 'branch' && env.FARMOS_VERSION == '${FARMOS_DEV_BRANCH}'
+        if: github.ref_type == 'branch' && env.FARMOS_VERSION == env.FARMOS_DEV_BRANCH
         run: docker push ${DOCKER_IMG_PREFIX}:${FARMOS_DEV_BRANCH}-${{ matrix.platform }}
       - name: Publish the farmOS dev Docker image to Docker Hub
-        if: github.ref_type == 'branch' && env.FARMOS_VERSION == '${FARMOS_DEV_BRANCH}'
+        if: github.ref_type == 'branch' && env.FARMOS_VERSION == env.FARMOS_DEV_BRANCH
         run: docker push ${DOCKER_IMG_PREFIX}:${FARMOS_DEV_BRANCH}-dev-${{ matrix.platform }}
       # If a tag was pushed, tag the Docker image and push to Docker Hub.
       # If the tag is a valid semantic versioning string, also tag "latest".
@@ -255,12 +255,12 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       # If the dev branch was pushed...
       - name: Create and publish the {DOCKER_IMG_PREFIX}:${FARMOS_DEV_BRANCH} manifest to Docker Hub
-        if: github.ref_type == 'branch' && env.FARMOS_VERSION == '${FARMOS_DEV_BRANCH}'
+        if: github.ref_type == 'branch' && env.FARMOS_VERSION == env.FARMOS_DEV_BRANCH
         run: |
           docker manifest create ${DOCKER_IMG_PREFIX}:${FARMOS_DEV_BRANCH} --amend ${DOCKER_IMG_PREFIX}:${FARMOS_DEV_BRANCH}-amd64 --amend ${DOCKER_IMG_PREFIX}:${FARMOS_DEV_BRANCH}-arm32v7 --amend ${DOCKER_IMG_PREFIX}:${FARMOS_DEV_BRANCH}-arm64v8
           docker manifest push ${DOCKER_IMG_PREFIX}:${FARMOS_DEV_BRANCH}
       - name: Create and publish the {DOCKER_IMG_PREFIX}:${FARMOS_DEV_BRANCH}-dev manifest to Docker Hub
-        if: github.ref_type == 'branch' && env.FARMOS_VERSION == '${FARMOS_DEV_BRANCH}'
+        if: github.ref_type == 'branch' && env.FARMOS_VERSION == env.FARMOS_DEV_BRANCH
         run: |
           docker manifest create ${DOCKER_IMG_PREFIX}:${FARMOS_DEV_BRANCH}-dev --amend ${DOCKER_IMG_PREFIX}:${FARMOS_DEV_BRANCH}-dev-amd64 --amend ${DOCKER_IMG_PREFIX}:${FARMOS_DEV_BRANCH}-dev-arm32v7 --amend ${DOCKER_IMG_PREFIX}:${FARMOS_DEV_BRANCH}-dev-arm64v8
           docker manifest push ${DOCKER_IMG_PREFIX}:${FARMOS_DEV_BRANCH}-dev
