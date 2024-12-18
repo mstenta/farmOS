@@ -1,0 +1,5 @@
+name: farmOS GeoJSON
+description: Provides GeoJSON features for farmOS.
+type: module
+package: farmOS
+core_version_requirement: ^10
