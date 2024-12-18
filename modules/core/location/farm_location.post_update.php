@@ -18,3 +18,13 @@ function farm_location_post_update_uninstall_asset_move_action(&$sandbox) {
     $config->delete();
   }
 }
+
+/**
+ * Replace views_geojson module with farm_geojson.
+ */
+function farm_location_post_update_farm_geojson(&$sandbox) {
+
+  // Update farm_asset_geojson configuration dependencies.
+  $config = \Drupal::configFactory()->getEditable('views.view.farm_asset_geojson');
+
+}

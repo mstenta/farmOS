@@ -3,11 +3,11 @@ status: true
 dependencies:
   module:
     - asset
+    - farm_geojson
     - farm_location
     - geofield
     - rest
     - user
-    - views_geojson
   enforced:
     module:
       - farm_location

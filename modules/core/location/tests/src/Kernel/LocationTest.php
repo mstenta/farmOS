@@ -68,6 +68,7 @@ class LocationTest extends KernelTestBase {
     'log',
     'farm_entity_views',
     'farm_field',
+    'farm_geojson',
     'farm_location',
     'farm_location_test',
     'farm_log',
@@ -78,7 +79,6 @@ class LocationTest extends KernelTestBase {
     'system',
     'user',
     'views',
-    'views_geojson',
   ];
 
   /**

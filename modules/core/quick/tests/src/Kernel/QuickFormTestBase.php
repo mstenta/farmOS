@@ -65,6 +65,7 @@ abstract class QuickFormTestBase extends KernelTestBase {
     'farm_entity_fields',
     'farm_field',
     'farm_format',
+    'farm_geojson',
     'farm_location',
     'farm_log',
     'farm_log_asset',
@@ -87,7 +88,6 @@ abstract class QuickFormTestBase extends KernelTestBase {
     'text',
     'user',
     'views',
-    'views_geojson',
   ];
 
   /**

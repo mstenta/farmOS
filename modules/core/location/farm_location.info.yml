@@ -8,7 +8,7 @@ dependencies:
   - farm:asset
   - farm:farm_field
   - farm:farm_geo
+  - farm:farm_geojson
   - farm:farm_log
   - geofield:geofield
   - log:log
-  - views_geojson:views_geojson

@@ -21,6 +21,7 @@ class LogCsvImportTest extends CsvImportTestBase {
   protected static $modules = [
     'farm_activity',
     'farm_harvest',
+    'farm_geojson',
     'farm_id_tag',
     'farm_land',
     'farm_land_types',
@@ -34,7 +35,6 @@ class LogCsvImportTest extends CsvImportTestBase {
     'geofield',
     'rest',
     'serialization',
-    'views_geojson',
   ];
 
   /**
