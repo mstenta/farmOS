@@ -24,7 +24,38 @@ function farm_location_post_update_uninstall_asset_move_action(&$sandbox) {
  */
 function farm_location_post_update_farm_geojson(&$sandbox) {
 
-  // Update farm_asset_geojson configuration dependencies.
+  /** @var \Drupal\Core\Extension\ModuleHandler $module_handler */
+  $module_handler = \Drupal::service('module_handler');
+
+  /** @var \Drupal\Core\Extension\ModuleInstaller $module_installer */
+  $module_installer = \Drupal::service('module_installer');
+
+  // Install farm_geojson.
+  if (!$module_handler->moduleExists('farm_geojson')) {
+    $module_installer->install(['farm_geojson']);
+  }
+
+  // Load farm_asset_geojson configuration.
   $config = \Drupal::configFactory()->getEditable('views.view.farm_asset_geojson');
+
+  // Update config dependencies.
+  $dependencies = $config->get('dependencies');
+  $dependencies['module'] = array_map(function ($module) {
+    return ($module == 'views_geojson') ? 'farm_geosjon' : $module;
+  }, $dependencies['module']);
+  sort($dependencies['module']);
+  $config->set('dependencies', $dependencies);
+
+  // Update display and style plugins.
+  // @todo
+
+  // Save farm_asset_geojson configuration.
+  $config->save();
+
+  // Uninstall views_geojson, if no other modules depend on it.
+  // @todo IF NO OTHER MODULES DEPEND ON IT
+  if ($module_handler->moduleExists('views_geojson')) {
+    $module_installer->uninstall(['views_geojson'], FALSE);
+  }
 
 }

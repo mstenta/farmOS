@@ -394,7 +394,7 @@ display:
         - user.permissions
       tags: {  }
   centroid:
-    display_plugin: geojson_export
+    display_plugin: farm_geojson_export
     id: centroid
     display_title: 'Centroid (GeoJSON export)'
     position: 2
@@ -407,7 +407,7 @@ display:
         options:
           offset: 0
       style:
-        type: geojson
+        type: farm_geojson
         options:
           data_source:
             value: wkt
@@ -678,7 +678,7 @@ display:
         - user.permissions
       tags: {  }
   full:
-    display_plugin: geojson_export
+    display_plugin: farm_geojson_export
     id: full
     display_title: 'Full (GeoJSON export)'
     position: 1
@@ -691,7 +691,7 @@ display:
         options:
           offset: 0
       style:
-        type: geojson
+        type: farm_geojson
         options:
           data_source:
             value: geofield
