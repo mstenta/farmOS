@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- [Issue #3304608: Add an "abandoned" log status](https://www.drupal.org/project/farm/issues/3304608)
+
 ### Changed
 
 - farmOS 4.x requires PHP 8.3+.

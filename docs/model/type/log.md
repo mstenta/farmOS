@@ -62,10 +62,14 @@ Logs always have a timestamp which indicates when they took place.
 
 #### Status
 
-Logs can be marked as "pending" or "done", to indicate whether they are
-"planned" or "actual" events. Every change that is made to a Log is stored as
-a revision, so that it's possible to see how a plan evolves over time until it
-eventually becomes a canonical record of the event that took place.
+Logs can be marked as "pending", "done", or "abandoned". Pending Logs represent
+planned events, while done Logs represent events that actually happened. If an
+event is never completed, and there is no intention of completing it, the Log
+can be marked as "abandoned" to preserve it for future reference.
+
+Every change that is made to a Log is stored as a revision, so that it's
+possible to see how a plan evolves over time until it eventually becomes a
+canonical record of the event that took place.
 
 #### Flags
 
