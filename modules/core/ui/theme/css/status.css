@@ -1,3 +1,4 @@
+.views-field .status.status--active,
 .views-field .status.status--done {
   color: var(--gin-status-bg);
   background-color: var(--gin-color-green);
