@@ -1,8 +1,11 @@
+.field--type-state .status.status--active,
 .views-field .status.status--active,
+.field--type-state .status.status--done,
 .views-field .status.status--done {
   color: var(--gin-status-bg);
   background-color: var(--gin-color-green);
 }
+.field--type-state .status.status--abandoned,
 .views-field .status.status--abandoned {
   color: var(--gin-color-danger-lightest);
   background-color: var(--gin-color-danger);
