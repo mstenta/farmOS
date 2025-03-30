@@ -2,3 +2,7 @@
   color: var(--gin-status-bg);
   background-color: var(--gin-color-green);
 }
+.views-field .status.status--abandoned {
+  color: var(--gin-color-danger-lightest);
+  background-color: var(--gin-color-danger);
+}
