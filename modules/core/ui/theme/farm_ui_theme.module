@@ -44,7 +44,9 @@ function farm_ui_theme_theme($existing, $type, $theme, $path) {
  * Implements hook_theme_registry_alter().
  */
 function farm_ui_theme_theme_registry_alter(&$theme_registry) {
-  $theme_registry['comment']['path'] = \Drupal::service('extension.list.module')->getPath('farm_ui_theme') . '/templates';
+  $directory = \Drupal::service('extension.list.module')->getPath('farm_ui_theme') . '/templates';
+  $theme_registry['comment']['path'] = $directory;
+  $theme_registry['views_view_field__status']['path'] = $directory;
 }
 
 /**
@@ -278,6 +280,14 @@ function farm_ui_theme_preprocess_plan__full(&$variables) {
  */
 function farm_ui_theme_preprocess_views_view(&$variables) {
   $variables['#attached']['library'][] = 'farm_ui_theme/views';
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function farm_ui_theme_preprocess_views_view_field__status(&$variables) {
+  $variables['status'] = $variables['row']->_entity->get('status')->value;
+  $variables['#attached']['library'][] = 'farm_ui_theme/status';
 }
 
 /**
