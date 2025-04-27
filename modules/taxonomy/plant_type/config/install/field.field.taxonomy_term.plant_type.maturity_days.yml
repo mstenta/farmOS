@@ -12,7 +12,7 @@ field_name: maturity_days
 entity_type: taxonomy_term
 bundle: plant_type
 label: 'Days to maturity'
-description: ''
+description: 'Number of days from seeding to maturity.'
 required: false
 translatable: false
 default_value: {  }

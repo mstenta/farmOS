@@ -12,7 +12,7 @@ field_name: transplant_days
 entity_type: taxonomy_term
 bundle: plant_type
 label: 'Days to transplant'
-description: ''
+description: 'Number of days from seeding to transplant.'
 required: false
 translatable: false
 default_value: {  }

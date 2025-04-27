@@ -12,7 +12,7 @@ field_name: harvest_days
 entity_type: taxonomy_term
 bundle: plant_type
 label: 'Days of harvest'
-description: ''
+description: 'Number of days of expected harvest.'
 required: false
 translatable: false
 default_value: {  }
