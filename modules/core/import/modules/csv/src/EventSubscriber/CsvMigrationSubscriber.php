@@ -146,7 +146,7 @@ class CsvMigrationSubscriber implements EventSubscriberInterface {
         foreach ($record_numbers as $record_number) {
           $messages = $event->getMigration()->getIdMap()->getMessages(['file_id' => $file_id, 'record_number' => $record_number]);
           foreach ($messages as $message) {
-            $this->messenger->addWarning($this->t('Row @rownum: @message', ['@rownum' => $record_number, '@message' => $message->message])->render());
+            $this->messenger->addWarning($this->t('Row @rownum: @message', ['@rownum' => $record_number, '@message' => strip_tags($message->message)])->render());
           }
         }
       }
