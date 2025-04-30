@@ -1,0 +1,58 @@
+<?php
+
+/**
+ * @file
+ * Contains farm_log_purpose.module.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Entity\EntityTypeInterface;
+
+/**
+ * Implements hook_entity_base_field_info().
+ */
+function farm_log_purpose_entity_base_field_info(EntityTypeInterface $entity_type) {
+
+  // Add purpose base field to all log types.
+  $fields = [];
+  if ($entity_type->id() == 'log') {
+    $purpose_info = [
+      'type' => 'entity_reference',
+      'label' => t('Purpose'),
+      'description' => t('Assign a purpose to logs for easier searching and filtering later.'),
+      'target_type' => 'taxonomy_term',
+      'target_bundle' => 'log_purpose',
+      'multiple' => TRUE,
+      'weight' => [
+        'view' => 80,
+      ],
+      'form_display_options' => [
+        'type' => 'options_select',
+        'weight' => 10,
+      ],
+    ];
+    $fields['purpose'] = \Drupal::service('farm_field.factory')->baseFieldDefinition($purpose_info);
+  }
+  return $fields;
+}
+
+/**
+ * Implements hook_farm_ui_theme_region_items().
+ */
+function farm_log_purpose_farm_ui_theme_region_items(string $entity_type) {
+
+  // Define common asset, log, and plan region items on behalf of core modules.
+  switch ($entity_type) {
+
+    case 'log':
+      return [
+        'second' => [
+          'purpose',
+        ],
+      ];
+
+    default:
+      return [];
+  }
+}

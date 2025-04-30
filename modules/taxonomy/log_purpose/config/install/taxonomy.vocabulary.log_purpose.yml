@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_log_purpose
+name: 'Log purpose'
+vid: log_category
+description: 'A list of log purposes.'
+weight: 0
+new_revision: false

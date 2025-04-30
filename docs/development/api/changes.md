@@ -1,5 +1,11 @@
 # API Changes
 
+## 4.x vs 3.x
+
+- A new `purpose` taxonomy has been added, and every log type now has a
+  `purpose` term reference field. The old `purpose` text field on `input` logs
+  has been replaced, and all unique strings have been migrated to terms.
+
 ## 3.x vs 2.x
 
 The [Simple OAuth](https://www.drupal.org/project/simple_oauth) module has been

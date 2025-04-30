@@ -1,0 +1,8 @@
+name: Log purpose vocabulary
+description: Provides a Log purpose vocabulary.
+type: module
+package: farmOS Taxonomies
+core_version_requirement: ^10
+dependencies:
+  - drupal:taxonomy
+  - log:log
