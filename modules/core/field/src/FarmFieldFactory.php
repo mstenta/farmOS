@@ -182,7 +182,7 @@ class FarmFieldFactory implements FarmFieldFactoryInterface {
         break;
 
       default:
-        throw new FieldException('Unsupported field type.');
+        throw new FieldException('Unsupported field type: ' . $options['type']);
 
     }
 
