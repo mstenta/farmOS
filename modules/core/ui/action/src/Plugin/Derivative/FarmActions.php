@@ -130,9 +130,9 @@ class FarmActions extends DeriverBase implements ContainerDeriverInterface {
         $this->derivatives[$name]['bundle_parameter'] = 'arg_0';
       }
 
-      // Generate links to [entity-type]/add/[bundle]?asset=[id] on asset pages.
+      // Generate links to log/add/[bundle]?asset=[id] on asset pages.
       if ($type == 'log') {
-        $bundles = $this->entityTypeBundleInfo->getBundleInfo('log');
+        $bundles = $this->entityTypeBundleInfo->getBundleInfo($type);
         foreach ($bundles as $bundle => $bundle_info) {
           $name = 'farm.asset.add.' . $type . '.' . $bundle;
           $this->derivatives[$name] = $base_plugin_definition;
@@ -153,6 +153,30 @@ class FarmActions extends DeriverBase implements ContainerDeriverInterface {
           if ($this->moduleHandler->moduleExists('farm_ui_views')) {
             $this->derivatives[$name]['appears_on'][] = 'view.farm_log.page_asset';
           }
+        }
+      }
+
+      // Generate links to asset/add/[bundle]?farm=[id] on farm
+      // organization pages.
+      if ($type == 'asset') {
+        $bundles = $this->entityTypeBundleInfo->getBundleInfo($type);
+        foreach ($bundles as $bundle => $bundle_info) {
+          $name = 'farm.organization.add.' . $type . '.' . $bundle;
+          $this->derivatives[$name] = $base_plugin_definition;
+          $this->derivatives[$name]['route_name'] = 'entity.' . $type . '.add_form';
+          $this->derivatives[$name]['class'] = 'Drupal\farm_ui_action\Plugin\Menu\LocalAction\AddEntity';
+          $this->derivatives[$name]['entity_type'] = $type;
+          $this->derivatives[$name]['bundle'] = $bundle;
+          // @todo
+          // We only want this appearing on farm organizations.
+          $this->derivatives[$name]['appears_on'][] = 'entity.organization.canonical';
+          // @todo Prepopulate the farm field.
+          $this->derivatives[$name]['prepopulate'] = [
+            'farm' => [
+              'route_parameter' => 'farm',
+            ],
+          ];
+          $this->derivatives[$name]['cache_tags'] = ['entity_bundles'];
         }
       }
     }
