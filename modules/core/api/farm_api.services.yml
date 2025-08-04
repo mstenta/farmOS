@@ -5,6 +5,14 @@ services:
     arguments: ['@module_handler']
     tags:
       - { name: event_subscriber }
+  # Provide a normalizer for JSON:API relationship objects.
+  farm_api.normalizer.relationship:
+    class: Drupal\farm_api\Normalizer\RelationshipNormalizer
+    arguments: [ '@jsonapi.normalization_cacher' ]
+    tags:
+      # @todo This can't be jsonapi_normalizer
+      # "JSON:API does not allow adding more normalizers!"
+      - { name: jsonapi_normalizer, priority: 10 }
   # Alter the root /api endpoint to include a meta.farm object.
   farm_api.route_subscriber:
     class: Drupal\farm_api\Routing\RouteSubscriber
