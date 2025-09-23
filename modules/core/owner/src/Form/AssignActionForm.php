@@ -240,6 +240,9 @@ class AssignActionForm extends ConfirmFormBase {
             ],
           ),
         );
+        foreach ($violations as $violation) {
+          $this->messenger()->addWarning($violation->getMessage());
+        }
         continue;
       }
 
