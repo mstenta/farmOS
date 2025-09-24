@@ -176,6 +176,12 @@ class AssetFarmActionForm extends ConfirmFormBase {
       '#required' => TRUE,
     ];
 
+    $form['update_relations'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Update all related parent and child assets'),
+      '#description' => $this->t('If any of the selected assets have parents or children that are associated with a different farm, changing their farm is not allowed. Checking this box will update all parent and child assets (and all of their parents and children recursively) to be associated with the same farm. <strong>Use with caution. This cannot be undone.</strong>'),
+    ];
+
     // Delegate to the parent method.
     $form = parent::buildForm($form, $form_state);
 
