@@ -162,7 +162,7 @@ class AssetFarmActionForm extends ConfirmFormBase {
     $form['farm'] = [
       '#type' => 'entity_autocomplete',
       '#title' => $this->t('Farm'),
-      '#description' => $this->t('Select the farm to associate the asset(s) with.'),
+      '#description' => $this->t('Select the farm to associate the asset(s) with. If this is left blank, the asset(s) will be disassociated from any farm.'),
       '#target_type' => 'organization',
       '#selection_handler' => 'default:organization',
       '#selection_settings' => [
@@ -173,7 +173,6 @@ class AssetFarmActionForm extends ConfirmFormBase {
       ],
       '#validate_reference' => FALSE,
       '#maxlength' => 1024,
-      '#required' => TRUE,
     ];
 
     $form['update_relations'] = [
@@ -195,6 +194,42 @@ class AssetFarmActionForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+
+    //
+
+
+
+    $operations = [];
+    foreach ($to_install as $module => $weight) {
+      $operations[] = [
+        [__NAMESPACE__ . '\FarmSettingsModulesForm', 'farmInstallModuleBatch'],
+        [$module, $this->moduleExtensionList->getName($module)],
+      ];
+    }
+    $batch = [
+      'operations' => $operations,
+      'title' => $this->t('Assigning asset(s) to farm'),
+      'error_message' => $this->t('The bulk farm assignment has encountered an error.'),
+    ];
+
+    batch_set($batch);
+  }
+
+  /**
+   * Implements callback_batch_operation().
+   *
+   * Performs batch assignment of assets to a farm.
+   */
+  public static function farmInstallModuleBatch($module, $module_name, &$context) {
+    \Drupal::service('module_installer')->install([$module], TRUE);
+    $context['results'][] = $module;
+    $context['message'] = t('Installed %module module.', ['%module' => $module_name]);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function oldSubmitForm(array &$form, FormStateInterface $form_state) {
 
     // Filter out entities the user doesn't have access to.
     $inaccessible_entities = [];
