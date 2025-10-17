@@ -1,9 +1,0 @@
-name: farm_role_account_admin (deprecated)
-description: This module has moved to the farm_account_admin module.
-type: module
-package: farmOS (deprecated)
-core_version_requirement: ^11
-lifecycle: obsolete
-lifecycle_link: 'https://www.drupal.org/node/3527786'
-dependencies:
-  - farm:farm_account_admin
