@@ -147,21 +147,6 @@ class Asset extends RevisionableContentEntityBase implements AssetInterface {
   /**
    * {@inheritdoc}
    */
-  public function getArchivedTime() {
-    return $this->get('last_archived')->value;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setArchivedTime($timestamp) {
-    $this->set('last_archived', $timestamp);
-    return $this;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getBundleLabel() {
     /** @var \Drupal\asset\Entity\AssetTypeInterface $type */
     $type = $this->entityTypeManager()
@@ -281,11 +266,6 @@ class Asset extends RevisionableContentEntityBase implements AssetInterface {
         ],
         'weight' => 100,
       ]);
-
-    $fields['last_archived'] = BaseFieldDefinition::create('timestamp')
-      ->setLabel(t('Last Archived'))
-      ->setDescription(t('The time the asset was last archived.'))
-      ->setRevisionable(TRUE);
 
     return $fields;
   }
