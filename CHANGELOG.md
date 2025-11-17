@@ -79,6 +79,7 @@ requirements (inherited from Drupal 11):
 - [Issue #3413263: Use Entity API query access handler to filter entity queries based on user permissions](https://www.drupal.org/project/farm/issues/3413263)
 - [Allow more granular access to views #965](https://github.com/farmOS/farmOS/pull/965)
 - Make plan reference required on plan_record entities
+- Allow plan_record entities to be created/updated/deleted via API
 
 ### Deprecated
 
