@@ -50,6 +50,7 @@ class AssetTypeListBuilder extends ConfigEntityListBuilder {
    */
   public function render() {
     $build = parent::render();
+    // @todo this link should check access (also in log, plan, organization, others?)
     $build['table']['#empty'] = $this->t('No asset types available. <a href=":link">Add asset type</a>.', [
       ':link' => Url::fromRoute('entity.asset_type.add_form')->toString(),
     ]);
