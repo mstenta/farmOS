@@ -19,11 +19,18 @@ class FarmModulesForm extends FormBase {
   use AutowireTrait;
 
   /**
-   * The package name for farmOS contrib modules.
+   * The package name for farmOS asset type modules.
    *
    * @var string
    */
-  const FARM_CONTRIB_PACKAGE = 'farmOS Contrib';
+  const FARM_ASSET_PACKAGE = 'farmOS Assets';
+
+  /**
+   * The package name for farmOS log type modules.
+   *
+   * @var string
+   */
+  const FARM_LOG_PACKAGE = 'farmOS Logs';
 
   /**
    * The package name for farmOS quick form modules.
@@ -31,6 +38,13 @@ class FarmModulesForm extends FormBase {
    * @var string
    */
   const FARM_QUICK_PACKAGE = 'farmOS Quick Forms';
+
+  /**
+   * The package name for farmOS contrib modules.
+   *
+   * @var string
+   */
+  const FARM_CONTRIB_PACKAGE = 'farmOS Contrib';
 
   /**
    * {@inheritdoc}
@@ -125,6 +139,8 @@ class FarmModulesForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+
+    // @todo reorganize into assets, logs, etc
 
     // Set the form title.
     $form['#title'] = $this->t('Install modules');
