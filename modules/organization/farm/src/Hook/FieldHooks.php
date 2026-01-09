@@ -63,6 +63,20 @@ class FieldHooks {
         $fields['farm']->addConstraint('AssetGroupAssignmentFarm');
       }
     }
+
+    // Add a Farm reference field to plans.
+    if ($entity_type->id() == 'plan') {
+      $options = [
+        'type' => 'entity_reference',
+        'label' => $this->t('Farm'),
+        'description' => $this->t('What farm is this associated with?'),
+        'target_type' => 'organization',
+        'target_bundle' => 'farm',
+        'multiple' => FALSE,
+      ];
+      $fields['farm'] = $this->farmFieldFactory->baseFieldDefinition($options);
+    }
+
     return $fields;
   }
 

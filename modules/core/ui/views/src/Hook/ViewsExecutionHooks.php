@@ -38,7 +38,7 @@ class ViewsExecutionHooks {
   public function viewsPreView(ViewExecutable $view, $display_id, array &$args) {
 
     // We only want to alter the Views we provide.
-    if (!in_array($view->id(), ['farm_asset', 'farm_log', 'farm_log_quantity', 'farm_organization', 'farm_organization_asset', 'farm_organization_log', 'farm_plan'])) {
+    if (!in_array($view->id(), ['farm_asset', 'farm_log', 'farm_log_quantity', 'farm_organization', 'farm_organization_asset', 'farm_organization_log', 'farm_plan', 'farm_farm_plan'])) {
       return;
     }
 
@@ -106,7 +106,7 @@ class ViewsExecutionHooks {
   public function viewsPreRender(ViewExecutable $view) {
 
     // We only want to alter the Views we provide.
-    if (!in_array($view->id(), ['farm_asset', 'farm_log', 'farm_log_quantity', 'farm_organization', 'farm_plan'])) {
+    if (!in_array($view->id(), ['farm_asset', 'farm_log', 'farm_log_quantity', 'farm_organization', 'farm_plan', 'farm_farm_plan'])) {
       return;
     }
 

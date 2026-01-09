@@ -17,6 +17,7 @@ class ViewsHooks {
   /**
    * Implements hook_views_data().
    */
+  // @todo should this be views_data_alter?
   #[Hook('views_data')]
   public function viewsData() {
     $data = [];
