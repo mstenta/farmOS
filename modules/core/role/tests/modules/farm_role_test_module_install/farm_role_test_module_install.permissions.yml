@@ -1,0 +1,3 @@
+test installed module permission:
+  title: 'Test installed module permission'
+  description: 'A permission to be added to managed roles when this module is installed.'

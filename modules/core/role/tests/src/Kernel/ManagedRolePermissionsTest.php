@@ -299,6 +299,11 @@ class ManagedRolePermissionsTest extends KernelTestBase {
     $farm_test->save();
     $this->assertTrue($user->hasPermission('create observation log'));
     $this->assertTrue($user->hasPermission('create harvest log'));
+
+    // Install the farm_role_test_module_install module and confirm that its
+    // permission is added to managed roles.
+    \Drupal::service('module_installer')->install(['farm_role_test_module_install']);
+    $this->assertTrue($user->hasPermission('test installed module permission'));
   }
 
 }
