@@ -9,6 +9,7 @@ use Drupal\Core\TypedData\Attribute\DataType;
 use Drupal\Core\TypedData\ComplexDataInterface;
 use Drupal\Core\TypedData\Plugin\DataType\ItemList;
 use Drupal\Core\TypedData\Plugin\DataType\Map;
+use Drupal\farm_timeline\TypedData\TimelineTaskDefinition;
 
 /**
  * Timeline task data type.
@@ -16,7 +17,7 @@ use Drupal\Core\TypedData\Plugin\DataType\Map;
 #[DataType(
   id: 'farm_timeline_task',
   label: new TranslatableMarkup('Timeline Task'),
-  definition_class: '\Drupal\farm_timeline\TypedData\TimelineTaskDefinition',
+  definition_class: TimelineTaskDefinition::class,
 )]
 class TimelineTask extends Map implements ComplexDataInterface {
 
