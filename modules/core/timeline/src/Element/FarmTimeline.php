@@ -25,6 +25,9 @@ class FarmTimeline extends RenderElementBase {
         [get_class($this), 'preRenderTimeline'],
       ],
       '#rows' => [],
+
+      // Use the farmOS-timeline.js library.
+      '#js' => TRUE,
     ];
   }
 
@@ -44,14 +47,18 @@ class FarmTimeline extends RenderElementBase {
       $element['#attributes']['id'] = Html::getUniqueId('timeline');
     }
 
-    // Add timeline rows.
-    $element['#attributes']['data-timeline-rows'] = Json::encode($element['#rows'] ?? []);
-
     // Add the farm-timeline class.
     $element['#attributes']['class'][] = 'farm-timeline';
 
-    // Attach the farm_timeline_js library.
-    $element['#attached']['library'][] = 'farm_timeline/farm_timeline_js';
+    // If this is not being rendered as an SVG, then use farmOS-timeline.js.
+    if (isset($element['#js']) && $element['#js'] === TRUE) {
+
+      // Add timeline rows.
+      $element['#attributes']['data-timeline-rows'] = Json::encode($element['#rows'] ?? []);
+
+      // Attach the farm_timeline_js library.
+      $element['#attached']['library'][] = 'farm_timeline/farm_timeline_js';
+    }
 
     return $element;
   }
