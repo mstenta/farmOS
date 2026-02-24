@@ -28,7 +28,7 @@ class FarmTimeline extends RenderElementBase {
 
       // Use the farmOS-timeline.js library.
       // @todo Remove this when farmOS-timeline.js is abandoned.
-      '#js' => TRUE,
+      '#js' => FALSE,
     ];
   }
 
