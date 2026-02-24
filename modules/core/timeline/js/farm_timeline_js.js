@@ -1,5 +1,5 @@
 (function (Drupal, drupalSettings, once, farmOS) {
-  Drupal.behaviors.farm_timeline = {
+  Drupal.behaviors.farm_timeline_js = {
     attach: function (context, settings) {
       once('timelineGantt', '.farm-timeline', context).forEach(async function (element) {
         const opts = {
@@ -76,11 +76,11 @@
 
           // Map the parent row to a row object and include children rows.
           row.children = aggregatedChildren.rows;
-          const mappedRow = Drupal.behaviors.farm_timeline.mapRow(row);
+          const mappedRow = Drupal.behaviors.farm_timeline_js.mapRow(row);
 
           // Collect all tasks from the parent row and add all child tasks.
           const tasks = [
-            ...(row.tasks?.map(Drupal.behaviors.farm_timeline.mapTask) ?? []),
+            ...(row.tasks?.map(Drupal.behaviors.farm_timeline_js.mapTask) ?? []),
             ...aggregatedChildren.tasks,
           ];
 
