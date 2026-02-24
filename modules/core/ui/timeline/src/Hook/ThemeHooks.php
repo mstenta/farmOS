@@ -8,7 +8,6 @@ use Drupal\Component\Utility\Html;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Hook\Attribute\Hook;
-use Drupal\Core\Url;
 use Drupal\farm_log\AssetLogsInterface;
 
 /**
@@ -39,14 +38,12 @@ class ThemeHooks {
     }
 
     // Render the asset timeline.
-    $row_url = Url::fromRoute('farm_ui_timeline.asset_timeline', ['asset' => $entity->id()]);
     $build['asset_timeline'] = [
       '#type' => 'farm_timeline',
       '#attributes' => [
         'id' => Html::getUniqueId('asset-timeline'),
       ],
-      '#js' => TRUE,
-      '#rows' => [$row_url->setAbsolute()->toString()],
+      '#js' => FALSE,
     ];
 
   }
