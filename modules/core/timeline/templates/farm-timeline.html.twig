@@ -5,8 +5,14 @@
  *
  * Available variables:
  * - attributes: Attributes for the farm_timeline wrapper div.
+ * - js: Whether to use farmOS-timeline.js rendering.
  *
  * @ingroup themeable
  */
 #}
-<div{{ attributes }}></div>
+<div{{ attributes }}>
+{% if not js %}
+  <svg width="1000" height="50" viewBox="0 0 1000 50" xmlns="http://www.w3.org/2000/svg">
+  </svg>
+{% endif %}
+</div>

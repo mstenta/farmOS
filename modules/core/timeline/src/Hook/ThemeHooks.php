@@ -20,6 +20,7 @@ class ThemeHooks {
       'farm_timeline' => [
         'variables' => [
           'attributes' => [],
+          'js' => TRUE,
         ],
       ],
     ];
