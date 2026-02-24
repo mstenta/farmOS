@@ -1,3 +1,8 @@
+farm_timeline:
+  css:
+    theme:
+      css/farm_timeline.css: { }
+
 # @todo Remove this when farmOS-timeline.js is abandoned.
 farmOS-timeline:
   remote: https://github.com/farmOS/farmOS-timeline

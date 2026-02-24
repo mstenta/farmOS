@@ -61,6 +61,11 @@ class FarmTimeline extends RenderElementBase {
       // Attach the farm_timeline_js library.
       $element['#attached']['library'][] = 'farm_timeline/farm_timeline_js';
     }
+    else {
+
+      // Attach the farm_timeline library.
+      $element['#attached']['library'][] = 'farm_timeline/farm_timeline';
+    }
 
     return $element;
   }
