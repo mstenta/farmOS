@@ -20,6 +20,7 @@ class ThemeHooks {
       'farm_timeline' => [
         'variables' => [
           'attributes' => [],
+          // @todo Remove this when farmOS-timeline.js is abandoned.
           'js' => TRUE,
         ],
       ],

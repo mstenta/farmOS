@@ -1,3 +1,5 @@
+/* @todo Remove this when farmOS-timeline.js is abandoned. */
+
 /* Set the width to 100% instead of using flex. This prevents auto-expanding width of timeline. */
 .layout__region--top {
   width: 100%;

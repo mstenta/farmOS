@@ -1,3 +1,4 @@
+# @todo Remove this when farmOS-timeline.js is abandoned.
 farmOS-timeline:
   remote: https://github.com/farmOS/farmOS-timeline
   license:

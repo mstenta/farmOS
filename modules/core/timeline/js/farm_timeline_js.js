@@ -1,4 +1,5 @@
 (function (Drupal, drupalSettings, once, farmOS) {
+  // @todo Remove this when farmOS-timeline.js is abandoned.
   Drupal.behaviors.farm_timeline_js = {
     attach: function (context, settings) {
       once('timelineGantt', '.farm-timeline', context).forEach(async function (element) {

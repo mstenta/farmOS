@@ -27,6 +27,7 @@ class FarmTimeline extends RenderElementBase {
       '#rows' => [],
 
       // Use the farmOS-timeline.js library.
+      // @todo Remove this when farmOS-timeline.js is abandoned.
       '#js' => TRUE,
     ];
   }
@@ -51,6 +52,7 @@ class FarmTimeline extends RenderElementBase {
     $element['#attributes']['class'][] = 'farm-timeline';
 
     // If this is not being rendered as an SVG, then use farmOS-timeline.js.
+    // @todo Remove this when farmOS-timeline.js is abandoned.
     if (isset($element['#js']) && $element['#js'] === TRUE) {
 
       // Add timeline rows.
