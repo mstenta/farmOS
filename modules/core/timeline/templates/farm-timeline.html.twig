@@ -5,6 +5,7 @@
  *
  * Available variables:
  * - attributes: Attributes for the farm_timeline wrapper div.
+ * - rows: One or more farm_timeline_row render elements.
  * - js: Whether to use farmOS-timeline.js rendering.
  *
  * @ingroup themeable
@@ -12,8 +13,9 @@
 #}
 <div{{ attributes }}>
 {# @todo Remove the "not js" condition when farmOS-timeline.js is abandoned. #}
-{% if not js %}
+{% if rows and not js %}
   <svg width="1000" height="50" viewBox="0 0 1000 50" xmlns="http://www.w3.org/2000/svg">
+    {{ rows }}
   </svg>
 {% endif %}
 </div>
