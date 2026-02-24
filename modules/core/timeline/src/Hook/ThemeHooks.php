@@ -20,6 +20,8 @@ class ThemeHooks {
       'farm_timeline' => [
         'variables' => [
           'attributes' => [],
+          // @todo What should this default to?
+          'width' => 1000,
           'rows' => [],
           // @todo Remove this when farmOS-timeline.js is abandoned.
           'js' => FALSE,
