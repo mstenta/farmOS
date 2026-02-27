@@ -52,6 +52,7 @@ class AssetFarmActionForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function getQuestion() {
+    // @todo Change to "Assign asset(s) to a farm organization"
     return $this->formatPlural(count($this->entities), 'Are you sure you want to assign this @item to a farm?', 'Are you sure you want to assign these @items to a farm?', [
       '@item' => $this->entityType->getSingularLabel(),
       '@items' => $this->entityType->getPluralLabel(),
@@ -173,6 +174,8 @@ class AssetFarmActionForm extends ConfirmFormBase {
         }
         continue;
       }
+
+      // @todo set revision log message.
 
       $entity->save();
       $total_count++;

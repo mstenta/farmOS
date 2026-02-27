@@ -56,6 +56,7 @@ class AssetClone extends EntityActionBase {
       $cloned_asset->setOwnerId($this->currentUser->id());
       $new_name = $asset->getName() . ' ' . $this->t('(clone of asset #@id)', ['@id' => $asset->id()]);
       $cloned_asset->setName($new_name);
+      // @todo set revision log message.
       $cloned_asset->save();
       $this->messenger()->addMessage($this->t('Asset saved: <a href=":uri">%asset_label</a>', [':uri' => $cloned_asset->toUrl()->toString(), '%asset_label' => $cloned_asset->label()]));
     }
