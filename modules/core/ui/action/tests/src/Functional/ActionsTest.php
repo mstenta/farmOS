@@ -67,6 +67,9 @@ class ActionsTest extends FarmBrowserTestBase {
    */
   public function testActionButtons() {
 
+    // @todo convert all entity type names to lower case ("Add asset") for consistency
+    // @todo or... convert all action names to uppercase for consistency
+
     // Test dashboard buttons.
     $this->drupalGet('/dashboard');
     $this->assertSession()->statusCodeEquals(200);
