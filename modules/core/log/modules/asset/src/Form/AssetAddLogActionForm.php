@@ -51,6 +51,7 @@ class AssetAddLogActionForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function getQuestion() {
+    // @todo
     return $this->formatPlural(count($this->entities), 'Are you sure you want to add a log referencing this @item?', 'Are you sure you want to add a log referencing these @items?', [
       '@item' => $this->entityType->getSingularLabel(),
       '@items' => $this->entityType->getPluralLabel(),

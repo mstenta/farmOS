@@ -52,6 +52,7 @@ class LogCategorizeActionForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function getQuestion() {
+    // @todo
     return $this->formatPlural(count($this->entities), 'Are you sure you want to categorize this @item?', 'Are you sure you want to categorize these @items?', [
       '@item' => $this->entityType->getSingularLabel(),
       '@items' => $this->entityType->getPluralLabel(),

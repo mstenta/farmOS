@@ -67,6 +67,7 @@ class EntityFlagActionForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function getQuestion() {
+    // @todo
     return $this->formatPlural(count($this->entities), 'Are you sure you want to flag this @item?', 'Are you sure you want to flag these @items?', [
       '@item' => $this->entityType->getSingularLabel(),
       '@items' => $this->entityType->getPluralLabel(),
