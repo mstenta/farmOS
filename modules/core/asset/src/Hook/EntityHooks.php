@@ -30,8 +30,12 @@ class EntityHooks {
   public function assetPresave(AssetInterface $asset) {
 
     // Dispatch an event on asset presave.
-    // @todo Replace this with core event via https://www.drupal.org/node/2551893.
+    // @deprecated in farm:4.1.0 and is removed from farm:5.0.0.
+    // Use Drupal core entity hooks instead.
+    // @see https://www.drupal.org/node/3576637
+    // @phpstan-ignore-next-line
     $event = new AssetEvent($asset);
+    // @phpstan-ignore-next-line
     $this->eventDispatcher->dispatch($event, AssetEvent::PRESAVE);
   }
 
@@ -42,8 +46,12 @@ class EntityHooks {
   public function assetInsert(AssetInterface $asset) {
 
     // Dispatch an event on asset insert.
-    // @todo Replace this with core event via https://www.drupal.org/node/2551893.
+    // @deprecated in farm:4.1.0 and is removed from farm:5.0.0.
+    // Use Drupal core entity hooks instead.
+    // @see https://www.drupal.org/node/3576637
+    // @phpstan-ignore-next-line
     $event = new AssetEvent($asset);
+    // @phpstan-ignore-next-line
     $this->eventDispatcher->dispatch($event, AssetEvent::INSERT);
   }
 
@@ -54,8 +62,12 @@ class EntityHooks {
   public function assetUpdate(AssetInterface $asset) {
 
     // Dispatch an event on asset update.
-    // @todo Replace this with core event via https://www.drupal.org/node/2551893.
+    // @deprecated in farm:4.1.0 and is removed from farm:5.0.0.
+    // Use Drupal core entity hooks instead.
+    // @see https://www.drupal.org/node/3576637
+    // @phpstan-ignore-next-line
     $event = new AssetEvent($asset);
+    // @phpstan-ignore-next-line
     $this->eventDispatcher->dispatch($event, AssetEvent::UPDATE);
   }
 
@@ -66,8 +78,12 @@ class EntityHooks {
   public function assetDelete(AssetInterface $asset) {
 
     // Dispatch an event on asset delete.
-    // @todo Replace this with core event via https://www.drupal.org/node/2551893.
+    // @deprecated in farm:4.1.0 and is removed from farm:5.0.0.
+    // Use Drupal core entity hooks instead.
+    // @see https://www.drupal.org/node/3576637
+    // @phpstan-ignore-next-line
     $event = new AssetEvent($asset);
+    // @phpstan-ignore-next-line
     $this->eventDispatcher->dispatch($event, AssetEvent::DELETE);
   }
 
