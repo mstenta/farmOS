@@ -1,0 +1,5 @@
+name: farmOS Action
+description: Provides shared logic for entity action plugins.
+type: module
+package: farmOS
+core_version_requirement: ^11
