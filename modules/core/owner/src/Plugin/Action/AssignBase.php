@@ -61,7 +61,12 @@ abstract class AssignBase extends EntityActionBase {
    * {@inheritdoc}
    */
   public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
-    return $object->access('update', $account, $return_as_object);
+    $result = $object->get('owner')->access('edit', $account, TRUE)
+      ->andIf($object->access('update', $account, TRUE));
+
+    return $return_as_object ? $result : $result->isAllowed();
+
+    // @todo are there others?
   }
 
 }
