@@ -52,12 +52,6 @@ regions:
   css:
     theme:
       css/regions.css: { }
-toolbar:
-  css:
-    theme:
-      css/toolbar.css: { }
-  js:
-    js/toolbar.js: { weight: -50 }
 views:
   css:
     theme:

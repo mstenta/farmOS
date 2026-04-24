@@ -21,9 +21,6 @@ function farm_ui_theme_install() {
   // Load Gin settings.
   $gin_settings = \Drupal::configFactory()->getEditable('gin.settings');
 
-  // Use vertical toolbar.
-  $gin_settings->set('classic_toolbar', 'vertical');
-
   // Use green/orange color palette.
   $gin_settings->set('preset_accent_color', 'green');
   $gin_settings->set('preset_focus_color', 'orange');

@@ -7,7 +7,6 @@ namespace Drupal\farm_ui_menu\Hook;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\farm_ui_menu\Render\Element\FarmAdminToolbar;
 
 /**
  * Theme hook implementations for farm_ui_menu.
@@ -58,21 +57,6 @@ class ThemeHooks {
         ];
       }
     }
-  }
-
-  /**
-   * Implements hook_toolbar_alter().
-   */
-  #[Hook('toolbar_alter')]
-  public function toolbarAlter(&$items) {
-
-    // Override the toolbar tray prerender method to use farm.base root.
-    $items['administration']['tray']['toolbar_administration']['#pre_render'] = [
-      [
-        FarmAdminToolbar::class,
-        'preRenderTray',
-      ],
-    ];
   }
 
   /**

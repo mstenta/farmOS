@@ -4,12 +4,11 @@
 
 /* Remove the page background color and body top padding. */
 body.path-asset {
-  --gin-toolbar-y-offset: 0;
   background: unset !important;
 }
 
 /* Remove extra space on the left. */
-.toolbar-tray-open:not(.toolbar-vertical) .layout-container {
+.layout-container {
   margin: 0 !important;
 }
 

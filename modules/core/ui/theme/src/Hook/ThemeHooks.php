@@ -106,14 +106,6 @@ class ThemeHooks {
   /**
    * Implements hook_preprocess_HOOK().
    */
-  #[Hook('preprocess_toolbar')]
-  public function preprocessToolbar(&$variables) {
-    $variables['#attached']['library'][] = 'farm_ui_theme/toolbar';
-  }
-
-  /**
-   * Implements hook_preprocess_HOOK().
-   */
   #[Hook('preprocess_field__flag')]
   public function preprocessFieldFlag(array &$variables) {
     $variables['#attached']['library'][] = 'farm_ui_theme/flag';
