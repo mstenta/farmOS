@@ -41,7 +41,7 @@ follow these steps:
 To import a KML/KMZ file containing multiple Land Assets, follow these steps:
 
 1. Enable the *KML Importer* module.
-2. Go to Administration > Import > KML Import in the toolbar.
+2. Go to Administration > Import > KML Import in the navigation menu.
 3. Upload your KML/KMZ file, select the default land type to assign to new
    Assets, and click "Parse".
 4. If geometries are found in the file, a fieldset will be shown for each of

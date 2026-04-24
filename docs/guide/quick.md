@@ -6,5 +6,5 @@ recording of common events, while maintaining the underlying flexibility of
 the generalized Asset and Log data architecture.
 
 If you have the "farmOS Quick" module enabled, you will see a new "Quick forms"
-link in the toolbar. This will list all available quick forms, which are
+link in the navigation menu. This will list all available quick forms, which are
 provided by modules.

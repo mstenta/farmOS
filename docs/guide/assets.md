@@ -2,7 +2,7 @@
 
 All the important and valuable things on your farm are represented as "Assets"
 in farmOS. Asset types include Land, Plants, Animals, Equipment, Structures,
-etc. Assets can be accessed from "Records > Assets" in the toolbar.
+etc. Assets can be accessed from "Records > Assets" in the navigation menu.
 
 Assets can be archived, so they do not show in farmOS unless you specifically
 want to see them. For example, when you are done harvesting a "Plant" Asset,
@@ -10,9 +10,9 @@ you can mark it as "archived" to hide it in your Asset lists. Archived records
 can be retrieved using the "Filters" options on Asset listing pages.
 
 Assets can be designated as "locations", which will cause them to show up in
-the "Locations" hierarchy (available from the toolbar). It also allows other
-Assets to be moved to them. For example, a "Plant" or "Animal" Asset can be
-moved to a "Land" Asset. The hierarchy of location Assets is determined by
+the "Locations" hierarchy (available from the navigation menu). It also allows
+other Assets to be moved to them. For example, a "Plant" or "Animal" Asset can
+be moved to a "Land" Asset. The hierarchy of location Assets is determined by
 their "parent" field relationships.
 
 For more information on Asset location, refer to the

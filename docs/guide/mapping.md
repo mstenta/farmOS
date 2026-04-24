@@ -83,10 +83,11 @@ See [Importing data](/guide/import) and [Exporting data](/guide/export).
 ## Location hierarchy
 
 Location Assets can be organized into a hierarchy. This is visible from the
-"Locations" page in the Toolbar. There are three ways to modify the hierarchy:
+"Locations" page in the navigation menu. There are three ways to modify the
+hierarchy:
 
-- Click "Locations" in the toolbar, then click "Toggle drag and drop" at the
-  bottom. Drag locations to their new parents to modify the hierarchy. Click
+- Click "Locations" in the navigation menu, then click "Toggle drag and drop" at
+  the bottom. Drag locations to their new parents to modify the hierarchy. Click
   "Save" when you are done, or "Reset" to undo your changes.
 - The same drag and drop editor is available for child hierarchies of
   individual location Assets. Go to the parent Asset record and click the

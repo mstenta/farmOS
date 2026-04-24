@@ -48,7 +48,8 @@ farmOS is designed to make your records approachable from multiple angles, so
 it is easy to find records you made in the past, and add new ones in the
 future.
 
-The toolbar on the left provides quick access to various records and tools:
+The navigation menu on the left provides quick access to various records and
+tools:
 
 - **[Quick forms](/guide/quick)** - Lists "quick forms" available for easy data
   entry of common records. This will only be visible if you have quick form
@@ -75,8 +76,8 @@ Asset, you can navigate to the field in the map where the plant is located, and
 you will be able to find all Assets in that field.
 
 If you are looking for a specific Log, you can either find it via "Records >
-Logs" in the toolbar, or you can find the Asset that the Log is associated with,
-and the Log will appear there as well.
+Logs" in the navigation menu, or you can find the Asset that the Log is
+associated with, and the Log will appear there as well.
 
 All your records can be connected and related in this way to make navigating
 them easier.
