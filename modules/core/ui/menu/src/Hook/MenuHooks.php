@@ -9,9 +9,9 @@ use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
- * Theme hook implementations for farm_ui_menu.
+ * Menu hook implementations for farm_ui_menu.
  */
-class ThemeHooks {
+class MenuHooks {
 
   use StringTranslationTrait;
 
