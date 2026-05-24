@@ -3,3 +3,7 @@ description: Provides features for farmOS files.
 type: module
 package: farmOS
 core_version_requirement: ^11
+dependencies:
+  - drupal:file
+  - drupal:image
+  - farm:farm_field

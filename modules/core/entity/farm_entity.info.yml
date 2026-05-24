@@ -9,4 +9,5 @@ dependencies:
   - farm:farm_entity_access
   - farm:farm_entity_fields
   - farm:farm_entity_views
+  - farm:farm_file
   - farm:farm_log

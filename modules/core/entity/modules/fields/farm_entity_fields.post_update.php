@@ -8,6 +8,15 @@
 declare(strict_types=1);
 
 /**
+ * Install the farm_file module.
+ */
+function farm_entity_fields_post_update_install_farm_file(&$sandbox) {
+  if (!\Drupal::service('module_handler')->moduleExists('farm_file')) {
+    \Drupal::service('module_installer')->install(['farm_file']);
+  }
+}
+
+/**
  * Implements hook_removed_post_updates().
  */
 function farm_entity_fields_removed_post_updates() {

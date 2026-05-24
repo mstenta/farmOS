@@ -152,26 +152,6 @@ class FieldHooks {
         'label' => $this->t('Data'),
         'hidden' => TRUE,
       ],
-      'file' => [
-        'type' => 'file',
-        'label' => $this->t('Files'),
-        'file_directory' => 'farm/asset/[date:custom:Y]-[date:custom:m]',
-        'multiple' => TRUE,
-        'weight' => [
-          'form' => 90,
-          'view' => 90,
-        ],
-      ],
-      'image' => [
-        'type' => 'image',
-        'label' => $this->t('Images'),
-        'file_directory' => 'farm/asset/[date:custom:Y]-[date:custom:m]',
-        'multiple' => TRUE,
-        'weight' => [
-          'form' => 89,
-          'view' => 89,
-        ],
-      ],
       'notes' => [
         'type' => 'text_long',
         'label' => $this->t('Notes'),
@@ -200,26 +180,6 @@ class FieldHooks {
         'type' => 'string_long',
         'label' => $this->t('Data'),
         'hidden' => TRUE,
-      ],
-      'file' => [
-        'type' => 'file',
-        'label' => $this->t('Files'),
-        'file_directory' => 'farm/log/[date:custom:Y]-[date:custom:m]',
-        'multiple' => TRUE,
-        'weight' => [
-          'form' => 90,
-          'view' => 90,
-        ],
-      ],
-      'image' => [
-        'type' => 'image',
-        'label' => $this->t('Images'),
-        'file_directory' => 'farm/log/[date:custom:Y]-[date:custom:m]',
-        'multiple' => TRUE,
-        'weight' => [
-          'form' => 89,
-          'view' => 89,
-        ],
       ],
       'notes' => [
         'type' => 'text_long',
@@ -250,26 +210,6 @@ class FieldHooks {
         'label' => $this->t('Data'),
         'hidden' => TRUE,
       ],
-      'file' => [
-        'type' => 'file',
-        'label' => $this->t('Files'),
-        'file_directory' => 'farm/organization/[date:custom:Y]-[date:custom:m]',
-        'multiple' => TRUE,
-        'weight' => [
-          'form' => 90,
-          'view' => 90,
-        ],
-      ],
-      'image' => [
-        'type' => 'image',
-        'label' => $this->t('Images'),
-        'file_directory' => 'farm/organization/[date:custom:Y]-[date:custom:m]',
-        'multiple' => TRUE,
-        'weight' => [
-          'form' => 89,
-          'view' => 89,
-        ],
-      ],
       'notes' => [
         'type' => 'text_long',
         'label' => $this->t('Notes'),
@@ -299,26 +239,6 @@ class FieldHooks {
         'label' => $this->t('Data'),
         'hidden' => TRUE,
       ],
-      'file' => [
-        'type' => 'file',
-        'label' => $this->t('Files'),
-        'file_directory' => 'farm/plan/[date:custom:Y]-[date:custom:m]',
-        'multiple' => TRUE,
-        'weight' => [
-          'form' => 90,
-          'view' => 90,
-        ],
-      ],
-      'image' => [
-        'type' => 'image',
-        'label' => $this->t('Images'),
-        'file_directory' => 'farm/plan/[date:custom:Y]-[date:custom:m]',
-        'multiple' => TRUE,
-        'weight' => [
-          'form' => 89,
-          'view' => 89,
-        ],
-      ],
       'notes' => [
         'type' => 'text_long',
         'label' => $this->t('Notes'),
@@ -343,26 +263,6 @@ class FieldHooks {
    */
   private function termFields(): array {
     $field_info = [
-      'file' => [
-        'type' => 'file',
-        'label' => $this->t('Files'),
-        'file_directory' => 'farm/term/[date:custom:Y]-[date:custom:m]',
-        'multiple' => TRUE,
-        'weight' => [
-          'form' => 90,
-          'view' => 90,
-        ],
-      ],
-      'image' => [
-        'type' => 'image',
-        'label' => $this->t('Images'),
-        'file_directory' => 'farm/term/[date:custom:Y]-[date:custom:m]',
-        'multiple' => TRUE,
-        'weight' => [
-          'form' => 89,
-          'view' => 89,
-        ],
-      ],
       'external_uri' => [
         'type' => 'uri',
         'label' => $this->t('External URI'),
