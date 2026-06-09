@@ -1,0 +1,9 @@
+farm_file:
+  default_permissions:
+    - access file collection
+    - delete own file
+    - view own file
+  manager_permissions:
+    - access file collection
+    - delete any files
+    - view any file

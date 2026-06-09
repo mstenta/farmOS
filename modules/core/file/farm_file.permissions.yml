@@ -1,0 +1,10 @@
+access file collection:
+  title: 'View file collection'
+  description: 'View a collection of file entities.'
+view any file:
+  title: 'View any files'
+  description: 'View any file entities.'
+  restrict access: true
+view own file:
+  title: 'View own files'
+  description: 'View own file entities.'
