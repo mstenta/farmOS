@@ -43,6 +43,8 @@ class ThemeHooks {
       '#attributes' => [
         'id' => Html::getUniqueId('asset-timeline'),
       ],
+      '#logs' => [],
+      '#periods' => [],
       '#js' => FALSE,
     ];
 

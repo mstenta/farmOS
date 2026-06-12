@@ -24,7 +24,11 @@ class FarmTimeline extends RenderElementBase {
       '#pre_render' => [
         [get_class($this), 'preRenderTimeline'],
       ],
-      '#rows' => [],
+      '#rows' => [
+        [
+          '#theme' => 'farm_timeline_row',
+        ],
+      ],
 
       // Use the farmOS-timeline.js library.
       // @todo Remove this when farmOS-timeline.js is abandoned.
