@@ -7,6 +7,12 @@ services:
       $entityTypeId: asset
     tags:
       - { name: access_check, applies_to: _asset_collection_access }
+  farm_entity_access.file_collection_access:
+    class: Drupal\farm_entity_access\Access\EntityCollectionAccessCheck
+    arguments:
+      $entityTypeId: 'file'
+    tags:
+      - { name: access_check, applies_to: _file_collection_access }
   farm_entity_access.log_collection_access:
     class: Drupal\farm_entity_access\Access\EntityCollectionAccessCheck
     arguments:

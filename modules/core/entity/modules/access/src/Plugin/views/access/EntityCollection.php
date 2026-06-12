@@ -88,6 +88,7 @@ class EntityCollection extends AccessPluginBase implements CacheableDependencyIn
     parent::buildOptionsForm($form, $form_state);
     $supported_entity_types = [
       'asset',
+      'file',
       'log',
       'organization',
       'plan',
