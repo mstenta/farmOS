@@ -151,6 +151,8 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
 
       // If the bundle has fields defined by configuration, add column mappings
       // and descriptions for them.
+      // @todo descriptions?
+      // @todo alter so we can say "days to maturity" and "days to transplant" instead of "maturity days" ...
       $config_field_definitions = array_filter($this->entityFieldManager->getFieldDefinitions($this->entityType, $bundle->id()), function ($definition) {
         return $definition instanceof FieldConfigInterface;
       });

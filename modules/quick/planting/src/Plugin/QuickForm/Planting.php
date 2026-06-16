@@ -64,6 +64,7 @@ class Planting extends QuickFormBase {
     $seasons = $this->entityTypeManager->getStorage('taxonomy_term')->loadMultiple($season_ids);
 
     // Seasons.
+    // @todo tagify
     $form['seasons'] = [
       '#type' => 'entity_autocomplete',
       '#title' => $this->t('Season'),
@@ -107,6 +108,8 @@ class Planting extends QuickFormBase {
     }
 
     // Number of crops/varieties.
+    // @todo tagify
+    // would tagify remove the need for this dropdown?
     $range = range(1, 10);
     $form['crop_count'] = [
       '#type' => 'select',
@@ -125,6 +128,8 @@ class Planting extends QuickFormBase {
       'farm_seeding' => [
         'log_type' => 'seeding',
         'label' => $this->t('Seeding'),
+        // @todo source
+        // @todo parent
         'default' => TRUE,
       ],
       'farm_transplanting' => [
@@ -147,6 +152,7 @@ class Planting extends QuickFormBase {
       }
     }
     if (!empty($log_type_options)) {
+      // @todo remember last choice
       $form['log_types'] = [
         '#type' => 'checkboxes',
         '#title' => $this->t('What events would you like to record?'),
@@ -179,6 +185,7 @@ class Planting extends QuickFormBase {
         '#group' => 'logs',
         '#tree' => TRUE,
       ];
+      // @todo map
       $include_fields = ['date', 'location', 'quantity', 'notes', 'done'];
       $quantity_measures = ['count', 'length', 'weight', 'area', 'volume', 'ratio'];
       $form['seeding'] += $this->buildLogForm('seeding', $include_fields, $quantity_measures);
@@ -190,6 +197,7 @@ class Planting extends QuickFormBase {
         '#group' => 'logs',
         '#tree' => TRUE,
       ];
+      // @todo map
       $include_fields = ['date', 'location', 'quantity', 'notes', 'done'];
       $quantity_measures = ['count', 'length', 'weight', 'area', 'volume', 'ratio'];
       $form['transplanting'] += $this->buildLogForm('transplanting', $include_fields, $quantity_measures);
@@ -205,9 +213,15 @@ class Planting extends QuickFormBase {
       $form['harvest'] += $this->buildLogForm('harvest', $include_fields);
     }
 
+    // @todo Notes about plant asset itself
+
     // Plant asset name.
     // Provide a checkbox to allow customizing this. Otherwise it will be
     // automatically generated on submission.
+    // @todo add checkbox to include location in name
+    // i'm finding that it's easier to NOT create a transplanting, and only
+    // create seeding, because "days to transplant" is not automatically used
+    // (it should be), but remembering this choice might still be helpful.
     $form['custom_name'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Customize plant asset name'),
@@ -304,6 +318,7 @@ class Planting extends QuickFormBase {
       '#title' => $this->t('Quantity'),
       '#size' => 16,
     ];
+    // @todo remember last choice
     $field_info['quantity']['units'] = [
       '#type' => 'entity_autocomplete',
       '#title' => $this->t('Units'),
@@ -316,6 +331,7 @@ class Planting extends QuickFormBase {
       ],
       '#size' => 16,
     ];
+    // @todo remember last choice
     $field_info['quantity']['measure'] = [
       '#type' => 'select',
       '#title' => $this->t('Measure'),

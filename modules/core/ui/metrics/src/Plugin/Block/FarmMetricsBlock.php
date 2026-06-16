@@ -108,6 +108,7 @@ class FarmMetricsBlock extends BlockBase implements ContainerFactoryPluginInterf
 
       $count = $query->count()->execute();
       $route_name = "view.farm_$entity_type.page_type";
+      # @todo check access
       $metrics[] = Link::createFromRoute($bundle_info['label'] . ': ' . $count, $route_name, ['arg_0' => $bundle], ['attributes' => ['class' => ['metric']]])->toRenderable();
     }
 
