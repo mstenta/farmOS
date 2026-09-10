@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- [Allow referencing multiple genetic fathers in birth quick form #1101](https://github.com/farmOS/farmOS/pull/1101)
+
 ## [4.0.5] 2026-08-26
 
 ### Security
