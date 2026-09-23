@@ -81,6 +81,7 @@ class FarmApiTest extends KernelTestBase {
     $this->installEntitySchema('log');
     $this->installEntitySchema('organization');
     $this->installEntitySchema('plan');
+    $this->installEntitySchema('plan_record');
     $this->installEntitySchema('quantity');
     $this->installEntitySchema('taxonomy_term');
     $this->installConfig([
@@ -339,6 +340,7 @@ class FarmApiTest extends KernelTestBase {
     $log_storage = \Drupal::entityTypeManager()->getStorage('log');
     $organization_storage = \Drupal::entityTypeManager()->getStorage('organization');
     $plan_storage = \Drupal::entityTypeManager()->getStorage('plan');
+    $plan_record_storage = \Drupal::entityTypeManager()->getStorage('plan_record');
     $quantity_storage = \Drupal::entityTypeManager()->getStorage('quantity');
     $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
 
@@ -375,6 +377,12 @@ class FarmApiTest extends KernelTestBase {
       'name' => 'test',
     ]);
     $plan->save();
+    $plan_record = $plan_record_storage->create([
+      'type' => 'test',
+      'plan' => [$plan],
+      'label' => 'test',
+    ]);
+    $plan_record->save();
 
     // Confirm that unfiltered queries work.
     $this->assertApiFilter('asset', 'test', [], 1);
@@ -382,6 +390,7 @@ class FarmApiTest extends KernelTestBase {
     $this->assertApiFilter('quantity', 'test', [], 1);
     $this->assertApiFilter('organization', 'test', [], 1);
     $this->assertApiFilter('plan', 'test', [], 1);
+    $this->assertApiFilter('plan_record', 'test', [], 1);
 
     // Confirm that filtered queries work.
     $this->assertApiFilter('asset', 'test', ['name' => 'test'], 1);
@@ -389,6 +398,7 @@ class FarmApiTest extends KernelTestBase {
     $this->assertApiFilter('quantity', 'test', ['label' => 'test'], 1);
     $this->assertApiFilter('organization', 'test', ['name' => 'test'], 1);
     $this->assertApiFilter('plan', 'test', ['name' => 'test'], 1);
+    $this->assertApiFilter('plan_record', 'test', ['label' => 'test'], 1);
 
     // Confirm that a relationship filter works (log -> quantity).
     $data = $this->assertApiFilter('log', 'test', ['quantity.id' => $quantity->uuid()], 1);
