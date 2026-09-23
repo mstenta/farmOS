@@ -64,6 +64,7 @@ class ApiHooks {
       'log',
       'organization',
       'plan',
+      'plan_record',
       'quantity',
     ])) {
       return [];
