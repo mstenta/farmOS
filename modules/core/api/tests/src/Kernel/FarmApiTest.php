@@ -40,6 +40,7 @@ class FarmApiTest extends KernelTestBase {
    */
   protected static $modules = [
     'asset',
+    'data_stream',
     'entity',
     'entity_reference_revisions',
     'farm_api',
@@ -77,6 +78,7 @@ class FarmApiTest extends KernelTestBase {
   public function setUp(): void {
     parent::setUp();
     $this->installEntitySchema('asset');
+    $this->installEntitySchema('data_stream');
     $this->installEntitySchema('file');
     $this->installEntitySchema('log');
     $this->installEntitySchema('organization');
@@ -84,6 +86,7 @@ class FarmApiTest extends KernelTestBase {
     $this->installEntitySchema('quantity');
     $this->installEntitySchema('taxonomy_term');
     $this->installConfig([
+      'data_stream',
       'farm_api_test',
       'farm_log_asset',
       'farm_manager',
@@ -336,6 +339,7 @@ class FarmApiTest extends KernelTestBase {
 
     // Get entity storage.
     $asset_storage = \Drupal::entityTypeManager()->getStorage('asset');
+    $data_stream_storage = \Drupal::entityTypeManager()->getStorage('data_stream');
     $log_storage = \Drupal::entityTypeManager()->getStorage('log');
     $organization_storage = \Drupal::entityTypeManager()->getStorage('organization');
     $plan_storage = \Drupal::entityTypeManager()->getStorage('plan');
@@ -375,6 +379,11 @@ class FarmApiTest extends KernelTestBase {
       'name' => 'test',
     ]);
     $plan->save();
+    $data_stream = $data_stream_storage->create([
+      'type' => 'basic',
+      'name' => 'test',
+    ]);
+    $data_stream->save();
 
     // Confirm that unfiltered queries work.
     $this->assertApiFilter('asset', 'test', [], 1);
@@ -382,6 +391,7 @@ class FarmApiTest extends KernelTestBase {
     $this->assertApiFilter('quantity', 'test', [], 1);
     $this->assertApiFilter('organization', 'test', [], 1);
     $this->assertApiFilter('plan', 'test', [], 1);
+    $this->assertApiFilter('data_stream', 'basic', [], 1);
 
     // Confirm that filtered queries work.
     $this->assertApiFilter('asset', 'test', ['name' => 'test'], 1);
@@ -389,6 +399,7 @@ class FarmApiTest extends KernelTestBase {
     $this->assertApiFilter('quantity', 'test', ['label' => 'test'], 1);
     $this->assertApiFilter('organization', 'test', ['name' => 'test'], 1);
     $this->assertApiFilter('plan', 'test', ['name' => 'test'], 1);
+    $this->assertApiFilter('data_stream', 'basic', ['name' => 'test'], 1);
 
     // Confirm that a relationship filter works (log -> quantity).
     $data = $this->assertApiFilter('log', 'test', ['quantity.id' => $quantity->uuid()], 1);
